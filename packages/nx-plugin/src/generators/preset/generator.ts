@@ -9,9 +9,9 @@ import {
 } from "@nrwl/devkit";
 import * as path from "node:path";
 
-import { NxPluginGeneratorSchema } from "./schema";
+import { PresetGeneratorSchema } from "./schema";
 
-interface NormalizedSchema extends NxPluginGeneratorSchema {
+interface NormalizedSchema extends PresetGeneratorSchema {
   projectName: string;
   projectRoot: string;
   projectDirectory: string;
@@ -20,7 +20,7 @@ interface NormalizedSchema extends NxPluginGeneratorSchema {
 
 function normalizeOptions(
   tree: Tree,
-  options: NxPluginGeneratorSchema,
+  options: PresetGeneratorSchema,
 ): NormalizedSchema {
   const name = names(options.name).fileName;
   const projectDirectory = options.directory
@@ -56,7 +56,7 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
   );
 }
 
-export default async function (tree: Tree, options: NxPluginGeneratorSchema) {
+export default async function (tree: Tree, options: PresetGeneratorSchema) {
   const normalizedOptions = normalizeOptions(tree, options);
   addProjectConfiguration(tree, normalizedOptions.projectName, {
     root: normalizedOptions.projectRoot,

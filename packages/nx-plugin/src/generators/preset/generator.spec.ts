@@ -2,11 +2,11 @@ import { readProjectConfiguration, Tree } from "@nrwl/devkit";
 import { createTreeWithEmptyWorkspace } from "@nrwl/devkit/testing";
 
 import generator from "./generator";
-import { NxPluginGeneratorSchema } from "./schema";
+import { PresetGeneratorSchema } from "./schema";
 
-describe("nx-plugin generator", () => {
+describe("preset generator", () => {
   let appTree: Tree;
-  const options: NxPluginGeneratorSchema = { name: "test" };
+  const options: PresetGeneratorSchema = { name: "test" };
 
   beforeEach(() => {
     appTree = createTreeWithEmptyWorkspace();
