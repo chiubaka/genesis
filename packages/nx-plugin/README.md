@@ -6,9 +6,13 @@ This library was generated with [Nx](https://nx.dev).
 
 Run `nx build nx-plugin` to build the library.
 
-## Running unit tests
+## Running tests
 
-Run `nx test nx-plugin` to execute the unit tests via [Jest](https://jestjs.io).
+### Running unit tests
+Run `nx test nx-plugin` to execute the unit tests via Jest.
+
+### Running e2e tests
+Run `nx e2e nx-plugin-e2e` to execute unit tests via Jest.
 
 ## Deploying locally (for testing)
 
