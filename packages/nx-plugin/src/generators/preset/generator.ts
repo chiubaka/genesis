@@ -1,13 +1,12 @@
 import {
-  addProjectConfiguration,
   formatFiles,
-  generateFiles,
   getWorkspaceLayout,
   names,
-  offsetFromRoot,
+  readWorkspaceConfiguration,
   Tree,
+  updateJson,
+  updateWorkspaceConfiguration,
 } from "@nrwl/devkit";
-import * as path from "node:path";
 
 import { PresetGeneratorSchema } from "./schema";
 
@@ -16,6 +15,17 @@ interface NormalizedSchema extends PresetGeneratorSchema {
   projectRoot: string;
   projectDirectory: string;
   parsedTags: string[];
+}
+
+async function presetGenerator(tree: Tree, _options: PresetGeneratorSchema) {
+  modifyWorkspaceLayout(tree);
+
+  updateJson(tree, ".prettierrc", (json) => {
+    delete json.singleQuote;
+    return json;
+  });
+
+  await formatFiles(tree);
 }
 
 function normalizeOptions(
@@ -41,34 +51,24 @@ function normalizeOptions(
   };
 }
 
-function addFiles(tree: Tree, options: NormalizedSchema) {
-  const templateOptions = {
-    ...options,
-    ...names(options.name),
-    offsetFromRoot: offsetFromRoot(options.projectRoot),
-    template: "",
-  };
-  generateFiles(
-    tree,
-    path.join(__dirname, "files"),
-    options.projectRoot,
-    templateOptions,
-  );
+function modifyWorkspaceLayout(tree: Tree) {
+  const workspaceConfig = readWorkspaceConfiguration(tree);
+  updateWorkspaceConfiguration(tree, {
+    ...workspaceConfig,
+    workspaceLayout: {
+      appsDir: "e2e",
+      libsDir: "packages",
+    },
+    cli: {
+      packageManager: "yarn",
+    },
+  });
+
+  tree.delete("apps");
+  tree.delete("libs");
+
+  tree.write("e2e/.gitkeep", "");
+  tree.write("packages/.gitkeep", "");
 }
 
-export default async function (tree: Tree, options: PresetGeneratorSchema) {
-  const normalizedOptions = normalizeOptions(tree, options);
-  addProjectConfiguration(tree, normalizedOptions.projectName, {
-    root: normalizedOptions.projectRoot,
-    projectType: "library",
-    sourceRoot: `${normalizedOptions.projectRoot}/src`,
-    targets: {
-      build: {
-        executor: "@chiubaka/nx-plugin:build",
-      },
-    },
-    tags: normalizedOptions.parsedTags,
-  });
-  addFiles(tree, normalizedOptions);
-  await formatFiles(tree);
-}
+export default presetGenerator;

@@ -1,6 +1,7 @@
 import {
   checkFilesExist,
   ensureNxProject,
+  exists,
   readJson,
   runNxCommandAsync,
   uniq,
@@ -23,36 +24,34 @@ describe('nx-plugin e2e', () => {
     runNxCommandAsync('reset');
   });
 
-  it('should create nx-plugin', async () => {
-    const project = uniq('preset');
-    await runNxCommandAsync(
-      `generate @chiubaka/nx-plugin:preset ${project}`
-    );
-    const result = await runNxCommandAsync(`build ${project}`);
-    expect(result.stdout).toContain('Executor ran');
-  }, 120000);
+  describe('with default options', () => {
+    let project: string;
 
-  describe('--directory', () => {
-    it('should create src in the specified directory', async () => {
-      const project = uniq('preset');
+    beforeAll(async () => {
+      project = uniq('preset');
       await runNxCommandAsync(
-        `generate @chiubaka/nx-plugin:preset ${project} --directory subdir`
+        `generate @chiubaka/nx-plugin:preset ${project}`
       );
-      expect(() =>
-        checkFilesExist(`libs/subdir/${project}/src/index.ts`)
-      ).not.toThrow();
-    }, 120000);
-  });
+    });
 
-  describe('--tags', () => {
-    it('should add tags to the project', async () => {
-      const projectName = uniq('preset');
-      ensureNxProject('@chiubaka/nx-plugin', 'dist/packages/nx-plugin');
-      await runNxCommandAsync(
-        `generate @chiubaka/nx-plugin:preset ${projectName} --tags e2etag,e2ePackage`
-      );
-      const project = readJson(`libs/${projectName}/project.json`);
-      expect(project.tags).toEqual(['e2etag', 'e2ePackage']);
-    }, 120000);
+    it('should not create an apps dir', async () => {
+      expect(() => {
+        checkFilesExist('apps');
+      }).toThrow();
+    });
+
+    describe('package manager', () => {
+      it('should install packages with yarn', () => {
+        expect(() => {
+          checkFilesExist('yarn.lock');
+        }).not.toThrow();
+      });
+
+      it('should not install packages with npm', () => {
+        expect(() => {
+          checkFilesExist('package-lock.json');
+        }).toThrow();
+      });
+    });
   });
 });
