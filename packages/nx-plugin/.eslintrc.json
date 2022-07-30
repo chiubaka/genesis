@@ -1,31 +1,4 @@
 {
   "extends": ["../../.eslintrc.json"],
-  "ignorePatterns": ["!**/*", "node_modules"],
-  "overrides": [
-    // {
-    //   "files": ["*.json"],
-    //   "settings": {
-    //     "disable/plugins": ["json"]
-    //   },
-    //   "rules": {
-    //     "json/json": "off"
-    //   }
-    // },
-    // {
-    //   "excludedFiles": ["./package.json", "./generators.json", "./executors.json"],
-    //   "files": ["*.json"],
-    //   "plugins": ["json"],
-    //   "rules": {
-    //     "json/json": "error"
-    //   }
-    // }
-    // {
-    //   "files": ["./generators.json", "./executors.json"],
-    //   "plugins": ["@nrwl/nx"],
-    //   "parser": "jsonc-eslint-parser",
-    //   "rules": {
-    //     "@nrwl/nx/nx-plugin-checks": "error"
-    //   }
-    // }
-  ]
+  "ignorePatterns": ["!**/*", "node_modules"]
 }

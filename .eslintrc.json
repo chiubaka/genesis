@@ -1,5 +1,4 @@
 {
   "root": true,
-  "extends": "@chiubaka/eslint-config",
-  "ignorePatterns": ["**/*"]
+  "extends": "@chiubaka/eslint-config"
 }
