@@ -20,7 +20,7 @@ interface NormalizedSchema extends NxPluginGeneratorSchema {
 
 function normalizeOptions(
   tree: Tree,
-  options: NxPluginGeneratorSchema
+  options: NxPluginGeneratorSchema,
 ): NormalizedSchema {
   const name = names(options.name).fileName;
   const projectDirectory = options.directory
@@ -52,7 +52,7 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     tree,
     path.join(__dirname, "files"),
     options.projectRoot,
-    templateOptions
+    templateOptions,
   );
 }
 
