@@ -1,4 +1,12 @@
 {
   "extends": ["../../.eslintrc.json"],
-  "ignorePatterns": ["!**/*", "node_modules"]
+  "ignorePatterns": ["!**/*", "node_modules"],
+  "overrides": [
+    {
+      "files": ["./package.json", "./generators.json", "./executors.json"],
+      "rules": {
+        "@nrwl/nx/nx-plugin-checks": "error"
+      }
+    }
+  ]
 }
