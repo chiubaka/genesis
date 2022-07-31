@@ -24,11 +24,9 @@ describe("nx-plugin e2e", () => {
     await runNxCommandAsync("reset");
   });
 
-  it("should create nx-plugin", async () => {
-    const project = uniq("nx-plugin");
-    await runNxCommandAsync(
-      `generate @chiubaka/nx-plugin:nx-plugin ${project}`,
-    );
+  it("should create preset", async () => {
+    const project = uniq("preset");
+    await runNxCommandAsync(`generate @chiubaka/nx-plugin:preset ${project}`);
     const result = await runNxCommandAsync(`build ${project}`);
 
     expect(result.stdout).toContain("Executor ran");
@@ -36,9 +34,9 @@ describe("nx-plugin e2e", () => {
 
   describe("--directory", () => {
     it("should create src in the specified directory", async () => {
-      const project = uniq("nx-plugin");
+      const project = uniq("preset");
       await runNxCommandAsync(
-        `generate @chiubaka/nx-plugin:nx-plugin ${project} --directory subdir`,
+        `generate @chiubaka/nx-plugin:preset ${project} --directory subdir`,
       );
 
       expect(() =>
@@ -49,10 +47,10 @@ describe("nx-plugin e2e", () => {
 
   describe("--tags", () => {
     it("should add tags to the project", async () => {
-      const projectName = uniq("nx-plugin");
+      const projectName = uniq("preset");
       ensureNxProject("@chiubaka/nx-plugin", "dist/packages/nx-plugin");
       await runNxCommandAsync(
-        `generate @chiubaka/nx-plugin:nx-plugin ${projectName} --tags e2etag,e2ePackage`,
+        `generate @chiubaka/nx-plugin:preset ${projectName} --tags e2etag,e2ePackage`,
       );
       const project = readJson<NxProjectPackageJsonConfiguration>(
         `libs/${projectName}/project.json`,
