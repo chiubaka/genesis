@@ -14,7 +14,7 @@
     "lint:all": "yarn run lint:root && yarn run lint:packages",
     "lint:ci": "yarn run lint:root && yarn run lint:affected --base=$NX_BASE --head=$NX_HEAD",
     "lint:fix:all": "yarn run lint:fix:root; yarn run lint:fix:packages",
-    "lint:fix:packages": "yarn run lint:packages:all --fix",
+    "lint:fix:packages": "yarn run lint:packages --fix",
     "lint:fix:root": "yarn run lint:root --fix",
     "lint:packages": "nx run-many --target=lint --all",
     "lint:root": "yarn run eslint .",
