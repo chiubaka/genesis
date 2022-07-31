@@ -1,15 +1,14 @@
-/* eslint-disable */
 export default {
-  displayName: 'nx-plugin',
-  preset: '../../jest.preset.js',
+  displayName: "nx-plugin",
+  preset: "../../jest.preset.js",
   globals: {
-    'ts-jest': {
-      tsconfig: '<rootDir>/tsconfig.spec.json',
+    "ts-jest": {
+      tsconfig: "<rootDir>/tsconfig.spec.json",
     },
   },
   transform: {
-    '^.+\\.[tj]s$': 'ts-jest',
+    "^.+\\.[tj]s$": "ts-jest",
   },
-  moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/packages/nx-plugin',
+  moduleFileExtensions: ["ts", "js", "html"],
+  coverageDirectory: "../../coverage/packages/nx-plugin",
 };

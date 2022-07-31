@@ -3,10 +3,10 @@
   "name": "nx-plugin",
   "version": "0.0.1",
   "generators": {
-    "nx-plugin": {
-      "factory": "./src/generators/nx-plugin/generator",
-      "schema": "./src/generators/nx-plugin/schema.json",
-      "description": "nx-plugin generator"
+    "preset": {
+      "factory": "./src/generators/preset/generator",
+      "schema": "./src/generators/preset/schema.json",
+      "description": "preset generator"
     }
   }
 }
