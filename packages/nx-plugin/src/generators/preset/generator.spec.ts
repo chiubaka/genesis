@@ -1,7 +1,7 @@
-import { readJson, Tree } from "@nrwl/devkit";
+import { NxJsonConfiguration, readJson, Tree } from "@nrwl/devkit";
 import { createTreeWithEmptyWorkspace } from "@nrwl/devkit/testing";
 
-import generator from "./generator";
+import generator, { PrettierConfig } from "./generator";
 import { PresetGeneratorSchema } from "./schema";
 
 describe("preset generator", () => {
@@ -33,7 +33,7 @@ describe("preset generator", () => {
     });
 
     it("should update workspaceLayout in nx.json", () => {
-      const nxJson = readJson(appTree, "nx.json");
+      const nxJson = readJson<NxJsonConfiguration>(appTree, "nx.json");
 
       expect(nxJson.workspaceLayout).toEqual({
         appsDir: "e2e",
@@ -58,7 +58,7 @@ describe("preset generator", () => {
     });
 
     it("should remove the singleQuote option", () => {
-      const prettierConfig = readJson(appTree, ".prettierrc");
+      const prettierConfig = readJson<PrettierConfig>(appTree, ".prettierrc");
 
       expect(prettierConfig.singleQuote).toBeUndefined();
     });

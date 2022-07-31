@@ -17,10 +17,14 @@ interface NormalizedSchema extends PresetGeneratorSchema {
   parsedTags: string[];
 }
 
+export interface PrettierConfig {
+  singleQuote?: boolean;
+}
+
 async function presetGenerator(tree: Tree, _options: PresetGeneratorSchema) {
   modifyWorkspaceLayout(tree);
 
-  updateJson(tree, ".prettierrc", (json) => {
+  updateJson<PrettierConfig>(tree, ".prettierrc", (json) => {
     delete json.singleQuote;
     return json;
   });
@@ -28,7 +32,7 @@ async function presetGenerator(tree: Tree, _options: PresetGeneratorSchema) {
   await formatFiles(tree);
 }
 
-function normalizeOptions(
+function _normalizeOptions(
   tree: Tree,
   options: PresetGeneratorSchema,
 ): NormalizedSchema {
