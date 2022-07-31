@@ -284,10 +284,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@chiubaka/eslint-config@^0.3.2":
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/@chiubaka/eslint-config/-/eslint-config-0.3.2.tgz#c1544e7019702f3f0fbdaeef0728bbf3fe3fee7b"
-  integrity sha512-3gosApT3UYKlCzEBgYaKh3+FlE6IIQDkAXsDzrUWmHijkkAgQl/JliBkPEUjcVXalQtB4vnObMfj+y/e2jO+0w==
+"@chiubaka/eslint-config@^0.3.3":
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/@chiubaka/eslint-config/-/eslint-config-0.3.3.tgz#6372c4dd0d01685efd536dad15d22ca92206af08"
+  integrity sha512-L1UQB5LGls9Qei+7KDEolXb80uDOJfPQUPTCgmRFSvsVSffv3G1HA9T1tZp2kqe5KW5chlqZQ4kB/xJ6F0HOAA==
   dependencies:
     "@rushstack/eslint-patch" "^1.1.4"
     "@typescript-eslint/eslint-plugin" "5.30.6"

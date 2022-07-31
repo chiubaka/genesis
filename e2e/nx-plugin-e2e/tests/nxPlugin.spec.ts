@@ -5,6 +5,7 @@ import {
   runNxCommandAsync,
   uniq,
 } from "@nrwl/nx-plugin/testing";
+import { NxProjectPackageJsonConfiguration } from "nx/src/utils/package-json";
 
 describe("nx-plugin e2e", () => {
   // Setting up individual workspaces per
@@ -17,10 +18,10 @@ describe("nx-plugin e2e", () => {
     ensureNxProject("@chiubaka/nx-plugin", "dist/packages/nx-plugin");
   });
 
-  afterAll(() => {
+  afterAll(async () => {
     // `nx reset` kills the daemon, and performs
     // some work which can help clean up e2e leftovers
-    runNxCommandAsync("reset");
+    await runNxCommandAsync("reset");
   });
 
   it("should create nx-plugin", async () => {
@@ -53,7 +54,9 @@ describe("nx-plugin e2e", () => {
       await runNxCommandAsync(
         `generate @chiubaka/nx-plugin:nx-plugin ${projectName} --tags e2etag,e2ePackage`,
       );
-      const project = readJson(`libs/${projectName}/project.json`);
+      const project = readJson<NxProjectPackageJsonConfiguration>(
+        `libs/${projectName}/project.json`,
+      );
 
       expect(project.tags).toEqual(["e2etag", "e2ePackage"]);
     }, 120_000);
