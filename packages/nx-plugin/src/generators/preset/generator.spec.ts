@@ -1,21 +1,56 @@
-import { readProjectConfiguration, Tree } from "@nrwl/devkit";
+import { NxJsonConfiguration, readJson, Tree } from "@nrwl/devkit";
 import { createTreeWithEmptyWorkspace } from "@nrwl/devkit/testing";
 
-import generator from "./generator";
-import { NxPluginGeneratorSchema } from "./schema";
+import generator, { PrettierConfig } from "./generator";
+import { PresetGeneratorSchema } from "./schema";
 
-describe("nx-plugin generator", () => {
+describe("preset generator", () => {
   let appTree: Tree;
-  const options: NxPluginGeneratorSchema = { name: "test" };
+  const options: PresetGeneratorSchema = { name: "test", skipInstall: true };
 
-  beforeEach(() => {
+  beforeAll(async () => {
     appTree = createTreeWithEmptyWorkspace();
+    appTree.write("apps/.gitkeep", "");
+    appTree.write("libs/.gitkeep", "");
+    await generator(appTree, options);
   });
 
-  it("should run successfully", async () => {
-    await generator(appTree, options);
-    const config = readProjectConfiguration(appTree, "test");
+  describe("workspace layout", () => {
+    it("should create an e2e dir", () => {
+      expect(appTree.exists("e2e")).toBe(true);
+    });
 
-    expect(config).toBeDefined();
+    it("should create a packages dir", () => {
+      expect(appTree.exists("packages")).toBe(true);
+    });
+
+    it("should not create an apps dir", () => {
+      expect(appTree.exists("apps")).toBe(false);
+    });
+
+    it("should not create a libs dir", () => {
+      expect(appTree.exists("libs")).toBe(false);
+    });
+
+    it("should update workspaceLayout in nx.json", () => {
+      const nxJson = readJson<NxJsonConfiguration>(appTree, "nx.json");
+
+      expect(nxJson.workspaceLayout).toEqual({
+        appsDir: "e2e",
+        libsDir: "packages",
+      });
+    });
+  });
+
+  describe(".prettierrc", () => {
+    it("creates a .prettierrc file", () => {
+      expect(appTree.exists(".prettierrc")).toBe(true);
+    });
+
+    it("should remove the singleQuote option", () => {
+      const prettierConfig = readJson<PrettierConfig>(appTree, ".prettierrc");
+
+      expect(prettierConfig.singleQuote).toBeUndefined();
+    });
   });
 });
