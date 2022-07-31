@@ -3,8 +3,8 @@
   "projectType": "application",
   "sourceRoot": "e2e/nx-plugin-e2e/src",
   "targets": {
-    "test": {
-      "executor": "@nrwl/jest:jest",
+    "e2e": {
+      "executor": "@nrwl/nx-plugin:e2e",
       "options": {
         "target": "nx-plugin:build",
         "jestConfig": "e2e/nx-plugin-e2e/jest.config.ts"
