@@ -6,7 +6,7 @@ import { PresetGeneratorSchema } from "./schema";
 
 describe("preset generator", () => {
   let appTree: Tree;
-  const options: PresetGeneratorSchema = { name: "test" };
+  const options: PresetGeneratorSchema = { name: "test", skipInstall: true };
 
   beforeAll(async () => {
     appTree = createTreeWithEmptyWorkspace();
@@ -39,16 +39,6 @@ describe("preset generator", () => {
         appsDir: "e2e",
         libsDir: "packages",
       });
-    });
-  });
-
-  describe("package manager", () => {
-    it("installs packages using yarn", () => {
-      expect(appTree.exists("yarn.lock")).toBe(true);
-    });
-
-    it("does not install packages using npm", () => {
-      expect(appTree.exists("package-lock.json")).toBe(false);
     });
   });
 

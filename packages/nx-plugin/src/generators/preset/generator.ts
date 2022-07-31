@@ -1,6 +1,7 @@
 import {
   formatFiles,
   getWorkspaceLayout,
+  installPackagesTask,
   names,
   readWorkspaceConfiguration,
   Tree,
@@ -21,7 +22,9 @@ export interface PrettierConfig {
   singleQuote?: boolean;
 }
 
-async function presetGenerator(tree: Tree, _options: PresetGeneratorSchema) {
+async function presetGenerator(tree: Tree, options: PresetGeneratorSchema) {
+  options = normalizeOptions(tree, options);
+
   modifyWorkspaceLayout(tree);
 
   updateJson<PrettierConfig>(tree, ".prettierrc", (json) => {
@@ -29,10 +32,14 @@ async function presetGenerator(tree: Tree, _options: PresetGeneratorSchema) {
     return json;
   });
 
+  if (!options.skipInstall) {
+    reinstallPackagesWithYarn(tree);
+  }
+
   await formatFiles(tree);
 }
 
-function _normalizeOptions(
+function normalizeOptions(
   tree: Tree,
   options: PresetGeneratorSchema,
 ): NormalizedSchema {
@@ -73,6 +80,11 @@ function modifyWorkspaceLayout(tree: Tree) {
 
   tree.write("e2e/.gitkeep", "");
   tree.write("packages/.gitkeep", "");
+}
+
+function reinstallPackagesWithYarn(tree: Tree) {
+  tree.delete("package-lock.json");
+  installPackagesTask(tree, true, undefined, "yarn");
 }
 
 export default presetGenerator;
