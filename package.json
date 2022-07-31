@@ -11,8 +11,8 @@
     "deploy:ci": "yarn run deploy:affected --base=$NX_BASE --head=$NX_HEAD",
     "lint": "nx lint",
     "lint:affected": "nx affected --target=lint",
-    "lint:all": "yarn run lint:root; yarn run lint:packages",
-    "lint:ci": "yarn run lint:root; yarn run lint:affected --base=$NX_BASE --head=$NX_HEAD",
+    "lint:all": "yarn run lint:root && yarn run lint:packages",
+    "lint:ci": "yarn run lint:root && yarn run lint:affected --base=$NX_BASE --head=$NX_HEAD",
     "lint:fix:all": "yarn run lint:fix:root; yarn run lint:fix:packages",
     "lint:fix:packages": "yarn run lint:packages:all --fix",
     "lint:fix:root": "yarn run lint:root --fix",
@@ -23,7 +23,9 @@
     "start": "nx serve",
     "test": "nx test",
     "test:affected": "nx affected --target=test",
-    "test:ci": "yarn run test:affected --ci --base=$NX_BASE --head=$NX_HEAD"
+    "test:ci": "yarn run test:affected --ci --base=$NX_BASE --head=$NX_HEAD && yarn run test:e2e:affected --base=$NX_BASE --head=$NX_HEAD",
+    "test:e2e": "nx run-many --target=e2e --all",
+    "test:e2e:affected": "nx affected --target=e2e"
   },
   "license": "MIT",
   "dependencies": {
