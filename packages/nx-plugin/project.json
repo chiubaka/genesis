@@ -39,12 +39,7 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "packages/nx-plugin/**/*.ts",
-          "packages/nx-plugin/generators.json",
-          "packages/nx-plugin/executors.json",
-          "packages/nx-plugin/package.json"
-        ]
+        "lintFilePatterns": ["packages/nx-plugin"]
       }
     },
     "test": {
