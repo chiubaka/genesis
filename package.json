@@ -23,7 +23,9 @@
     "start": "nx serve",
     "test": "nx test",
     "test:affected": "nx affected --target=test",
-    "test:ci": "yarn run test:affected --ci --base=$NX_BASE --head=$NX_HEAD"
+    "test:ci": "yarn run test:affected --ci --base=$NX_BASE --head=$NX_HEAD && yarn run test:e2e:affected --base=$NX_BASE --head=$NX_HEAD",
+    "test:e2e": "nx run-many --target=e2e --all",
+    "test:e2e:affected": "nx affected --target=e2e"
   },
   "license": "MIT",
   "dependencies": {
