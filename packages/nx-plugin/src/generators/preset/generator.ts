@@ -1,26 +1,47 @@
 import {
-  addProjectConfiguration,
   formatFiles,
-  generateFiles,
   getWorkspaceLayout,
+  installPackagesTask,
   names,
-  offsetFromRoot,
+  readWorkspaceConfiguration,
   Tree,
+  updateJson,
+  updateWorkspaceConfiguration,
 } from "@nrwl/devkit";
-import * as path from "node:path";
 
-import { NxPluginGeneratorSchema } from "./schema";
+import { PresetGeneratorSchema } from "./schema";
 
-interface NormalizedSchema extends NxPluginGeneratorSchema {
+interface NormalizedSchema extends PresetGeneratorSchema {
   projectName: string;
   projectRoot: string;
   projectDirectory: string;
   parsedTags: string[];
 }
 
+export interface PrettierConfig {
+  singleQuote?: boolean;
+}
+
+async function presetGenerator(tree: Tree, options: PresetGeneratorSchema) {
+  options = normalizeOptions(tree, options);
+
+  modifyWorkspaceLayout(tree);
+
+  updateJson<PrettierConfig>(tree, ".prettierrc", (json) => {
+    delete json.singleQuote;
+    return json;
+  });
+
+  if (!options.skipInstall) {
+    reinstallPackagesWithYarn(tree);
+  }
+
+  await formatFiles(tree);
+}
+
 function normalizeOptions(
   tree: Tree,
-  options: NxPluginGeneratorSchema,
+  options: PresetGeneratorSchema,
 ): NormalizedSchema {
   const name = names(options.name).fileName;
   const projectDirectory = options.directory
@@ -41,34 +62,29 @@ function normalizeOptions(
   };
 }
 
-function addFiles(tree: Tree, options: NormalizedSchema) {
-  const templateOptions = {
-    ...options,
-    ...names(options.name),
-    offsetFromRoot: offsetFromRoot(options.projectRoot),
-    template: "",
-  };
-  generateFiles(
-    tree,
-    path.join(__dirname, "files"),
-    options.projectRoot,
-    templateOptions,
-  );
+function modifyWorkspaceLayout(tree: Tree) {
+  const workspaceConfig = readWorkspaceConfiguration(tree);
+  updateWorkspaceConfiguration(tree, {
+    ...workspaceConfig,
+    workspaceLayout: {
+      appsDir: "e2e",
+      libsDir: "packages",
+    },
+    cli: {
+      packageManager: "yarn",
+    },
+  });
+
+  tree.delete("apps");
+  tree.delete("libs");
+
+  tree.write("e2e/.gitkeep", "");
+  tree.write("packages/.gitkeep", "");
 }
 
-export default async function (tree: Tree, options: NxPluginGeneratorSchema) {
-  const normalizedOptions = normalizeOptions(tree, options);
-  addProjectConfiguration(tree, normalizedOptions.projectName, {
-    root: normalizedOptions.projectRoot,
-    projectType: "library",
-    sourceRoot: `${normalizedOptions.projectRoot}/src`,
-    targets: {
-      build: {
-        executor: "@chiubaka/nx-plugin:build",
-      },
-    },
-    tags: normalizedOptions.parsedTags,
-  });
-  addFiles(tree, normalizedOptions);
-  await formatFiles(tree);
+function reinstallPackagesWithYarn(tree: Tree) {
+  tree.delete("package-lock.json");
+  installPackagesTask(tree, true, undefined, "yarn");
 }
+
+export default presetGenerator;
