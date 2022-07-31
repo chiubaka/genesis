@@ -5,6 +5,9 @@
   "scripts": {
     "build": "nx build",
     "lint": "nx lint",
+    "lint:affected": "nx affected --target=lint",
+    "lint:all": "yarn run eslint .; nx run-many --target=lint --all",
+    "lint:fix:all": "yarn run eslint --fix .; nx run-many --target=lint --all --fix",
     "lint:staged": "lint-staged",
     "prepare": "husky install",
     "start": "nx serve",

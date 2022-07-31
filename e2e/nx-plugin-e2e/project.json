@@ -9,6 +9,13 @@
         "target": "nx-plugin:build",
         "jestConfig": "e2e/nx-plugin-e2e/jest.config.ts"
       }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["e2e/nx-plugin-e2e"]
+      }
     }
   },
   "tags": [],
