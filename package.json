@@ -27,7 +27,7 @@
     "test:e2e": "nx run-many --target=e2e --all",
     "test:e2e:affected": "nx affected --target=e2e"
   },
-  "license": "MIT",
+  "license": "UNLICENSED",
   "dependencies": {
     "@swc/helpers": "~0.3.3",
     "tslib": "^2.3.0"
