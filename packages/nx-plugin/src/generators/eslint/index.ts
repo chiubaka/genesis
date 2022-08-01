@@ -1,1 +1,0 @@
-export { eslintGenerator } from "./generator";

@@ -2,7 +2,7 @@ import { readJson, Tree } from "@nrwl/devkit";
 import { createTreeWithEmptyWorkspace } from "@nrwl/devkit/testing";
 import { Linter } from "eslint";
 
-import { eslintGenerator } from "../../src/generators/eslint";
+import { eslintGenerator } from "../../src/generators/linting/eslint";
 
 describe("eslintGenerator", () => {
   let tree: Tree;

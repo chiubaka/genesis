@@ -9,7 +9,7 @@ import {
   updateWorkspaceConfiguration,
 } from "@nrwl/devkit";
 
-import { PresetGeneratorSchema } from "./schema";
+import { PresetGeneratorSchema } from "./presetGenerator.schema";
 
 interface NormalizedSchema extends PresetGeneratorSchema {
   projectName: string;
@@ -22,7 +22,10 @@ export interface PrettierConfig {
   singleQuote?: boolean;
 }
 
-async function presetGenerator(tree: Tree, options: PresetGeneratorSchema) {
+export async function presetGenerator(
+  tree: Tree,
+  options: PresetGeneratorSchema,
+) {
   options = normalizeOptions(tree, options);
 
   modifyWorkspaceLayout(tree);

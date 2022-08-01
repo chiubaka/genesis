@@ -1,8 +1,11 @@
 import { NxJsonConfiguration, readJson, Tree } from "@nrwl/devkit";
 import { createTreeWithEmptyWorkspace } from "@nrwl/devkit/testing";
 
-import generator, { PrettierConfig } from "./generator";
-import { PresetGeneratorSchema } from "./schema";
+import {
+  presetGenerator,
+  PresetGeneratorSchema,
+  PrettierConfig,
+} from "../../src/generators/preset";
 
 describe("preset generator", () => {
   let appTree: Tree;
@@ -12,7 +15,7 @@ describe("preset generator", () => {
     appTree = createTreeWithEmptyWorkspace();
     appTree.write("apps/.gitkeep", "");
     appTree.write("libs/.gitkeep", "");
-    await generator(appTree, options);
+    await presetGenerator(appTree, options);
   });
 
   describe("workspace layout", () => {
