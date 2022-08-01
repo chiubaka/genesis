@@ -17,9 +17,6 @@ export function eslintGenerator(tree: Tree) {
   );
 
   generateFiles(tree, path.join(__dirname, "./files"), ".", {});
-  // TODO: Manage prettier in this generator
-  // TODO: Compose this generator in `presetGenerator`.
-  // TODO: Include e2e tests for output in this generator
 }
 
 export default eslintGenerator;

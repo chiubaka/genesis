@@ -8,6 +8,7 @@ import {
   updateWorkspaceConfiguration,
 } from "@nrwl/devkit";
 
+import lintingGenerator from "../linting";
 import { PresetGeneratorSchema } from "./presetGenerator.schema";
 
 interface NormalizedSchema extends PresetGeneratorSchema {
@@ -24,6 +25,7 @@ export async function presetGenerator(
   options = normalizeOptions(tree, options);
 
   modifyWorkspaceLayout(tree);
+  lintingGenerator(tree);
 
   if (!options.skipInstall) {
     reinstallPackagesWithYarn(tree);
