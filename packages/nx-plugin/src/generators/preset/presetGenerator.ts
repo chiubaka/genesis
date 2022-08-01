@@ -5,7 +5,6 @@ import {
   names,
   readWorkspaceConfiguration,
   Tree,
-  updateJson,
   updateWorkspaceConfiguration,
 } from "@nrwl/devkit";
 
@@ -18,10 +17,6 @@ interface NormalizedSchema extends PresetGeneratorSchema {
   parsedTags: string[];
 }
 
-export interface PrettierConfig {
-  singleQuote?: boolean;
-}
-
 export async function presetGenerator(
   tree: Tree,
   options: PresetGeneratorSchema,
@@ -29,11 +24,6 @@ export async function presetGenerator(
   options = normalizeOptions(tree, options);
 
   modifyWorkspaceLayout(tree);
-
-  updateJson<PrettierConfig>(tree, ".prettierrc", (json) => {
-    delete json.singleQuote;
-    return json;
-  });
 
   if (!options.skipInstall) {
     reinstallPackagesWithYarn(tree);
@@ -89,5 +79,3 @@ function reinstallPackagesWithYarn(tree: Tree) {
   tree.delete("package-lock.json");
   installPackagesTask(tree, true, undefined, "yarn");
 }
-
-export default presetGenerator;

@@ -4,7 +4,6 @@ import { createTreeWithEmptyWorkspace } from "@nrwl/devkit/testing";
 import {
   presetGenerator,
   PresetGeneratorSchema,
-  PrettierConfig,
 } from "../../src/generators/preset";
 
 describe("preset generator", () => {
@@ -42,18 +41,6 @@ describe("preset generator", () => {
         appsDir: "e2e",
         libsDir: "packages",
       });
-    });
-  });
-
-  describe(".prettierrc", () => {
-    it("creates a .prettierrc file", () => {
-      expect(appTree.exists(".prettierrc")).toBe(true);
-    });
-
-    it("should remove the singleQuote option", () => {
-      const prettierConfig = readJson<PrettierConfig>(appTree, ".prettierrc");
-
-      expect(prettierConfig.singleQuote).toBeUndefined();
     });
   });
 });
