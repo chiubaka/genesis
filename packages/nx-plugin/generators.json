@@ -17,6 +17,11 @@
       "factory": "./src/generators/preset",
       "schema": "./src/generators/preset/schema.json",
       "description": "Generates a full workspace with batteries included!"
+    },
+    "prettier": {
+      "factory": "./src/generators/linting/prettier",
+      "schema": "./src/generators/linting/prettier/schema.json",
+      "description": "Generates Prettier configuration and setup"
     }
   }
 }
