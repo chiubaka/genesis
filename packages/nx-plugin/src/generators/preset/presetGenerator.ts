@@ -1,14 +1,15 @@
 import {
   formatFiles,
+  getPackageManagerCommand,
   getWorkspaceLayout,
-  installPackagesTask,
   names,
   readWorkspaceConfiguration,
   Tree,
   updateWorkspaceConfiguration,
 } from "@nrwl/devkit";
 
-import lintingGenerator from "../linting";
+import { exec } from "../../utils";
+import { lintingGenerator } from "../linting";
 import { PresetGeneratorSchema } from "./presetGenerator.schema";
 
 interface NormalizedSchema extends PresetGeneratorSchema {
@@ -25,13 +26,18 @@ export async function presetGenerator(
   options = normalizeOptions(tree, options);
 
   modifyWorkspaceLayout(tree);
-  lintingGenerator(tree);
-
-  if (!options.skipInstall) {
-    reinstallPackagesWithYarn(tree);
-  }
+  const lintingTask = lintingGenerator(tree);
+  const installTask = reinstallPackagesWithYarn(tree);
 
   await formatFiles(tree);
+
+  return async () => {
+    if (!options.skipInstall) {
+      await installTask();
+    }
+
+    await lintingTask();
+  };
 }
 
 function normalizeOptions(
@@ -79,5 +85,12 @@ function modifyWorkspaceLayout(tree: Tree) {
 
 function reinstallPackagesWithYarn(tree: Tree) {
   tree.delete("package-lock.json");
-  installPackagesTask(tree, true, undefined, "yarn");
+
+  const pmc = getPackageManagerCommand("yarn");
+
+  return async () => {
+    await exec(pmc.install, {
+      cwd: tree.root,
+    });
+  };
 }

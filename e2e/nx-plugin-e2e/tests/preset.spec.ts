@@ -1,9 +1,12 @@
 import {
   checkFilesExist,
   ensureNxProject,
+  runCommandAsync,
   runNxCommandAsync,
   uniq,
 } from "@nrwl/nx-plugin/testing";
+
+jest.setTimeout(30_000);
 
 describe("nx-plugin e2e", () => {
   // Setting up individual workspaces per
@@ -47,6 +50,22 @@ describe("nx-plugin e2e", () => {
         expect(() => {
           checkFilesExist("package-lock.json");
         }).toThrow();
+      });
+    });
+
+    describe("linting", () => {
+      it("creates a working linting setup", async () => {
+        const { stderr } = await runCommandAsync("yarn run eslint");
+
+        expect(stderr).toBe("");
+      });
+
+      it.todo("creates a working lint fix setup");
+
+      it("generates a project without linting issues", async () => {
+        const { stderr } = await runCommandAsync("yarn run eslint .");
+
+        expect(stderr).toBe("");
       });
     });
   });

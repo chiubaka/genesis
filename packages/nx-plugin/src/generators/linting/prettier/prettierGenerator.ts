@@ -12,5 +12,11 @@ export function prettierGenerator(tree: Tree) {
     return json;
   });
 
-  addDependenciesToPackageJson(tree, {}, { prettier: "latest" });
+  const installTask = addDependenciesToPackageJson(
+    tree,
+    {},
+    { prettier: "latest" },
+  );
+
+  return installTask;
 }
