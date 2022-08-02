@@ -31,7 +31,7 @@ Start `verdaccio`. See [Verdaccio's installation docs](https://verdaccio.org/doc
 publish to Verdaccio using `npm publish --registry http://localhost:4873`.
 
 To generate a workspace using the preset from this plugin, you can now run
-`npm_config_registry=http://localhost:4873 npx create-nx-workspace [workspaceName] preset=@chiubaka/nx-plugin`.
+`npm_config_registry=http://localhost:4873 npx create-nx-workspace [workspaceName] --preset=@chiubaka/nx-plugin`.
 
 **Note**: If attempting to test a version of the plugin that has already been published
 locally, you can remove the existing published version by running `npm unpublish chiubaka/nx-plugin@[semver] --registry http://localhost:4873 -f`.
