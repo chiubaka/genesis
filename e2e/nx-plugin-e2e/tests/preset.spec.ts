@@ -6,6 +6,7 @@ import {
   tmpProjPath,
   uniq,
 } from "@nrwl/nx-plugin/testing";
+import { ensureDirSync } from "fs-extra";
 import { ChildProcess, execSync, fork } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
@@ -59,6 +60,8 @@ describe("nx-plugin e2e", () => {
 
     const destination = path.join(tmpProjPath(), "..");
     const workspaceName = path.basename(tmpProjPath());
+
+    ensureDirSync(destination);
 
     execSync(
       `npm_config_registry=${verdaccioUrl} npx create-nx-workspace ${workspaceName} --preset=@chiubaka/nx-plugin --nxCloud=false`,
