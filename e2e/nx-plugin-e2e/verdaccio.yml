@@ -1,0 +1,61 @@
+# verdaccio-memory
+store:
+  memory:
+    limit: 1000
+# verdaccio-auth-memory plugin
+auth:
+  auth-memory:
+    users:
+      foo:
+        name: foo
+        password: bar
+      admin:
+        name: foo
+        password: bar
+# uplinks
+uplinks:
+  npmjs:
+    url: https://registry.npmjs.org/
+  verdacciobk:
+    url: http://localhost:8000/
+    auth:
+      type: bearer
+      token: dsyTcamuhMd8GlsakOhP5A==
+packages:
+  "@*/*":
+    access: $all
+    publish: $authenticated
+    unpublish: $authenticated
+    proxy: npmjs
+  react:
+    access: $all
+    publish: $authenticated
+    unpublish: $authenticated
+    proxy: verdacciobk
+  "**":
+    access: $all
+    publish: $authenticated
+    unpublish: $authenticated
+    proxy: npmjs
+
+# rate limit configuration
+rateLimit:
+  windowMs: 1000
+  max: 10000
+
+middlewares:
+  audit:
+    enabled: true
+
+security:
+  api:
+    jwt:
+      sign:
+        expiresIn: 1d
+
+logs: { type: file, path: /dev/null, level: info }
+i18n:
+  web: en-US
+
+# to support running verdaccio in a forked process and receiving verdaccio_started message
+_debug: true
