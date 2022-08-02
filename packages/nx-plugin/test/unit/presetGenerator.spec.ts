@@ -1,8 +1,10 @@
 import { NxJsonConfiguration, readJson, Tree } from "@nrwl/devkit";
 import { createTreeWithEmptyWorkspace } from "@nrwl/devkit/testing";
 
-import generator, { PrettierConfig } from "./generator";
-import { PresetGeneratorSchema } from "./schema";
+import {
+  presetGenerator,
+  PresetGeneratorSchema,
+} from "../../src/generators/preset";
 
 describe("preset generator", () => {
   let appTree: Tree;
@@ -12,7 +14,7 @@ describe("preset generator", () => {
     appTree = createTreeWithEmptyWorkspace();
     appTree.write("apps/.gitkeep", "");
     appTree.write("libs/.gitkeep", "");
-    await generator(appTree, options);
+    await presetGenerator(appTree, options);
   });
 
   describe("workspace layout", () => {
@@ -39,18 +41,6 @@ describe("preset generator", () => {
         appsDir: "e2e",
         libsDir: "packages",
       });
-    });
-  });
-
-  describe(".prettierrc", () => {
-    it("creates a .prettierrc file", () => {
-      expect(appTree.exists(".prettierrc")).toBe(true);
-    });
-
-    it("should remove the singleQuote option", () => {
-      const prettierConfig = readJson<PrettierConfig>(appTree, ".prettierrc");
-
-      expect(prettierConfig.singleQuote).toBeUndefined();
     });
   });
 });
