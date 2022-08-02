@@ -3,8 +3,10 @@ import {
   ensureNxProject,
   runCommandAsync,
   runNxCommandAsync,
+  tmpProjPath,
   uniq,
 } from "@nrwl/nx-plugin/testing";
+import fs from "node:fs";
 
 jest.setTimeout(30_000);
 
@@ -54,18 +56,37 @@ describe("nx-plugin e2e", () => {
     });
 
     describe("linting", () => {
-      it("creates a working linting setup", async () => {
-        const { stderr } = await runCommandAsync("yarn run eslint");
-
-        expect(stderr).toBe("");
+      it("creates a working linting setup", () => {
+        expect(async () => {
+          await runCommandAsync("yarn run eslint --print-config package.json");
+        }).not.toThrow();
       });
 
-      it.todo("creates a working lint fix setup");
+      it("creates a working lint fix setup", async () => {
+        const lintErrorsFileName = `${uniq("fixableLintErrors")}.ts`;
+        // eslint-disable-next-line security/detect-non-literal-fs-filename
+        fs.writeFileSync(
+          tmpProjPath(lintErrorsFileName),
+          "export const hello = 'Hello, world!'",
+        );
 
-      it("generates a project without linting issues", async () => {
-        const { stderr } = await runCommandAsync("yarn run eslint .");
+        await expect(async () => {
+          await runCommandAsync("yarn run eslint .");
+        }).rejects.toThrow();
 
-        expect(stderr).toBe("");
+        await runCommandAsync("yarn run eslint --fix .");
+
+        expect(async () => {
+          await runCommandAsync("yarn run eslint .");
+        }).not.toThrow();
+
+        fs.rmSync(tmpProjPath(lintErrorsFileName));
+      });
+
+      it("generates a project without linting issues", () => {
+        expect(async () => {
+          await runCommandAsync("yarn run eslint .");
+        }).not.toThrow();
       });
     });
   });
