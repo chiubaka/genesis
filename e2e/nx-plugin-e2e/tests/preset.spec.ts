@@ -12,6 +12,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { getPortPromise as getOpenPort } from "portfinder";
 
+jest.setTimeout(10_000);
+
 const startVerdaccio = async (port: number): Promise<ChildProcess> => {
   const configPath = path.join(__dirname, "../verdaccio.yml");
   return new Promise((resolve, reject) => {
