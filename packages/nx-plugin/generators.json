@@ -3,10 +3,25 @@
   "name": "nx-plugin",
   "version": "0.0.1",
   "generators": {
+    "eslint": {
+      "factory": "./src/generators/linting/eslint",
+      "schema": "./src/generators/linting/eslint/schema.json",
+      "description": "Generates ESLint configuration and setup"
+    },
+    "linting": {
+      "factory": "./src/generators/linting",
+      "schema": "./src/generators/linting/schema.json",
+      "description": "Generates linting setup including EsLint and Prettier"
+    },
     "preset": {
-      "factory": "./src/generators/preset/generator",
+      "factory": "./src/generators/preset",
       "schema": "./src/generators/preset/schema.json",
-      "description": "preset generator"
+      "description": "Generates a full workspace with batteries included!"
+    },
+    "prettier": {
+      "factory": "./src/generators/linting/prettier",
+      "schema": "./src/generators/linting/prettier/schema.json",
+      "description": "Generates Prettier configuration and setup"
     }
   }
 }
