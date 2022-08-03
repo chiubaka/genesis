@@ -9,7 +9,7 @@
     "deploy": "nx deploy",
     "deploy:affected": "nx affected --target=deploy",
     "deploy:ci": "yarn run deploy:affected --base=$NX_BASE --head=$NX_HEAD",
-    "deploy:preset:local": "rm -rf /tmp/preset-output && nx build nx-plugin && cd dist/packages/nx-plugin && npm unpublish -f --registry http://localhost:4873 && npm publish --registry http://localhost:4873 && cd /tmp && npm_config_registry=http://localhost:4873 npx create-nx-workspace preset-output --preset=@chiubaka/nx-plugin --nxCloud=false",
+    "deploy:preset:local": "rm -rf ./tmp/nx-e2e/proj && nx build nx-plugin && cd dist/packages/nx-plugin && npm unpublish -f --registry http://localhost:4873 && npm publish --registry http://localhost:4873 && cd ../../../tmp/nx-e2e && npm_config_registry=http://localhost:4873 npx create-nx-workspace proj --preset=@chiubaka/nx-plugin --nxCloud=false",
     "lint": "nx lint",
     "lint:affected": "nx affected --target=lint",
     "lint:all": "yarn run lint:root && yarn run lint:packages",
@@ -47,6 +47,7 @@
     "@swc/cli": "~0.1.55",
     "@swc/core": "^1.2.173",
     "@types/eslint": "^8.4.5",
+    "@types/fs-extra": "^9.0.13",
     "@types/jest": "27.4.1",
     "@types/node": "16.11.7",
     "@typescript-eslint/eslint-plugin": "^5.29.0",
@@ -54,14 +55,19 @@
     "eslint": "~8.15.0",
     "eslint-config-prettier": "8.1.0",
     "eslint-plugin-jest": "^26.6.0",
+    "fs-extra": "^10.1.0",
     "husky": "^8.0.1",
     "jest": "27.5.1",
     "jsonc-eslint-parser": "^2.1.0",
     "lint-staged": "^13.0.3",
     "nx": "14.4.3",
+    "portfinder": "^1.0.28",
     "prettier": "^2.6.2",
     "ts-jest": "27.1.4",
     "ts-node": "~10.8.0",
-    "typescript": "~4.7.2"
+    "typescript": "~4.7.2",
+    "verdaccio": "^5.14.0",
+    "verdaccio-auth-memory": "^10.2.0",
+    "verdaccio-memory": "^10.3.0"
   }
 }
