@@ -1,3 +1,5 @@
+// import { FileWithContentMatcherOptions } from "../matchers/toHaveFileWithContent.matcher";
+
 declare namespace jest {
   interface Matchers {
     toBeNxTree: () => CustomMatcherResult;
@@ -18,6 +20,11 @@ declare namespace jest {
       dependencyName: string,
       dependencyVersion?: string,
       packageJsonPath?: string,
+    ) => CustomMatcherResult;
+    toHaveFileWithContent: (
+      filePath: string,
+      content: string,
+      options?: FileWithContentMatcherOptions,
     ) => CustomMatcherResult;
     toHaveFunctions: (functionNames: string[]) => CustomMatcherResult;
     toHaveProperties: (propertyNames: string[]) => CustomMatcherResult;
