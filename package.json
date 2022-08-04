@@ -20,6 +20,7 @@
     "lint:packages": "nx run-many --target=lint --all",
     "lint:root": "yarn run eslint .",
     "lint:staged": "lint-staged",
+    "postinstall": "patch-package",
     "prepare": "husky install",
     "start": "nx serve",
     "test": "nx test",
@@ -31,6 +32,8 @@
   "license": "UNLICENSED",
   "dependencies": {
     "@swc/helpers": "~0.3.3",
+    "patch-package": "^6.4.7",
+    "postinstall-postinstall": "^2.1.0",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
