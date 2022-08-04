@@ -1,14 +1,16 @@
 import {
   checkFilesExist,
   cleanup,
+  readFile,
   runCommandAsync,
   runNxCommandAsync,
   tmpProjPath,
   uniq,
 } from "@nrwl/nx-plugin/testing";
-import { ensureDirSync } from "fs-extra";
+import { ensureDirSync, moveSync } from "fs-extra";
 import { ChildProcess, execSync, fork } from "node:child_process";
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import { getPortPromise as getOpenPort } from "portfinder";
 
@@ -34,15 +36,9 @@ const startVerdaccio = async (port: number): Promise<ChildProcess> => {
   });
 };
 
-describe("nx-plugin e2e", () => {
+describe("presetGenerator", () => {
   let verdaccioProcess: ChildProcess;
 
-  // Setting up individual workspaces per
-  // test can cause e2e runs to take a long time.
-  // For this reason, we recommend each suite only
-  // consumes 1 workspace. The tests should each operate
-  // on a unique project in the workspace, such that they
-  // are not dependant on one another.
   beforeAll(async () => {
     cleanup();
 
@@ -60,22 +56,25 @@ describe("nx-plugin e2e", () => {
       cwd: path.join(__dirname, "../../../dist/packages/nx-plugin"),
     });
 
-    const destination = path.join(tmpProjPath(), "..");
     const workspaceName = path.basename(tmpProjPath());
 
-    ensureDirSync(destination);
+    const tmpDir = path.join(os.tmpdir(), uniq(workspaceName));
+    ensureDirSync(tmpDir);
 
     execSync(
       `npm_config_registry=${verdaccioUrl} npx create-nx-workspace ${workspaceName} --preset=@chiubaka/nx-plugin --nxCloud=false`,
       {
-        cwd: destination,
+        // Create the workspace in tmp dir then copy it into project tmp dir to allow for git initialization which
+        // is important for some of our generators
+        cwd: tmpDir,
       },
     );
+
+    const tmpDestination = path.join(tmpDir, workspaceName);
+    moveSync(tmpDestination, tmpProjPath());
   });
 
   afterAll(async () => {
-    // `nx reset` kills the daemon, and performs
-    // some work which can help clean up e2e leftovers
     await runNxCommandAsync("reset");
 
     execSync(`yarn config set registry https://registry.yarnpkg.com`);
@@ -135,6 +134,32 @@ describe("nx-plugin e2e", () => {
       expect(async () => {
         await runCommandAsync("yarn run eslint .");
       }).not.toThrow();
+    });
+  });
+});
+
+describe("git hooks", () => {
+  describe.skip("pre-commit hook", () => {
+    it("creates a pre-commit hook", () => {
+      expect(() => {
+        checkFilesExist(".husky/pre-commit");
+      }).not.toThrow();
+    });
+
+    it.todo("populates the pre-commit hook with the correct command");
+  });
+
+  describe("pre-push hook", () => {
+    it("creates a pre-push hook", () => {
+      expect(() => {
+        checkFilesExist(".husky/pre-push");
+      }).not.toThrow();
+    });
+
+    it("populates the pre-push hook with the correct command", () => {
+      const content = readFile(".husky/pre-push");
+
+      expect(content).toContain("nx affected --target=test");
     });
   });
 });
