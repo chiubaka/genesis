@@ -1,0 +1,13 @@
+diff --git a/node_modules/@nrwl/nx-plugin/src/executors/e2e/e2e.impl.js b/node_modules/@nrwl/nx-plugin/src/executors/e2e/e2e.impl.js
+index 3e9cd85..c42b448 100644
+--- a/node_modules/@nrwl/nx-plugin/src/executors/e2e/e2e.impl.js
++++ b/node_modules/@nrwl/nx-plugin/src/executors/e2e/e2e.impl.js
+@@ -57,7 +57,7 @@ function runBuildTarget(buildTarget, context) {
+ }
+ function runTests(jestConfig, context) {
+     return tslib_1.__awaiter(this, void 0, void 0, function* () {
+-        const { success } = yield (0, jest_impl_1.jestExecutor)({ jestConfig, watch: false }, context);
++        const { success } = yield (0, jest_impl_1.jestExecutor)({ jestConfig, watch: false, runInBand: true }, context);
+         return success;
+     });
+ }
