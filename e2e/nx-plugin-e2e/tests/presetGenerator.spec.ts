@@ -136,30 +136,30 @@ describe("presetGenerator", () => {
       }).not.toThrow();
     });
   });
-});
 
-describe("git hooks", () => {
-  describe.skip("pre-commit hook", () => {
-    it("creates a pre-commit hook", () => {
-      expect(() => {
-        checkFilesExist(".husky/pre-commit");
-      }).not.toThrow();
+  describe("git hooks", () => {
+    describe.skip("pre-commit hook", () => {
+      it("creates a pre-commit hook", () => {
+        expect(() => {
+          checkFilesExist(".husky/pre-commit");
+        }).not.toThrow();
+      });
+
+      it.todo("populates the pre-commit hook with the correct command");
     });
 
-    it.todo("populates the pre-commit hook with the correct command");
-  });
+    describe("pre-push hook", () => {
+      it("creates a pre-push hook", () => {
+        expect(() => {
+          checkFilesExist(".husky/pre-push");
+        }).not.toThrow();
+      });
 
-  describe("pre-push hook", () => {
-    it("creates a pre-push hook", () => {
-      expect(() => {
-        checkFilesExist(".husky/pre-push");
-      }).not.toThrow();
-    });
+      it("populates the pre-push hook with the correct command", () => {
+        const content = readFile(".husky/pre-push");
 
-    it("populates the pre-push hook with the correct command", () => {
-      const content = readFile(".husky/pre-push");
-
-      expect(content).toContain("nx affected --target=test");
+        expect(content).toContain("nx affected --target=test");
+      });
     });
   });
 });
