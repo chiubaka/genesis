@@ -37,7 +37,7 @@
     "tslib": "^2.3.0"
   },
   "devDependencies": {
-    "@chiubaka/eslint-config": "^0.3.5",
+    "@chiubaka/eslint-config": "^0.3.6",
     "@nrwl/cli": "14.4.3",
     "@nrwl/devkit": "14.4.3",
     "@nrwl/eslint-plugin-nx": "14.4.3",
