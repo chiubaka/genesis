@@ -4,7 +4,7 @@ import {
   tmpProjPath,
 } from "@nrwl/nx-plugin/testing";
 
-import { createTestingWorkspace } from "../utils";
+import { assert, createTestingWorkspace } from "../utils";
 
 jest.setTimeout(40_000);
 
@@ -33,14 +33,7 @@ describe("gitGenerator", () => {
 
   describe("initial commit", () => {
     it("creates an initial commit with specified message", async () => {
-      const { stdout } = await runCommandAsync("git log --oneline -n 1");
-
-      // Remove the first token of the output, which is the short commit hash
-      const tokens = stdout.trim().split(" ");
-      tokens.shift();
-      const commitMessage = tokens.join(" ");
-
-      expect(commitMessage).toBe("test initial commit message");
+      await assert.git.latestCommitMessage("test initial commit message");
     });
 
     it("creates an initial commit with specified author name", async () => {
@@ -61,10 +54,6 @@ describe("gitGenerator", () => {
   });
 
   it("leaves the working directory clean", async () => {
-    const { stdout: gitStatus } = await runCommandAsync(
-      "git status --porcelain",
-    );
-
-    expect(gitStatus).toBe("");
+    await assert.git.workingDirectoryIsClean();
   });
 });
