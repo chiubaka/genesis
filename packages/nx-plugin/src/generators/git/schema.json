@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "$id": "Git",
+  "title": "",
+  "type": "object",
+  "properties": {
+    "commitMessage": {
+      "type": "string",
+      "description": "Initial repository commit message."
+    },
+    "committerEmail": {
+      "type": "string",
+      "description": "Initial repository commit author's email address."
+    },
+    "committerName": {
+      "type": "string",
+      "description": "Initial repository commit author's name."
+    }
+  },
+  "required": ["commitMessage"]
+}
