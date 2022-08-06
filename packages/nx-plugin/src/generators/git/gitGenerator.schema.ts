@@ -1,4 +1,4 @@
-import { GitHooksGeneratorSchema } from "../gitHooks";
+import { GitHooksGeneratorSchema } from "./gitHooks";
 
 export interface GitGeneratorSchema extends GitHooksGeneratorSchema {
   commitMessage: string;

@@ -1,3 +1,3 @@
-export * from "./gitHooks";
+export * from "./git";
 export * from "./linting";
 export * from "./preset";
