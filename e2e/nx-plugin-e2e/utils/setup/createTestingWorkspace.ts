@@ -1,14 +1,10 @@
-import {
-  cleanup,
-  patchPackageJsonForPlugin,
-  runPackageManagerInstall,
-  tmpProjPath,
-  uniq,
-} from "@nrwl/nx-plugin/testing";
-import { moveSync } from "fs-extra";
+import { tmpProjPath, uniq } from "@nrwl/nx-plugin/testing";
+import { moveSync, removeSync } from "fs-extra";
 import { execSync } from "node:child_process";
 import os from "node:os";
 import path from "node:path";
+
+import { TestingWorkspace } from "../testingWorkspace";
 
 interface TestingWorkspaceOptions {
   skipInstall?: boolean;
@@ -21,27 +17,38 @@ interface TestingWorkspaceOptions {
  * complete with features like a working git repo which are needed in order to test some of
  * our generators.
  */
-export const createTestingWorkspace = (
+export const createTestingWorkspace = async (
+  workspaceName: string,
   npmPackageName: string,
   distPath: string,
   options?: TestingWorkspaceOptions,
-) => {
-  cleanup();
-  const workspaceDirectory = createEmptyWorkspace(options);
-  moveWorkspaceToE2eTmpDir(workspaceDirectory);
-  patchPackageJsonForPlugin(npmPackageName, distPath);
-  runPackageManagerInstall();
+): Promise<TestingWorkspace> => {
+  const destination = path.join(e2eRootPath(), workspaceName);
+  removeSync(destination);
+
+  const workspaceDirectory = createEmptyWorkspace(workspaceName, options);
+  moveSync(workspaceDirectory, destination);
+
+  const workspace = new TestingWorkspace(destination);
+
+  workspace.patchPackageJsonForPlugin(npmPackageName, distPath);
+  await workspace.runPackageManagerInstall();
+
+  return workspace;
 };
 
-const createEmptyWorkspace = (options: TestingWorkspaceOptions) => {
+const createEmptyWorkspace = (
+  workspaceName: string,
+  options: TestingWorkspaceOptions,
+) => {
   const { skipGit, skipInstall } = { skipInstall: true, ...options };
 
   const workspaceRoot = os.tmpdir();
-  const workspaceName = uniq("proj");
+  const tmpWorkspaceName = uniq(workspaceName);
 
   let command = `node ${require.resolve(
     "nx",
-  )} new ${workspaceName} --nx-workspace--root=${workspaceRoot} --no-interactive --collection=@nrwl/workspace --npmScope=proj --preset=empty`;
+  )} new ${tmpWorkspaceName} --nx-workspace--root=${workspaceRoot} --no-interactive --collection=@nrwl/workspace --npmScope=proj --preset=empty`;
 
   if (skipGit) {
     command = `${command} --skip-git`;
@@ -55,10 +62,10 @@ const createEmptyWorkspace = (options: TestingWorkspaceOptions) => {
     cwd: workspaceRoot,
   });
 
-  const workspaceDirectory = path.join(workspaceRoot, workspaceName);
+  const workspaceDirectory = path.join(workspaceRoot, tmpWorkspaceName);
   return workspaceDirectory;
 };
 
-const moveWorkspaceToE2eTmpDir = (workspaceDirectory: string) => {
-  moveSync(workspaceDirectory, tmpProjPath());
+const e2eRootPath = () => {
+  return path.join(tmpProjPath(), "..");
 };

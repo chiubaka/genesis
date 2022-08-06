@@ -1,5 +1,5 @@
 import { configureGitUser } from "./configureGitUser";
 
-if (process.env.NODE_ENV === "test") {
+if (process.env.CI) {
   configureGitUser();
 }
