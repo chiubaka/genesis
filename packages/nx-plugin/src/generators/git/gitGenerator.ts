@@ -63,6 +63,7 @@ function createInitialCommit(tree: Tree, options: GitGeneratorSchema) {
     await exec(`git commit -m "${commitMessage}"`, {
       cwd: tree.root,
       env: {
+        ...process.env,
         ...committerEmailEnvVars,
         ...committerNameEnvVars,
       },
