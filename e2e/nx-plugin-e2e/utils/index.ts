@@ -1,2 +1,2 @@
 export * from "./assert";
-export * from "./createTestingWorkspace";
+export * from "./setup";
