@@ -6,7 +6,7 @@ import {
 } from "@nrwl/devkit";
 import { PackageJson } from "nx/src/utils/package-json";
 
-import { exec } from "../../utils";
+import { exec } from "../../../utils";
 import { GitHooksGeneratorSchema } from "./gitHooksGenerator.schema";
 
 enum GitHook {

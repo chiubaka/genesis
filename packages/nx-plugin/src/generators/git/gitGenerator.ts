@@ -1,9 +1,9 @@
 import { Tree } from "@nrwl/devkit";
 
 import { exec } from "../../utils";
-import { gitHooksGenerator } from "../gitHooks";
 import { noOpTask } from "../tasks";
 import { GitGeneratorSchema } from "./gitGenerator.schema";
+import { gitHooksGenerator } from "./gitHooks";
 
 /**
  * Nx provides its own git repo generation capabilities, but there are two problems:

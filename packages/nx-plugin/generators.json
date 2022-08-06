@@ -14,8 +14,8 @@
       "description": "Generates a git repository"
     },
     "gitHooks": {
-      "factory": "./src/generators/gitHooks",
-      "schema": "./src/generators/gitHooks/schema.json",
+      "factory": "./src/generators/git/gitHooks",
+      "schema": "./src/generators/git/gitHooks/schema.json",
       "description": "Generates a git hooks setup"
     },
     "linting": {
