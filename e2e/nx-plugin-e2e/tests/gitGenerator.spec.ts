@@ -1,8 +1,4 @@
-import {
-  runCommandAsync,
-  runNxCommandAsync,
-  tmpProjPath,
-} from "@nrwl/nx-plugin/testing";
+import { runNxCommandAsync, tmpProjPath } from "@nrwl/nx-plugin/testing";
 
 import { assert, createTestingWorkspace } from "../utils";
 
@@ -24,11 +20,7 @@ describe("gitGenerator", () => {
   });
 
   it("initializes a git repo", async () => {
-    const { stdout } = await runCommandAsync("git rev-parse --show-toplevel");
-
-    const gitRoot = stdout.trim();
-
-    expect(gitRoot).toBe(tmpProjPath());
+    await assert.git.repoRoot(tmpProjPath());
   });
 
   describe("initial commit", () => {
@@ -37,19 +29,11 @@ describe("gitGenerator", () => {
     });
 
     it("creates an initial commit with specified author name", async () => {
-      const { stdout: commitAuthorName } = await runCommandAsync(
-        "git log --oneline -n 1 --pretty=format:'%an'",
-      );
-
-      expect(commitAuthorName).toBe("Test McTest");
+      await assert.git.latestCommitterName("Test McTest");
     });
 
     it("creates an initial commit with specified author email", async () => {
-      const { stdout: commitAuthorName } = await runCommandAsync(
-        "git log --oneline -n 1 --pretty=format:'%ae'",
-      );
-
-      expect(commitAuthorName).toBe("test@chiubaka.com");
+      await assert.git.latestCommitterEmail("test@chiubaka.com");
     });
   });
 
