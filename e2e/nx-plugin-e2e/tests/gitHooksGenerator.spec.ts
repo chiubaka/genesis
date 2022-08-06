@@ -1,10 +1,6 @@
-import {
-  checkFilesExist,
-  readFile,
-  runNxCommandAsync,
-} from "@nrwl/nx-plugin/testing";
+import { runNxCommandAsync } from "@nrwl/nx-plugin/testing";
 
-import { createTestingWorkspace } from "../utils";
+import { assert, createTestingWorkspace } from "../utils";
 
 jest.setTimeout(40_000);
 
@@ -23,29 +19,21 @@ describe("gitHooksGenerator", () => {
 
   describe("pre-commit hook", () => {
     it("creates a pre-commit hook", () => {
-      expect(() => {
-        checkFilesExist(".husky/pre-commit");
-      }).not.toThrow();
+      assert.fs.exists(".husky/pre-commit");
     });
 
     it("populates the pre-commit hook with the correct command", () => {
-      const contents = readFile(".husky/pre-commit");
-
-      expect(contents).toContain("echo pre-commit");
+      assert.fs.fileContents(".husky/pre-commit", "echo pre-commit");
     });
   });
 
   describe("pre-push hook", () => {
     it("creates a pre-push hook", () => {
-      expect(() => {
-        checkFilesExist(".husky/pre-push");
-      }).not.toThrow();
+      assert.fs.exists(".husky/pre-push");
     });
 
     it("populates the pre-push hook with the correct command", () => {
-      const contents = readFile(".husky/pre-push");
-
-      expect(contents).toContain("echo pre-push");
+      assert.fs.fileContents(".husky/pre-push", "echo pre-push");
     });
   });
 });
