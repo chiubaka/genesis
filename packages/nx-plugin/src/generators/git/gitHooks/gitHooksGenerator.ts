@@ -7,6 +7,7 @@ import {
 import { PackageJson } from "nx/src/utils/package-json";
 
 import { exec } from "../../../utils";
+import { noOpTask } from "../../tasks";
 import { GitHooksGeneratorSchema } from "./gitHooksGenerator.schema";
 
 enum GitHook {
@@ -79,9 +80,7 @@ function createPrePushHook(tree: Tree, prePushCommand?: string) {
 
 function createGitHook(tree: Tree, hook: GitHook, hookCommand?: string) {
   if (!hookCommand) {
-    return () => {
-      return Promise.resolve();
-    };
+    return noOpTask;
   }
 
   const pmc = getPackageManagerCommand();
