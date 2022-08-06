@@ -1,6 +1,8 @@
 import { Tree } from "@nrwl/devkit";
 
 import { exec } from "../../utils";
+import { gitHooksGenerator } from "../gitHooks";
+import { noOpTask } from "../tasks";
 import { GitGeneratorSchema } from "./gitGenerator.schema";
 
 /**
@@ -16,10 +18,14 @@ import { GitGeneratorSchema } from "./gitGenerator.schema";
  */
 export function gitGenerator(tree: Tree, options: GitGeneratorSchema) {
   const initGitRepoTask = initGitRepo(tree);
+  const gitHooksTask = options.skipGitHooks
+    ? noOpTask
+    : gitHooksGenerator(tree, options);
   const createInitialCommitTask = createInitialCommit(tree, options);
 
   return async () => {
     await initGitRepoTask();
+    await gitHooksTask();
     await createInitialCommitTask();
   };
 }
