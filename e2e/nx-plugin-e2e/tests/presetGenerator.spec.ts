@@ -1,15 +1,11 @@
 import {
-  checkFilesExist,
   cleanup,
-  readFile,
-  runCommandAsync,
   runNxCommandAsync,
   tmpProjPath,
   uniq,
 } from "@nrwl/nx-plugin/testing";
 import { ensureDirSync, moveSync } from "fs-extra";
 import { ChildProcess, execSync, fork } from "node:child_process";
-import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { getPortPromise as getOpenPort } from "portfinder";
@@ -85,57 +81,30 @@ describe("presetGenerator", () => {
   });
 
   it("should not create an apps dir", () => {
-    expect(() => {
-      checkFilesExist("apps");
-    }).toThrow();
+    assert.fs.notExists("apps");
   });
 
   describe("package manager", () => {
     it("should install packages with yarn", () => {
-      expect(() => {
-        checkFilesExist("yarn.lock");
-      }).not.toThrow();
+      assert.fs.exists("yarn.lock");
     });
 
     it("should not install packages with npm", () => {
-      expect(() => {
-        checkFilesExist("package-lock.json");
-      }).toThrow();
+      assert.fs.notExists("package-lock.json");
     });
   });
 
   describe("linting", () => {
     it("creates a working linting setup", () => {
-      expect(async () => {
-        await runCommandAsync("yarn run eslint --print-config package.json");
-      }).not.toThrow();
+      assert.linting.hasValidConfig();
     });
 
     it("creates a working lint fix setup", async () => {
-      const lintErrorsFileName = `${uniq("fixableLintErrors")}.ts`;
-      // eslint-disable-next-line security/detect-non-literal-fs-filename
-      fs.writeFileSync(
-        tmpProjPath(lintErrorsFileName),
-        "export const hello = 'Hello, world!'",
-      );
-
-      await expect(async () => {
-        await runCommandAsync("yarn run eslint .");
-      }).rejects.toThrow();
-
-      await runCommandAsync("yarn run eslint --fix .");
-
-      expect(async () => {
-        await runCommandAsync("yarn run eslint .");
-      }).not.toThrow();
-
-      fs.rmSync(tmpProjPath(lintErrorsFileName));
+      await assert.linting.canFixIssues();
     });
 
     it("generates a project without linting issues", () => {
-      expect(async () => {
-        await runCommandAsync("yarn run eslint .");
-      }).not.toThrow();
+      assert.linting.isClean();
     });
   });
 
@@ -154,9 +123,7 @@ describe("presetGenerator", () => {
   describe("git hooks", () => {
     describe.skip("pre-commit hook", () => {
       it("creates a pre-commit hook", () => {
-        expect(() => {
-          checkFilesExist(".husky/pre-commit");
-        }).not.toThrow();
+        assert.fs.exists(".husky/pre-commit");
       });
 
       it.todo("populates the pre-commit hook with the correct command");
@@ -164,15 +131,11 @@ describe("presetGenerator", () => {
 
     describe("pre-push hook", () => {
       it("creates a pre-push hook", () => {
-        expect(() => {
-          checkFilesExist(".husky/pre-push");
-        }).not.toThrow();
+        assert.fs.exists(".husky/pre-push");
       });
 
       it("populates the pre-push hook with the correct command", () => {
-        const content = readFile(".husky/pre-push");
-
-        expect(content).toContain("nx affected --target=test");
+        assert.fs.fileContents(".husky/pre-push", "nx affected --target=test");
       });
     });
   });
