@@ -4,13 +4,13 @@ export const configureGitUser = (
   name = "CircleCI",
   email = "circleci@chiubaka.com",
 ) => {
-  const existingEmail = execSync(`git config --get user.email`).toString();
-  if (!existingEmail) {
+  const gitConfigs = execSync("git config --list").toString();
+
+  if (!gitConfigs.includes("user.email")) {
     execSync(`git config --global user.email "${email}"`);
   }
 
-  const existingName = execSync(`git config --get user.name`).toString();
-  if (!existingName) {
+  if (!gitConfigs.includes("user.name")) {
     execSync(`git config --global user.name "${name}"`);
   }
 };
