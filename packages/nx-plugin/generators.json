@@ -8,6 +8,16 @@
       "schema": "./src/generators/linting/eslint/schema.json",
       "description": "Generates ESLint configuration and setup"
     },
+    "git": {
+      "factory": "./src/generators/git",
+      "schema": "./src/generators/git/schema.json",
+      "description": "Generates a git repository"
+    },
+    "gitHooks": {
+      "factory": "./src/generators/git/gitHooks",
+      "schema": "./src/generators/git/gitHooks/schema.json",
+      "description": "Generates a git hooks setup"
+    },
     "linting": {
       "factory": "./src/generators/linting",
       "schema": "./src/generators/linting/schema.json",

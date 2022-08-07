@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "$id": "GitHooks",
+  "title": "",
+  "type": "object",
+  "properties": {
+    "preCommitCommand": {
+      "type": "string",
+      "description": "Command to run before commiting"
+    },
+    "prePushCommand": {
+      "type": "string",
+      "description": "Command to run before pushing"
+    }
+  }
+}
