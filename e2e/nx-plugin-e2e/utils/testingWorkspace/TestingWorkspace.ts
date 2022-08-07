@@ -1,4 +1,5 @@
 import {
+  detectPackageManager,
   getPackageManagerCommand,
   readJsonFile,
   workspaceRoot as pluginWorkspaceRoot,
@@ -22,7 +23,7 @@ export class TestingWorkspace extends AbstractTestingWorkspace {
   }
 
   public execNx(command: string) {
-    const pmc = getPackageManagerCommand("npm");
+    const pmc = this.getPackageManagerCommand();
     const commandPrefix = `${pmc.exec} nx`;
     return this.exec(`${commandPrefix} ${command}`);
   }
@@ -52,7 +53,12 @@ export class TestingWorkspace extends AbstractTestingWorkspace {
   }
 
   public runPackageManagerInstall() {
-    const pmc = getPackageManagerCommand();
+    const pmc = this.getPackageManagerCommand();
     return this.exec(pmc.install);
+  }
+
+  private getPackageManagerCommand() {
+    const packageManager = detectPackageManager(this.rootPath);
+    return getPackageManagerCommand(packageManager);
   }
 }
