@@ -6,7 +6,7 @@ import path from "node:path";
 
 import { startVerdaccio, TestingWorkspace } from "../utils";
 
-jest.setTimeout(10_000);
+jest.setTimeout(20_000);
 
 describe("presetGenerator", () => {
   let verdaccioProcess: ChildProcess;
@@ -71,16 +71,20 @@ describe("presetGenerator", () => {
   });
 
   describe("linting", () => {
-    it("creates a working linting setup", () => {
-      workspace.assert.linting.hasValidConfig();
+    it("creates a working linting setup", async () => {
+      await workspace.assert.linting.hasValidConfig();
     });
 
     it("creates a working lint fix setup", async () => {
       await workspace.assert.linting.canFixIssues();
     });
 
-    it("generates a project without linting issues", () => {
-      workspace.assert.linting.isClean();
+    it("generates a project without linting issues", async () => {
+      await workspace.assert.linting.isClean();
+    });
+
+    it("generates a working lint-staged setup", async () => {
+      await workspace.assert.linting.canFixStagedIssues();
     });
   });
 
@@ -97,12 +101,17 @@ describe("presetGenerator", () => {
   });
 
   describe("git hooks", () => {
-    describe.skip("pre-commit hook", () => {
+    describe("pre-commit hook", () => {
       it("creates a pre-commit hook", () => {
         workspace.assert.fs.exists(".husky/pre-commit");
       });
 
-      it.todo("populates the pre-commit hook with the correct command");
+      it("populates the pre-commit hook with the correct command", () => {
+        workspace.assert.fs.fileContents(
+          ".husky/pre-commit",
+          "yarn lint:staged",
+        );
+      });
     });
 
     describe("pre-push hook", () => {

@@ -11,35 +11,55 @@ export class LintingAssert {
   }
 
   public async canFixIssues() {
-    const lintErrorsFileName = `${uniq("fixableLintErrors")}.ts`;
-    // eslint-disable-next-line security/detect-non-literal-fs-filename
-    fs.writeFileSync(
-      this.workspace.path(lintErrorsFileName),
-      "export const hello = 'Hello, world!'",
-    );
+    const lintErrorsFilePath = this.writeLintErrors();
+    await this.isNotClean();
 
-    await expect(async () => {
-      await this.workspace.exec("yarn run eslint .");
-    }).rejects.toThrow();
+    await this.workspace.linting.lintFix();
 
-    await this.workspace.exec("yarn run eslint --fix .");
+    await this.isClean();
 
-    expect(async () => {
-      await this.workspace.exec("yarn run eslint .");
-    }).not.toThrow();
+    this.cleanUpLintErrors(lintErrorsFilePath);
+  }
 
-    fs.rmSync(this.workspace.path(lintErrorsFileName));
+  public async canFixStagedIssues() {
+    const lintErrorsFilePath = this.writeLintErrors();
+    await this.isNotClean();
+
+    await this.workspace.git.stageAllFiles();
+    await this.workspace.linting.lintStaged();
+
+    await this.isClean();
+
+    this.cleanUpLintErrors(lintErrorsFilePath);
+    await this.workspace.git.unstageFile(lintErrorsFilePath);
   }
 
   public hasValidConfig() {
-    expect(async () => {
-      await this.workspace.exec("yarn run eslint --print-config package.json");
-    }).not.toThrow();
+    return expect(
+      this.workspace.linting.validateConfig(),
+    ).resolves.not.toThrow();
   }
 
   public isClean() {
-    expect(async () => {
-      await this.workspace.exec("yarn run eslint .");
-    }).not.toThrow();
+    return expect(this.workspace.linting.lint()).resolves.not.toThrow();
+  }
+
+  public isNotClean() {
+    return expect(this.workspace.linting.lint()).rejects.toThrow();
+  }
+
+  private writeLintErrors() {
+    const lintErrorsFilePath = `${uniq("fixableLintErrors")}.ts`;
+    // eslint-disable-next-line security/detect-non-literal-fs-filename
+    fs.writeFileSync(
+      this.workspace.path(lintErrorsFilePath),
+      "export const hello = 'Hello, world!'",
+    );
+
+    return lintErrorsFilePath;
+  }
+
+  private cleanUpLintErrors(lintErrorsFilePath: string) {
+    fs.rmSync(this.workspace.path(lintErrorsFilePath));
   }
 }
