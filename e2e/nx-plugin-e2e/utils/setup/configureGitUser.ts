@@ -6,11 +6,8 @@ export const configureGitUser = (
 ) => {
   const gitConfigs = execSync("git config --list").toString();
 
-  if (!gitConfigs.includes("user.email")) {
+  if (!gitConfigs.includes("user.email") && !gitConfigs.includes("user.name")) {
     execSync(`git config --global user.email "${email}"`);
-  }
-
-  if (!gitConfigs.includes("user.name")) {
     execSync(`git config --global user.name "${name}"`);
   }
 };
