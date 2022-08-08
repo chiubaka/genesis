@@ -71,16 +71,20 @@ describe("presetGenerator", () => {
   });
 
   describe("linting", () => {
-    it("creates a working linting setup", () => {
-      workspace.assert.linting.hasValidConfig();
+    it("creates a working linting setup", async () => {
+      await workspace.assert.linting.hasValidConfig();
     });
 
     it("creates a working lint fix setup", async () => {
       await workspace.assert.linting.canFixIssues();
     });
 
-    it("generates a project without linting issues", () => {
-      workspace.assert.linting.isClean();
+    it("generates a project without linting issues", async () => {
+      await workspace.assert.linting.isClean();
+    });
+
+    it("generates a working lint-staged setup", async () => {
+      await workspace.assert.linting.canFixStagedIssues();
     });
   });
 

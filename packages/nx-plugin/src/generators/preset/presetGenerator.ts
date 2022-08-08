@@ -34,7 +34,7 @@ export async function presetGenerator(
   const installTask = options.skipInstall
     ? noOpTask
     : reinstallPackagesWithYarn(tree);
-  const lintingTask = lintingGenerator(tree);
+  const lintingTask = lintingGenerator(tree, { packageManager: "yarn" });
   const gitTask = setUpGit(tree);
 
   await formatFiles(tree);

@@ -7,6 +7,11 @@ export class GitUtils {
     this.workspace = workspace;
   }
 
+  public async commitAllFiles(message: string) {
+    await this.stageAllFiles();
+    return this.execGitCommand(`commit -m "${message}"`);
+  }
+
   public getLatestCommitterEmail() {
     return this.execGitCommand("log --oneline -n 1 --pretty=format:'%ae'");
   }
@@ -34,6 +39,14 @@ export class GitUtils {
     const gitStatus = await this.execGitCommand("status --porcelain");
 
     return gitStatus === "";
+  }
+
+  public stageAllFiles() {
+    return this.execGitCommand("add .");
+  }
+
+  public unstageFile(filePath: string) {
+    return this.execGitCommand(`restore --staged ${filePath}`);
   }
 
   private async execGitCommand(command: string) {

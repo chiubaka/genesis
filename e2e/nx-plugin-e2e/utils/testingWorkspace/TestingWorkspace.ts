@@ -5,6 +5,7 @@ import {
   workspaceRoot as pluginWorkspaceRoot,
   writeJsonFile,
 } from "@nrwl/devkit";
+import { rmSync } from "node:fs";
 import path from "node:path";
 import { PackageJson } from "nx/src/utils/package-json";
 
@@ -23,9 +24,18 @@ export class TestingWorkspace extends AbstractTestingWorkspace {
   }
 
   public execNx(command: string) {
+    return this.execPmc(`nx ${command}`);
+  }
+
+  public execPmc(command: string) {
     const pmc = this.getPackageManagerCommand();
-    const commandPrefix = `${pmc.exec} nx`;
-    return this.exec(`${commandPrefix} ${command}`);
+    return this.exec(`${pmc.exec} ${command}`);
+  }
+
+  public execPmcScript(script: string, args = "") {
+    const pmc = this.getPackageManagerCommand();
+    const command = pmc.run(script, args);
+    return this.exec(command);
   }
 
   public getRoot() {
@@ -53,6 +63,11 @@ export class TestingWorkspace extends AbstractTestingWorkspace {
   }
 
   public runPackageManagerInstall() {
+    const packageManager = detectPackageManager(this.rootPath);
+    if (packageManager !== "npm") {
+      rmSync(this.path("package-lock.json"));
+    }
+
     const pmc = this.getPackageManagerCommand();
     return this.exec(pmc.install);
   }

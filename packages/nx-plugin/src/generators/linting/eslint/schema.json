@@ -3,5 +3,12 @@
   "cli": "nx",
   "$id": "EsLint",
   "title": "",
-  "type": "object"
+  "type": "object",
+  "properties": {
+    "packageManager": {
+      "description": "The package manager used to install dependencies.",
+      "type": "string",
+      "enum": ["npm", "yarn", "pnpm"]
+    }
+  }
 }
