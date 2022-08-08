@@ -101,12 +101,17 @@ describe("presetGenerator", () => {
   });
 
   describe("git hooks", () => {
-    describe.skip("pre-commit hook", () => {
+    describe("pre-commit hook", () => {
       it("creates a pre-commit hook", () => {
         workspace.assert.fs.exists(".husky/pre-commit");
       });
 
-      it.todo("populates the pre-commit hook with the correct command");
+      it("populates the pre-commit hook with the correct command", () => {
+        workspace.assert.fs.fileContents(
+          ".husky/pre-commit",
+          "yarn lint:staged",
+        );
+      });
     });
 
     describe("pre-push hook", () => {
