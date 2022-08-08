@@ -31,9 +31,7 @@ export async function presetGenerator(
 
   modifyWorkspaceLayout(tree);
 
-  const installTask = options.skipInstall
-    ? noOpTask
-    : reinstallPackagesWithYarn(tree);
+  const installTask = reinstallPackagesWithYarn(tree, options);
   const lintingTask = lintingGenerator(tree, { packageManager: "yarn" });
   const gitTask = setUpGit(tree);
 
@@ -89,7 +87,11 @@ function modifyWorkspaceLayout(tree: Tree) {
   tree.write("packages/.gitkeep", "");
 }
 
-function reinstallPackagesWithYarn(tree: Tree) {
+function reinstallPackagesWithYarn(tree: Tree, options: PresetGeneratorSchema) {
+  if (options.skipInstall) {
+    return noOpTask;
+  }
+
   tree.delete("package-lock.json");
 
   const pmc = getPackageManagerCommand("yarn");
