@@ -7,9 +7,6 @@
     "@types/jest": "^28.1.6",
     "jest": "^28.1.3"
   },
-  "exports": {
-    "./utils": "./src/utils/index.js"
-  },
   "generators": "./generators.json",
   "executors": "./executors.json"
 }
