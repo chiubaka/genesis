@@ -1,3 +1,4 @@
+import { exec } from "@chiubaka/nx-plugin/utils";
 import {
   detectPackageManager,
   getPackageManagerCommand,
@@ -9,7 +10,6 @@ import { rmSync } from "node:fs";
 import path from "node:path";
 import { PackageJson } from "nx/src/utils/package-json";
 
-import { exec } from "../exec";
 import { AbstractTestingWorkspace } from "./AbstractTestingWorkspace";
 
 export class TestingWorkspace extends AbstractTestingWorkspace {
