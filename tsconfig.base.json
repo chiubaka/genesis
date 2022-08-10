@@ -17,7 +17,8 @@
     "baseUrl": ".",
     "resolveJsonModule": true,
     "paths": {
-      "@chiubaka/nx-plugin": ["packages/nx-plugin/src/index.ts"]
+      "@chiubaka/nx-plugin": ["packages/nx-plugin/src/index.ts"],
+      "@chiubaka/nx-plugin/utils": ["packages/nx-plugin/src/utils/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
