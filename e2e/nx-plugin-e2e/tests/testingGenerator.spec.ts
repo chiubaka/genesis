@@ -1,6 +1,6 @@
 import { createTestingWorkspace, TestingWorkspace } from "../utils";
 
-jest.setTimeout(20_000);
+jest.setTimeout(40_000);
 
 describe("testingGenerator", () => {
   let workspace: TestingWorkspace;
