@@ -14,6 +14,7 @@ import { exec } from "../../utils";
 import { gitGenerator } from "../git";
 import { lintingGenerator } from "../linting";
 import { noOpTask } from "../tasks";
+import testingGenerator from "../testing";
 import { PresetGeneratorSchema } from "./presetGenerator.schema";
 
 interface NormalizedSchema extends PresetGeneratorSchema {
@@ -33,6 +34,7 @@ export async function presetGenerator(
 
   const installTask = reinstallPackagesWithYarn(tree, options);
   const lintingTask = lintingGenerator(tree, { packageManager: "yarn" });
+  testingGenerator(tree);
   const gitTask = setUpGit(tree);
 
   await formatFiles(tree);
