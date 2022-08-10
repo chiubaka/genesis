@@ -127,4 +127,10 @@ describe("presetGenerator", () => {
       });
     });
   });
+
+  describe("testing", () => {
+    it("generates a Codecov configuration file", () => {
+      workspace.assert.fs.exists("codecov.yml");
+    });
+  });
 });

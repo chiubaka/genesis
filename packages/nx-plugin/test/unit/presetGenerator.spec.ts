@@ -43,4 +43,10 @@ describe("preset generator", () => {
       });
     });
   });
+
+  describe("testing", () => {
+    it("generates a Codecov configuration file", () => {
+      expect(appTree.exists("codecov.yml")).toBe(true);
+    });
+  });
 });
