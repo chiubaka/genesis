@@ -12,4 +12,5 @@ export default {
   },
   moduleFileExtensions: ["ts", "js", "html"],
   coverageDirectory: "../../coverage/packages/nx-plugin",
+  coverageReporters: ["clover", "json", "lcov", "text"],
 };
