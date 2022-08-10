@@ -13,4 +13,16 @@ export default {
   moduleFileExtensions: ["ts", "js", "html"],
   coverageDirectory: "../../reports/coverage/packages/nx-plugin",
   coverageReporters: ["clover", "json", "lcov", "text"],
+  reporters: [
+    "default",
+    [
+      "jest-junit",
+      {
+        addFileAttribute: "true",
+        classNameTemplate: "{suitename}",
+        outputDirectory: "reports/junit",
+        outputName: "nx-plugin.xml",
+      },
+    ],
+  ],
 };
