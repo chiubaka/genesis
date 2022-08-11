@@ -1,3 +1,4 @@
+import { readJsonFile } from "@nrwl/devkit";
 import { readFile } from "@nrwl/nx-plugin/testing";
 import fs from "node:fs";
 
@@ -21,5 +22,11 @@ export class FsUtils {
     const path = this.workspace.path(relativePath);
 
     return readFile(path);
+  }
+
+  public readJsonFile<TJson extends object>(relativePath: string) {
+    const path = this.workspace.path(relativePath);
+
+    return readJsonFile<TJson>(path);
   }
 }

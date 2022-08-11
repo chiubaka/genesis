@@ -31,4 +31,10 @@ export class FsAssert {
       expect(contents).toContain(expectedContents);
     }
   }
+
+  public jsonFileContents<TJson>(relativePath: string, object: Partial<TJson>) {
+    const json = this.fs.readJsonFile(relativePath);
+
+    expect(json).toMatchObject(object);
+  }
 }

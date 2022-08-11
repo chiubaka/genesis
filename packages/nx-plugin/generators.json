@@ -42,6 +42,11 @@
       "factory": "./src/generators/testing",
       "schema": "./src/generators/testing/schema.json",
       "description": "Generates monorepo-wide testing configuration and setup"
+    },
+    "tsconfig": {
+      "factory": "./src/generators/tsconfig",
+      "schema": "./src/generators/tsconfig/schema.json",
+      "description": "Generates a tsconfig extending from @chiubaka/tsconfig and installs relevant dependencies"
     }
   }
 }

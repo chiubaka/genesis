@@ -15,6 +15,7 @@ import { gitGenerator } from "../git";
 import { lintingGenerator } from "../linting";
 import { noOpTask } from "../tasks";
 import testingGenerator from "../testing";
+import { tsconfigGenerator } from "../tsconfig";
 import { PresetGeneratorSchema } from "./presetGenerator.schema";
 
 interface NormalizedSchema extends PresetGeneratorSchema {
@@ -33,6 +34,7 @@ export async function presetGenerator(
   modifyWorkspaceLayout(tree);
 
   const installTask = reinstallPackagesWithYarn(tree, options);
+  const tsconfigTask = tsconfigGenerator(tree);
   const lintingTask = lintingGenerator(tree, { packageManager: "yarn" });
   testingGenerator(tree);
   const gitTask = setUpGit(tree);
@@ -41,6 +43,7 @@ export async function presetGenerator(
 
   return async () => {
     await installTask();
+    await tsconfigTask();
     await lintingTask();
     await gitTask();
   };
