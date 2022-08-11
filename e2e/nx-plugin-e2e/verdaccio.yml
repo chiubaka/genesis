@@ -22,6 +22,9 @@ uplinks:
       type: bearer
       token: dsyTcamuhMd8GlsakOhP5A==
 packages:
+  "@chiubaka/nx-plugin":
+    access: $all
+    publish: $all
   "@*/*":
     access: $all
     publish: $authenticated
