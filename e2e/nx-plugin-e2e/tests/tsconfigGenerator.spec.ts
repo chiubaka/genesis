@@ -1,7 +1,5 @@
 import { createTestingWorkspace, TestingWorkspace } from "../utils";
 
-jest.setTimeout(40_000);
-
 describe("tsconfigGenerator", () => {
   let workspace: TestingWorkspace;
 

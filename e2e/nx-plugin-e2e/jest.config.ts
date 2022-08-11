@@ -6,6 +6,7 @@ export default {
       tsconfig: "<rootDir>/tsconfig.spec.json",
     },
   },
+  testTimeout: 80_000,
   transform: {
     "^.+\\.[tj]s$": "ts-jest",
   },
