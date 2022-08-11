@@ -70,6 +70,20 @@ describe("presetGenerator", () => {
     });
   });
 
+  describe("tsconfig", () => {
+    it("generates a tsconfig.base.json file", () => {
+      workspace.assert.fs.exists("tsconfig.base.json");
+    });
+
+    describe("tsconfig.base.json", () => {
+      it("extends from @chiubaka/tsconfig", () => {
+        workspace.assert.fs.jsonFileContents("tsconfig.base.json", {
+          extends: "@chiubaka/tsconfig",
+        });
+      });
+    });
+  });
+
   describe("linting", () => {
     it("creates a working linting setup", async () => {
       await workspace.assert.linting.hasValidConfig();

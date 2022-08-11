@@ -5,10 +5,7 @@
     "baseUrl": ".",
     "rootDir": ".",
 
-    "paths": {
-      "@chiubaka/nx-plugin": ["packages/nx-plugin/src/index.ts"],
-      "@chiubaka/nx-plugin/utils": ["packages/nx-plugin/src/utils/index.ts"]
-    }
+    "paths": {}
   },
   "exclude": ["node_modules", "tmp"]
 }
