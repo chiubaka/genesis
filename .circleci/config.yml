@@ -3,11 +3,11 @@
 version: 2.1
 
 constants:
-  # Semantic versioning RegEx from https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
-  semver-regex: &semver-regex /^v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/
+  # Semantic versioning RegEx modified from https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
+  semver-regex: &semver-regex /^(\w+-)+v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/
 
 orbs:
-  chiubaka: chiubaka/circleci-orb@0.6.2
+  chiubaka: chiubaka/circleci-orb@0.7.3
 
 filters:
   semver-tags: &semver-tags
@@ -34,6 +34,7 @@ workflows:
           filters:
             <<: *semver-tags
       - chiubaka/publish:
+          name: publish
           context:
             - npm-publishing
           requires:

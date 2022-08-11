@@ -1,6 +1,6 @@
 import { createTestingWorkspace, TestingWorkspace } from "../utils";
 
-jest.setTimeout(40_000);
+jest.setTimeout(80_000);
 
 describe("gitHooksGenerator", () => {
   let workspace: TestingWorkspace;
