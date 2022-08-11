@@ -2,6 +2,10 @@
   "name": "@chiubaka/nx-plugin",
   "version": "0.0.1",
   "main": "src/index.js",
+  "scripts": {
+    "deploy": "echo Not implemented yet",
+    "deploy:ci": "yarn deploy"
+  },
   "devDependencies": {
     "@types/eslint": "^8.4.5",
     "@types/jest": "^28.1.6",
