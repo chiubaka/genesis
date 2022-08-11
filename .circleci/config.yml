@@ -7,7 +7,7 @@ constants:
   semver-regex: &semver-regex /^(\w+-)+v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/
 
 orbs:
-  chiubaka: chiubaka/circleci-orb@0.7.3
+  chiubaka: chiubaka/circleci-orb@0.8.1
 
 filters:
   semver-tags: &semver-tags
@@ -33,8 +33,9 @@ workflows:
           configure-git-user: true
           filters:
             <<: *semver-tags
-      - chiubaka/publish:
-          name: publish
+      - chiubaka/deploy:
+          name: deploy
+          task-name: Publish to NPM
           context:
             - npm-publishing
           requires:
