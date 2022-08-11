@@ -37,47 +37,47 @@ describe("eslintGenerator", () => {
       });
 
       it("adds a lint script", () => {
-        expect(scripts.lint).toBe("nx lint");
+        expect(scripts?.lint).toBe("nx lint");
       });
 
       it("adds a lint:affected script", () => {
-        expect(scripts["lint:affected"]).toBe("nx affected --target=lint");
+        expect(scripts?.["lint:affected"]).toBe("nx affected --target=lint");
       });
 
       it("adds a lint:all scripts", () => {
-        expect(scripts["lint:all"]).toBe(
+        expect(scripts?.["lint:all"]).toBe(
           "yarn lint:root && yarn lint:packages",
         );
       });
 
       it("adds a lint:ci script", () => {
-        expect(scripts["lint:ci"]).toBe(
+        expect(scripts?.["lint:ci"]).toBe(
           "yarn lint:root && yarn lint:affected --base=$NX_BASE --head=$NX_HEAD",
         );
       });
 
       it("adds a lint:fix:all script", () => {
-        expect(scripts["lint:fix:all"]).toBe(
+        expect(scripts?.["lint:fix:all"]).toBe(
           "yarn lint:fix:root; yarn lint:fix:packages",
         );
       });
 
       it("adds a lint:fix:packages script", () => {
-        expect(scripts["lint:fix:packages"]).toBe("yarn lint:packages --fix");
+        expect(scripts?.["lint:fix:packages"]).toBe("yarn lint:packages --fix");
       });
 
       it("adds a lint:fix:root script", () => {
-        expect(scripts["lint:fix:root"]).toBe("yarn lint:root --fix");
+        expect(scripts?.["lint:fix:root"]).toBe("yarn lint:root --fix");
       });
 
       it("adds a lint:packages script", () => {
-        expect(scripts["lint:packages"]).toBe(
+        expect(scripts?.["lint:packages"]).toBe(
           "nx run-many --target=lint --all",
         );
       });
 
       it("adds a lint:root script", () => {
-        expect(scripts["lint:root"]).toBe("yarn eslint .");
+        expect(scripts?.["lint:root"]).toBe("yarn eslint .");
       });
     });
   });

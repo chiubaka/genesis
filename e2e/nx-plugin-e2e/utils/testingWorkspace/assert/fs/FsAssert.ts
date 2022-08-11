@@ -17,7 +17,11 @@ export class FsAssert {
     expect(this.fs.exists(relativePath)).toBe(false);
   }
 
-  public fileContents(relativePath: string, expectedContents, exact = false) {
+  public fileContents(
+    relativePath: string,
+    expectedContents: string,
+    exact = false,
+  ) {
     // eslint-disable-next-line security/detect-non-literal-fs-filename
     const contents = this.fs.readFile(relativePath);
 

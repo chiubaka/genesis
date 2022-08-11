@@ -22,6 +22,6 @@ describe("gitHooksGenerator", () => {
   it("adds a prepare script to install husky", () => {
     const json = readJson<PackageJson>(tree, "package.json");
 
-    expect(json.scripts.prepare).toBe("husky install");
+    expect(json.scripts?.prepare).toBe("husky install");
   });
 });

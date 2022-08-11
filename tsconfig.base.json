@@ -1,25 +1,13 @@
 {
+  "extends": "@chiubaka/tsconfig",
   "compileOnSave": false,
   "compilerOptions": {
-    "rootDir": ".",
-    "sourceMap": true,
-    "declaration": false,
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
-    "esModuleInterop": true,
-    "experimentalDecorators": true,
-    "importHelpers": true,
-    "target": "es2015",
-    "module": "esnext",
-    "lib": ["es2017", "dom"],
-    "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "resolveJsonModule": true,
     "paths": {
       "@chiubaka/nx-plugin": ["packages/nx-plugin/src/index.ts"],
       "@chiubaka/nx-plugin/utils": ["packages/nx-plugin/src/utils/index.ts"]
-    }
+    },
+    "rootDir": "."
   },
   "exclude": ["node_modules", "tmp"]
 }

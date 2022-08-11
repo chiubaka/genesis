@@ -3,13 +3,8 @@ import { Tree } from "@nrwl/devkit";
 import { toHaveFunctions } from "./toHaveFunctions.matcher";
 import { toHaveProperties } from "./toHaveProperties.matcher";
 
-interface ExpectResult {
-  pass: boolean;
-  message?: () => string;
-}
-
 export const toBeNxTree: jest.CustomMatcher = (tree: Tree) => {
-  const results: ExpectResult[] = [];
+  const results: jest.CustomMatcherResult[] = [];
   results.push(
     toHaveProperties(tree, ["root"]),
     toHaveFunctions(tree, [

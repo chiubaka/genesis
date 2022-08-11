@@ -307,6 +307,13 @@
     prettier "2.7.1"
     yaml-eslint-parser "1.0.1"
 
+"@chiubaka/tsconfig@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@chiubaka/tsconfig/-/tsconfig-0.1.0.tgz#b9c52f5b5e74475c69d35a3a1f473df62ddf76cf"
+  integrity sha512-4QZP0T/g5gue6E4+CGZW6VSnzeIgU/LYBCoXXcpDgWakDJ1g1kB3TwzcMCbNv4EqKaYSBebw1uiHTn/E6IAskQ==
+  dependencies:
+    "@tsconfig/recommended" "^1.0.1"
+
 "@cspotcode/source-map-support@^0.8.0":
   version "0.8.1"
   resolved "https://registry.npmjs.org/@cspotcode/source-map-support/-/source-map-support-0.8.1.tgz"
@@ -915,6 +922,11 @@
   version "1.0.3"
   resolved "https://registry.npmjs.org/@tsconfig/node16/-/node16-1.0.3.tgz"
   integrity sha512-yOlFc+7UtL/89t2ZhjPvvB/DeAr3r+Dq58IgzsFkOAvVC6NMJXmCGjbptdXdR9qsX7pKcTL+s87FtYREi2dEEQ==
+
+"@tsconfig/recommended@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@tsconfig/recommended/-/recommended-1.0.1.tgz#7619bad397e06ead1c5182926c944e0ca6177f52"
+  integrity sha512-2xN+iGTbPBEzGSnVp/Hd64vKJCJWxsi9gfs88x4PPMyEjHJoA3o5BY9r5OLPHIZU2pAQxkSAsJFqn6itClP8mQ==
 
 "@types/babel__core@^7.0.0", "@types/babel__core@^7.1.14":
   version "7.1.19"
