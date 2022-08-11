@@ -15,7 +15,18 @@ export const toHaveFileWithContent = (
   // eslint-disable-next-line security/detect-non-literal-fs-filename
   expect(tree.exists(filePath)).toBe(true);
 
-  const fileContent = tree.read(filePath).toString();
+  const buffer = tree.read(filePath);
+
+  if (!buffer) {
+    return {
+      pass: false,
+      message: () => {
+        return `Unexpectedly received null when attempting to read ${filePath}`;
+      },
+    };
+  }
+
+  const fileContent = buffer.toString();
 
   if (options.exact) {
     expect(fileContent).toEqual(content);

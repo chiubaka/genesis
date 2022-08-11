@@ -15,7 +15,7 @@ describe("toBeNxTree", () => {
   });
 
   it("fails on an object missing the `root` property", () => {
-    delete tree.root;
+    delete (tree as Partial<Tree>).root;
 
     expect(() => {
       expect(tree).toBeNxTree();
@@ -25,7 +25,7 @@ describe("toBeNxTree", () => {
   });
 
   it("fails on an object missing the `read` function", () => {
-    tree.read = undefined;
+    (tree as Partial<Tree>).read = undefined;
 
     expect(() => {
       expect(tree).toBeNxTree();

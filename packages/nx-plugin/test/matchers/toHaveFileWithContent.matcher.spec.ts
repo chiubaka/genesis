@@ -52,4 +52,30 @@ describe("toHaveFileWithContent", () => {
       }).not.toThrow();
     });
   });
+
+  describe("when reading the file returns a null buffer", () => {
+    let readSpy: jest.SpyInstance;
+
+    beforeAll(() => {
+      readSpy = jest.spyOn(tree, "read").mockImplementation(() => {
+        // eslint-disable-next-line unicorn/no-null
+        return null;
+      });
+    });
+
+    afterAll(() => {
+      readSpy.mockRestore();
+    });
+
+    it("fails", () => {
+      expect(() => {
+        expect(tree).toHaveFileWithContent(
+          "foobar.txt",
+          "this file is just a bunch of foobar",
+        );
+      }).toThrow(
+        "Unexpectedly received null when attempting to read foobar.txt",
+      );
+    });
+  });
 });

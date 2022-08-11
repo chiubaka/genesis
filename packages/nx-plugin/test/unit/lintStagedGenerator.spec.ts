@@ -20,7 +20,7 @@ describe("lintStagedGenerator", () => {
     it("adds a lint:staged script", () => {
       const packageJson = readJson<PackageJson>(tree, "package.json");
 
-      expect(packageJson.scripts["lint:staged"]).toBe("lint-staged");
+      expect(packageJson.scripts?.["lint:staged"]).toBe("lint-staged");
     });
   });
 

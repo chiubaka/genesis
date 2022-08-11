@@ -25,12 +25,12 @@ export const toHaveFunctions = (
         },
       };
     }
-
-    return {
-      pass: true,
-      message: () => {
-        return `Expected value to have functions with names ${functionNames.toString()}`;
-      },
-    };
   }
+
+  return {
+    pass: true,
+    message: () => {
+      return `Expected value to have functions with names ${functionNames.toString()}`;
+    },
+  };
 };
