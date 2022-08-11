@@ -49,4 +49,10 @@ describe("preset generator", () => {
       expect(appTree.exists("codecov.yml")).toBe(true);
     });
   });
+
+  describe("CI", () => {
+    it("generates a .circleci/config.yml file", () => {
+      expect(appTree.exists(".circleci/config.yml")).toBe(true);
+    });
+  });
 });

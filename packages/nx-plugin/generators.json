@@ -3,6 +3,16 @@
   "name": "nx-plugin",
   "version": "0.0.1",
   "generators": {
+    "ci": {
+      "factory": "./src/generators/ci",
+      "schema": "./src/generators/ci/schema.json",
+      "description": "Generates CI configuration"
+    },
+    "circleci": {
+      "factory": "./src/generators/ci/circleci",
+      "schema": "./src/generators/ci/circleci/schema.json",
+      "description": "Generates CircleCI configuration"
+    },
     "codecov": {
       "factory": "./src/generators/testing/codecov",
       "schema": "./src/generators/testing/codecov/schema.json",

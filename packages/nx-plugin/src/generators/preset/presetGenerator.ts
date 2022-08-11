@@ -11,10 +11,11 @@ import { PackageJson as PackageJsonType } from "nx/src/utils/package-json";
 
 import PackageJson from "../../../package.json";
 import { exec } from "../../utils";
+import { ciGenerator } from "../ci";
 import { gitGenerator } from "../git";
 import { lintingGenerator } from "../linting";
 import { noOpTask } from "../tasks";
-import testingGenerator from "../testing";
+import { testingGenerator } from "../testing";
 import { tsconfigGenerator } from "../tsconfig";
 import { PresetGeneratorSchema } from "./presetGenerator.schema";
 
@@ -37,6 +38,7 @@ export async function presetGenerator(
   const tsconfigTask = tsconfigGenerator(tree);
   const lintingTask = lintingGenerator(tree, { packageManager: "yarn" });
   testingGenerator(tree);
+  ciGenerator(tree);
   const gitTask = setUpGit(tree);
 
   await formatFiles(tree);
