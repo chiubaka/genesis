@@ -145,4 +145,10 @@ describe("presetGenerator", () => {
       workspace.assert.fs.exists("codecov.yml");
     });
   });
+
+  describe("CI", () => {
+    it("generates a .circleci/config.yml file", () => {
+      workspace.assert.fs.exists(".circleci/config.yml");
+    });
+  });
 });
