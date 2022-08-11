@@ -6,8 +6,6 @@ import path from "node:path";
 
 import { startVerdaccio, TestingWorkspace } from "../utils";
 
-jest.setTimeout(20_000);
-
 describe("presetGenerator", () => {
   let verdaccioProcess: ChildProcess;
   let workspace: TestingWorkspace;

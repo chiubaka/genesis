@@ -1,7 +1,5 @@
 import { createTestingWorkspace, TestingWorkspace } from "../utils";
 
-jest.setTimeout(80_000);
-
 describe("lintingGenerator", () => {
   let workspace: TestingWorkspace;
 
