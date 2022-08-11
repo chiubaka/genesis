@@ -6,7 +6,7 @@
 [![codecov](https://codecov.io/gh/chiubaka/nx-plugin/branch/master/graph/badge.svg?token=RV9CfKz4GB)](https://codecov.io/gh/chiubaka/nx-plugin)
 
 This project contains packages and support tooling for @chiubaka/nx-plugin, which exists to help generate and customize
-Chiubaka Technologies monorepos.
+standard Chiubaka Technologies monorepos.
 
 ## Development
 
