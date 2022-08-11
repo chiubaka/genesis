@@ -2,6 +2,7 @@
   "extends": "@chiubaka/tsconfig",
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": ".",
     "paths": {
       "@chiubaka/nx-plugin": ["packages/nx-plugin/src/index.ts"],
       "@chiubaka/nx-plugin/utils": ["packages/nx-plugin/src/utils/index.ts"]

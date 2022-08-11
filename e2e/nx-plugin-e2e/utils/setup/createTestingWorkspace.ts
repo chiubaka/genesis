@@ -21,7 +21,7 @@ export const createTestingWorkspace = async (
   workspaceName: string,
   npmPackageName: string,
   distPath: string,
-  options?: TestingWorkspaceOptions,
+  options: TestingWorkspaceOptions = {},
 ): Promise<TestingWorkspace> => {
   const destination = path.join(e2eRootPath(), workspaceName);
   removeSync(destination);
