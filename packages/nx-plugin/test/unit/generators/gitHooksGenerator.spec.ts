@@ -2,7 +2,7 @@ import { readJson, Tree } from "@nrwl/devkit";
 import { createTreeWithEmptyWorkspace } from "@nrwl/devkit/testing";
 import { PackageJson } from "nx/src/utils/package-json";
 
-import { gitHooksGenerator } from "../../src/generators";
+import { gitHooksGenerator } from "../../../src/generators";
 
 describe("gitHooksGenerator", () => {
   let tree: Tree;
