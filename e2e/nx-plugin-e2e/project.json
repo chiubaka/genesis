@@ -10,9 +10,6 @@
         "jestConfig": "e2e/nx-plugin-e2e/jest.config.ts"
       }
     },
-    "build": {
-      "executor": "@chiubaka/nx-plugin:build"
-    },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
