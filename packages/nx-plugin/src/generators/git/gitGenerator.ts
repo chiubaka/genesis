@@ -1,5 +1,6 @@
 import { Tree } from "@nrwl/devkit";
 
+import { generatorLogger as logger } from "../../logger";
 import { exec } from "../../utils";
 import { noOpTask } from "../tasks";
 import { GitGeneratorSchema } from "./gitGenerator.schema";
@@ -17,6 +18,14 @@ import { gitHooksGenerator } from "./gitHooks";
  * @param tree the Nx file tree we are operating on
  */
 export function gitGenerator(tree: Tree, options: GitGeneratorSchema) {
+  logger.info(
+    `Generating git repo with options:\n${JSON.stringify(
+      options,
+      undefined,
+      2,
+    )}`,
+  );
+
   const initGitRepoTask = initGitRepo(tree);
   const gitHooksTask = options.skipGitHooks
     ? noOpTask
@@ -24,6 +33,8 @@ export function gitGenerator(tree: Tree, options: GitGeneratorSchema) {
   const createInitialCommitTask = createInitialCommit(tree, options);
 
   return async () => {
+    logger.info("Running post-processing tasks for git generator");
+
     await initGitRepoTask();
     await gitHooksTask();
     await createInitialCommitTask();
@@ -31,10 +42,12 @@ export function gitGenerator(tree: Tree, options: GitGeneratorSchema) {
 }
 
 function initGitRepo(tree: Tree) {
+  const cwd = tree.root;
+
   return async () => {
-    await exec("git init", {
-      cwd: tree.root,
-    });
+    logger.info(`Initializing git repo in ${cwd}`);
+
+    await exec("git init", { cwd });
   };
 }
 
@@ -56,6 +69,8 @@ function createInitialCommit(tree: Tree, options: GitGeneratorSchema) {
     : {};
 
   return async () => {
+    logger.info(`Creating initial commit with message "${commitMessage}"`);
+
     await exec("git add .", {
       cwd: tree.root,
     });
