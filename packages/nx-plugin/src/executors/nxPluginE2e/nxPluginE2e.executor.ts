@@ -39,12 +39,15 @@ async function* runBuildTarget(buildTarget: string, context: ExecutorContext) {
     target,
     context,
   );
+
   const targetSupportsWatch = Object.keys(buildTargetOptions).includes("watch");
   const outputPath = buildTargetOptions.outputPath;
 
   const overrides = targetSupportsWatch ? { watch: false } : {};
 
-  for await (const output of await runExecutor(target, overrides, context)) {
+  const executorResults = await runExecutor(target, overrides, context);
+
+  for await (const output of executorResults) {
     if (!output.success) {
       throw new Error("Could not compile application files.");
     }
