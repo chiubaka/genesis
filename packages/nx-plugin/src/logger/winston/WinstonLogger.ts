@@ -1,6 +1,7 @@
 import winston from "winston";
 
 import { Logger, LoggerOptions, LoggerOutputOptions } from "../Logger";
+import { NxLoggerTransport } from "./NxLoggerTransport";
 
 export class WinstonLogger extends Logger {
   private logger: winston.Logger;
@@ -41,7 +42,7 @@ export class WinstonLogger extends Logger {
     const transports = [];
 
     if (options.console) {
-      transports.push(new winston.transports.Console());
+      transports.push(new NxLoggerTransport());
     }
 
     if (options.file) {
