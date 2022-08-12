@@ -102,7 +102,7 @@ describe("nxPluginE2eExecutor", () => {
     );
 
     expect(execSync).toHaveBeenCalledTimes(1);
-    expect(execSync).toHaveBeenCalledWith("yarn install", {
+    expect(execSync).toHaveBeenCalledWith("yarn", {
       cwd: "dist/packages/nx-plugin",
     });
   });
@@ -146,6 +146,20 @@ describe("nxPluginE2eExecutor", () => {
   });
 
   describe("when packageManager option is set", () => {
-    it.todo("installs dependencies with the specified package manager");
+    it("installs dependencies with the specified package manager", async () => {
+      await nxPluginE2eExecutor(
+        {
+          target: "nx-plugin:build",
+          jestConfig: "./jest.config.ts",
+          packageManager: "npm",
+        },
+        mockContext,
+      );
+
+      expect(execSync).toHaveBeenCalledTimes(1);
+      expect(execSync).toHaveBeenCalledWith("npm install", {
+        cwd: "dist/packages/nx-plugin",
+      });
+    });
   });
 });

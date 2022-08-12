@@ -1,5 +1,6 @@
 import {
   ExecutorContext,
+  getPackageManagerCommand,
   logger,
   parseTargetString,
   readTargetOptions,
@@ -16,15 +17,11 @@ export async function nxPluginE2eExecutor(
   options: NxPluginE2eExecutorOptions,
   context: ExecutorContext,
 ) {
-  const { target, skipInstallDependencies, ...jestOptions } = options;
+  const { target, skipInstallDependencies: _, ...jestOptions } = options;
 
   let success!: boolean;
 
-  for await (const _ of runBuildTarget(
-    target,
-    context,
-    skipInstallDependencies,
-  )) {
+  for await (const _ of runBuildTarget(target, context, options)) {
     try {
       success = await runTests(jestOptions, context);
     } catch (error) {
@@ -39,7 +36,7 @@ export async function nxPluginE2eExecutor(
 async function* runBuildTarget(
   buildTarget: string,
   context: ExecutorContext,
-  skipInstallDependencies?: boolean,
+  options: NxPluginE2eExecutorOptions,
 ) {
   const target = parseTargetString(buildTarget);
 
@@ -60,10 +57,12 @@ async function* runBuildTarget(
       throw new Error("Could not compile application files.");
     }
 
-    if (!skipInstallDependencies) {
+    if (!options.skipInstallDependencies) {
       logger.info(`Installing dependencies for project "${target.project}"`);
 
-      execSync("yarn install", {
+      const pmc = getPackageManagerCommand(options.packageManager);
+
+      execSync(pmc.install, {
         cwd: outputPath,
       });
     }
