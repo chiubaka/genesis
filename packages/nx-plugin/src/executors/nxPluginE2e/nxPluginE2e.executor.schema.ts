@@ -3,4 +3,6 @@ import { NxPluginE2EExecutorOptions as BaseExecutorOptions } from "@nrwl/nx-plug
 
 export interface NxPluginE2eExecutorOptions
   extends BaseExecutorOptions,
-    Pick<JestExecutorOptions, "ci" | "runInBand" | "testNamePattern"> {}
+    Pick<JestExecutorOptions, "ci" | "runInBand" | "testNamePattern"> {
+  skipInstallDependencies?: boolean;
+}

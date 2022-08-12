@@ -8,6 +8,13 @@
       "description": "The build target for the Nx Plugin project.",
       "type": "string"
     },
+
+    "skipInstallDependencies": {
+      "description": "If true, will skip installing dependencies in built package directories before running tests",
+      "default": false,
+      "type": "boolean"
+    },
+
     "jestConfig": {
       "type": "string",
       "description": "Jest config file."

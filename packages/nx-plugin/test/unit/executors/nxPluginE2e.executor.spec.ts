@@ -131,7 +131,18 @@ describe("nxPluginE2eExecutor", () => {
   });
 
   describe("when skipInstallDependencies option is true", () => {
-    it.todo("doesn't install dependencies for build targets");
+    it("doesn't install dependencies for build targets", async () => {
+      await nxPluginE2eExecutor(
+        {
+          target: "nx-plugin:build",
+          jestConfig: "./jest.config.ts",
+          skipInstallDependencies: true,
+        },
+        mockContext,
+      );
+
+      expect(execSync).not.toHaveBeenCalled();
+    });
   });
 
   describe("when packageManager option is set", () => {

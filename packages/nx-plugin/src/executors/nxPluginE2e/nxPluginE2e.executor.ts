@@ -16,11 +16,15 @@ export async function nxPluginE2eExecutor(
   options: NxPluginE2eExecutorOptions,
   context: ExecutorContext,
 ) {
-  const { target, ...jestOptions } = options;
+  const { target, skipInstallDependencies, ...jestOptions } = options;
 
   let success!: boolean;
 
-  for await (const _ of runBuildTarget(target, context)) {
+  for await (const _ of runBuildTarget(
+    target,
+    context,
+    skipInstallDependencies,
+  )) {
     try {
       success = await runTests(jestOptions, context);
     } catch (error) {
@@ -32,7 +36,11 @@ export async function nxPluginE2eExecutor(
   return { success };
 }
 
-async function* runBuildTarget(buildTarget: string, context: ExecutorContext) {
+async function* runBuildTarget(
+  buildTarget: string,
+  context: ExecutorContext,
+  skipInstallDependencies?: boolean,
+) {
   const target = parseTargetString(buildTarget);
 
   const buildTargetOptions: BuildExecutorOptions = readTargetOptions(
@@ -52,11 +60,13 @@ async function* runBuildTarget(buildTarget: string, context: ExecutorContext) {
       throw new Error("Could not compile application files.");
     }
 
-    logger.info(`Installing dependencies for project "${target.project}"`);
+    if (!skipInstallDependencies) {
+      logger.info(`Installing dependencies for project "${target.project}"`);
 
-    execSync("yarn install", {
-      cwd: outputPath,
-    });
+      execSync("yarn install", {
+        cwd: outputPath,
+      });
+    }
 
     yield output.success;
   }
