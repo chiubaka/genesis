@@ -50,6 +50,7 @@ async function* runBuildTarget(buildTarget: string, context: ExecutorContext) {
     }
 
     logger.info(`Installing dependencies for project "${target.project}"`);
+
     execSync("yarn install", {
       cwd: outputPath,
     });
