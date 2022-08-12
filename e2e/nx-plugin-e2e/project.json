@@ -4,7 +4,7 @@
   "sourceRoot": "e2e/nx-plugin-e2e/src",
   "targets": {
     "e2e": {
-      "executor": "@nrwl/nx-plugin:e2e",
+      "executor": "@chiubaka/nx-plugin:nx-plugin-e2e",
       "options": {
         "target": "nx-plugin:build",
         "jestConfig": "e2e/nx-plugin-e2e/jest.config.ts"

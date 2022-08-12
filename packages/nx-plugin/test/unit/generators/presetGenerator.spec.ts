@@ -4,7 +4,7 @@ import { createTreeWithEmptyWorkspace } from "@nrwl/devkit/testing";
 import {
   presetGenerator,
   PresetGeneratorSchema,
-} from "../../src/generators/preset";
+} from "../../../src/generators/preset";
 
 describe("preset generator", () => {
   let appTree: Tree;

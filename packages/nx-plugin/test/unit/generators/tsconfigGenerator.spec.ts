@@ -1,7 +1,7 @@
 import { readJson, Tree } from "@nrwl/devkit";
 import { createTreeWithEmptyWorkspace } from "@nrwl/devkit/testing";
 
-import { tsconfigGenerator } from "../../src/generators";
+import { tsconfigGenerator } from "../../../src/generators";
 
 interface TsConfig {
   extends?: string;

@@ -11,5 +11,5 @@ export default {
     "^.+\\.[tj]s$": "ts-jest",
   },
   moduleFileExtensions: ["ts", "js", "html"],
-  coverageDirectory: "../../coverage/e2e/nx-plugin-e2e",
+  coverageDirectory: "../../reports/coverage/e2e/nx-plugin-e2e",
 };

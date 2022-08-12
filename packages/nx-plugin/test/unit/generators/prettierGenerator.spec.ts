@@ -1,7 +1,7 @@
 import { readJson, Tree } from "@nrwl/devkit";
 import { createTreeWithEmptyWorkspace } from "@nrwl/devkit/testing";
 
-import { PrettierConfig, prettierGenerator } from "../../src/generators";
+import { PrettierConfig, prettierGenerator } from "../../../src/generators";
 
 describe("prettierGenerator", () => {
   let tree: Tree;

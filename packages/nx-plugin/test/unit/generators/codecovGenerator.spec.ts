@@ -1,7 +1,7 @@
 import { Tree } from "@nrwl/devkit";
 import { createTreeWithEmptyWorkspace } from "@nrwl/devkit/testing";
 
-import { codecovGenerator } from "../../src/generators";
+import { codecovGenerator } from "../../../src/generators";
 
 describe("codecovGenerator", () => {
   let tree: Tree;
