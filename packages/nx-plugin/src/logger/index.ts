@@ -1,3 +1,6 @@
+import { workspaceRoot } from "@nrwl/devkit";
+import path from "node:path";
+
 import { Logger, LoggerOptions, LogLevel } from "./Logger";
 import { WinstonLogger } from "./winston";
 
@@ -12,7 +15,7 @@ export const createLogger = (
       console: true,
       file: [
         {
-          path: `${name}.log`,
+          path: path.join(workspaceRoot, `tmp/${name}.log`),
         },
       ],
       ...options.output,

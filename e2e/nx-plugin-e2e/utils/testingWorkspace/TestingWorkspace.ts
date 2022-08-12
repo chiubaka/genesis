@@ -54,10 +54,10 @@ export class TestingWorkspace extends AbstractTestingWorkspace {
       return;
     }
 
+    const pluginPath = `${pluginWorkspaceRoot}/${distPath}`;
+
     // eslint-disable-next-line security/detect-object-injection
-    json.devDependencies[
-      npmPackageName
-    ] = `file:${pluginWorkspaceRoot}/${distPath}`;
+    json.devDependencies[npmPackageName] = `file:${pluginPath}`;
 
     writeJsonFile(path, json);
   }
