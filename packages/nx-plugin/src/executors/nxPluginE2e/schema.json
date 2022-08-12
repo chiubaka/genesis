@@ -12,10 +12,20 @@
       "type": "string",
       "description": "Jest config file."
     },
-    "tsSpecConfig": {
-      "type": "string",
-      "description": "The tsconfig file for specs.",
-      "x-deprecated": "Use the `tsconfig` property for `ts-jest` in the e2e project `jest.config.js` file. It will be removed in the next major release."
+
+    "ci": {
+      "description": "Whether to run Jest in continuous integration (CI) mode. This option is on by default in most popular CI environments. It will prevent snapshots from being written unless explicitly requested. (https://jestjs.io/docs/cli#--ci)",
+      "type": "boolean"
+    },
+    "runInBand": {
+      "alias": "i",
+      "description": "Run all tests serially in the current process (rather than creating a worker pool of child processes that run tests). This is sometimes useful for debugging, but such use cases are pretty rare. Useful for CI. (https://jestjs.io/docs/cli#--runinband)",
+      "type": "boolean"
+    },
+    "testNamePattern": {
+      "alias": "t",
+      "description": "Run only tests with a name that matches the regex pattern. (https://jestjs.io/docs/cli#--testnamepatternregex)",
+      "type": "string"
     }
   },
   "additionalProperties": false,
