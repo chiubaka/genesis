@@ -30,7 +30,9 @@
   "license": "UNLICENSED",
   "dependencies": {
     "@swc/helpers": "~0.3.3",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "winston": "^3.8.1",
+    "winston-transport": "^4.5.0"
   },
   "devDependencies": {
     "@chiubaka/eslint-config": "^0.3.7",
@@ -70,8 +72,5 @@
     "verdaccio": "^5.14.0",
     "verdaccio-auth-memory": "^10.2.0",
     "verdaccio-memory": "^10.3.0"
-  },
-  "workspaces": [
-    "packages/*"
-  ]
+  }
 }
