@@ -2,8 +2,6 @@ import {
   formatFiles,
   generateFiles,
   getPackageManagerCommand,
-  getWorkspaceLayout,
-  names,
   readWorkspaceConfiguration,
   Tree,
   updateWorkspaceConfiguration,
@@ -22,13 +20,6 @@ import { testingGenerator } from "../testing";
 import { tsconfigGenerator } from "../tsconfig";
 import { PresetGeneratorSchema } from "./presetGenerator.schema";
 
-interface NormalizedSchema extends PresetGeneratorSchema {
-  projectName: string;
-  projectRoot: string;
-  projectDirectory: string;
-  parsedTags: string[];
-}
-
 export async function presetGenerator(
   tree: Tree,
   options: PresetGeneratorSchema,
@@ -41,8 +32,6 @@ export async function presetGenerator(
     )}`,
   );
 
-  options = normalizeOptions(tree, options);
-
   modifyWorkspaceLayout(tree);
 
   const installTask = reinstallPackagesWithYarn(tree, options);
@@ -51,8 +40,11 @@ export async function presetGenerator(
   testingGenerator(tree);
   ciGenerator(tree);
   const gitTask = setUpGit(tree);
+  moveWorkspace(tree, options);
 
   await formatFiles(tree);
+
+  tree.write("preset-options.json", JSON.stringify(options));
 
   return async () => {
     logger.info("Running post-processing tasks for preset generator");
@@ -61,29 +53,6 @@ export async function presetGenerator(
     await tsconfigTask();
     await lintingTask();
     await gitTask();
-  };
-}
-
-function normalizeOptions(
-  tree: Tree,
-  options: PresetGeneratorSchema,
-): NormalizedSchema {
-  const name = names(options.name).fileName;
-  const projectDirectory = options.directory
-    ? `${names(options.directory).fileName}/${name}`
-    : name;
-  const projectName = projectDirectory.replace(new RegExp("/", "g"), "-");
-  const projectRoot = `${getWorkspaceLayout(tree).libsDir}/${projectDirectory}`;
-  const parsedTags = options.tags
-    ? options.tags.split(",").map((s) => s.trim())
-    : [];
-
-  return {
-    ...options,
-    projectName,
-    projectRoot,
-    projectDirectory,
-    parsedTags,
   };
 }
 
@@ -142,4 +111,11 @@ function setUpGit(tree: Tree) {
     preCommitCommand: "yarn lint:staged",
     prePushCommand: "nx affected --target=test",
   });
+}
+
+function moveWorkspace(tree: Tree, options: PresetGeneratorSchema) {
+  const dir = path.dirname(tree.root);
+  const workspaceRoot = path.join(dir, options.workspaceName);
+
+  tree.root = workspaceRoot;
 }

@@ -5,7 +5,7 @@
   "title": "",
   "type": "object",
   "properties": {
-    "name": {
+    "workspaceName": {
       "type": "string",
       "description": "",
       "$default": {
@@ -13,17 +13,7 @@
         "index": 0
       },
       "x-prompt": "What name would you like to use?"
-    },
-    "tags": {
-      "type": "string",
-      "description": "Add tags to the project (used for linting)",
-      "alias": "t"
-    },
-    "directory": {
-      "type": "string",
-      "description": "A directory where the project is placed",
-      "alias": "d"
     }
   },
-  "required": ["name"]
+  "required": ["workspaceName"]
 }

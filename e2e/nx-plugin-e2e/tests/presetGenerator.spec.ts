@@ -24,13 +24,14 @@ describe("presetGenerator", () => {
       cwd: path.join(__dirname, "../../../dist/packages/nx-plugin"),
     });
 
+    const workspaceScope = "chiubaka";
     const workspaceName = "preset";
 
     const tmpDir = path.join(os.tmpdir(), uniq(workspaceName));
     ensureDirSync(tmpDir);
 
     execSync(
-      `npm_config_registry=${verdaccio.url} npx create-nx-workspace ${workspaceName} --preset=@chiubaka/nx-plugin --nxCloud=false`,
+      `npm_config_registry=${verdaccio.url} npx create-nx-workspace ${workspaceScope} --preset=@chiubaka/nx-plugin --nxCloud=false --workspaceName=${workspaceName}`,
       {
         // Create the workspace in tmp dir then copy it into project tmp dir to allow for git initialization which
         // is important for some of our generators
@@ -54,6 +55,12 @@ describe("presetGenerator", () => {
     await workspace.execNx("reset");
 
     verdaccioProcess.kill();
+  });
+
+  it("should create a workspace root directory matching name option, not org scope", () => {
+    const workspaceName = path.basename(workspace.getRoot());
+
+    expect(workspaceName).toBe("preset");
   });
 
   it("should not create an apps dir", () => {

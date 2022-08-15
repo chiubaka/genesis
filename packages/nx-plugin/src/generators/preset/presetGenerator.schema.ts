@@ -1,6 +1,4 @@
 export interface PresetGeneratorSchema {
-  name: string;
+  workspaceName: string;
   skipInstall?: boolean;
-  tags?: string;
-  directory?: string;
 }
