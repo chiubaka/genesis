@@ -7,13 +7,9 @@
     "deploy:ci": "yarn deploy"
   },
   "dependencies": {
+    "tslib": "^2.3.0",
     "winston": "^3.8.1",
     "winston-transport": "^4.5.0"
-  },
-  "devDependencies": {
-    "@types/eslint": "^8.4.5",
-    "@types/jest": "^28.1.6",
-    "jest": "^28.1.3"
   },
   "generators": "./generators.json",
   "executors": "./executors.json"
