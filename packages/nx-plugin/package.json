@@ -6,6 +6,10 @@
     "deploy": "npm publish --access public",
     "deploy:ci": "yarn deploy"
   },
+  "dependencies": {
+    "winston": "^3.8.1",
+    "winston-transport": "^4.5.0"
+  },
   "devDependencies": {
     "@types/eslint": "^8.4.5",
     "@types/jest": "^28.1.6",

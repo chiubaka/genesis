@@ -7,22 +7,46 @@ import {
 import path from "node:path";
 import { PackageJson } from "nx/src/utils/package-json";
 
+import { generatorLogger as logger } from "../../../logger";
+
 export function lintStagedGenerator(tree: Tree) {
-  const templatesPath = path.join(__dirname, "./files");
+  logger.info("Generating lint-staged setup");
 
-  generateFiles(tree, templatesPath, ".", {});
-
+  copyConfigTemplate(tree);
   const installDependenciesTask = installDependencies(tree);
   installScripts(tree);
 
-  return installDependenciesTask;
+  return async () => {
+    logger.info("Running post-processing tasks for lint-staged generator");
+
+    await installDependenciesTask();
+  };
+}
+
+function copyConfigTemplate(tree: Tree) {
+  logger.info("Copying .lintstagedrc.yml template");
+
+  const templatesPath = path.join(__dirname, "./files");
+  generateFiles(tree, templatesPath, ".", {});
 }
 
 function installDependencies(tree: Tree) {
-  return addDependenciesToPackageJson(tree, {}, { "lint-staged": "latest" });
+  const installTask = addDependenciesToPackageJson(
+    tree,
+    {},
+    { "lint-staged": "latest" },
+  );
+
+  return async () => {
+    logger.info("Installing new dependencies for lint-staged generator");
+
+    await installTask();
+  };
 }
 
 function installScripts(tree: Tree) {
+  logger.info("Adding lint-staged scripts to package.json");
+
   updateJson<PackageJson>(tree, "package.json", (json) => {
     if (!json.scripts) {
       json.scripts = {};
