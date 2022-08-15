@@ -14,7 +14,8 @@ describe("presetGenerator", () => {
     const verdaccio = await startVerdaccio();
     verdaccioProcess = verdaccio.process;
 
-    execSync(`yarn config set registry ${verdaccio.url}`);
+    execSync(`yarn config set npmRegistryServer ${verdaccio.url}`);
+    execSync(`yarn config set unsafeHttpWhitelist [localhost]`);
 
     execSync(
       `npx npm-cli-login -u chiubaka -p test -e test@chiubaka.com -r ${verdaccio.url}`,
@@ -47,9 +48,10 @@ describe("presetGenerator", () => {
   });
 
   afterAll(async () => {
-    await workspace.execNx("reset");
+    execSync(`yarn config set npmRegistryServer https://registry.yarnpkg.com`);
+    execSync(`yarn config set unsafeHttpWhitelist []`);
 
-    execSync(`yarn config set registry https://registry.yarnpkg.com`);
+    await workspace.execNx("reset");
 
     verdaccioProcess.kill();
   });
@@ -61,6 +63,17 @@ describe("presetGenerator", () => {
   describe("package manager", () => {
     it("should install packages with yarn", () => {
       workspace.assert.fs.exists("yarn.lock");
+    });
+
+    it("should install packages with yarn v3", () => {
+      workspace.assert.fs.fileContents(".yarnrc.yml", ".yarn/releases/yarn-3.");
+    });
+
+    it("should continue to use the yarn v3 node-modules nodeLinker for compatibility", () => {
+      workspace.assert.fs.fileContents(
+        ".yarnrc.yml",
+        "nodeLinker: node-modules",
+      );
     });
 
     it("should not install packages with npm", () => {

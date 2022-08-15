@@ -38,6 +38,8 @@ async function* runBuildTarget(
   context: ExecutorContext,
   options: NxPluginE2eExecutorOptions,
 ) {
+  const { skipInstallDependencies, packageManager } = options;
+
   const target = parseTargetString(buildTarget);
 
   const buildTargetOptions: BuildExecutorOptions = readTargetOptions(
@@ -57,10 +59,18 @@ async function* runBuildTarget(
       throw new Error("Could not compile application files.");
     }
 
-    if (!options.skipInstallDependencies) {
+    if (!skipInstallDependencies) {
       logger.info(`Installing dependencies for project "${target.project}"`);
 
-      const pmc = getPackageManagerCommand(options.packageManager);
+      const pmc = getPackageManagerCommand(packageManager);
+
+      if (packageManager === "yarn") {
+        // Yarn v3 requires an empty yarn.lock to install and treat this as a separate workspace
+        // from the parent workspace
+        execSync("touch yarn.lock", {
+          cwd: outputPath,
+        });
+      }
 
       execSync(pmc.install, {
         cwd: outputPath,
