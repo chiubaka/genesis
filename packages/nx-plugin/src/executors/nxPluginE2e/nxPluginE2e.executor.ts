@@ -72,7 +72,12 @@ async function* runBuildTarget(
         });
       }
 
-      execSync(pmc.install, {
+      const command =
+        packageManager === "yarn"
+          ? `${pmc.install} --no-immutable`
+          : pmc.install;
+
+      execSync(command, {
         cwd: outputPath,
       });
     }
