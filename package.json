@@ -19,7 +19,6 @@
     "lint:packages": "nx run-many --target=lint --all",
     "lint:root": "yarn eslint .",
     "lint:staged": "lint-staged",
-    "postinstall": "rm -rf ./node_modules/@chiubaka/nx-plugin",
     "prepare": "husky install",
     "start": "nx serve",
     "test": "nx test",
@@ -72,8 +71,10 @@
     "verdaccio-auth-memory": "^10.2.0",
     "verdaccio-memory": "^10.3.0"
   },
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
   "packageManager": "yarn@3.2.2"
 }
