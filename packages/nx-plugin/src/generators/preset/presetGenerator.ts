@@ -40,11 +40,8 @@ export async function presetGenerator(
   testingGenerator(tree);
   ciGenerator(tree);
   const gitTask = setUpGit(tree);
-  moveWorkspace(tree, options);
 
   await formatFiles(tree);
-
-  tree.write("preset-options.json", JSON.stringify(options));
 
   return async () => {
     logger.info("Running post-processing tasks for preset generator");
@@ -111,11 +108,4 @@ function setUpGit(tree: Tree) {
     preCommitCommand: "yarn lint:staged",
     prePushCommand: "nx affected --target=test",
   });
-}
-
-function moveWorkspace(tree: Tree, options: PresetGeneratorSchema) {
-  const dir = path.dirname(tree.root);
-  const workspaceRoot = path.join(dir, options.workspaceName);
-
-  tree.root = workspaceRoot;
 }

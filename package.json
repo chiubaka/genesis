@@ -8,6 +8,7 @@
     "build:ci": "yarn build:affected --base=$NX_BASE --head=$NX_HEAD",
     "deploy": "nx deploy",
     "deploy:ci": "nx deploy:ci",
+    "deploy:genesis:local": "./scripts/deployGenesisLocal.sh",
     "deploy:preset:local": "./scripts/deployPresetLocal.sh",
     "lint": "nx lint",
     "lint:affected": "nx affected --target=lint",

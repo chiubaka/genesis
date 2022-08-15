@@ -6,6 +6,7 @@
     "rootDir": ".",
 
     "paths": {
+      "@chiubaka/genesis": ["packages/nx-plugin/bin/index.ts"],
       "@chiubaka/nx-plugin": ["packages/nx-plugin/src/index.ts"],
       "@chiubaka/nx-plugin/utils": ["packages/nx-plugin/src/utils/index.ts"]
     }
