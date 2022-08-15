@@ -1,5 +1,6 @@
 import {
   formatFiles,
+  generateFiles,
   getPackageManagerCommand,
   getWorkspaceLayout,
   names,
@@ -7,6 +8,7 @@ import {
   Tree,
   updateWorkspaceConfiguration,
 } from "@nrwl/devkit";
+import path from "node:path";
 import { PackageJson as PackageJsonType } from "nx/src/utils/package-json";
 
 import PackageJson from "../../../package.json";
@@ -113,13 +115,18 @@ function reinstallPackagesWithYarn(tree: Tree, options: PresetGeneratorSchema) {
   }
 
   tree.delete("package-lock.json");
+  generateFiles(tree, path.join(__dirname, "./files"), ".", {});
 
   const pmc = getPackageManagerCommand("yarn");
 
   return async () => {
     logger.info("Reinstalling packages with yarn");
 
-    await exec(pmc.install, {
+    await exec(`yarn set version berry`, {
+      cwd: tree.root,
+    });
+
+    await exec(`${pmc.install} --no-immutable`, {
       cwd: tree.root,
     });
   };
