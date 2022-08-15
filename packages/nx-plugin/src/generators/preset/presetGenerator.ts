@@ -122,7 +122,7 @@ function reinstallPackagesWithYarn(tree: Tree, options: PresetGeneratorSchema) {
   return async () => {
     logger.info("Reinstalling packages with yarn");
 
-    await exec(`${pmc.exec} set version berry`, {
+    await exec(`yarn set version berry`, {
       cwd: tree.root,
     });
 
