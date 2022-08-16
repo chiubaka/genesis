@@ -1,10 +1,4 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "executors": {
-    "nx-plugin-e2e": {
-      "implementation": "./src/executors/nxPluginE2e",
-      "schema": "./src/executors/nxPluginE2e/schema.json",
-      "description": "Sets up the E2E testing environment for an nx-plugin"
-    }
-  }
+  "executors": {}
 }
