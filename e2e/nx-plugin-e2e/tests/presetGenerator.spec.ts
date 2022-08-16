@@ -4,7 +4,7 @@ import { ensureDirSync, moveSync, removeSync } from "fs-extra";
 import os from "node:os";
 import path from "node:path";
 
-describe("presetGenerator", () => {
+describe.skip("presetGenerator", () => {
   let verdaccio: Verdaccio;
   let workspace: TestingWorkspace;
 
