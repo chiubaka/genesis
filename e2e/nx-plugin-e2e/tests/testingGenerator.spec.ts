@@ -1,4 +1,7 @@
-import { createTestingWorkspace, TestingWorkspace } from "../utils";
+import {
+  createTestingWorkspace,
+  TestingWorkspace,
+} from "@chiubaka/nx-plugin-testing";
 
 describe("testingGenerator", () => {
   let workspace: TestingWorkspace;

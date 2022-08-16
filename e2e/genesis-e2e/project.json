@@ -1,23 +1,23 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "sourceRoot": "e2e/nx-plugin-e2e/tests",
+  "sourceRoot": "e2e/genesis-e2e/tests",
   "targets": {
     "e2e": {
       "executor": "@chiubaka/nx-plugin:nx-plugin-e2e",
       "options": {
-        "target": "nx-plugin:build",
-        "jestConfig": "e2e/nx-plugin-e2e/jest.config.ts"
+        "target": "genesis:build",
+        "jestConfig": "e2e/genesis-e2e/jest.config.ts"
       }
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["e2e/nx-plugin-e2e"]
+        "lintFilePatterns": ["e2e/genesis-e2e"]
       }
     }
   },
   "tags": [],
-  "implicitDependencies": ["nx-plugin"]
+  "implicitDependencies": ["genesis", "nx-plugin"]
 }

@@ -1,34 +1,34 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/genesis/bin",
-  "projectType": "application",
+  "sourceRoot": "packages/nx-plugin-testing/src",
+  "projectType": "library",
   "targets": {
     "build": {
       "executor": "@nrwl/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/packages/genesis",
-        "main": "packages/genesis/bin/index.ts",
-        "tsConfig": "packages/genesis/tsconfig.lib.json",
+        "outputPath": "dist/packages/nx-plugin-testing",
+        "main": "packages/nx-plugin-testing/bin/index.ts",
+        "tsConfig": "packages/nx-plugin-testing/tsconfig.lib.json",
         "assets": [
-          "packages/genesis/*.md",
+          "packages/nx-plugin-testing/*.md",
           {
-            "input": "./packages/genesis/bin",
+            "input": "./packages/nx-plugin-testing/bin",
             "glob": "**/!(*.ts)",
             "output": "./bin"
           },
           {
-            "input": "./packages/genesis/src",
+            "input": "./packages/nx-plugin-testing/src",
             "glob": "**/*.d.ts",
             "output": "./src"
           },
           {
-            "input": "./packages/genesis",
+            "input": "./packages/nx-plugin-testing",
             "glob": "generators.json",
             "output": "."
           },
           {
-            "input": "./packages/genesis",
+            "input": "./packages/nx-plugin-testing",
             "glob": "executors.json",
             "output": "."
           }
@@ -39,14 +39,14 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/genesis"]
+        "lintFilePatterns": ["packages/nx-plugin-testing"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/genesis"],
+      "outputs": ["coverage/packages/nx-plugin-testing"],
       "options": {
-        "jestConfig": "packages/genesis/jest.config.ts",
+        "jestConfig": "packages/nx-plugin-testing/jest.config.ts",
         "passWithNoTests": true
       }
     }

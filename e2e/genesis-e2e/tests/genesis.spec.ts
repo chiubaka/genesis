@@ -4,7 +4,7 @@ import { ensureDirSync, moveSync, removeSync } from "fs-extra";
 import os from "node:os";
 import path from "node:path";
 
-describe("presetGenerator", () => {
+describe("genesis", () => {
   let verdaccio: Verdaccio;
   let workspace: TestingWorkspace;
 
@@ -12,15 +12,19 @@ describe("presetGenerator", () => {
     verdaccio = new Verdaccio();
     await verdaccio.start();
 
-    verdaccio.publish(path.join(__dirname, "../../../dist/packages/nx-plugin"));
+    const distPackagesDir = path.join(__dirname, "../../../dist/packages");
 
-    const workspaceName = "preset";
+    verdaccio.publish(path.join(distPackagesDir, "genesis"));
+    verdaccio.publish(path.join(distPackagesDir, "nx-plugin"));
+
+    const workspaceScope = "chiubaka";
+    const workspaceName = "genesis";
 
     const tmpDir = path.join(os.tmpdir(), uniq(workspaceName));
     ensureDirSync(tmpDir);
 
     verdaccio.npx(
-      `create-nx-workspace ${workspaceName} --preset=@chiubaka/nx-plugin --nxCloud=false`,
+      `genesis --workspace-scope=${workspaceScope} --workspace-name=${workspaceName} --registry=${verdaccio.getUrl()}`,
       tmpDir,
     );
 
@@ -37,6 +41,12 @@ describe("presetGenerator", () => {
     await workspace.execNx("reset");
 
     verdaccio.stop();
+  });
+
+  it("should create a workspace root directory matching name option, not org scope", () => {
+    const workspaceName = path.basename(workspace.getRoot());
+
+    expect(workspaceName).toBe("genesis");
   });
 
   it("should not create an apps dir", () => {

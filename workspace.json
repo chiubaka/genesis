@@ -3,7 +3,9 @@
   "version": 2,
   "projects": {
     "genesis": "packages/genesis",
+    "genesis-e2e": "e2e/genesis-e2e",
     "nx-plugin": "packages/nx-plugin",
-    "nx-plugin-e2e": "e2e/nx-plugin-e2e"
+    "nx-plugin-e2e": "e2e/nx-plugin-e2e",
+    "nx-plugin-testing": "packages/nx-plugin-testing"
   }
 }

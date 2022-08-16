@@ -1,5 +1,5 @@
 export default {
-  displayName: "genesis",
+  displayName: "nx-plugin-testing",
   preset: "../../jest.preset.js",
   globals: {
     "ts-jest": {
@@ -10,7 +10,7 @@ export default {
     "^.+\\.[tj]s$": "ts-jest",
   },
   moduleFileExtensions: ["ts", "js", "html"],
-  coverageDirectory: "../../reports/coverage/packages/genesis",
+  coverageDirectory: "../../reports/coverage/packages/nx-plugin-testing",
   reporters: [
     "default",
     [
@@ -19,7 +19,7 @@ export default {
         addFileAttribute: "true",
         classNameTemplate: "{suitename}",
         outputDirectory: "reports/junit",
-        outputName: "genesis.xml",
+        outputName: "nx-plugin-testing.xml",
       },
     ],
   ],
