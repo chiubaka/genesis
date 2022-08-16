@@ -1,4 +1,3 @@
-import { exec } from "@chiubaka/nx-plugin/utils";
 import {
   detectPackageManager,
   getPackageManagerCommand,
@@ -6,11 +5,15 @@ import {
   workspaceRoot as pluginWorkspaceRoot,
   writeJsonFile,
 } from "@nrwl/devkit";
+import { exec as nodeExec } from "node:child_process";
 import { rmSync } from "node:fs";
 import path from "node:path";
+import { promisify } from "node:util";
 import { PackageJson } from "nx/src/utils/package-json";
 
 import { AbstractTestingWorkspace } from "./AbstractTestingWorkspace";
+
+const exec = promisify(nodeExec);
 
 export class TestingWorkspace extends AbstractTestingWorkspace {
   constructor(rootPath: string) {

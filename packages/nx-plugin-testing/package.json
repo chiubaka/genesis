@@ -1,0 +1,30 @@
+{
+  "name": "nx-plugin-testing",
+  "version": "0.0.1",
+  "description": "Utilities for testing Nx plugins",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/chiubaka/nx-plugin.git"
+  },
+  "keywords": [
+    "nx",
+    "nx-plugin",
+    "testing",
+    "e2e"
+  ],
+  "author": "Daniel Chiu <daniel@chiubaka.com>",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/chiubaka/nx-plugin/issues"
+  },
+  "homepage": "https://github.com/chiubaka/nx-plugin#readme",
+  "dependencies": {
+    "@nrwl/devkit": "^14.5.6",
+    "nx": "^14.5.6",
+    "portfinder": "^1.0.32"
+  }
+}

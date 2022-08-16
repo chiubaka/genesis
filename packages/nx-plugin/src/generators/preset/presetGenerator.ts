@@ -2,8 +2,6 @@ import {
   formatFiles,
   generateFiles,
   getPackageManagerCommand,
-  getWorkspaceLayout,
-  names,
   readWorkspaceConfiguration,
   Tree,
   updateWorkspaceConfiguration,
@@ -22,13 +20,6 @@ import { testingGenerator } from "../testing";
 import { tsconfigGenerator } from "../tsconfig";
 import { PresetGeneratorSchema } from "./presetGenerator.schema";
 
-interface NormalizedSchema extends PresetGeneratorSchema {
-  projectName: string;
-  projectRoot: string;
-  projectDirectory: string;
-  parsedTags: string[];
-}
-
 export async function presetGenerator(
   tree: Tree,
   options: PresetGeneratorSchema,
@@ -40,8 +31,6 @@ export async function presetGenerator(
       2,
     )}`,
   );
-
-  options = normalizeOptions(tree, options);
 
   modifyWorkspaceLayout(tree);
 
@@ -61,29 +50,6 @@ export async function presetGenerator(
     await tsconfigTask();
     await lintingTask();
     await gitTask();
-  };
-}
-
-function normalizeOptions(
-  tree: Tree,
-  options: PresetGeneratorSchema,
-): NormalizedSchema {
-  const name = names(options.name).fileName;
-  const projectDirectory = options.directory
-    ? `${names(options.directory).fileName}/${name}`
-    : name;
-  const projectName = projectDirectory.replace(new RegExp("/", "g"), "-");
-  const projectRoot = `${getWorkspaceLayout(tree).libsDir}/${projectDirectory}`;
-  const parsedTags = options.tags
-    ? options.tags.split(",").map((s) => s.trim())
-    : [];
-
-  return {
-    ...options,
-    projectName,
-    projectRoot,
-    projectDirectory,
-    parsedTags,
   };
 }
 

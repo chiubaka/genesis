@@ -8,7 +8,9 @@ import {
 
 describe("preset generator", () => {
   let appTree: Tree;
-  const options: PresetGeneratorSchema = { name: "test", skipInstall: true };
+  const options: PresetGeneratorSchema = {
+    skipInstall: true,
+  };
 
   beforeAll(async () => {
     appTree = createTreeWithEmptyWorkspace();

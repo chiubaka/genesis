@@ -1,0 +1,55 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/genesis/bin",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/genesis",
+        "main": "packages/genesis/bin/index.ts",
+        "tsConfig": "packages/genesis/tsconfig.lib.json",
+        "assets": [
+          "packages/genesis/*.md",
+          {
+            "input": "./packages/genesis/bin",
+            "glob": "**/!(*.ts)",
+            "output": "./bin"
+          },
+          {
+            "input": "./packages/genesis/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/genesis",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "./packages/genesis",
+            "glob": "executors.json",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/genesis"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/genesis"],
+      "options": {
+        "jestConfig": "packages/genesis/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

@@ -1,9 +1,10 @@
-import { TestingWorkspace } from "@chiubaka/nx-plugin-testing";
 import { tmpProjPath, uniq } from "@nrwl/nx-plugin/testing";
 import { moveSync, removeSync } from "fs-extra";
 import { execSync } from "node:child_process";
 import os from "node:os";
 import path from "node:path";
+
+import { TestingWorkspace } from "../testingWorkspace";
 
 interface TestingWorkspaceOptions {
   skipInstall?: boolean;

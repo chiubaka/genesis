@@ -1,41 +1,31 @@
+import { TestingWorkspace, Verdaccio } from "@chiubaka/nx-plugin-testing";
 import { tmpProjPath, uniq } from "@nrwl/nx-plugin/testing";
 import { ensureDirSync, moveSync, removeSync } from "fs-extra";
-import { ChildProcess, execSync } from "node:child_process";
 import os from "node:os";
 import path from "node:path";
 
-import { startVerdaccio, TestingWorkspace } from "../utils";
-
-describe("presetGenerator", () => {
-  let verdaccioProcess: ChildProcess;
+describe("genesis", () => {
+  let verdaccio: Verdaccio;
   let workspace: TestingWorkspace;
 
   beforeAll(async () => {
-    const verdaccio = await startVerdaccio();
-    verdaccioProcess = verdaccio.process;
+    verdaccio = new Verdaccio();
+    await verdaccio.start();
 
-    execSync(`yarn config set npmRegistryServer ${verdaccio.url}`);
-    execSync(`yarn config set unsafeHttpWhitelist [localhost]`);
+    const distPackagesDir = path.join(__dirname, "../../../dist/packages");
 
-    execSync(
-      `npx npm-cli-login -u chiubaka -p test -e test@chiubaka.com -r ${verdaccio.url}`,
-    );
-    execSync(`npm publish --registry=${verdaccio.url}`, {
-      cwd: path.join(__dirname, "../../../dist/packages/nx-plugin"),
-    });
+    verdaccio.publish(path.join(distPackagesDir, "genesis"));
+    verdaccio.publish(path.join(distPackagesDir, "nx-plugin"));
 
-    const workspaceName = "preset";
+    const workspaceScope = "chiubaka";
+    const workspaceName = "genesis";
 
     const tmpDir = path.join(os.tmpdir(), uniq(workspaceName));
     ensureDirSync(tmpDir);
 
-    execSync(
-      `npm_config_registry=${verdaccio.url} npx create-nx-workspace ${workspaceName} --preset=@chiubaka/nx-plugin --nxCloud=false`,
-      {
-        // Create the workspace in tmp dir then copy it into project tmp dir to allow for git initialization which
-        // is important for some of our generators
-        cwd: tmpDir,
-      },
+    verdaccio.npx(
+      `genesis --workspace-scope=${workspaceScope} --workspace-name=${workspaceName} --registry=${verdaccio.getUrl()}`,
+      tmpDir,
     );
 
     const tmpDestination = path.join(tmpDir, workspaceName);
@@ -48,12 +38,15 @@ describe("presetGenerator", () => {
   });
 
   afterAll(async () => {
-    execSync(`yarn config set npmRegistryServer https://registry.yarnpkg.com`);
-    execSync(`yarn config set unsafeHttpWhitelist []`);
-
     await workspace.execNx("reset");
 
-    verdaccioProcess.kill();
+    verdaccio.stop();
+  });
+
+  it("should create a workspace root directory matching name option, not org scope", () => {
+    const workspaceName = path.basename(workspace.getRoot());
+
+    expect(workspaceName).toBe("genesis");
   });
 
   it("should not create an apps dir", () => {
