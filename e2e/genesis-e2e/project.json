@@ -4,11 +4,13 @@
   "sourceRoot": "e2e/genesis-e2e/tests",
   "targets": {
     "e2e": {
-      "executor": "@chiubaka/nx-plugin:nx-plugin-e2e",
+      "dependsOn": [{ "target": "build", "projects": "dependencies" }],
+      "executor": "@nrwl/jest:jest",
       "options": {
-        "target": "genesis:build",
-        "jestConfig": "e2e/genesis-e2e/jest.config.ts"
-      }
+        "jestConfig": "e2e/genesis-e2e/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "outputs": ["coverage/e2e/genesis-e2e"]
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
@@ -19,5 +21,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["genesis", "nx-plugin"]
+  "implicitDependencies": ["genesis"]
 }
