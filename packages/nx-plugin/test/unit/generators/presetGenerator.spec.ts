@@ -1,6 +1,5 @@
 import { NxJsonConfiguration, readJson, Tree } from "@nrwl/devkit";
 import { createTreeWithEmptyWorkspace } from "@nrwl/devkit/testing";
-import path from "node:path";
 
 import {
   presetGenerator,
@@ -10,7 +9,6 @@ import {
 describe("preset generator", () => {
   let appTree: Tree;
   const options: PresetGeneratorSchema = {
-    workspaceName: "test",
     skipInstall: true,
   };
 
@@ -19,10 +17,6 @@ describe("preset generator", () => {
     appTree.write("apps/.gitkeep", "");
     appTree.write("libs/.gitkeep", "");
     await presetGenerator(appTree, options);
-  });
-
-  it("should create a workspace matching the given name", () => {
-    expect(path.basename(appTree.root)).toBe("test");
   });
 
   describe("workspace layout", () => {
