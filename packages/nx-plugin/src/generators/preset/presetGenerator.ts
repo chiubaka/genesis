@@ -40,7 +40,7 @@ export async function presetGenerator(
   testingGenerator(tree);
   ciGenerator(tree);
   readmeGenerator(tree, options);
-  const gitTask = setUpGit(tree);
+  const gitTask = await setUpGit(tree);
 
   await formatFiles(tree);
 

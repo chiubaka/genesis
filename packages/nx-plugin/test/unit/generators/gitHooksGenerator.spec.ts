@@ -8,9 +8,9 @@ import { DEFAULT_MOCK_INSTALLED_PACKAGE_VERSION } from "../../mocks";
 describe("gitHooksGenerator", () => {
   let tree: Tree;
 
-  beforeAll(() => {
+  beforeAll(async () => {
     tree = createTreeWithEmptyWorkspace();
-    gitHooksGenerator(tree, {
+    await gitHooksGenerator(tree, {
       preCommitCommand: "yarn run lint:staged",
       prePushCommand: "nx affected --target=test",
     });
