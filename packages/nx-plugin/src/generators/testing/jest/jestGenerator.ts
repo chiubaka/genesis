@@ -34,5 +34,5 @@ async function installDependencies(tree: Tree) {
 function copyConfigTemplates(tree: Tree) {
   logger.info("Copying Jest configuration templates");
 
-  generateFiles(tree, path.join(__dirname, "./files"), ".", {});
+  generateFiles(tree, path.join(__dirname, "./files"), ".", { template: "" });
 }

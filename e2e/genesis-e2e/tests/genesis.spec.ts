@@ -160,6 +160,14 @@ describe("genesis", () => {
     it("generates a Codecov configuration file", () => {
       workspace.assert.fs.exists("codecov.yml");
     });
+
+    it("generates a jest.config.ts file", () => {
+      workspace.assert.fs.exists("jest.config.ts");
+    });
+
+    it("generates a jest.preset.js file", () => {
+      workspace.assert.fs.exists("jest.preset.js");
+    });
   });
 
   describe("CI", () => {
