@@ -1,5 +1,4 @@
 import {
-  addDependenciesToPackageJson,
   generateFiles,
   getPackageManagerCommand,
   Tree,
@@ -9,10 +8,13 @@ import path from "node:path";
 import { PackageJson } from "nx/src/utils/package-json";
 
 import { generatorLogger as logger } from "../../../logger";
-import { exec } from "../../../utils";
+import { addDependenciesToPackageJson, exec } from "../../../utils";
 import { EsLintGeneratorSchema } from "./eslintGenerator.schema";
 
-export function eslintGenerator(tree: Tree, options: EsLintGeneratorSchema) {
+export async function eslintGenerator(
+  tree: Tree,
+  options: EsLintGeneratorSchema,
+) {
   logger.info(
     `Generating ESLint setup with options:\n${JSON.stringify(
       options,
@@ -22,7 +24,7 @@ export function eslintGenerator(tree: Tree, options: EsLintGeneratorSchema) {
   );
 
   copyConfigTemplate(tree);
-  const installDependenciesTask = installDependencies(tree);
+  const installDependenciesTask = await installDependencies(tree);
   installScripts(tree, options);
   const lintFixTask = lintFix(tree);
 
@@ -40,15 +42,11 @@ function copyConfigTemplate(tree: Tree) {
   generateFiles(tree, path.join(__dirname, "./files"), ".", {});
 }
 
-function installDependencies(tree: Tree) {
-  const installTask = addDependenciesToPackageJson(
+async function installDependencies(tree: Tree) {
+  const installTask = await addDependenciesToPackageJson(
     tree,
-    {},
-    {
-      "@chiubaka/eslint-config": "latest",
-      "@nrwl/eslint-plugin-nx": "latest",
-      eslint: "latest",
-    },
+    [],
+    ["@chiubaka/eslint-config", "@nrwl/eslint-plugin-nx", "eslint"],
   );
 
   return async () => {

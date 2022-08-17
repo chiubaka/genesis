@@ -3,20 +3,24 @@ import { createTreeWithEmptyWorkspace } from "@nrwl/devkit/testing";
 import { PackageJson } from "nx/src/utils/package-json";
 
 import { gitHooksGenerator } from "../../../src/generators";
+import { DEFAULT_MOCK_INSTALLED_PACKAGE_VERSION } from "../../mocks";
 
 describe("gitHooksGenerator", () => {
   let tree: Tree;
 
-  beforeAll(() => {
+  beforeAll(async () => {
     tree = createTreeWithEmptyWorkspace();
-    gitHooksGenerator(tree, {
+    await gitHooksGenerator(tree, {
       preCommitCommand: "yarn run lint:staged",
       prePushCommand: "nx affected --target=test",
     });
   });
 
   it("adds husky as a devDependency", () => {
-    expect(tree).toHaveDevDependency("husky");
+    expect(tree).toHaveDevDependency(
+      "husky",
+      DEFAULT_MOCK_INSTALLED_PACKAGE_VERSION,
+    );
   });
 
   it("adds a prepare script to install husky", () => {

@@ -7,20 +7,23 @@ import { LintingGeneratorSchema } from "./lintingGenerator.schema";
 import { lintStagedGenerator } from "./lintStaged";
 import { prettierGenerator } from "./prettier";
 
-export function lintingGenerator(tree: Tree, options: LintingGeneratorSchema) {
+export async function lintingGenerator(
+  tree: Tree,
+  options: LintingGeneratorSchema,
+) {
   logger.info(
     `Generating linting setup with options:\n${JSON.stringify(options)}`,
   );
 
   const tasks: GeneratorCallback[] = [];
 
-  const eslintTask = eslintGenerator(tree, options);
+  const eslintTask = await eslintGenerator(tree, options);
   tasks.push(eslintTask);
 
-  const prettierTask = prettierGenerator(tree);
+  const prettierTask = await prettierGenerator(tree);
   tasks.push(prettierTask);
 
-  const lintStagedTask = lintStagedGenerator(tree);
+  const lintStagedTask = await lintStagedGenerator(tree);
   tasks.push(lintStagedTask);
 
   return runTasksInSerial(...tasks);

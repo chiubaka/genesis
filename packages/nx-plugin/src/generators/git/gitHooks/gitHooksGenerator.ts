@@ -1,13 +1,8 @@
-import {
-  addDependenciesToPackageJson,
-  getPackageManagerCommand,
-  Tree,
-  updateJson,
-} from "@nrwl/devkit";
+import { getPackageManagerCommand, Tree, updateJson } from "@nrwl/devkit";
 import { PackageJson } from "nx/src/utils/package-json";
 
 import { generatorLogger as logger } from "../../../logger";
-import { exec } from "../../../utils";
+import { addDependenciesToPackageJson, exec } from "../../../utils";
 import { noOpTask } from "../../tasks";
 import { GitHooksGeneratorSchema } from "./gitHooksGenerator.schema";
 
@@ -23,13 +18,13 @@ enum GitHook {
   Update = "update",
 }
 
-export function gitHooksGenerator(
+export async function gitHooksGenerator(
   tree: Tree,
   options: GitHooksGeneratorSchema,
 ) {
   logger.info("Generating git hooks setup");
 
-  const huskyInstallTask = installHusky(tree);
+  const huskyInstallTask = await installHusky(tree);
   const createPreCommitHookTask = createPreCommitHook(
     tree,
     options.preCommitCommand,
@@ -45,14 +40,8 @@ export function gitHooksGenerator(
   };
 }
 
-function installHusky(tree: Tree) {
-  const installTask = addDependenciesToPackageJson(
-    tree,
-    {},
-    {
-      husky: "latest",
-    },
-  );
+async function installHusky(tree: Tree) {
+  const installTask = await addDependenciesToPackageJson(tree, [], ["husky"]);
 
   updateJson<PackageJson>(tree, "package.json", (json) => {
     if (!json.scripts) {

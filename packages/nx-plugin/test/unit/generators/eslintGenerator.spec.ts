@@ -4,27 +4,37 @@ import { Linter } from "eslint";
 import { PackageJson } from "nx/src/utils/package-json";
 
 import { eslintGenerator } from "../../../src/generators/linting";
+import { DEFAULT_MOCK_INSTALLED_PACKAGE_VERSION } from "../../mocks";
 
 describe("eslintGenerator", () => {
   let tree: Tree;
 
-  beforeAll(() => {
+  beforeAll(async () => {
     tree = createTreeWithEmptyWorkspace();
-    eslintGenerator(tree, { packageManager: "yarn" });
+    await eslintGenerator(tree, { packageManager: "yarn" });
   });
 
   describe("package.json", () => {
     describe("adds the appropriate dependencies", () => {
       it("adds @chiubaka/eslint-config as a devDependency", () => {
-        expect(tree).toHaveDevDependency("@chiubaka/eslint-config");
+        expect(tree).toHaveDevDependency(
+          "@chiubaka/eslint-config",
+          DEFAULT_MOCK_INSTALLED_PACKAGE_VERSION,
+        );
       });
 
       it("adds eslint as a devDependency", () => {
-        expect(tree).toHaveDevDependency("eslint");
+        expect(tree).toHaveDevDependency(
+          "eslint",
+          DEFAULT_MOCK_INSTALLED_PACKAGE_VERSION,
+        );
       });
 
       it("adds @nrwl/eslint-plugin-nx as a devDependency", () => {
-        expect(tree).toHaveDevDependency("@nrwl/eslint-plugin-nx");
+        expect(tree).toHaveDevDependency(
+          "@nrwl/eslint-plugin-nx",
+          DEFAULT_MOCK_INSTALLED_PACKAGE_VERSION,
+        );
       });
     });
 

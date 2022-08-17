@@ -17,7 +17,7 @@ import { gitHooksGenerator } from "./gitHooks";
  *    repo.
  * @param tree the Nx file tree we are operating on
  */
-export function gitGenerator(tree: Tree, options: GitGeneratorSchema) {
+export async function gitGenerator(tree: Tree, options: GitGeneratorSchema) {
   logger.info(
     `Generating git repo with options:\n${JSON.stringify(
       options,
@@ -29,7 +29,7 @@ export function gitGenerator(tree: Tree, options: GitGeneratorSchema) {
   const initGitRepoTask = initGitRepo(tree);
   const gitHooksTask = options.skipGitHooks
     ? noOpTask
-    : gitHooksGenerator(tree, options);
+    : await gitHooksGenerator(tree, options);
   const createInitialCommitTask = createInitialCommit(tree, options);
 
   return async () => {

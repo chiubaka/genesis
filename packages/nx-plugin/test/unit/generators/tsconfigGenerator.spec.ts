@@ -2,6 +2,7 @@ import { readJson, Tree } from "@nrwl/devkit";
 import { createTreeWithEmptyWorkspace } from "@nrwl/devkit/testing";
 
 import { tsconfigGenerator } from "../../../src/generators";
+import { DEFAULT_MOCK_INSTALLED_PACKAGE_VERSION } from "../../mocks";
 
 interface TsConfig {
   extends?: string;
@@ -16,18 +17,24 @@ interface TsConfig {
 describe("tsconfigGenerator", () => {
   let tree: Tree;
 
-  beforeAll(() => {
+  beforeAll(async () => {
     tree = createTreeWithEmptyWorkspace();
-    tsconfigGenerator(tree);
+    await tsconfigGenerator(tree);
   });
 
   describe("package.json", () => {
     it("adds @chiubaka/tsconfig as a devDependency", () => {
-      expect(tree).toHaveDevDependency("@chiubaka/tsconfig");
+      expect(tree).toHaveDevDependency(
+        "@chiubaka/tsconfig",
+        DEFAULT_MOCK_INSTALLED_PACKAGE_VERSION,
+      );
     });
 
     it("adds tslib as a devDependency", () => {
-      expect(tree).toHaveDevDependency("tslib");
+      expect(tree).toHaveDevDependency(
+        "tslib",
+        DEFAULT_MOCK_INSTALLED_PACKAGE_VERSION,
+      );
     });
   });
 
