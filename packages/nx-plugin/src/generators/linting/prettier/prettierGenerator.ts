@@ -1,18 +1,19 @@
-import { addDependenciesToPackageJson, Tree, updateJson } from "@nrwl/devkit";
+import { Tree, updateJson } from "@nrwl/devkit";
 
 import { generatorLogger as logger } from "../../../logger";
+import { addDependenciesToPackageJson } from "../../../utils";
 
 export interface PrettierConfig {
   singleQuote?: boolean;
   trailingComma?: "es5" | "none" | "all";
 }
 
-export function prettierGenerator(tree: Tree) {
+export async function prettierGenerator(tree: Tree) {
   logger.info("Generating Prettier setup");
 
   updatePrettierConfig(tree);
 
-  const installDependenciesTask = installDependencies(tree);
+  const installDependenciesTask = await installDependencies(tree);
 
   return async () => {
     logger.info("Running post-processing tasks for Prettier generator");
@@ -31,11 +32,11 @@ function updatePrettierConfig(tree: Tree) {
   });
 }
 
-function installDependencies(tree: Tree) {
-  const installTask = addDependenciesToPackageJson(
+async function installDependencies(tree: Tree) {
+  const installTask = await addDependenciesToPackageJson(
     tree,
-    {},
-    { prettier: "latest" },
+    [],
+    ["prettier"],
   );
 
   return async () => {

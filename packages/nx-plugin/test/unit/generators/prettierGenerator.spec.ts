@@ -6,13 +6,14 @@ import { PrettierConfig, prettierGenerator } from "../../../src/generators";
 describe("prettierGenerator", () => {
   let tree: Tree;
 
-  beforeAll(() => {
+  beforeAll(async () => {
     tree = createTreeWithEmptyWorkspace();
-    prettierGenerator(tree);
+    await prettierGenerator(tree);
   });
 
   it("adds prettier as a devDependency", () => {
     expect(tree).toHaveDevDependency("prettier");
+    expect(tree).not.toHaveDevDependency("prettier", "latest");
   });
 
   it("creates a .prettierrc file", () => {
