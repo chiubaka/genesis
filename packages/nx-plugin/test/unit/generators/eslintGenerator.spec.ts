@@ -8,23 +8,32 @@ import { eslintGenerator } from "../../../src/generators/linting";
 describe("eslintGenerator", () => {
   let tree: Tree;
 
-  beforeAll(() => {
+  beforeAll(async () => {
     tree = createTreeWithEmptyWorkspace();
-    eslintGenerator(tree, { packageManager: "yarn" });
+    await eslintGenerator(tree, { packageManager: "yarn" });
   });
 
   describe("package.json", () => {
     describe("adds the appropriate dependencies", () => {
       it("adds @chiubaka/eslint-config as a devDependency", () => {
         expect(tree).toHaveDevDependency("@chiubaka/eslint-config");
+        expect(tree).not.toHaveDevDependency(
+          "@chiubaka/eslint-config",
+          "latest",
+        );
       });
 
       it("adds eslint as a devDependency", () => {
         expect(tree).toHaveDevDependency("eslint");
+        expect(tree).not.toHaveDevDependency("eslint", "latest");
       });
 
       it("adds @nrwl/eslint-plugin-nx as a devDependency", () => {
         expect(tree).toHaveDevDependency("@nrwl/eslint-plugin-nx");
+        expect(tree).not.toHaveDevDependency(
+          "@nrwl/eslint-plugin-nx",
+          "latest",
+        );
       });
     });
 
