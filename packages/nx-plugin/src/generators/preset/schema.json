@@ -4,5 +4,15 @@
   "$id": "Preset",
   "title": "",
   "type": "object",
-  "properties": {}
+  "properties": {
+    "workspaceName": {
+      "description": "The name of the workspace / project being generated. Different from Nx's workspaceName. This option will usually be passed by genesis.",
+      "type": "string"
+    },
+    "workspaceScope": {
+      "description": "The scope of the workspace. Usually the org's name. This option should be passed by Nx automatically.",
+      "type": "string"
+    }
+  },
+  "required": ["workspaceName", "workspaceScope"]
 }

@@ -15,6 +15,7 @@ import { exec } from "../../utils";
 import { ciGenerator } from "../ci";
 import { gitGenerator } from "../git";
 import { lintingGenerator } from "../linting";
+import { readmeGenerator } from "../readme";
 import { noOpTask } from "../tasks";
 import { testingGenerator } from "../testing";
 import { tsconfigGenerator } from "../tsconfig";
@@ -31,7 +32,6 @@ export async function presetGenerator(
       2,
     )}`,
   );
-
   modifyWorkspaceLayout(tree);
 
   const installTask = reinstallPackagesWithYarn(tree, options);
@@ -39,6 +39,7 @@ export async function presetGenerator(
   const lintingTask = lintingGenerator(tree, { packageManager: "yarn" });
   testingGenerator(tree);
   ciGenerator(tree);
+  readmeGenerator(tree, options);
   const gitTask = setUpGit(tree);
 
   await formatFiles(tree);

@@ -106,6 +106,16 @@ describe("genesis", () => {
     });
   });
 
+  describe("README", () => {
+    it("generates a root README.md file", () => {
+      workspace.assert.fs.exists("README.md");
+    });
+
+    it("uses the workspace's name as the title of the README", () => {
+      workspace.assert.fs.fileContents("README.md", "# genesis");
+    });
+  });
+
   describe("git", () => {
     it("creates an initial commit with a generated message", async () => {
       await workspace.assert.git.latestCommitMessage(
