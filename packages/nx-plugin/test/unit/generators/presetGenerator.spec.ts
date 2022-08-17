@@ -9,6 +9,9 @@ import {
 describe("preset generator", () => {
   let appTree: Tree;
   const options: PresetGeneratorSchema = {
+    workspaceName: "preset",
+    workspaceScope: "chiubaka",
+
     skipInstall: true,
   };
 

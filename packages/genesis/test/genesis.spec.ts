@@ -21,7 +21,7 @@ describe("genesis", () => {
       "-s",
       "chiubaka",
       "-n",
-      "preset",
+      "genesis",
       "-r",
       "http://localhost:4873",
     ]);
@@ -34,7 +34,9 @@ describe("genesis", () => {
         "chiubaka",
         "--preset=@chiubaka/nx-plugin",
         "--nxCloud=false",
-        "--directory=preset",
+        "--directory=genesis",
+        "--workspaceName=genesis",
+        "--workspaceScope=chiubaka",
       ],
       {
         cwd: process.cwd(),

@@ -25,7 +25,7 @@ export async function genesis(argv = process.argv) {
 
   const pmc = getPackageManagerCommand("npm");
 
-  const fullCommand = `${pmc.exec} create-nx-workspace ${workspaceScope} --preset=@chiubaka/nx-plugin --nxCloud=false --directory=${workspaceName}`;
+  const fullCommand = `${pmc.exec} create-nx-workspace ${workspaceScope} --preset=@chiubaka/nx-plugin --nxCloud=false --directory=${workspaceName} --workspaceName=${workspaceName} --workspaceScope=${workspaceScope}`;
 
   const commandTokens = fullCommand.split(" ");
   const [command, ...args] = commandTokens;

@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "$id": "README",
+  "title": "",
+  "type": "object",
+  "properties": {
+    "workspaceName": {
+      "description": "The name of this workspace.",
+      "type": "string"
+    },
+    "workspaceScope": {
+      "description": "The scope of this workspace (usually org name).",
+      "type": "string"
+    }
+  },
+  "required": ["workspaceName", "workspaceScope"]
+}

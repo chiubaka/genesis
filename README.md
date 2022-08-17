@@ -1,5 +1,3 @@
-
-
 # genesis
 
 [![circleci](https://circleci.com/gh/chiubaka/genesis.svg?style=shield)](https://app.circleci.com/pipelines/github/chiubaka/genesis?filter=all)

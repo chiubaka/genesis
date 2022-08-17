@@ -18,6 +18,6 @@ npm unpublish -f --registry http://localhost:4873
 npm publish --registry http://localhost:4873
 
 cd /tmp
-npm_config_registry=http://localhost:4873 npx create-nx-workspace $WORKSPACE_SCOPE --preset=@chiubaka/nx-plugin --nxCloud=false --directory=$WORKSPACE_NAME --foo=bar
+npm_config_registry=http://localhost:4873 npx create-nx-workspace $WORKSPACE_SCOPE --preset=@chiubaka/nx-plugin --nxCloud=false --directory=$WORKSPACE_NAME --workspaceName=$WORKSPACE_NAME --workspaceScope=$WORKSPACE_SCOPE
 
 mv $TMP_WORKSPACE $E2E_WORKSPACE
