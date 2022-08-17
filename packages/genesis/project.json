@@ -44,7 +44,10 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/genesis"],
+      "outputs": [
+        "reports/coverage/packages/genesis",
+        "reports/junit/genesis.xml"
+      ],
       "options": {
         "jestConfig": "packages/genesis/jest.config.ts",
         "passWithNoTests": true

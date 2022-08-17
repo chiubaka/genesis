@@ -10,7 +10,10 @@
         "jestConfig": "e2e/nx-plugin-e2e/jest.config.ts",
         "passWithNoTests": true
       },
-      "outputs": ["coverage/e2e/nx-plugin-e2e"]
+      "outputs": [
+        "reports/coverage/e2e/nx-plugin-e2e",
+        "reports/junit/nx-plugin-e2e.xml"
+      ]
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
