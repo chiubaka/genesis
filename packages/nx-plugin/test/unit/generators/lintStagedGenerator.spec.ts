@@ -3,6 +3,7 @@ import { createTreeWithEmptyWorkspace } from "@nrwl/devkit/testing";
 import { PackageJson } from "nx/src/utils/package-json";
 
 import { lintStagedGenerator } from "../../../src/generators/linting/lintStaged";
+import { DEFAULT_MOCK_INSTALLED_PACKAGE_VERSION } from "../../mocks";
 
 describe("lintStagedGenerator", () => {
   let tree: Tree;
@@ -14,8 +15,10 @@ describe("lintStagedGenerator", () => {
 
   describe("package.json", () => {
     it("adds lint-staged as a devDependency", () => {
-      expect(tree).toHaveDevDependency("lint-staged");
-      expect(tree).not.toHaveDevDependency("lint-staged", "latest");
+      expect(tree).toHaveDevDependency(
+        "lint-staged",
+        DEFAULT_MOCK_INSTALLED_PACKAGE_VERSION,
+      );
     });
 
     it("adds a lint:staged script", () => {

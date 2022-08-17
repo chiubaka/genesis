@@ -2,6 +2,7 @@ import { readJson, Tree } from "@nrwl/devkit";
 import { createTreeWithEmptyWorkspace } from "@nrwl/devkit/testing";
 
 import { PrettierConfig, prettierGenerator } from "../../../src/generators";
+import { DEFAULT_MOCK_INSTALLED_PACKAGE_VERSION } from "../../mocks";
 
 describe("prettierGenerator", () => {
   let tree: Tree;
@@ -12,8 +13,10 @@ describe("prettierGenerator", () => {
   });
 
   it("adds prettier as a devDependency", () => {
-    expect(tree).toHaveDevDependency("prettier");
-    expect(tree).not.toHaveDevDependency("prettier", "latest");
+    expect(tree).toHaveDevDependency(
+      "prettier",
+      DEFAULT_MOCK_INSTALLED_PACKAGE_VERSION,
+    );
   });
 
   it("creates a .prettierrc file", () => {

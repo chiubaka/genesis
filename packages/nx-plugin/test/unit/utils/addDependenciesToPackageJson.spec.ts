@@ -2,7 +2,7 @@ import { Tree } from "@nrwl/devkit";
 import { createTreeWithEmptyWorkspace } from "@nrwl/devkit/testing";
 
 import { addDependenciesToPackageJson } from "../../../src";
-import { DEFAULT_MOCKED_INSTALLED_PACKAGE_VERSION } from "../../mocks";
+import { DEFAULT_MOCK_INSTALLED_PACKAGE_VERSION } from "../../mocks";
 
 describe("addDependenciesToPackageJson", () => {
   let tree: Tree;
@@ -23,18 +23,18 @@ describe("addDependenciesToPackageJson", () => {
   it("provides versions for packages that were listed as having undefined versions", () => {
     expect(tree).toHaveDependency(
       "tslib",
-      DEFAULT_MOCKED_INSTALLED_PACKAGE_VERSION,
+      DEFAULT_MOCK_INSTALLED_PACKAGE_VERSION,
     );
   });
 
   it("provides versions for dependencies listed in an array", () => {
     expect(tree).toHaveDevDependency(
       "typescript",
-      DEFAULT_MOCKED_INSTALLED_PACKAGE_VERSION,
+      DEFAULT_MOCK_INSTALLED_PACKAGE_VERSION,
     );
     expect(tree).toHaveDevDependency(
       "prettier",
-      DEFAULT_MOCKED_INSTALLED_PACKAGE_VERSION,
+      DEFAULT_MOCK_INSTALLED_PACKAGE_VERSION,
     );
   });
 });
