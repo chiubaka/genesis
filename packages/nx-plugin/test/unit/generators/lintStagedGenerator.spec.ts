@@ -7,14 +7,15 @@ import { lintStagedGenerator } from "../../../src/generators/linting/lintStaged"
 describe("lintStagedGenerator", () => {
   let tree: Tree;
 
-  beforeAll(() => {
+  beforeAll(async () => {
     tree = createTreeWithEmptyWorkspace();
-    lintStagedGenerator(tree);
+    await lintStagedGenerator(tree);
   });
 
   describe("package.json", () => {
     it("adds lint-staged as a devDependency", () => {
       expect(tree).toHaveDevDependency("lint-staged");
+      expect(tree).not.toHaveDevDependency("lint-staged", "latest");
     });
 
     it("adds a lint:staged script", () => {

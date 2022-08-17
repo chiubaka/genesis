@@ -1,19 +1,15 @@
-import {
-  addDependenciesToPackageJson,
-  generateFiles,
-  Tree,
-  updateJson,
-} from "@nrwl/devkit";
+import { generateFiles, Tree, updateJson } from "@nrwl/devkit";
 import path from "node:path";
 import { PackageJson } from "nx/src/utils/package-json";
 
 import { generatorLogger as logger } from "../../../logger";
+import { addDependenciesToPackageJson } from "../../../utils";
 
-export function lintStagedGenerator(tree: Tree) {
+export async function lintStagedGenerator(tree: Tree) {
   logger.info("Generating lint-staged setup");
 
   copyConfigTemplate(tree);
-  const installDependenciesTask = installDependencies(tree);
+  const installDependenciesTask = await installDependencies(tree);
   installScripts(tree);
 
   return async () => {
@@ -30,11 +26,11 @@ function copyConfigTemplate(tree: Tree) {
   generateFiles(tree, templatesPath, ".", {});
 }
 
-function installDependencies(tree: Tree) {
-  const installTask = addDependenciesToPackageJson(
+async function installDependencies(tree: Tree) {
+  const installTask = await addDependenciesToPackageJson(
     tree,
-    {},
-    { "lint-staged": "latest" },
+    [],
+    ["lint-staged"],
   );
 
   return async () => {

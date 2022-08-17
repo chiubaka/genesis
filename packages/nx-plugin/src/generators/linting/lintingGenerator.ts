@@ -23,7 +23,7 @@ export async function lintingGenerator(
   const prettierTask = prettierGenerator(tree);
   tasks.push(prettierTask);
 
-  const lintStagedTask = lintStagedGenerator(tree);
+  const lintStagedTask = await lintStagedGenerator(tree);
   tasks.push(lintStagedTask);
 
   return runTasksInSerial(...tasks);
