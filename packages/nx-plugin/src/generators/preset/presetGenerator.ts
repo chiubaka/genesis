@@ -35,7 +35,7 @@ export async function presetGenerator(
   modifyWorkspaceLayout(tree);
 
   const installTask = reinstallPackagesWithYarn(tree, options);
-  const tsconfigTask = tsconfigGenerator(tree);
+  const tsconfigTask = await tsconfigGenerator(tree);
   const lintingTask = await lintingGenerator(tree, { packageManager: "yarn" });
   testingGenerator(tree);
   ciGenerator(tree);

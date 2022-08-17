@@ -16,18 +16,20 @@ interface TsConfig {
 describe("tsconfigGenerator", () => {
   let tree: Tree;
 
-  beforeAll(() => {
+  beforeAll(async () => {
     tree = createTreeWithEmptyWorkspace();
-    tsconfigGenerator(tree);
+    await tsconfigGenerator(tree);
   });
 
   describe("package.json", () => {
     it("adds @chiubaka/tsconfig as a devDependency", () => {
       expect(tree).toHaveDevDependency("@chiubaka/tsconfig");
+      expect(tree).not.toHaveDevDependency("@chiubaka/tsconfig", "latest");
     });
 
     it("adds tslib as a devDependency", () => {
       expect(tree).toHaveDevDependency("tslib");
+      expect(tree).not.toHaveDevDependency("tslib", "latest");
     });
   });
 

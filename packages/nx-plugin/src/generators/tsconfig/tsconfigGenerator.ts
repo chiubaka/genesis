@@ -1,16 +1,13 @@
-import {
-  addDependenciesToPackageJson,
-  generateFiles,
-  Tree,
-} from "@nrwl/devkit";
+import { generateFiles, Tree } from "@nrwl/devkit";
 import path from "node:path";
 
 import { generatorLogger as logger } from "../../logger";
+import { addDependenciesToPackageJson } from "../../utils";
 
-export function tsconfigGenerator(tree: Tree) {
+export async function tsconfigGenerator(tree: Tree) {
   logger.info("Generating base TsConfig file");
 
-  const installDependenciesTask = installDependencies(tree);
+  const installDependenciesTask = await installDependencies(tree);
   generateFiles(tree, path.join(__dirname, "./files"), ".", {});
 
   return async () => {
@@ -20,14 +17,11 @@ export function tsconfigGenerator(tree: Tree) {
   };
 }
 
-function installDependencies(tree: Tree) {
-  const installTask = addDependenciesToPackageJson(
+async function installDependencies(tree: Tree) {
+  const installTask = await addDependenciesToPackageJson(
     tree,
-    {},
-    {
-      "@chiubaka/tsconfig": "latest",
-      tslib: "latest",
-    },
+    [],
+    ["@chiubaka/tsconfig", "tslib"],
   );
 
   return async () => {
