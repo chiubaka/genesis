@@ -37,7 +37,7 @@ export async function presetGenerator(
   const installTask = reinstallPackagesWithYarn(tree, options);
   const tsconfigTask = await tsconfigGenerator(tree);
   const lintingTask = await lintingGenerator(tree, { packageManager: "yarn" });
-  testingGenerator(tree);
+  const testingTask = await testingGenerator(tree);
   ciGenerator(tree);
   readmeGenerator(tree, options);
   const gitTask = await setUpGit(tree);
@@ -50,6 +50,7 @@ export async function presetGenerator(
     await installTask();
     await tsconfigTask();
     await lintingTask();
+    await testingTask();
     await gitTask();
   };
 }

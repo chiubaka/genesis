@@ -33,6 +33,11 @@
       "schema": "./src/generators/git/gitHooks/schema.json",
       "description": "Generates a git hooks setup"
     },
+    "jest": {
+      "factory": "./src/generators/testing/jest",
+      "schema": "./src/generators/testing/jest/schema.json",
+      "description": "Installs Jest and generates a standard config"
+    },
     "linting": {
       "factory": "./src/generators/linting",
       "schema": "./src/generators/linting/schema.json",
