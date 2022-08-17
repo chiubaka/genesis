@@ -48,6 +48,11 @@
       "schema": "./src/generators/linting/prettier/schema.json",
       "description": "Generates Prettier configuration and setup"
     },
+    "readme": {
+      "factory": "./src/generators/readme",
+      "schema": "./src/generators/readme/schema.json",
+      "description": "Generates a README for the repo"
+    },
     "testing": {
       "factory": "./src/generators/testing",
       "schema": "./src/generators/testing/schema.json",
