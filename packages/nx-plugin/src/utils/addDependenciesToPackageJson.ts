@@ -36,7 +36,7 @@ const calculateDependencyVersions = async (
     for (const dependencyName of dependencies) {
       const version = await getLatestPackageVersion(dependencyName);
       // eslint-disable-next-line security/detect-object-injection
-      dependenciesWithVersions[dependencyName] = version;
+      dependenciesWithVersions[dependencyName] = `^${version}`;
     }
   } else {
     for (const dependencyName in dependencies) {
@@ -45,7 +45,7 @@ const calculateDependencyVersions = async (
         dependencies[dependencyName] ||
         (await getLatestPackageVersion(dependencyName));
       // eslint-disable-next-line security/detect-object-injection
-      dependenciesWithVersions[dependencyName] = version;
+      dependenciesWithVersions[dependencyName] = `^${version}`;
     }
   }
 
