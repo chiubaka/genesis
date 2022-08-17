@@ -34,18 +34,18 @@ const calculateDependencyVersions = async (
 
   if (isDependencyArray(dependencies)) {
     for (const dependencyName of dependencies) {
-      const version = await getLatestPackageVersion(dependencyName);
+      const version = await calculateDependencyVersion(dependencyName);
       // eslint-disable-next-line security/detect-object-injection
-      dependenciesWithVersions[dependencyName] = `^${version}`;
+      dependenciesWithVersions[dependencyName] = version;
     }
   } else {
     for (const dependencyName in dependencies) {
       const version =
         // eslint-disable-next-line security/detect-object-injection
         dependencies[dependencyName] ||
-        (await getLatestPackageVersion(dependencyName));
+        (await calculateDependencyVersion(dependencyName));
       // eslint-disable-next-line security/detect-object-injection
-      dependenciesWithVersions[dependencyName] = `^${version}`;
+      dependenciesWithVersions[dependencyName] = version;
     }
   }
 
@@ -56,4 +56,10 @@ const isDependencyArray = (
   dependencies: Dependencies,
 ): dependencies is string[] => {
   return Array.isArray(dependencies);
+};
+
+const calculateDependencyVersion = async (dependencyName: string) => {
+  const latestVersion = await getLatestPackageVersion(dependencyName);
+
+  return `^${latestVersion}`;
 };

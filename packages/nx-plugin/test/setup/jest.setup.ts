@@ -1,11 +1,10 @@
 import { matchers } from "../matchers";
+import { getLatestPackageVersion } from "../mocks";
 
 expect.extend(matchers);
 
 jest.mock("../../src/utils/getLatestPackageVersion", () => {
   return {
-    getLatestPackageVersion: () => {
-      return Promise.resolve("0.0.1");
-    },
+    getLatestPackageVersion,
   };
 });
