@@ -2,6 +2,7 @@ import { Tree } from "@nrwl/devkit";
 
 import { generatorLogger as logger } from "../../../logger";
 import { exec, github } from "../../../utils";
+import { noOpTask } from "../../tasks";
 import { GitHubGeneratorSchema } from "./gitHubGenerator.schema";
 
 export function gitHubGenerator(tree: Tree, options: GitHubGeneratorSchema) {
@@ -15,7 +16,7 @@ export function gitHubGenerator(tree: Tree, options: GitHubGeneratorSchema) {
 
   const createOrUpdateRepoTask = createOrUpdateRepo(options);
   const addGitRemoteTask = addGitRemote(tree, options);
-  const pushToRemoteMasterTask = pushToRemoteMaster(tree);
+  const pushToRemoteMasterTask = pushToRemoteMaster(tree, options);
   const protectMasterBranchTask = protectMasterBranch(options);
 
   return async () => {
@@ -91,11 +92,23 @@ function protectMasterBranch({
   };
 }
 
-function pushToRemoteMaster(tree: Tree) {
+function pushToRemoteMaster(tree: Tree, options: GitHubGeneratorSchema) {
+  const { pushToRemote, forcePush } = options;
+
+  if (!pushToRemote) {
+    return noOpTask;
+  }
+
   return async () => {
     logger.info("Pushing all code to remote origin master");
 
-    await exec("git push -f -u origin master", {
+    let command = "git push -u origin master";
+
+    if (forcePush) {
+      command = `${command} -f`;
+    }
+
+    await exec(command, {
       cwd: tree.root,
     });
   };

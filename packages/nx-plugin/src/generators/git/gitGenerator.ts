@@ -107,8 +107,12 @@ function normalizeGitHubSchema(
     repositoryName,
     repositoryDescription,
     privateRepository,
+
     enableCircleCiStatusChecks,
     enableCodecovStatusChecks,
+
+    forcePush,
+    pushToRemote,
   } = options;
 
   if (!organization) {
@@ -140,7 +144,11 @@ function normalizeGitHubSchema(
     repositoryName,
     repositoryDescription,
     privateRepository,
+
     enableCircleCiStatusChecks,
     enableCodecovStatusChecks,
+
+    forcePush: forcePush ?? false,
+    pushToRemote: pushToRemote ?? true,
   };
 }

@@ -6,4 +6,7 @@ export interface GitHubGeneratorSchema {
 
   enableCircleCiStatusChecks?: boolean;
   enableCodecovStatusChecks?: boolean;
+
+  forcePush: boolean;
+  pushToRemote: boolean;
 }

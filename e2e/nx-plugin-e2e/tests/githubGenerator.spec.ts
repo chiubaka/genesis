@@ -21,7 +21,7 @@ describe("gitHubGenerator", () => {
     );
 
     await workspace.execNx(
-      `generate @chiubaka/nx-plugin:github --organization="chiubaka" --repositoryName="${TEST_REPO_NAME}" --repositoryDescription="Test GitHub repository for genesis E2E tests" --privateRepository=true --enableCodecovStatusChecks --enableCircleCiStatusChecks`,
+      `generate @chiubaka/nx-plugin:github --organization="chiubaka" --repositoryName="${TEST_REPO_NAME}" --repositoryDescription="Test GitHub repository for genesis E2E tests" --privateRepository=true --enableCodecovStatusChecks --enableCircleCiStatusChecks --forcePush`,
     );
   });
 

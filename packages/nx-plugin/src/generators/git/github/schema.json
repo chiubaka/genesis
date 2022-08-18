@@ -30,6 +30,17 @@
     "enableCodecovStatusChecks": {
       "type": "boolean",
       "description": "Whether or not to enable Codecov PR status checks"
+    },
+
+    "forcePush": {
+      "type": "boolean",
+      "description": "Whether or not to force push when pushing code to the remote",
+      "default": false
+    },
+    "pushToRemote": {
+      "type": "boolean",
+      "description": "Whether or not to push commited code to the remote",
+      "default": true
     }
   },
   "required": ["organization", "repositoryName", "repositoryDescription"]
