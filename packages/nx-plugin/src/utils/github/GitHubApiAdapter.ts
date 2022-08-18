@@ -46,6 +46,66 @@ export interface UpdateRepoOptions extends Partial<CreateRepoOptions> {
   name: string;
 }
 
+interface GitHubBranchProtection {
+  required_status_checks?: {
+    url?: string;
+    contexts: string[];
+    contexts_url?: string;
+    enforcement_level?: string;
+    strict?: boolean;
+  };
+  enforce_admins?: {
+    url: string;
+    enabled: boolean;
+  };
+  required_pull_request_reviews?: {
+    url?: string;
+    dismissal_restrictions?: {
+      url?: string;
+      users_url?: string;
+      teams_url?: string;
+      users?: any[];
+      teams?: any[];
+      apps?: any[];
+    };
+    dismiss_stale_reviews: boolean;
+    require_code_owner_reviews: boolean;
+    required_approving_review_count?: number;
+  };
+  restrictions?: {
+    url: string;
+    users_url: string;
+    teams_url: string;
+    apps_url: string;
+    users: any[];
+    teams: any[];
+    apps: any[];
+  };
+  required_linear_history?: {
+    enabled?: boolean;
+  };
+  allow_force_pushes?: {
+    enabled?: boolean;
+  };
+  allow_deletions?: {
+    enabled?: boolean;
+  };
+  required_conversation_resolution?: {
+    enabled?: boolean;
+  };
+}
+
+export interface BranchProtection {
+  requiredStatusChecks: string[];
+  requiredStatusChecksStrict?: boolean;
+  requiredApprovingReviewCount?: number;
+  requiredLinearHistory: boolean;
+  allowForcePushes: boolean;
+  allowDeletions: boolean;
+  requiredConversationResolution: boolean;
+  enforceAdmins: boolean;
+}
+
 export interface BranchProtectionOptions extends BranchOptions {
   requiredStatusChecks?: string[];
   requiredStatusChecksStrict?: boolean;
@@ -116,6 +176,20 @@ export class GitHubApiAdapter {
     });
   }
 
+  public async getBranchProtection(
+    repoOwner: string,
+    repoName: string,
+    branch: string,
+  ) {
+    const response = await this.octokit.rest.repos.getBranchProtection({
+      owner: repoOwner,
+      repo: repoName,
+      branch,
+    });
+
+    return this.gitHubBranchProtectionToBranchProtection(response.data);
+  }
+
   public async updateBranchProtection(options: BranchProtectionOptions) {
     const {
       requiredStatusChecks,
@@ -163,6 +237,20 @@ export class GitHubApiAdapter {
     });
   }
 
+  public async deleteBranchProtection(
+    owner: string,
+    repo: string,
+    branch: string,
+  ) {
+    const response = await this.octokit.rest.repos.deleteBranchProtection({
+      owner,
+      repo,
+      branch,
+    });
+
+    return response.status === 204;
+  }
+
   public async createCommitSignatureProtection(
     repoOwner: string,
     repoName: string,
@@ -206,14 +294,14 @@ export class GitHubApiAdapter {
       repo: name,
     });
 
-    return this.githubRepoToRepo(response.data);
+    return this.gitHubRepoToRepo(response.data);
   }
 
   public async updateRepo(options: UpdateRepoOptions): Promise<Repo> {
     const gitHubRepoOptions = this.repoOptionsToGitHubRepoOptions(options);
     const response = await this.octokit.rest.repos.update(gitHubRepoOptions);
 
-    return this.githubRepoToRepo(response.data);
+    return this.gitHubRepoToRepo(response.data);
   }
 
   public async deleteRepo(owner: string, name: string): Promise<boolean> {
@@ -231,7 +319,7 @@ export class GitHubApiAdapter {
       gitHubRepoOptions,
     );
 
-    return this.githubRepoToRepo(response.data);
+    return this.gitHubRepoToRepo(response.data);
   }
 
   private repoOptionsToGitHubRepoOptions(options: UpdateRepoOptions) {
@@ -252,7 +340,7 @@ export class GitHubApiAdapter {
     };
   }
 
-  private githubRepoToRepo(gitHubRepo: GitHubRepo): Repo {
+  private gitHubRepoToRepo(gitHubRepo: GitHubRepo): Repo {
     return {
       owner: gitHubRepo.owner.login,
       name: gitHubRepo.name,
@@ -265,6 +353,29 @@ export class GitHubApiAdapter {
       deleteBranchOnMerge: gitHubRepo.delete_branch_on_merge,
       hasIssues: gitHubRepo.has_issues,
       isPrivate: gitHubRepo.private,
+    };
+  }
+
+  private gitHubBranchProtectionToBranchProtection(
+    gitHubBranchProtection: GitHubBranchProtection,
+  ): BranchProtection {
+    return {
+      requiredStatusChecks:
+        gitHubBranchProtection.required_status_checks?.contexts ?? [],
+      requiredStatusChecksStrict:
+        gitHubBranchProtection.required_status_checks?.strict,
+      requiredLinearHistory:
+        gitHubBranchProtection.required_linear_history?.enabled ?? false,
+      requiredApprovingReviewCount:
+        gitHubBranchProtection.required_pull_request_reviews
+          ?.required_approving_review_count,
+      allowForcePushes:
+        gitHubBranchProtection.allow_force_pushes?.enabled ?? false,
+      allowDeletions: gitHubBranchProtection.allow_deletions?.enabled ?? false,
+      requiredConversationResolution:
+        gitHubBranchProtection.required_conversation_resolution?.enabled ??
+        false,
+      enforceAdmins: gitHubBranchProtection.enforce_admins?.enabled ?? false,
     };
   }
 

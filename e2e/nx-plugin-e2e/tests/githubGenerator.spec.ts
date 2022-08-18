@@ -1,4 +1,8 @@
-import { github, GitHubRepo } from "@chiubaka/nx-plugin/utils";
+import {
+  github,
+  GitHubBranchProtection,
+  GitHubRepo,
+} from "@chiubaka/nx-plugin/utils";
 import {
   createTestingWorkspace,
   TestingWorkspace,
@@ -6,7 +10,7 @@ import {
 
 const TEST_REPO_NAME = ".genesis-test-github-e2e";
 
-describe("githubGenerator", () => {
+describe("gitHubGenerator", () => {
   let workspace: TestingWorkspace;
 
   beforeAll(async () => {
@@ -17,7 +21,7 @@ describe("githubGenerator", () => {
     );
 
     await workspace.execNx(
-      `generate @chiubaka/nx-plugin:github --organization="chiubaka" --repositoryName="${TEST_REPO_NAME}" --repositoryDescription="Test GitHub repository for genesis E2E tests" --privateRepository=true`,
+      `generate @chiubaka/nx-plugin:github --organization="chiubaka" --repositoryName="${TEST_REPO_NAME}" --repositoryDescription="Test GitHub repository for genesis E2E tests" --privateRepository=true --enableCodecovStatusChecks --enableCircleCiStatusChecks`,
     );
   });
 
@@ -27,12 +31,14 @@ describe("githubGenerator", () => {
       name: TEST_REPO_NAME,
       description: "",
       allowMergeCommit: true,
-      allowRebaseMerge: false,
-      allowSquashMerge: false,
+      allowRebaseMerge: true,
+      allowSquashMerge: true,
       allowAutoMerge: false,
       allowUpdateBranch: false,
       deleteBranchOnMerge: false,
     });
+
+    await github.deleteBranchProtection("chiubaka", TEST_REPO_NAME, "master");
   });
 
   it("generates a GitHub repo", async () => {
@@ -46,6 +52,12 @@ describe("githubGenerator", () => {
 
     beforeAll(async () => {
       repo = await github.getRepo("chiubaka", TEST_REPO_NAME);
+    });
+
+    it("sets the the repo's description", () => {
+      expect(repo.description).toBe(
+        "Test GitHub repository for genesis E2E tests",
+      );
     });
 
     it("is private", () => {
@@ -77,8 +89,53 @@ describe("githubGenerator", () => {
     });
   });
 
-  describe("branch protection settings", () => {
-    it.todo("sets standardized branch protection settings");
+  describe("master branch protection settings", () => {
+    let branchProtection: GitHubBranchProtection;
+
+    beforeAll(async () => {
+      branchProtection = await github.getBranchProtection(
+        "chiubaka",
+        TEST_REPO_NAME,
+        "master",
+      );
+    });
+
+    it("adds CircleCI status checks", () => {
+      expect(branchProtection.requiredStatusChecks).toContain(
+        "lint-build-test-deploy",
+      );
+    });
+
+    it("adds Codecov status checks", () => {
+      expect(branchProtection.requiredStatusChecks).toContain("codecov/patch");
+      expect(branchProtection.requiredStatusChecks).toContain(
+        "codecov/project",
+      );
+    });
+
+    it("enables strict status checks", () => {
+      expect(branchProtection.requiredStatusChecksStrict).toBe(true);
+    });
+
+    it("requires a linear history", () => {
+      expect(branchProtection.requiredLinearHistory).toBe(true);
+    });
+
+    it("disables force pushes", () => {
+      expect(branchProtection.allowForcePushes).toBe(false);
+    });
+
+    it("disables deletions", () => {
+      expect(branchProtection.allowDeletions).toBe(false);
+    });
+
+    it("requires conversation resolution for PRs", () => {
+      expect(branchProtection.requiredConversationResolution).toBe(true);
+    });
+
+    it("does not enforce protections for admins", () => {
+      expect(branchProtection.enforceAdmins).toBe(false);
+    });
   });
 
   describe("labels", () => {

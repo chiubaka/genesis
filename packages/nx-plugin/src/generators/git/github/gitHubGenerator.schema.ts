@@ -3,4 +3,7 @@ export interface GitHubGeneratorSchema {
   privateRepository: boolean;
   repositoryDescription: string;
   repositoryName: string;
+
+  enableCircleCiStatusChecks?: boolean;
+  enableCodecovStatusChecks?: boolean;
 }

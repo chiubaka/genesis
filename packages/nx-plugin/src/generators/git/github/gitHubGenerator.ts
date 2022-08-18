@@ -15,12 +15,16 @@ export function gitHubGenerator(tree: Tree, options: GitHubGeneratorSchema) {
 
   const createOrUpdateRepoTask = createOrUpdateRepo(options);
   const addGitRemoteTask = addGitRemote(tree, options);
+  const protectMasterBranchTask = protectMasterBranch(options);
 
   return async () => {
     logger.info("Running post-processing tasks for GitHub generator");
 
     await createOrUpdateRepoTask();
     await addGitRemoteTask();
+    // TODO: Push all code to the master branch. Otherwise master branch will not exist for master branch protection settings
+    await protectMasterBranchTask();
+    // TODO: Create / update labels
   };
 }
 
@@ -47,6 +51,39 @@ function createOrUpdateRepo({
       allowUpdateBranch: true,
       deleteBranchOnMerge: true,
       hasIssues: true,
+    });
+  };
+}
+
+function protectMasterBranch({
+  organization,
+  repositoryName,
+  enableCircleCiStatusChecks,
+  enableCodecovStatusChecks,
+}: GitHubGeneratorSchema) {
+  const requiredStatusChecks: string[] = [];
+
+  if (enableCircleCiStatusChecks) {
+    requiredStatusChecks.push("lint-build-test-deploy");
+  }
+
+  if (enableCodecovStatusChecks) {
+    requiredStatusChecks.push("codecov/patch", "codecov/project");
+  }
+
+  return async () => {
+    await github.updateBranchProtection({
+      repoOwner: organization,
+      repoName: repositoryName,
+      branch: "master",
+      requiredStatusChecks,
+      requiredStatusChecksStrict: true,
+      requiredApprovingReviewCount: 0,
+      requiredLinearHistory: true,
+      allowForcePushes: false,
+      allowDeletions: false,
+      requiredConversationResolution: true,
+      enforceAdmins: false,
     });
   };
 }

@@ -107,6 +107,8 @@ function normalizeGitHubSchema(
     repositoryName,
     repositoryDescription,
     privateRepository,
+    enableCircleCiStatusChecks,
+    enableCodecovStatusChecks,
   } = options;
 
   if (!organization) {
@@ -138,5 +140,7 @@ function normalizeGitHubSchema(
     repositoryName,
     repositoryDescription,
     privateRepository,
+    enableCircleCiStatusChecks,
+    enableCodecovStatusChecks,
   };
 }
