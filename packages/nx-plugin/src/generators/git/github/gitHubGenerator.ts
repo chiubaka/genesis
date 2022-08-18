@@ -15,6 +15,7 @@ export function gitHubGenerator(tree: Tree, options: GitHubGeneratorSchema) {
 
   const createOrUpdateRepoTask = createOrUpdateRepo(options);
   const addGitRemoteTask = addGitRemote(tree, options);
+  const pushToRemoteMasterTask = pushToRemoteMaster(tree);
   const protectMasterBranchTask = protectMasterBranch(options);
 
   return async () => {
@@ -22,7 +23,7 @@ export function gitHubGenerator(tree: Tree, options: GitHubGeneratorSchema) {
 
     await createOrUpdateRepoTask();
     await addGitRemoteTask();
-    // TODO: Push all code to the master branch. Otherwise master branch will not exist for master branch protection settings
+    await pushToRemoteMasterTask();
     await protectMasterBranchTask();
     // TODO: Create / update labels
   };
@@ -72,6 +73,8 @@ function protectMasterBranch({
   }
 
   return async () => {
+    logger.info("Updating GitHub master branch protections");
+
     await github.updateBranchProtection({
       repoOwner: organization,
       repoName: repositoryName,
@@ -84,6 +87,16 @@ function protectMasterBranch({
       allowDeletions: false,
       requiredConversationResolution: true,
       enforceAdmins: false,
+    });
+  };
+}
+
+function pushToRemoteMaster(tree: Tree) {
+  return async () => {
+    logger.info("Pushing all code to remote origin master");
+
+    await exec("git push -f -u origin master", {
+      cwd: tree.root,
     });
   };
 }

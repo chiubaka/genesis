@@ -47,6 +47,16 @@ describe("gitHubGenerator", () => {
     expect(repoExists).toBe(true);
   });
 
+  it("pushes all committed code to the remote master branch", async () => {
+    await workspace.git.fetchOriginMaster();
+
+    const latestCommitHash = await workspace.git.getLatestCommitHash();
+    const latestRemoteCommitHash =
+      await workspace.git.getLatestRemoteCommitHash();
+
+    expect(latestCommitHash).toEqual(latestRemoteCommitHash);
+  });
+
   describe("repo settings", () => {
     let repo: GitHubRepo;
 

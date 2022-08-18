@@ -12,6 +12,16 @@ export class GitUtils {
     return this.execGitCommand(`commit -m "${message}"`);
   }
 
+  public getLatestCommitHash() {
+    return this.execGitCommand("log --oneline -n -1 --pretty=format:'%H'");
+  }
+
+  public getLatestRemoteCommitHash() {
+    return this.execGitCommand(
+      "log --oneline -n -1 --pretty=format:'%H' $(git branch -r)",
+    );
+  }
+
   public getLatestCommitterEmail() {
     return this.execGitCommand("log --oneline -n 1 --pretty=format:'%ae'");
   }
@@ -29,6 +39,10 @@ export class GitUtils {
     const commitMessage = tokens.join(" ");
 
     return commitMessage;
+  }
+
+  public fetchOriginMaster() {
+    return this.execGitCommand("fetch origin master");
   }
 
   public getRepoRoot() {
