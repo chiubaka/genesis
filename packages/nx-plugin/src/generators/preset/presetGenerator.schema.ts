@@ -4,5 +4,6 @@ export interface PresetGeneratorSchema {
 
   description: string;
 
+  skipGitHub?: boolean;
   skipInstall?: boolean;
 }

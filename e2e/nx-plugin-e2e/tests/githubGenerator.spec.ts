@@ -11,7 +11,7 @@ describe("githubGenerator", () => {
 
   beforeAll(async () => {
     workspace = await createTestingWorkspace(
-      "git-hooks",
+      "github",
       "@chiubaka/nx-plugin",
       "dist/packages/nx-plugin",
     );

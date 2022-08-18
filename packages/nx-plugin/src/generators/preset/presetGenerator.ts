@@ -112,6 +112,8 @@ function setUpGit(tree: Tree, options: PresetGeneratorSchema) {
     repositoryName: options.workspaceName,
     repositoryDescription: options.description,
     privateRepository: true,
+
+    skipGitHub: options.skipGitHub,
   });
 }
 

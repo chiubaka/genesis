@@ -10,6 +10,7 @@ interface GenesisOptions {
   workspaceName: string;
   description: string;
   registry?: string;
+  skipGithub?: boolean;
 }
 
 export async function genesis(argv = process.argv) {
@@ -17,17 +18,28 @@ export async function genesis(argv = process.argv) {
     .requiredOption("-s, --workspace-scope <workspaceScope>")
     .requiredOption("-n, --workspace-name <workspaceName>")
     .requiredOption("-d, --description <description>")
-    .option("-r, --registry <registry>");
+    .option("-r, --registry <registry>")
+    .option("--skip-github");
 
   program.parse(argv);
 
   const opts = program.opts<GenesisOptions>();
 
-  const { workspaceScope, workspaceName, description, registry } = opts;
+  const {
+    workspaceScope,
+    workspaceName,
+    description,
+    registry,
+    skipGithub: skipGitHub,
+  } = opts;
 
   const pmc = getPackageManagerCommand("npm");
 
-  const fullCommand = `${pmc.exec} create-nx-workspace ${workspaceScope} --preset=@chiubaka/nx-plugin --nxCloud=false --directory=${workspaceName} --workspaceName=${workspaceName} --workspaceScope=${workspaceScope} --description=${description}`;
+  let fullCommand = `${pmc.exec} create-nx-workspace ${workspaceScope} --preset=@chiubaka/nx-plugin --nxCloud=false --directory=${workspaceName} --workspaceName=${workspaceName} --workspaceScope=${workspaceScope} --description=${description}`;
+
+  if (skipGitHub) {
+    fullCommand = `${fullCommand} --skipGitHub`;
+  }
 
   const commandTokens = fullCommand.split(" ");
   const [command, ...args] = commandTokens;

@@ -24,6 +24,8 @@ describe("genesis", () => {
       "genesis",
       "-r",
       "http://localhost:4873",
+      '--description="Test"',
+      "--skip-github",
     ]);
 
     expect(mockSpawn).toHaveBeenCalledTimes(1);
@@ -37,6 +39,8 @@ describe("genesis", () => {
         "--directory=genesis",
         "--workspaceName=genesis",
         "--workspaceScope=chiubaka",
+        '--description="Test"',
+        "--skipGitHub",
       ],
       {
         cwd: process.cwd(),

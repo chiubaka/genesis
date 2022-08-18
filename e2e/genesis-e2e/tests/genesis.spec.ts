@@ -24,7 +24,7 @@ describe("genesis", () => {
     ensureDirSync(tmpDir);
 
     verdaccio.npx(
-      `genesis --workspace-scope=${workspaceScope} --workspace-name=${workspaceName} --registry=${verdaccio.getUrl()} --description="Test repo for genesis CLI E2E tests"`,
+      `genesis --workspace-scope=${workspaceScope} --workspace-name=${workspaceName} --registry=${verdaccio.getUrl()} --description="Test repo for genesis CLI E2E tests" --skip-github`,
       tmpDir,
     );
 
