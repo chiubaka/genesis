@@ -1,11 +1,8 @@
 import { Tree } from "@nrwl/devkit";
 
-import { generatorLogger as logger } from "../../../logger/index";
-import { exec } from "../../../utils/index";
-import { GitHubApiAdapter } from "./GitHubApiAdapter";
+import { generatorLogger as logger } from "../../../logger";
+import { exec, github } from "../../../utils";
 import { GitHubGeneratorSchema } from "./gitHubGenerator.schema";
-
-const github = new GitHubApiAdapter();
 
 export function gitHubGenerator(tree: Tree, options: GitHubGeneratorSchema) {
   logger.info(

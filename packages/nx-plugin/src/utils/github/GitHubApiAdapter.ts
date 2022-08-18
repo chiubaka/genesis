@@ -4,19 +4,46 @@ interface GitHubResponse {
   status: number;
 }
 
-export interface RepoOptions {
+interface GitHubRepo {
+  owner: {
+    login: string;
+  };
+  name: string;
+  description: string | null;
+  allow_auto_merge?: boolean;
+  allow_merge_commit?: boolean;
+  allow_rebase_merge?: boolean;
+  allow_squash_merge?: boolean;
+  allow_update_branch?: boolean;
+  delete_branch_on_merge?: boolean;
+  has_issues: boolean;
+  private: boolean;
+}
+
+export interface Repo {
   owner: string;
   name: string;
-  description: string;
+  description?: string;
   allowAutoMerge?: boolean;
   allowMergeCommit?: boolean;
   allowRebaseMerge?: boolean;
   allowSquashMerge?: boolean;
   allowUpdateBranch?: boolean;
   deleteBranchOnMerge?: boolean;
-  hasIssues?: boolean;
+  hasIssues: boolean;
+  isPrivate: boolean;
+}
+
+export interface CreateRepoOptions extends Partial<Repo> {
+  owner: string;
+  name: string;
   isPrivate: boolean;
   useSquashPrTitleAsDefault?: boolean;
+}
+
+export interface UpdateRepoOptions extends Partial<CreateRepoOptions> {
+  owner: string;
+  name: string;
 }
 
 export interface BranchProtectionOptions extends BranchOptions {
@@ -51,7 +78,7 @@ export class GitHubApiAdapter {
     this.octokit = new Octokit({ auth: process.env.GITHUB_ACCESS_TOKEN });
   }
 
-  public async createOrUpdateRepo(options: RepoOptions) {
+  public async createOrUpdateRepo(options: CreateRepoOptions): Promise<Repo> {
     const { owner, name } = options;
 
     const alreadyExists = await this.repoExists(owner, name);
@@ -155,7 +182,7 @@ export class GitHubApiAdapter {
     });
   }
 
-  private async repoExists(owner: string, name: string): Promise<boolean> {
+  public async repoExists(owner: string, name: string): Promise<boolean> {
     try {
       const response = await this.octokit.rest.repos.get({
         owner,
@@ -173,19 +200,41 @@ export class GitHubApiAdapter {
     }
   }
 
-  private async updateRepo(options: RepoOptions) {
-    const gitHubRepoOptions = this.repoOptionsToGitHubRepoOptions(options);
-    return this.octokit.rest.repos.update(gitHubRepoOptions);
+  public async getRepo(owner: string, name: string): Promise<Repo> {
+    const response = await this.octokit.rest.repos.get({
+      owner,
+      repo: name,
+    });
+
+    return this.githubRepoToRepo(response.data);
   }
 
-  private async createRepo(options: RepoOptions) {
+  public async updateRepo(options: UpdateRepoOptions): Promise<Repo> {
     const gitHubRepoOptions = this.repoOptionsToGitHubRepoOptions(options);
-    return this.octokit.rest.repos.createForAuthenticatedUser(
+    const response = await this.octokit.rest.repos.update(gitHubRepoOptions);
+
+    return this.githubRepoToRepo(response.data);
+  }
+
+  public async deleteRepo(owner: string, name: string): Promise<boolean> {
+    const response = await this.octokit.rest.repos.delete({
+      owner,
+      repo: name,
+    });
+
+    return response.status === 204;
+  }
+
+  private async createRepo(options: CreateRepoOptions): Promise<Repo> {
+    const gitHubRepoOptions = this.repoOptionsToGitHubRepoOptions(options);
+    const response = await this.octokit.rest.repos.createForAuthenticatedUser(
       gitHubRepoOptions,
     );
+
+    return this.githubRepoToRepo(response.data);
   }
 
-  private repoOptionsToGitHubRepoOptions(options: RepoOptions) {
+  private repoOptionsToGitHubRepoOptions(options: UpdateRepoOptions) {
     return {
       owner: options.owner,
       repo: options.name,
@@ -200,6 +249,22 @@ export class GitHubApiAdapter {
       has_issues: options.hasIssues,
       private: options.isPrivate,
       use_squash_pr_title_as_default: options.useSquashPrTitleAsDefault,
+    };
+  }
+
+  private githubRepoToRepo(gitHubRepo: GitHubRepo): Repo {
+    return {
+      owner: gitHubRepo.owner.login,
+      name: gitHubRepo.name,
+      description: gitHubRepo.description ?? undefined,
+      allowAutoMerge: gitHubRepo.allow_auto_merge,
+      allowMergeCommit: gitHubRepo.allow_merge_commit,
+      allowRebaseMerge: gitHubRepo.allow_rebase_merge,
+      allowSquashMerge: gitHubRepo.allow_squash_merge,
+      allowUpdateBranch: gitHubRepo.allow_update_branch,
+      deleteBranchOnMerge: gitHubRepo.delete_branch_on_merge,
+      hasIssues: gitHubRepo.has_issues,
+      isPrivate: gitHubRepo.private,
     };
   }
 
