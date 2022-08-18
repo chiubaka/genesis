@@ -1,0 +1,14 @@
+[
+  {
+    "scope": "https://api.github.com:443",
+    "method": "POST",
+    "path": "/repos/chiubaka/test-repo/branches/master/protection/required_signatures",
+    "body": "",
+    "status": 200,
+    "response": {
+      "url": "https://api.github.com/repos/chiubaka/test-repo/branches/master/protection/required_signatures",
+      "enabled": true
+    },
+    "responseIsBinary": false
+  }
+]

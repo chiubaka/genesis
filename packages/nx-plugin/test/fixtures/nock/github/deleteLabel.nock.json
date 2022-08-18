@@ -1,0 +1,11 @@
+[
+  {
+    "scope": "https://api.github.com:443",
+    "method": "GET",
+    "path": "/repos/chiubaka/generated-typescript-package/labels",
+    "body": "",
+    "status": 200,
+    "response": [],
+    "responseIsBinary": false
+  }
+]

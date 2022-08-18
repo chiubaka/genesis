@@ -12,6 +12,10 @@
     "winston": "^3.8.1",
     "winston-transport": "^4.5.0"
   },
+  "devDependencies": {
+    "@types/nock": "^11.1.0",
+    "nock": "^13.2.9"
+  },
   "generators": "./generators.json",
   "executors": "./executors.json"
 }
