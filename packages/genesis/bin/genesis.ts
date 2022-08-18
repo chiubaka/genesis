@@ -8,6 +8,7 @@ const spawn = promisify(nodeSpawn);
 interface GenesisOptions {
   workspaceScope: string;
   workspaceName: string;
+  description: string;
   registry?: string;
 }
 
@@ -15,17 +16,18 @@ export async function genesis(argv = process.argv) {
   program
     .requiredOption("-s, --workspace-scope <workspaceScope>")
     .requiredOption("-n, --workspace-name <workspaceName>")
+    .requiredOption("-d, --description <description>")
     .option("-r, --registry <registry>");
 
   program.parse(argv);
 
   const opts = program.opts<GenesisOptions>();
 
-  const { workspaceScope, workspaceName, registry } = opts;
+  const { workspaceScope, workspaceName, description, registry } = opts;
 
   const pmc = getPackageManagerCommand("npm");
 
-  const fullCommand = `${pmc.exec} create-nx-workspace ${workspaceScope} --preset=@chiubaka/nx-plugin --nxCloud=false --directory=${workspaceName} --workspaceName=${workspaceName} --workspaceScope=${workspaceScope}`;
+  const fullCommand = `${pmc.exec} create-nx-workspace ${workspaceScope} --preset=@chiubaka/nx-plugin --nxCloud=false --directory=${workspaceName} --workspaceName=${workspaceName} --workspaceScope=${workspaceScope} --description=${description}`;
 
   const commandTokens = fullCommand.split(" ");
   const [command, ...args] = commandTokens;
