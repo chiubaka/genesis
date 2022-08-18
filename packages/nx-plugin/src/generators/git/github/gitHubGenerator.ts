@@ -4,6 +4,7 @@ import { generatorLogger as logger } from "../../../logger";
 import { exec, github } from "../../../utils";
 import { noOpTask } from "../../tasks";
 import { GitHubGeneratorSchema } from "./gitHubGenerator.schema";
+import gitHubLabelsGenerator from "./labels";
 
 export function gitHubGenerator(tree: Tree, options: GitHubGeneratorSchema) {
   logger.info(
@@ -17,7 +18,9 @@ export function gitHubGenerator(tree: Tree, options: GitHubGeneratorSchema) {
   const createOrUpdateRepoTask = createOrUpdateRepo(options);
   const addGitRemoteTask = addGitRemote(tree, options);
   const pushToRemoteMasterTask = pushToRemoteMaster(tree, options);
+  // TODO: Offload branch protections to a sub generator
   const protectMasterBranchTask = protectMasterBranch(options);
+  const updateLabelsTask = gitHubLabelsGenerator(tree);
 
   return async () => {
     logger.info("Running post-processing tasks for GitHub generator");
@@ -26,7 +29,7 @@ export function gitHubGenerator(tree: Tree, options: GitHubGeneratorSchema) {
     await addGitRemoteTask();
     await pushToRemoteMasterTask();
     await protectMasterBranchTask();
-    // TODO: Create / update labels
+    await updateLabelsTask();
   };
 }
 

@@ -38,6 +38,11 @@
       "schema": "./src/generators/git/github/schema.json",
       "description": "Generates a GitHub repo and standardizes settings and labels"
     },
+    "github.labels": {
+      "factory": "./src/generators/git/github/labels",
+      "schema": "./src/generators/git/github/labels/schema.json",
+      "description": "Generates a standardized set of GitHub labels for issues"
+    },
     "jest": {
       "factory": "./src/generators/testing/jest",
       "schema": "./src/generators/testing/jest/schema.json",

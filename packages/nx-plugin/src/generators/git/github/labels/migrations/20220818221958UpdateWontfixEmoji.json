@@ -1,0 +1,10 @@
+[
+  {
+    "action": "UPDATE",
+    "name": "wontfix",
+    "payload": {
+      "name": ":ghost: wontfix",
+      "description": "This will not be worked on."
+    }
+  }
+]

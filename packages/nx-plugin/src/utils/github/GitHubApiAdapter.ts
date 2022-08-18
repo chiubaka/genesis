@@ -123,12 +123,21 @@ interface BranchOptions {
   branch: string;
 }
 
-interface LabelOptions {
+export interface Label {
+  name: string;
+  description?: string;
+  color: string;
+}
+
+interface UpdateLabelOptions extends Partial<LabelOptions> {
+  originalName: string;
   repoOwner: string;
   repoName: string;
-  name: string;
-  description: string;
-  color: string;
+}
+
+interface LabelOptions extends Label {
+  repoOwner: string;
+  repoName: string;
 }
 
 export class GitHubApiAdapter {
@@ -156,10 +165,42 @@ export class GitHubApiAdapter {
     const labelExists = await this.labelExists(repoOwner, repoName, name);
 
     if (labelExists) {
-      return this.updateLabel(options);
+      return this.updateLabel({
+        originalName: name,
+        ...options,
+      });
     }
 
     return this.createLabel(options);
+  }
+
+  public async listLabels(
+    repoOwner: string,
+    repoName: string,
+  ): Promise<Label[]> {
+    const response = await this.octokit.rest.issues.listLabelsForRepo({
+      owner: repoOwner,
+      repo: repoName,
+    });
+
+    return response.data.map((rawLabel) => {
+      return {
+        name: rawLabel.name,
+        description: rawLabel.description ?? undefined,
+        color: rawLabel.color,
+      };
+    });
+  }
+
+  public async updateLabel(options: UpdateLabelOptions) {
+    return this.octokit.rest.issues.updateLabel({
+      owner: options.repoOwner,
+      repo: options.repoName,
+      name: options.originalName,
+      new_name: options.name,
+      description: options.description,
+      color: options.color,
+    });
   }
 
   public async deleteLabel(repoOwner: string, repoName: string, name: string) {
@@ -174,6 +215,20 @@ export class GitHubApiAdapter {
       repo: repoName,
       name,
     });
+  }
+
+  public async labelExists(
+    repoOwner: string,
+    repoName: string,
+    name: string,
+  ): Promise<boolean> {
+    const existingLabels = await this.listLabels(repoOwner, repoName);
+
+    const existingLabelNames = new Set(
+      existingLabels.map((label) => label.name),
+    );
+
+    return existingLabelNames.has(name);
   }
 
   public async getBranchProtection(
@@ -377,32 +432,6 @@ export class GitHubApiAdapter {
         false,
       enforceAdmins: gitHubBranchProtection.enforce_admins?.enabled ?? false,
     };
-  }
-
-  private async labelExists(
-    repoOwner: string,
-    repoName: string,
-    name: string,
-  ): Promise<boolean> {
-    const response = await this.octokit.rest.issues.listLabelsForRepo({
-      owner: repoOwner,
-      repo: repoName,
-    });
-
-    const existingLabels = response.data;
-    const existingLabelNames = new Set(
-      existingLabels.map((label) => label.name),
-    );
-
-    return existingLabelNames.has(name);
-  }
-
-  private async updateLabel(options: LabelOptions) {
-    return this.octokit.rest.issues.updateLabel({
-      ...options,
-      owner: options.repoOwner,
-      repo: options.repoName,
-    });
   }
 
   private async createLabel(options: LabelOptions) {

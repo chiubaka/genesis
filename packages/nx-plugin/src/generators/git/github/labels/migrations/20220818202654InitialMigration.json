@@ -1,0 +1,116 @@
+[
+  {
+    "action": "DELETE",
+    "name": "good first issue"
+  },
+  {
+    "action": "DELETE",
+    "name": "help wanted"
+  },
+  {
+    "action": "DELETE",
+    "name": "invalid"
+  },
+  {
+    "action": "DELETE",
+    "name": "question"
+  },
+
+  {
+    "action": "UPDATE",
+    "name": "bug",
+    "payload": {
+      "name": ":bug: bug",
+      "description": "Something isn't working.",
+      "color": "D93F0B"
+    }
+  },
+  {
+    "action": "UPDATE",
+    "name": "documentation",
+    "payload": {
+      "name": ":scroll: documentation",
+      "description": "Improvements or additions to documentation."
+    }
+  },
+  {
+    "action": "UPDATE",
+    "name": "duplicate",
+    "payload": {
+      "name": ":copyright: duplicate",
+      "description": "This issue or pull request already exists."
+    }
+  },
+  {
+    "action": "UPDATE",
+    "name": "enhancement",
+    "payload": {
+      "name": ":muscle: improvement",
+      "description": "An improvement on something existing.",
+      "color": "A2EEEF"
+    }
+  },
+
+  {
+    "action": "CREATE",
+    "name": ":fire: P0",
+    "description": "Fire. Drop everything and fix this ASAP.",
+    "color": "D93F0B"
+  },
+  {
+    "action": "CREATE",
+    "name": ":triangular_flag_on_post: P1",
+    "description": "High priority. Resolve in the next few days.",
+    "color": "FFA500"
+  },
+  {
+    "action": "CREATE",
+    "name": ":warning: P2",
+    "description": "Important. Resolve by next release.",
+    "color": "FBCA04"
+  },
+  {
+    "action": "CREATE",
+    "name": ":grey_exclamation: P3",
+    "description": "Low priority. Possibly nice to have. Resolve if time allows.",
+    "color": "0E8A16"
+  },
+  {
+    "action": "CREATE",
+    "name": ":icecream: P4",
+    "description": "Extremely low priority. Probably not worth spending time on right now.",
+    "color": "1D76DB"
+  },
+
+  {
+    "action": "CREATE",
+    "name": ":no_entry_sign: blocked",
+    "description": "Blocked on something external. Waiting to be unblocked.",
+    "color": "D93F0B"
+  },
+  {
+    "action": "CREATE",
+    "name": ":eyes: awaiting review",
+    "description": "Requires review before proceeding.",
+    "color": "FBCA04"
+  },
+
+  {
+    "action": "CREATE",
+    "name": ":sparkles: feature",
+    "description": "New feature or request.",
+    "color": "5319E7"
+  },
+  {
+    "action": "CREATE",
+    "name": ":mag: research",
+    "description": "Issues requiring research or information gathering.",
+    "color": "1D76DB"
+  },
+  {
+    "action": "CREATE",
+    "name": ":money_mouth_face: tech debt",
+    "description": "Things weighing down the stack over the long-term.",
+    "color": "000000"
+  }
+]
