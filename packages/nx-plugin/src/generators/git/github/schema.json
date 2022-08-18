@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "$id": "GitHub",
+  "title": "",
+  "type": "object",
+  "properties": {
+    "organization": {
+      "type": "string",
+      "description": "The GitHub organization to operate on"
+    },
+    "repositoryName": {
+      "type": "string",
+      "description": "The name of the repository to create or update"
+    },
+    "repositoryDescription": {
+      "type": "string",
+      "description": "A description of the repository to create or update"
+    },
+    "privateRepository": {
+      "type": "boolean",
+      "description": "Whether or not this GitHub repository should be private",
+      "default": false
+    }
+  },
+  "required": ["organization", "repositoryName", "repositoryDescription"]
+}

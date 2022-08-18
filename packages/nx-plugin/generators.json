@@ -33,6 +33,11 @@
       "schema": "./src/generators/git/gitHooks/schema.json",
       "description": "Generates a git hooks setup"
     },
+    "github": {
+      "factory": "./src/generators/git/github",
+      "schema": "./src/generators/git/github/schema.json",
+      "description": "Generates a GitHub repo and standardizes settings and labels"
+    },
     "jest": {
       "factory": "./src/generators/testing/jest",
       "schema": "./src/generators/testing/jest/schema.json",
