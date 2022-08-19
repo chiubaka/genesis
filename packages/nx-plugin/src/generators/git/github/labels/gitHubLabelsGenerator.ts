@@ -3,7 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 import { generatorLogger as logger } from "../../../../logger";
-import { exec, github } from "../../../../utils";
+import { getGitHubRepoInfo, github } from "../../../../utils";
 
 type LabelMigrationAction =
   | CreateLabelAction
@@ -77,17 +77,6 @@ function applyLabelMigrations(tree: Tree) {
       }
     }
   };
-}
-
-async function getGitHubRepoInfo(tree: Tree) {
-  const remoteName = "origin";
-  const { stdout } = await exec(`git config --get remote.${remoteName}.url`, {
-    cwd: tree.root,
-  });
-
-  const remoteUrl = stdout.trim();
-
-  return parseRemoteUrl(remoteUrl);
 }
 
 async function processLabelMigrationAction(
@@ -167,21 +156,4 @@ async function updateLabel(
     originalName: targetLabelName,
     ...payload,
   });
-}
-
-export function parseRemoteUrl(remoteUrl: string) {
-  const colonIndex = remoteUrl.indexOf(":");
-  const orgAndRepoPlusSuffix = remoteUrl.slice(colonIndex + 1);
-
-  const suffixIndex = orgAndRepoPlusSuffix.lastIndexOf(".git");
-  const orgAndRepo = orgAndRepoPlusSuffix.slice(0, suffixIndex);
-
-  const slashIndex = orgAndRepo.lastIndexOf("/");
-  const organization = orgAndRepo.slice(0, slashIndex);
-  const repositoryName = orgAndRepo.slice(slashIndex + 1);
-
-  return {
-    organization,
-    repositoryName,
-  };
 }
