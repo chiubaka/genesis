@@ -38,6 +38,11 @@
       "schema": "./src/generators/git/github/schema.json",
       "description": "Generates a GitHub repo and standardizes settings and labels"
     },
+    "github.branch-protection": {
+      "factory": "./src/generators/git/github/branchProtection",
+      "schema": "./src/generators/git/github/branchProtection/schema.json",
+      "description": "Configures branch protection for the master branch of a GitHub repo"
+    },
     "github.labels": {
       "factory": "./src/generators/git/github/labels",
       "schema": "./src/generators/git/github/labels/schema.json",

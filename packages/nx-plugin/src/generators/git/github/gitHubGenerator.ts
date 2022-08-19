@@ -3,8 +3,9 @@ import { Tree } from "@nrwl/devkit";
 import { generatorLogger as logger } from "../../../logger";
 import { exec, github } from "../../../utils";
 import { noOpTask } from "../../tasks";
+import { gitHubBranchProtectionGenerator } from "./branchProtection";
 import { GitHubGeneratorSchema } from "./gitHubGenerator.schema";
-import gitHubLabelsGenerator from "./labels";
+import { gitHubLabelsGenerator } from "./labels";
 
 export function gitHubGenerator(tree: Tree, options: GitHubGeneratorSchema) {
   logger.info(
@@ -18,8 +19,7 @@ export function gitHubGenerator(tree: Tree, options: GitHubGeneratorSchema) {
   const createOrUpdateRepoTask = createOrUpdateRepo(options);
   const addGitRemoteTask = addGitRemote(tree, options);
   const pushToRemoteMasterTask = pushToRemoteMaster(tree, options);
-  // TODO: Offload branch protections to a sub generator
-  const protectMasterBranchTask = protectMasterBranch(options);
+  const protectBranchesTask = gitHubBranchProtectionGenerator(tree, options);
   const updateLabelsTask = gitHubLabelsGenerator(tree);
 
   return async () => {
@@ -28,7 +28,7 @@ export function gitHubGenerator(tree: Tree, options: GitHubGeneratorSchema) {
     await createOrUpdateRepoTask();
     await addGitRemoteTask();
     await pushToRemoteMasterTask();
-    await protectMasterBranchTask();
+    await protectBranchesTask();
     await updateLabelsTask();
   };
 }
@@ -56,41 +56,6 @@ function createOrUpdateRepo({
       allowUpdateBranch: true,
       deleteBranchOnMerge: true,
       hasIssues: true,
-    });
-  };
-}
-
-function protectMasterBranch({
-  organization,
-  repositoryName,
-  enableCircleCiStatusChecks,
-  enableCodecovStatusChecks,
-}: GitHubGeneratorSchema) {
-  const requiredStatusChecks: string[] = [];
-
-  if (enableCircleCiStatusChecks) {
-    requiredStatusChecks.push("lint-build-test-deploy");
-  }
-
-  if (enableCodecovStatusChecks) {
-    requiredStatusChecks.push("codecov/patch", "codecov/project");
-  }
-
-  return async () => {
-    logger.info("Updating GitHub master branch protections");
-
-    await github.updateBranchProtection({
-      repoOwner: organization,
-      repoName: repositoryName,
-      branch: "master",
-      requiredStatusChecks,
-      requiredStatusChecksStrict: true,
-      requiredApprovingReviewCount: 0,
-      requiredLinearHistory: true,
-      allowForcePushes: false,
-      allowDeletions: false,
-      requiredConversationResolution: true,
-      enforceAdmins: false,
     });
   };
 }
