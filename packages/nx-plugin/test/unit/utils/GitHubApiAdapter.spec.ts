@@ -5,6 +5,8 @@ import path from "node:path";
 
 import { github } from "../../../src/utils";
 
+jest.setTimeout(20_000);
+
 describe("GitHubApiAdapter", () => {
   const TEST_REPO = {
     owner: "chiubaka",

@@ -23,8 +23,7 @@
     "method": "PATCH",
     "path": "/repos/chiubaka/generated-typescript-package/labels/foobar",
     "body": {
-      "repoOwner": "chiubaka",
-      "repoName": "generated-typescript-package",
+      "new_name": "foobar",
       "description": "Updated description",
       "color": "000000"
     },
