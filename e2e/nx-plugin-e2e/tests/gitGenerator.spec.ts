@@ -17,7 +17,7 @@ describe("gitGenerator", () => {
     );
 
     await workspace.execNx(
-      'generate @chiubaka/nx-plugin:git --commitMessage="test initial commit message" --committerEmail="test@chiubaka.com" --committerName="Test McTest"',
+      'generate @chiubaka/nx-plugin:git --commitMessage="test initial commit message" --committerEmail="test@chiubaka.com" --committerName="Test McTest" --skipGitHub',
     );
   });
 

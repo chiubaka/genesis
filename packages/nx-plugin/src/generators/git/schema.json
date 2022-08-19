@@ -16,6 +16,15 @@
     "committerName": {
       "type": "string",
       "description": "Initial repository commit author's name."
+    },
+
+    "skipGitHooks": {
+      "type": "boolean",
+      "description": "Whether or not to skip Git hooks generation"
+    },
+    "skipGitHub": {
+      "type": "boolean",
+      "description": "Whether or not to skip GitHub repository generation"
     }
   },
   "required": ["commitMessage"]

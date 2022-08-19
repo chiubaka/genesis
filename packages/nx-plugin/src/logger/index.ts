@@ -9,7 +9,7 @@ export const createLogger = (
   options: Partial<LoggerOptions> = {},
 ): Logger => {
   return new WinstonLogger({
-    level: LogLevel.Info,
+    level: LogLevel.Debug,
     ...options,
     output: {
       console: true,

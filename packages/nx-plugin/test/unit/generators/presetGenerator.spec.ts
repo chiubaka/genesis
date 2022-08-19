@@ -11,6 +11,7 @@ describe("preset generator", () => {
   const options: PresetGeneratorSchema = {
     workspaceName: "preset",
     workspaceScope: "chiubaka",
+    description: "Testing for the preset generator",
 
     skipInstall: true,
   };

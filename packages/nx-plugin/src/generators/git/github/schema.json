@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "$id": "GitHub",
+  "title": "",
+  "type": "object",
+  "properties": {
+    "organization": {
+      "type": "string",
+      "description": "The GitHub organization to operate on"
+    },
+    "repositoryName": {
+      "type": "string",
+      "description": "The name of the repository to create or update"
+    },
+    "repositoryDescription": {
+      "type": "string",
+      "description": "A description of the repository to create or update"
+    },
+    "privateRepository": {
+      "type": "boolean",
+      "description": "Whether or not this GitHub repository should be private",
+      "default": false
+    },
+
+    "enableCircleCiStatusChecks": {
+      "type": "boolean",
+      "description": "Whether or not to enable CircleCI PR status checks"
+    },
+    "enableCodecovStatusChecks": {
+      "type": "boolean",
+      "description": "Whether or not to enable Codecov PR status checks"
+    },
+
+    "forcePush": {
+      "type": "boolean",
+      "description": "Whether or not to force push when pushing code to the remote",
+      "default": false
+    },
+    "pushToRemote": {
+      "type": "boolean",
+      "description": "Whether or not to push commited code to the remote",
+      "default": true
+    }
+  },
+  "required": ["organization", "repositoryName", "repositoryDescription"]
+}

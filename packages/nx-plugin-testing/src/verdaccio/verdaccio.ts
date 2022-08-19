@@ -37,6 +37,9 @@ export class Verdaccio {
   }
 
   public publish(packagePath: string) {
+    execSync(`npm unpublish --force --registry=${this.url}`, {
+      cwd: packagePath,
+    });
     execSync(`npm publish --registry=${this.url}`, {
       cwd: packagePath,
     });

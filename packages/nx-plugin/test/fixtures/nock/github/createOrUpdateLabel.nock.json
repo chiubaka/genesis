@@ -1,0 +1,34 @@
+[
+  {
+    "scope": "https://api.github.com:443",
+    "method": "GET",
+    "path": "/repos/chiubaka/generated-typescript-package/labels",
+    "body": "",
+    "status": 200,
+    "response": [],
+    "responseIsBinary": false
+  },
+  {
+    "scope": "https://api.github.com:443",
+    "method": "POST",
+    "path": "/repos/chiubaka/generated-typescript-package/labels",
+    "body": {
+      "repoOwner": "chiubaka",
+      "repoName": "generated-typescript-package",
+      "name": "foobar",
+      "description": "Test description",
+      "color": "000000"
+    },
+    "status": 201,
+    "response": {
+      "id": 4321918914,
+      "node_id": "LA_kwDOHn8Nis8AAAABAZs_wg",
+      "url": "https://api.github.com/repos/chiubaka/generated-typescript-package/labels/foobar",
+      "name": "foobar",
+      "color": "000000",
+      "default": false,
+      "description": "Test description"
+    },
+    "responseIsBinary": false
+  }
+]

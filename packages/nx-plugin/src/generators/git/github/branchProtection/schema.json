@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "$id": "GitHub Branch Protection",
+  "title": "",
+  "type": "object",
+  "properties": {
+    "enableCircleCiStatusChecks": {
+      "type": "boolean",
+      "description": "Whether or not to enable CircleCI PR status checks"
+    },
+    "enableCodecovStatusChecks": {
+      "type": "boolean",
+      "description": "Whether or not to enable Codecov PR status checks"
+    }
+  },
+  "required": ["organization", "repositoryName", "repositoryDescription"]
+}

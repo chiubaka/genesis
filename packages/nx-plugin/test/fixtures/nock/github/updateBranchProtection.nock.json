@@ -1,0 +1,18 @@
+[
+  {
+    "scope": "https://api.github.com:443",
+    "method": "PUT",
+    "path": "/repos/chiubaka/test-repo/branches/master/protection",
+    "body": {
+      "required_status_checks": null,
+      "enforce_admins": null,
+      "required_pull_request_reviews": {},
+      "required_linear_history": true,
+      "required_conversation_resolution": true,
+      "restrictions": null
+    },
+    "status": 200,
+    "response": "",
+    "responseIsBinary": false
+  }
+]

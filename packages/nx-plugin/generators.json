@@ -33,6 +33,21 @@
       "schema": "./src/generators/git/gitHooks/schema.json",
       "description": "Generates a git hooks setup"
     },
+    "github": {
+      "factory": "./src/generators/git/github",
+      "schema": "./src/generators/git/github/schema.json",
+      "description": "Generates a GitHub repo and standardizes settings and labels"
+    },
+    "github.branch-protection": {
+      "factory": "./src/generators/git/github/branchProtection",
+      "schema": "./src/generators/git/github/branchProtection/schema.json",
+      "description": "Configures branch protection for the master branch of a GitHub repo"
+    },
+    "github.labels": {
+      "factory": "./src/generators/git/github/labels",
+      "schema": "./src/generators/git/github/labels/schema.json",
+      "description": "Generates a standardized set of GitHub labels for issues"
+    },
     "jest": {
       "factory": "./src/generators/testing/jest",
       "schema": "./src/generators/testing/jest/schema.json",

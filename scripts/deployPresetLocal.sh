@@ -11,7 +11,7 @@ TMP_WORKSPACE=/tmp/$WORKSPACE_NAME
 
 rm -rf $E2E_WORKSPACE $TMP_WORKSPACE
 
-nx build nx-plugin
+nx build nx-plugin --skip-nx-cache
 
 cd $WORKSPACE_ROOT/dist/packages/nx-plugin
 npm unpublish -f --registry http://localhost:4873

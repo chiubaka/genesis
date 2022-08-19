@@ -12,7 +12,21 @@
     "workspaceScope": {
       "description": "The scope of the workspace. Usually the org's name. This option should be passed by Nx automatically.",
       "type": "string"
+    },
+
+    "description": {
+      "description": "A description of what this new workspace will accomplish",
+      "type": "string"
+    },
+
+    "skipGitHub": {
+      "description": "Whether or not to skip GitHub repository generation",
+      "type": "boolean"
+    },
+    "skipInstall": {
+      "description": "Whether or not to skip package manager install",
+      "type": "boolean"
     }
   },
-  "required": ["workspaceName", "workspaceScope"]
+  "required": ["workspaceName", "workspaceScope", "description"]
 }

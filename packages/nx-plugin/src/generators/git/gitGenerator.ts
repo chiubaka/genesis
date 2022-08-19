@@ -5,6 +5,7 @@ import { exec } from "../../utils";
 import { noOpTask } from "../tasks";
 import { GitGeneratorSchema } from "./gitGenerator.schema";
 import { gitHooksGenerator } from "./gitHooks";
+import { gitHubGenerator, GitHubGeneratorSchema } from "./github";
 
 /**
  * Nx provides its own git repo generation capabilities, but there are two problems:
@@ -31,6 +32,7 @@ export async function gitGenerator(tree: Tree, options: GitGeneratorSchema) {
     ? noOpTask
     : await gitHooksGenerator(tree, options);
   const createInitialCommitTask = createInitialCommit(tree, options);
+  const githubTask = setUpGitHub(tree, options);
 
   return async () => {
     logger.info("Running post-processing tasks for git generator");
@@ -38,6 +40,7 @@ export async function gitGenerator(tree: Tree, options: GitGeneratorSchema) {
     await initGitRepoTask();
     await gitHooksTask();
     await createInitialCommitTask();
+    await githubTask();
   };
 }
 
@@ -83,5 +86,69 @@ function createInitialCommit(tree: Tree, options: GitGeneratorSchema) {
         ...committerNameEnvVars,
       },
     });
+  };
+}
+
+function setUpGitHub(tree: Tree, options: GitGeneratorSchema) {
+  if (options.skipGitHub) {
+    return noOpTask;
+  }
+
+  const gitHubOptions = normalizeGitHubSchema(options);
+
+  return gitHubGenerator(tree, gitHubOptions);
+}
+
+function normalizeGitHubSchema(
+  options: GitGeneratorSchema,
+): GitHubGeneratorSchema {
+  const {
+    organization,
+    repositoryName,
+    repositoryDescription,
+    privateRepository,
+
+    enableCircleCiStatusChecks,
+    enableCodecovStatusChecks,
+
+    forcePush,
+    pushToRemote,
+  } = options;
+
+  if (!organization) {
+    throw new Error(
+      "Option organization is required when generating a GitHub repository",
+    );
+  }
+
+  if (!repositoryName) {
+    throw new Error(
+      "Option repositoryName is required when generating a GitHub repository",
+    );
+  }
+
+  if (!repositoryDescription) {
+    throw new Error(
+      "Option repositoryDescription is required when generating a GitHub repository",
+    );
+  }
+
+  if (!privateRepository) {
+    throw new Error(
+      "Option privateRepository is required when generating a GitHub repository",
+    );
+  }
+
+  return {
+    organization,
+    repositoryName,
+    repositoryDescription,
+    privateRepository,
+
+    enableCircleCiStatusChecks,
+    enableCodecovStatusChecks,
+
+    forcePush: forcePush ?? false,
+    pushToRemote: pushToRemote ?? true,
   };
 }
