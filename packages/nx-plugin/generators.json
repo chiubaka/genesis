@@ -4,83 +4,83 @@
   "version": "0.0.1",
   "generators": {
     "ci": {
-      "factory": "./src/generators/ci",
-      "schema": "./src/generators/ci/schema.json",
+      "factory": "./src/generators/workspace/ci",
+      "schema": "./src/generators/workspace/ci/schema.json",
       "description": "Generates CI configuration"
     },
     "circleci": {
-      "factory": "./src/generators/ci/circleci",
-      "schema": "./src/generators/ci/circleci/schema.json",
+      "factory": "./src/generators/workspace/ci/circleci",
+      "schema": "./src/generators/workspace/ci/circleci/schema.json",
       "description": "Generates CircleCI configuration"
     },
     "codecov": {
-      "factory": "./src/generators/testing/codecov",
-      "schema": "./src/generators/testing/codecov/schema.json",
+      "factory": "./src/generators/workspace/testing/codecov",
+      "schema": "./src/generators/workspace/testing/codecov/schema.json",
       "description": "Generates Codecov configuration"
     },
     "eslint": {
-      "factory": "./src/generators/linting/eslint",
-      "schema": "./src/generators/linting/eslint/schema.json",
+      "factory": "./src/generators/workspace/linting/eslint",
+      "schema": "./src/generators/workspace/linting/eslint/schema.json",
       "description": "Generates ESLint configuration and setup"
     },
     "git": {
-      "factory": "./src/generators/git",
-      "schema": "./src/generators/git/schema.json",
+      "factory": "./src/generators/workspace/git",
+      "schema": "./src/generators/workspace/git/schema.json",
       "description": "Generates a git repository"
     },
     "gitHooks": {
-      "factory": "./src/generators/git/gitHooks",
-      "schema": "./src/generators/git/gitHooks/schema.json",
+      "factory": "./src/generators/workspace/git/gitHooks",
+      "schema": "./src/generators/workspace/git/gitHooks/schema.json",
       "description": "Generates a git hooks setup"
     },
     "github": {
-      "factory": "./src/generators/git/github",
-      "schema": "./src/generators/git/github/schema.json",
+      "factory": "./src/generators/workspace/git/github",
+      "schema": "./src/generators/workspace/git/github/schema.json",
       "description": "Generates a GitHub repo and standardizes settings and labels"
     },
     "github.branch-protection": {
-      "factory": "./src/generators/git/github/branchProtection",
-      "schema": "./src/generators/git/github/branchProtection/schema.json",
+      "factory": "./src/generators/workspace/git/github/branchProtection",
+      "schema": "./src/generators/workspace/git/github/branchProtection/schema.json",
       "description": "Configures branch protection for the master branch of a GitHub repo"
     },
     "github.labels": {
-      "factory": "./src/generators/git/github/labels",
-      "schema": "./src/generators/git/github/labels/schema.json",
+      "factory": "./src/generators/workspace/git/github/labels",
+      "schema": "./src/generators/workspace/git/github/labels/schema.json",
       "description": "Generates a standardized set of GitHub labels for issues"
     },
     "jest": {
-      "factory": "./src/generators/testing/jest",
-      "schema": "./src/generators/testing/jest/schema.json",
+      "factory": "./src/generators/workspace/testing/jest",
+      "schema": "./src/generators/workspace/testing/jest/schema.json",
       "description": "Installs Jest and generates a standard config"
     },
     "linting": {
-      "factory": "./src/generators/linting",
-      "schema": "./src/generators/linting/schema.json",
+      "factory": "./src/generators/workspace/linting",
+      "schema": "./src/generators/workspace/linting/schema.json",
       "description": "Generates linting setup including EsLint and Prettier"
     },
     "preset": {
-      "factory": "./src/generators/preset",
-      "schema": "./src/generators/preset/schema.json",
+      "factory": "./src/generators/workspace/preset",
+      "schema": "./src/generators/workspace/preset/schema.json",
       "description": "Generates a full workspace with batteries included!"
     },
     "prettier": {
-      "factory": "./src/generators/linting/prettier",
-      "schema": "./src/generators/linting/prettier/schema.json",
+      "factory": "./src/generators/workspace/linting/prettier",
+      "schema": "./src/generators/workspace/linting/prettier/schema.json",
       "description": "Generates Prettier configuration and setup"
     },
     "readme": {
-      "factory": "./src/generators/readme",
-      "schema": "./src/generators/readme/schema.json",
+      "factory": "./src/generators/workspace/readme",
+      "schema": "./src/generators/workspace/readme/schema.json",
       "description": "Generates a README for the repo"
     },
     "testing": {
-      "factory": "./src/generators/testing",
-      "schema": "./src/generators/testing/schema.json",
+      "factory": "./src/generators/workspace/testing",
+      "schema": "./src/generators/workspace/testing/schema.json",
       "description": "Generates monorepo-wide testing configuration and setup"
     },
     "tsconfig": {
-      "factory": "./src/generators/tsconfig",
-      "schema": "./src/generators/tsconfig/schema.json",
+      "factory": "./src/generators/workspace/tsconfig",
+      "schema": "./src/generators/workspace/tsconfig/schema.json",
       "description": "Generates a tsconfig extending from @chiubaka/tsconfig and installs relevant dependencies"
     }
   }

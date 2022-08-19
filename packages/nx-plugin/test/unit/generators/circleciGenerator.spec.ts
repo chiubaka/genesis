@@ -1,7 +1,7 @@
 import { Tree } from "@nrwl/devkit";
 import { createTreeWithEmptyWorkspace } from "@nrwl/devkit/testing";
 
-import { circleciGenerator } from "../../../src/generators/index";
+import { circleciGenerator } from "../../../src/generators";
 
 describe("circleciGenerator", () => {
   let tree: Tree;

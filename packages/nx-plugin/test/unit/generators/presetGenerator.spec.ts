@@ -5,7 +5,7 @@ import { PackageJson } from "nx/src/utils/package-json";
 import {
   presetGenerator,
   PresetGeneratorSchema,
-} from "../../../src/generators/preset";
+} from "../../../src/generators";
 
 describe("preset generator", () => {
   let tree: Tree;
