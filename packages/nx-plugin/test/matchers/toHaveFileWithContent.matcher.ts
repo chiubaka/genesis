@@ -4,16 +4,19 @@ interface FileWithContentMatcherOptions {
   exact?: boolean;
 }
 
-export const toHaveFileWithContent = (
+export function toHaveFileWithContent(
+  this: jest.MatcherUtils,
   tree: Tree,
   filePath: string,
   content: string,
   options: FileWithContentMatcherOptions = {},
-) => {
+) {
   expect(tree).toBeNxTree();
 
-  // eslint-disable-next-line security/detect-non-literal-fs-filename
-  expect(tree.exists(filePath)).toBe(true);
+  if (!this.isNot) {
+    // eslint-disable-next-line security/detect-non-literal-fs-filename
+    expect(tree.exists(filePath)).toBe(true);
+  }
 
   const buffer = tree.read(filePath);
 
@@ -29,15 +32,28 @@ export const toHaveFileWithContent = (
   const fileContent = buffer.toString();
 
   if (options.exact) {
-    expect(fileContent).toEqual(content);
+    if (this.isNot) {
+      expect(fileContent).not.toEqual(content);
+    } else {
+      expect(fileContent).toEqual(content);
+    }
   } else {
-    expect(fileContent).toContain(content);
+    if (this.isNot) {
+      expect(fileContent).not.toContain(content);
+    } else {
+      expect(fileContent).toContain(content);
+    }
   }
 
+  const defaultResult = !this.isNot;
+
   return {
-    pass: true,
+    pass: defaultResult,
     message: () => {
-      return `Expected tree to contain ${filePath} with content ${content}`;
+      const messagePrefix = this.isNot
+        ? "Expected tree NOT to contain"
+        : "Expected tree to contain";
+      return `${messagePrefix} ${filePath} with content ${content}`;
     },
   };
-};
+}

@@ -1,7 +1,7 @@
 import { Tree } from "@nrwl/devkit";
 import { createTreeWithEmptyWorkspace } from "@nrwl/devkit/testing";
 
-import { readmeGenerator } from "../../../src/generators";
+import { readmeGenerator } from "../../../../src/generators";
 
 describe("readmeGenerator", () => {
   let tree: Tree;

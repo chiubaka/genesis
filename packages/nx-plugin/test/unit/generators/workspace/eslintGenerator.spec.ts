@@ -3,8 +3,8 @@ import { createTreeWithEmptyWorkspace } from "@nrwl/devkit/testing";
 import { Linter } from "eslint";
 import { PackageJson } from "nx/src/utils/package-json";
 
-import { eslintGenerator } from "../../../src/generators";
-import { DEFAULT_MOCK_INSTALLED_PACKAGE_VERSION } from "../../mocks";
+import { eslintGenerator } from "../../../../src/generators";
+import { DEFAULT_MOCK_INSTALLED_PACKAGE_VERSION } from "../../../mocks";
 
 describe("eslintGenerator", () => {
   let tree: Tree;

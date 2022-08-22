@@ -58,6 +58,11 @@
       "schema": "./src/generators/workspace/linting/schema.json",
       "description": "Generates linting setup including EsLint and Prettier"
     },
+    "lib.node": {
+      "factory": "./src/generators/lib/node",
+      "schema": "./src/generators/lib/node/schema.json",
+      "description": "Generates a shareable node library"
+    },
     "preset": {
       "factory": "./src/generators/workspace/preset",
       "schema": "./src/generators/workspace/preset/schema.json",

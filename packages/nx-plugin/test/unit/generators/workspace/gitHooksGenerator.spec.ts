@@ -2,8 +2,8 @@ import { readJson, Tree } from "@nrwl/devkit";
 import { createTreeWithEmptyWorkspace } from "@nrwl/devkit/testing";
 import { PackageJson } from "nx/src/utils/package-json";
 
-import { gitHooksGenerator } from "../../../src/generators";
-import { DEFAULT_MOCK_INSTALLED_PACKAGE_VERSION } from "../../mocks";
+import { gitHooksGenerator } from "../../../../src/generators";
+import { DEFAULT_MOCK_INSTALLED_PACKAGE_VERSION } from "../../../mocks";
 
 describe("gitHooksGenerator", () => {
   let tree: Tree;

@@ -1,18 +1,9 @@
 import { readJson, Tree } from "@nrwl/devkit";
 import { createTreeWithEmptyWorkspace } from "@nrwl/devkit/testing";
 
-import { tsconfigGenerator } from "../../../src/generators";
-import { DEFAULT_MOCK_INSTALLED_PACKAGE_VERSION } from "../../mocks";
-
-interface TsConfig {
-  extends?: string;
-  compilerOptions?: {
-    baseUrl?: string;
-    rootDir?: string;
-
-    paths?: Record<string, string>;
-  };
-}
+import { tsconfigGenerator } from "../../../../src/generators";
+import { DEFAULT_MOCK_INSTALLED_PACKAGE_VERSION } from "../../../mocks";
+import { TsConfig } from "../../../types/tsconfig";
 
 describe("tsconfigGenerator", () => {
   let tree: Tree;

@@ -1,0 +1,7 @@
+import { hello } from "../src";
+
+describe("hello", () => {
+  it("contains a familiar phrase", () => {
+    expect(hello).toBe("Hello, world!");
+  });
+});

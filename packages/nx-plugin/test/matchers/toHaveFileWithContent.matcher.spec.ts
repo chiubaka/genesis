@@ -78,4 +78,43 @@ describe("toHaveFileWithContent", () => {
       );
     });
   });
+
+  describe("when negated", () => {
+    it("passes when the tree does not have the specified file", () => {
+      expect(() => {
+        expect(tree).not.toHaveFileWithContent("bar.txt", "bar");
+      }).not.toThrow();
+    });
+
+    it("passes when the tree has the specified file, but the file does not contain the specified content", () => {
+      expect(() => {
+        expect(tree).not.toHaveFileWithContent("foobar.txt", "Hello, world!");
+      }).not.toThrow();
+    });
+
+    it("fails when the tree has the specified file with the specified content", () => {
+      expect(() => {
+        expect(tree).not.toHaveFileWithContent("foobar.txt", "foobar");
+      }).toThrow();
+    });
+
+    describe("when exact=true", () => {
+      it("passes when the tree has the specified file, but the file's contents do not exactly match the specified content", () => {
+        expect(() => {
+          expect(tree).not.toHaveFileWithContent("foobar.txt", "foobar", {
+            exact: true,
+          });
+        }).not.toThrow();
+      });
+
+      it("fails when the tree has the specified file and the file's contents exactly match the specified content", () => {
+        expect(() => {
+          expect(tree).not.toHaveFileWithContent(
+            "foobar.txt",
+            "this file is just a bunch of foobar",
+          );
+        }).toThrow();
+      });
+    });
+  });
 });

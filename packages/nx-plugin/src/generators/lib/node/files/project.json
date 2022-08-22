@@ -1,0 +1,48 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/<%= projectName.kebabCase %>/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/<%= projectName.kebabCase %>",
+        "main": "packages/<%= projectName.kebabCase %>/src/index.ts",
+        "tsConfig": "packages/<%= projectName.kebabCase %>/tsconfig.lib.json",
+        "assets": [
+          "packages/<%= projectName.kebabCase %>/*.md",
+          {
+            "input": "./packages/<%= projectName.kebabCase %>/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/<%= projectName.kebabCase %>/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          }
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/<%= projectName.kebabCase %>"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "reports/coverage/packages/<%= projectName.kebabCase %>",
+        "reports/junit/<%= projectName.kebabCase %>.xml"
+      ],
+      "options": {
+        "jestConfig": "packages/<%= projectName.kebabCase %>/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
