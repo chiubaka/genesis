@@ -10,7 +10,6 @@ import {
 import { createTreeWithEmptyWorkspace } from "@nrwl/devkit/testing";
 import path from "node:path";
 import { CompilerOptions, ProjectReference } from "typescript";
-("ts-jest");
 
 import { nodeLibGenerator } from "../../../../src/generators";
 import { TsConfig } from "../../../types/tsconfig";
@@ -26,6 +25,11 @@ describe("nodeLibGenerator", () => {
 
   beforeAll(async () => {
     tree = createTreeWithEmptyWorkspace();
+    tree.write(
+      "README.md",
+      "[![codecov](https://codecov.io/gh/chiubaka/node-lib/branch/master/graph/badge.svg?token=foobar)](https://codecov.io/gh/chiubaka/node-lib)",
+    );
+
     await nodeLibGenerator(tree, {
       name: "node-lib",
       scope: "chiubaka",
@@ -74,6 +78,20 @@ describe("nodeLibGenerator", () => {
 
   it("generates a sample file in pascal case", () => {
     expect(tree.exists(srcPath("hello.ts"))).toBe(true);
+  });
+
+  describe("package.json", () => {
+    describe("dependencies", () => {
+      it.todo("lists node 18 as a peer dependency");
+
+      it.todo("lists node as a dev dependency");
+    });
+
+    describe("scripts", () => {
+      it.todo("generates a deploy script");
+
+      it.todo("generates a deploy:ci script");
+    });
   });
 
   it("generates a jest config", () => {
@@ -128,6 +146,14 @@ describe("nodeLibGenerator", () => {
     });
   });
 
+  describe(".babelrc", () => {
+    it.todo("generates a .babelrc file");
+  });
+
+  describe(".eslintrc.json", () => {
+    it.todo("generates a .eslintrc.json file");
+  });
+
   describe("tsconfig.json", () => {
     it("generates a tsconfig.json file", () => {
       expect(tree.exists(projectPath("tsconfig.json"))).toBe(true);
@@ -149,9 +175,11 @@ describe("nodeLibGenerator", () => {
 
         const compilerOptions = tsConfig.compilerOptions as CompilerOptions;
 
-        expect(Object.keys(compilerOptions)).toHaveLength(2);
+        expect(Object.keys(compilerOptions)).toHaveLength(4);
+        expect(compilerOptions.lib).toEqual(["es2022"]);
         expect(compilerOptions.module).toBe("commonjs");
         expect(compilerOptions.outDir).toBe("../../dist/out-tsc");
+        expect(compilerOptions.target).toBe("es2022");
       });
 
       it("references child configs for build and testing", () => {
@@ -262,7 +290,7 @@ describe("nodeLibGenerator", () => {
       it("generates a Codecov shield for just the flag matching this project", () => {
         expect(tree).toHaveFileWithContent(
           projectPath("README.md"),
-          `[![codecov](https://codecov.io/gh/chiubaka/node-lib/branch/master/graph/badge.svg?token=foobar&flag=nx-plugin)](https://codecov.io/gh/chiubaka/node-lib)`,
+          `[![codecov](https://codecov.io/gh/chiubaka/node-lib/branch/master/graph/badge.svg?token=foobar&flag=node-lib)](https://codecov.io/gh/chiubaka/node-lib)`,
         );
       });
     });
