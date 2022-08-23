@@ -11,6 +11,7 @@
         "passWithNoTests": true
       },
       "outputs": [
+        "tmp/nx-e2e/genesis",
         "reports/coverage/e2e/genesis-e2e",
         "reports/junit/genesis-e2e.xml"
       ]
