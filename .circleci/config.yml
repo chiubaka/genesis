@@ -7,7 +7,7 @@ constants:
   semver-regex: &semver-regex /^(\w+-)+v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/
 
 orbs:
-  chiubaka: chiubaka/circleci-orb@0.8.2
+  chiubaka: chiubaka/circleci-orb@0.9.0
 
 filters:
   semver-tags: &semver-tags
@@ -33,6 +33,11 @@ workflows:
       - chiubaka/test:
           name: test
           configure-git-user: true
+          docker-compose: true
+          wait-for-docker-services:
+            - wait-for-docker-service:
+                container-name: genesis_registry_1
+                url: http://localhost:4873
           yarn-berry: true
           filters:
             <<: *semver-tags
