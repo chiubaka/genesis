@@ -38,8 +38,6 @@ describe("genesis", () => {
 
   afterAll(async () => {
     await workspace.execNx("reset");
-
-    verdaccio.logout();
   });
 
   it("should create a workspace root directory matching name option, not org scope", () => {

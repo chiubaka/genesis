@@ -28,10 +28,6 @@ export class Verdaccio {
     });
   }
 
-  public logout() {
-    execSync(`npm logout --registry=${this.url}`);
-  }
-
   public getUrl() {
     return this.url;
   }
