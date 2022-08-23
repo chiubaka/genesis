@@ -18,6 +18,11 @@ options passed down to Nx and name them appropriately so that 1) the user does n
 ### Setup
 1. Clone this repo
 2. Run `yarn install` in the project root
+3. If you don't already have it, install Docker and Docker Compose (required for E2E testing)
+
+### Testing
+#### E2E
+E2E testing requires `docker-compose` installed. Before running E2E tests, run `yarn start:verdaccio`.
 
 ### Common Commands
 - `nx e2e genesis-e2e`
