@@ -397,9 +397,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chiubaka/eslint-config@npm:^0.3.7":
-  version: 0.3.7
-  resolution: "@chiubaka/eslint-config@npm:0.3.7"
+"@chiubaka/eslint-config@npm:^0.3.8":
+  version: 0.3.8
+  resolution: "@chiubaka/eslint-config@npm:0.3.8"
   dependencies:
     "@rushstack/eslint-patch": ^1.1.4
     "@typescript-eslint/eslint-plugin": 5.30.6
@@ -421,7 +421,7 @@ __metadata:
   peerDependencies:
     eslint: ">= 3"
     typescript: ">= 4"
-  checksum: bbf0c6585b1ffa15e6f104213b9980737e5df5db98eeeeacca2f2126b731d7284bba307ccf2a78c006aa933c8b1a4e082d6ffce876007cfd78208af6b2d58797
+  checksum: 8e743415e0eeef9b326f3b40905a7297295254930fe5f35b6b046530cc16885f0cf6b16c11eb87a33c11a1ac9c3c44c5effe390fe72877815ba472a89fa48d0e
   languageName: node
   linkType: hard
 
@@ -7341,7 +7341,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "nx-plugin@workspace:."
   dependencies:
-    "@chiubaka/eslint-config": ^0.3.7
+    "@chiubaka/eslint-config": ^0.3.8
     "@chiubaka/tsconfig": ^0.1.0
     "@nrwl/cli": 14.5.6
     "@nrwl/devkit": 14.5.6

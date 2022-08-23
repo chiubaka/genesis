@@ -8,9 +8,8 @@ describe("genesis", () => {
   let verdaccio: Verdaccio;
   let workspace: TestingWorkspace;
 
-  beforeAll(async () => {
-    verdaccio = new Verdaccio();
-    await verdaccio.start();
+  beforeAll(() => {
+    verdaccio = new Verdaccio("http://localhost:4873");
 
     const distPackagesDir = path.join(__dirname, "../../../dist/packages");
 
@@ -40,7 +39,7 @@ describe("genesis", () => {
   afterAll(async () => {
     await workspace.execNx("reset");
 
-    verdaccio.stop();
+    verdaccio.logout();
   });
 
   it("should create a workspace root directory matching name option, not org scope", () => {
