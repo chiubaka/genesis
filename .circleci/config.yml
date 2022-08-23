@@ -35,7 +35,7 @@ workflows:
           configure-git-user: true
           docker-compose: true
           wait-for-docker-services:
-            - wait-for-docker-service:
+            - chiubaka/wait-for-docker-service:
                 container-name: genesis_registry_1
                 url: http://localhost:4873
           yarn-berry: true
