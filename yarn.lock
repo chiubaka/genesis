@@ -7333,7 +7333,6 @@ __metadata:
   dependencies:
     "@nrwl/devkit": ^14.5.6
     nx: ^14.5.6
-    portfinder: ^1.0.32
   languageName: unknown
   linkType: soft
 
@@ -7831,7 +7830,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"portfinder@npm:^1.0.28, portfinder@npm:^1.0.32":
+"portfinder@npm:^1.0.28":
   version: 1.0.32
   resolution: "portfinder@npm:1.0.32"
   dependencies:
