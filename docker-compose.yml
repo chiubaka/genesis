@@ -1,0 +1,8 @@
+services:
+  registry:
+    container_name: genesis_registry
+    image: verdaccio/verdaccio
+    ports:
+      - 4873:4873
+    volumes:
+      - "./verdaccio:/verdaccio/conf"

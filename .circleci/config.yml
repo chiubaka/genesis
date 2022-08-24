@@ -7,7 +7,7 @@ constants:
   semver-regex: &semver-regex /^(\w+-)+v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/
 
 orbs:
-  chiubaka: chiubaka/circleci-orb@0.8.2
+  chiubaka: chiubaka/circleci-orb@0.11.1
 
 filters:
   semver-tags: &semver-tags
@@ -18,7 +18,7 @@ filters:
       ignore: /.*/
 
 workflows:
-  lint-build-test-publish:
+  lint-build-test-deploy:
     jobs:
       - chiubaka/lint:
           name: lint
@@ -31,8 +31,14 @@ workflows:
           filters:
             <<: *semver-tags
       - chiubaka/test:
+          executor: chiubaka/machine
           name: test
           configure-git-user: true
+          docker-compose: true
+          wait-for-docker-services:
+            - chiubaka/wait-for-docker-service:
+                container-name: genesis_registry
+                url: http://localhost:4873/healthcheck
           yarn-berry: true
           filters:
             <<: *semver-tags

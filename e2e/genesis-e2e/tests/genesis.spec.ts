@@ -1,46 +1,18 @@
-import { TestingWorkspace, Verdaccio } from "@chiubaka/nx-plugin-testing";
-import { tmpProjPath, uniq } from "@nrwl/nx-plugin/testing";
-import { ensureDirSync, moveSync, removeSync } from "fs-extra";
-import os from "node:os";
+import {
+  createGenesisWorkspace,
+  TestingWorkspace,
+} from "@chiubaka/nx-plugin-testing";
 import path from "node:path";
 
 describe("genesis", () => {
-  let verdaccio: Verdaccio;
   let workspace: TestingWorkspace;
 
-  beforeAll(async () => {
-    verdaccio = new Verdaccio();
-    await verdaccio.start();
-
-    const distPackagesDir = path.join(__dirname, "../../../dist/packages");
-
-    verdaccio.publish(path.join(distPackagesDir, "genesis"));
-    verdaccio.publish(path.join(distPackagesDir, "nx-plugin"));
-
-    const workspaceScope = "chiubaka";
-    const workspaceName = "genesis";
-
-    const tmpDir = path.join(os.tmpdir(), uniq(workspaceName));
-    ensureDirSync(tmpDir);
-
-    verdaccio.npx(
-      `genesis --workspace-scope=${workspaceScope} --workspace-name=${workspaceName} --registry=${verdaccio.getUrl()} --description="Test repo for genesis CLI E2E tests" --skip-github`,
-      tmpDir,
-    );
-
-    const tmpDestination = path.join(tmpDir, workspaceName);
-    const destination = path.join(tmpProjPath(), "..", workspaceName);
-
-    removeSync(destination);
-    moveSync(tmpDestination, destination);
-
-    workspace = new TestingWorkspace(destination);
+  beforeAll(() => {
+    workspace = createGenesisWorkspace("chiubaka", "genesis");
   });
 
   afterAll(async () => {
     await workspace.execNx("reset");
-
-    verdaccio.stop();
   });
 
   it("should create a workspace root directory matching name option, not org scope", () => {
