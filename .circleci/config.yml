@@ -34,11 +34,6 @@ workflows:
           executor: chiubaka/docker-verdaccio
           name: test
           configure-git-user: true
-          docker-compose: true
-          wait-for-docker-services:
-            - chiubaka/wait-for-docker-service:
-                container-name: genesis_registry_1
-                url: http://localhost:4873
           yarn-berry: true
           filters:
             <<: *semver-tags
