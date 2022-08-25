@@ -1,13 +1,11 @@
-import {
-  createGenesisWorkspace,
-  TestingWorkspace,
-} from "@chiubaka/nx-plugin-testing";
+import { e2eTmpPath, TestingWorkspace } from "@chiubaka/nx-plugin-testing";
 
 describe("nodeLibGenerator", () => {
   let workspace: TestingWorkspace;
 
   beforeAll(async () => {
-    workspace = createGenesisWorkspace();
+    const destination = e2eTmpPath("genesis-lib-e2e");
+    workspace = new TestingWorkspace(destination);
 
     await workspace.execNx(
       "generate @chiubaka/nx-plugin:lib.node --name=node-lib --scope=chiubaka",

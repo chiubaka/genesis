@@ -15,13 +15,6 @@ export async function genesisExecutor(options: GenesisExecutorSchema) {
   const tmpDir = path.join(os.tmpdir(), uniq(workspaceName));
   ensureDirSync(tmpDir);
 
-  await exec("npm install @chiubaka/genesis --location=global", {
-    env: {
-      ...process.env,
-      npm_config_registry: registry,
-    },
-  });
-
   let command = `genesis --workspace-scope=${workspaceScope} --workspace-name=${workspaceName} --description="${description}"`;
 
   if (skipGitHub) {

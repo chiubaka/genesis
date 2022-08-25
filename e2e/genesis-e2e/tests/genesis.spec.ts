@@ -1,14 +1,12 @@
-import {
-  createGenesisWorkspace,
-  TestingWorkspace,
-} from "@chiubaka/nx-plugin-testing";
+import { e2eTmpPath, TestingWorkspace } from "@chiubaka/nx-plugin-testing";
 import path from "node:path";
 
 describe("genesis", () => {
   let workspace: TestingWorkspace;
 
   beforeAll(() => {
-    workspace = createGenesisWorkspace();
+    const destination = e2eTmpPath("genesis-e2e");
+    workspace = new TestingWorkspace(destination);
   });
 
   afterAll(async () => {

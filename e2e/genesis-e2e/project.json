@@ -4,7 +4,10 @@
   "sourceRoot": "e2e/genesis-e2e/tests",
   "targets": {
     "e2e": {
-      "dependsOn": [{ "target": "setup-e2e", "projects": "self" }],
+      "dependsOn": [
+        { "target": "setup-e2e", "projects": "self" },
+        { "target": "setup-lib-e2e", "projects": "self" }
+      ],
       "executor": "@nrwl/jest:jest",
       "options": {
         "jestConfig": "e2e/genesis-e2e/jest.config.ts",
@@ -15,8 +18,17 @@
         "reports/junit/genesis-e2e.xml"
       ]
     },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["e2e/genesis-e2e"]
+      }
+    },
     "setup-e2e": {
-      "dependsOn": [{ "target": "local-publish", "projects": "dependencies" }],
+      "dependsOn": [
+        { "target": "install-local-genesis-cli", "projects": "self" }
+      ],
       "executor": "@chiubaka/nx-plugin:genesis",
       "options": {
         "workspaceScope": "chiubaka",
@@ -26,11 +38,24 @@
       },
       "outputs": ["tmp/nx-e2e/genesis-e2e"]
     },
-    "lint": {
-      "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+    "setup-lib-e2e": {
+      "executor": "@chiubaka/nx-plugin:genesis",
+      "dependsOn": [
+        { "target": "install-local-genesis-cli", "projects": "self" }
+      ],
       "options": {
-        "lintFilePatterns": ["e2e/genesis-e2e"]
+        "workspaceScope": "chiubaka",
+        "workspaceName": "genesis-lib-e2e",
+        "skipGitHub": true,
+        "registry": "http://localhost:4873"
+      },
+      "outputs": ["tmp/nx-e2e/genesis-lib-e2e"]
+    },
+    "install-local-genesis-cli": {
+      "dependsOn": [{ "target": "local-publish", "projects": "dependencies" }],
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npm install @chiubaka/genesis --location=global --registry=http://localhost:4873"
       }
     }
   },
