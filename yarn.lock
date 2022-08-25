@@ -848,15 +848,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nrwl/cli@npm:14.5.10":
-  version: 14.5.10
-  resolution: "@nrwl/cli@npm:14.5.10"
-  dependencies:
-    nx: 14.5.10
-  checksum: 1f9c66f6e70c203d748f5d8e7faeedb3172d8064d3009b37d8af66deb1b9965c3c8e3eccbdaf5d60122b983603db750ecbe29f6db7a95f2f4b5ce51be0ef2120
-  languageName: node
-  linkType: hard
-
 "@nrwl/cli@npm:14.5.6":
   version: 14.5.6
   resolution: "@nrwl/cli@npm:14.5.6"
@@ -878,21 +869,6 @@ __metadata:
   peerDependencies:
     nx: ">= 13.10 <= 15"
   checksum: 58dbd0561a52922efc4a1a8ce843a44c5935392c1da53fe3d709060ca3727075e228ec07a3193fef7e5baf8ce3813920223f0968673da3660894871bc7a74bd2
-  languageName: node
-  linkType: hard
-
-"@nrwl/devkit@npm:^14.5.6":
-  version: 14.5.10
-  resolution: "@nrwl/devkit@npm:14.5.10"
-  dependencies:
-    "@phenomnomnominal/tsquery": 4.1.1
-    ejs: ^3.1.7
-    ignore: ^5.0.4
-    semver: 7.3.4
-    tslib: ^2.3.0
-  peerDependencies:
-    nx: ">= 13.10 <= 15"
-  checksum: f46e58c033d494e34ed339d706e0158ea2e12951a41c036c2c582fbed3f68fcc0a291301100673cdb81797b8827eaf1c7fd8129b1842d4ea0c71e03aa233ddb4
   languageName: node
   linkType: hard
 
@@ -991,17 +967,6 @@ __metadata:
     semver: 7.3.4
     tslib: ^2.3.0
   checksum: 4dc11d67ae0f14340044fe9047cad12e66e542eee8b40c147989739bfac1c2f655ace969a28fa7a143382cc8a20872c2f72395fbfd2f12f6949c5df839e70a98
-  languageName: node
-  linkType: hard
-
-"@nrwl/tao@npm:14.5.10":
-  version: 14.5.10
-  resolution: "@nrwl/tao@npm:14.5.10"
-  dependencies:
-    nx: 14.5.10
-  bin:
-    tao: index.js
-  checksum: 7d4402c788054579a737379edfdac8bf45df83864c81ff974764fd4f2353a084adbef265d5a33f27940044ec5ea533d1770973a8b98bee5708d46096fd56a25e
   languageName: node
   linkType: hard
 
@@ -3359,9 +3324,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"create-nx-workspace@npm:^14.5.6":
-  version: 14.5.10
-  resolution: "create-nx-workspace@npm:14.5.10"
+"create-nx-workspace@npm:14.5.6":
+  version: 14.5.6
+  resolution: "create-nx-workspace@npm:14.5.6"
   dependencies:
     chalk: 4.1.0
     enquirer: ~2.3.6
@@ -3372,7 +3337,7 @@ __metadata:
     yargs: ^17.4.0
   bin:
     create-nx-workspace: bin/index.js
-  checksum: c5c442c50dbe22b6ba1ac02c8530f290b9e05eb2784ae3c02c0161ae94d9c47cdcd40d86c84bac77381d03b81ca9ec09fbfd1b920766b614d9eebfcfbd873da7
+  checksum: 3f0ef166fd00a63cb276fd1cc41c092667a84c29dae0bd6dd561f4844ee6d32af3020ce5517b6ef43a546677fd2856b0505f106576e6ec216849c95cfbaaa227
   languageName: node
   linkType: hard
 
@@ -4806,9 +4771,9 @@ __metadata:
   resolution: "genesis@workspace:packages/genesis"
   dependencies:
     "@chiubaka/nx-plugin": ^0.0.1
-    "@nrwl/devkit": ^14.5.6
+    "@nrwl/devkit": 14.5.6
     commander: ^9.4.0
-    create-nx-workspace: ^14.5.6
+    create-nx-workspace: 14.5.6
   bin:
     genesis: ./bin/index.js
   languageName: unknown
@@ -7305,8 +7270,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "nx-plugin-testing@workspace:packages/nx-plugin-testing"
   dependencies:
-    "@nrwl/devkit": ^14.5.6
-    nx: ^14.5.6
+    "@nrwl/devkit": 14.5.6
+    nx: 14.5.6
   languageName: unknown
   linkType: soft
 
@@ -7355,54 +7320,6 @@ __metadata:
     verdaccio-memory: ^10.3.0
   languageName: unknown
   linkType: soft
-
-"nx@npm:14.5.10, nx@npm:^14.5.6":
-  version: 14.5.10
-  resolution: "nx@npm:14.5.10"
-  dependencies:
-    "@nrwl/cli": 14.5.10
-    "@nrwl/tao": 14.5.10
-    "@parcel/watcher": 2.0.4
-    chalk: 4.1.0
-    chokidar: ^3.5.1
-    cli-cursor: 3.1.0
-    cli-spinners: 2.6.1
-    cliui: ^7.0.2
-    dotenv: ~10.0.0
-    enquirer: ~2.3.6
-    fast-glob: 3.2.7
-    figures: 3.2.0
-    flat: ^5.0.2
-    fs-extra: ^10.1.0
-    glob: 7.1.4
-    ignore: ^5.0.4
-    js-yaml: 4.1.0
-    jsonc-parser: 3.0.0
-    minimatch: 3.0.5
-    npm-run-path: ^4.0.1
-    open: ^8.4.0
-    semver: 7.3.4
-    string-width: ^4.2.3
-    tar-stream: ~2.2.0
-    tmp: ~0.2.1
-    tsconfig-paths: ^3.9.0
-    tslib: ^2.3.0
-    v8-compile-cache: 2.3.0
-    yargs: ^17.4.0
-    yargs-parser: 21.0.1
-  peerDependencies:
-    "@swc-node/register": ^1.4.2
-    "@swc/core": ^1.2.173
-  peerDependenciesMeta:
-    "@swc-node/register":
-      optional: true
-    "@swc/core":
-      optional: true
-  bin:
-    nx: bin/nx.js
-  checksum: 84c86de5290a9d6a896e1298a3bdcf010a3b3e9f1a907f6150ba24105192d7fe56582b44e85d465b569a79bb01aa7633db066fb6d03548476bdf566edf1ad245
-  languageName: node
-  linkType: hard
 
 "nx@npm:14.5.6":
   version: 14.5.6
