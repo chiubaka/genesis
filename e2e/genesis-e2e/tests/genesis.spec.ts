@@ -8,7 +8,7 @@ describe("genesis", () => {
   let workspace: TestingWorkspace;
 
   beforeAll(() => {
-    workspace = createGenesisWorkspace("chiubaka", "genesis");
+    workspace = createGenesisWorkspace();
   });
 
   afterAll(async () => {
@@ -18,7 +18,7 @@ describe("genesis", () => {
   it("should create a workspace root directory matching name option, not org scope", () => {
     const workspaceName = path.basename(workspace.getRoot());
 
-    expect(workspaceName).toBe("genesis");
+    expect(workspaceName).toBe("genesis-e2e");
   });
 
   it("should not create an apps dir", () => {

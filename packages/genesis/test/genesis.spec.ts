@@ -24,7 +24,8 @@ describe("genesis", () => {
       "genesis",
       "-r",
       "http://localhost:4873",
-      '--description="Test"',
+      "-d",
+      "Test description",
       "--skip-github",
     ]);
 
@@ -39,8 +40,9 @@ describe("genesis", () => {
         "--directory=genesis",
         "--workspaceName=genesis",
         "--workspaceScope=chiubaka",
-        '--description="Test"',
         "--skipGitHub",
+        "--registry=http://localhost:4873",
+        '--description="Test description"',
       ],
       {
         cwd: process.cwd(),

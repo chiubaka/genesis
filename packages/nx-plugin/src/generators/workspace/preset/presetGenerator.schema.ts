@@ -6,4 +6,6 @@ export interface PresetGeneratorSchema {
 
   skipGitHub?: boolean;
   skipInstall?: boolean;
+
+  registry?: string;
 }

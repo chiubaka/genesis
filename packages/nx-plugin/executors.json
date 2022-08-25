@@ -1,4 +1,15 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "executors": {}
+  "executors": {
+    "genesis": {
+      "implementation": "./src/executors/genesis",
+      "schema": "./src/executors/genesis/schema.json",
+      "description": "Runs the genesis CLI"
+    },
+    "local-publish": {
+      "implementation": "./src/executors/localPublish",
+      "schema": "./src/executors/localPublish/schema.json",
+      "description": "Publishes built package to local registry for testing"
+    }
+  }
 }

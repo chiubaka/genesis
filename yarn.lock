@@ -425,6 +425,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@chiubaka/genesis@workspace:packages/genesis":
+  version: 0.0.0-use.local
+  resolution: "@chiubaka/genesis@workspace:packages/genesis"
+  dependencies:
+    "@chiubaka/nx-plugin": ^0.0.1
+    "@nrwl/devkit": 14.5.6
+    commander: ^9.4.0
+    create-nx-workspace: 14.5.6
+  bin:
+    genesis: ./bin/index.js
+  languageName: unknown
+  linkType: soft
+
 "@chiubaka/nx-plugin@^0.0.1, @chiubaka/nx-plugin@workspace:packages/nx-plugin":
   version: 0.0.0-use.local
   resolution: "@chiubaka/nx-plugin@workspace:packages/nx-plugin"
@@ -5306,19 +5319,6 @@ __metadata:
   checksum: 788b6bfe52f1dd8e263cda800c26ac0ca2ff6de0b6eee2fe0d9e3abf15e149b651bd27bf5226be10e6e3edb5c4e5d5985a5a1a98137e7a892f75eff76467ad2d
   languageName: node
   linkType: hard
-
-"genesis@workspace:packages/genesis":
-  version: 0.0.0-use.local
-  resolution: "genesis@workspace:packages/genesis"
-  dependencies:
-    "@chiubaka/nx-plugin": ^0.0.1
-    "@nrwl/devkit": 14.5.6
-    commander: ^9.4.0
-    create-nx-workspace: 14.5.6
-  bin:
-    genesis: ./bin/index.js
-  languageName: unknown
-  linkType: soft
 
 "gensync@npm:^1.0.0-beta.2":
   version: 1.0.0-beta.2

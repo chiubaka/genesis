@@ -7,6 +7,7 @@ import {
   updateJson,
   updateWorkspaceConfiguration,
 } from "@nrwl/devkit";
+import { rmSync } from "fs-extra";
 import path from "node:path";
 import { PackageJson as PackageJsonType } from "nx/src/utils/package-json";
 
@@ -87,7 +88,9 @@ function modifyWorkspaceLayout(tree: Tree) {
 }
 
 function reinstallPackagesWithYarn(tree: Tree, options: PresetGeneratorSchema) {
-  if (options.skipInstall) {
+  const { skipInstall, registry } = options;
+
+  if (skipInstall) {
     return noOpTask;
   }
 
@@ -99,9 +102,33 @@ function reinstallPackagesWithYarn(tree: Tree, options: PresetGeneratorSchema) {
   return async () => {
     logger.info("Reinstalling packages with yarn");
 
+    rmSync(path.join(tree.root, "node_modules"), {
+      force: true,
+      recursive: true,
+    });
+
     await exec(`yarn set version berry`, {
       cwd: tree.root,
     });
+
+    if (registry) {
+      logger.info(`Using registry ${registry}`);
+
+      await exec(`yarn config set npmRegistryServer ${registry}`, {
+        cwd: tree.root,
+      });
+
+      const registryUrl = new URL(registry);
+
+      if (registryUrl.protocol === "http:") {
+        await exec(
+          `yarn config set unsafeHttpWhitelist ${registryUrl.hostname}`,
+          {
+            cwd: tree.root,
+          },
+        );
+      }
+    }
 
     await exec(`${pmc.install} --no-immutable`, {
       cwd: tree.root,

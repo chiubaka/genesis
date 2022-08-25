@@ -26,6 +26,11 @@
     "skipInstall": {
       "description": "Whether or not to skip package manager install",
       "type": "boolean"
+    },
+
+    "registry": {
+      "description": "URL for registry to use in generated repository",
+      "type": "string"
     }
   },
   "required": ["workspaceName", "workspaceScope", "description"]

@@ -44,17 +44,15 @@ uplinks:
 # https://verdaccio.org/docs/protect-your-dependencies/
 # https://verdaccio.org/docs/configuration#packages
 packages:
-  "@chiubaka/eslint-config":
+  "@chiubaka/genesis":
     access: $all
     publish: $authenticated
     unpublish: $authenticated
-    proxy: npmjs
-  "@chiubaka/tsconfig":
+  "@chiubaka/nx-plugin":
     access: $all
     publish: $authenticated
     unpublish: $authenticated
-    proxy: npmjs
-  "@chiubaka/*":
+  "@chiubaka/nx-plugin-testing":
     access: $all
     publish: $authenticated
     unpublish: $authenticated

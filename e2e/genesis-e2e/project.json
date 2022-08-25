@@ -4,17 +4,27 @@
   "sourceRoot": "e2e/genesis-e2e/tests",
   "targets": {
     "e2e": {
-      "dependsOn": [{ "target": "build", "projects": "dependencies" }],
+      "dependsOn": [{ "target": "setup-e2e", "projects": "self" }],
       "executor": "@nrwl/jest:jest",
       "options": {
         "jestConfig": "e2e/genesis-e2e/jest.config.ts",
         "passWithNoTests": true
       },
       "outputs": [
-        "tmp/nx-e2e/genesis",
         "reports/coverage/e2e/genesis-e2e",
         "reports/junit/genesis-e2e.xml"
       ]
+    },
+    "setup-e2e": {
+      "dependsOn": [{ "target": "local-publish", "projects": "dependencies" }],
+      "executor": "@chiubaka/nx-plugin:genesis",
+      "options": {
+        "workspaceScope": "chiubaka",
+        "workspaceName": "genesis-e2e",
+        "skipGitHub": true,
+        "registry": "http://localhost:4873"
+      },
+      "outputs": ["tmp/nx-e2e/genesis-e2e"]
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
@@ -25,5 +35,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["genesis"]
+  "implicitDependencies": ["genesis", "nx-plugin"]
 }

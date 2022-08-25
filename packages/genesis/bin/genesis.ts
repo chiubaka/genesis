@@ -35,16 +35,20 @@ export async function genesis(argv = process.argv) {
 
   const pmc = getPackageManagerCommand("npm");
 
-  let fullCommand = `${pmc.exec} create-nx-workspace ${workspaceScope} --preset=@chiubaka/nx-plugin --nxCloud=false --directory=${workspaceName} --workspaceName=${workspaceName} --workspaceScope=${workspaceScope} --description=${description}`;
+  let fullCommand = `${pmc.exec} create-nx-workspace ${workspaceScope} --preset=@chiubaka/nx-plugin --nxCloud=false --directory=${workspaceName} --workspaceName=${workspaceName} --workspaceScope=${workspaceScope}`;
 
   if (skipGitHub) {
     fullCommand = `${fullCommand} --skipGitHub`;
   }
 
+  if (registry) {
+    fullCommand = `${fullCommand} --registry=${registry}`;
+  }
+
   const commandTokens = fullCommand.split(" ");
   const [command, ...args] = commandTokens;
 
-  await spawn(command, args, {
+  await spawn(command, [...args, `--description="${description}"`], {
     cwd: process.cwd(),
     env: registry
       ? {

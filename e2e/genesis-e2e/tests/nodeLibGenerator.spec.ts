@@ -1,5 +1,5 @@
 import {
-  createTestingWorkspace,
+  createGenesisWorkspace,
   TestingWorkspace,
 } from "@chiubaka/nx-plugin-testing";
 
@@ -7,11 +7,7 @@ describe("nodeLibGenerator", () => {
   let workspace: TestingWorkspace;
 
   beforeAll(async () => {
-    workspace = await createTestingWorkspace(
-      "lib.node",
-      "@chiubaka/nx-plugin",
-      "dist/packages/nx-plugin",
-    );
+    workspace = createGenesisWorkspace();
 
     await workspace.execNx(
       "generate @chiubaka/nx-plugin:lib.node --name=node-lib --scope=chiubaka",
