@@ -15,10 +15,7 @@ describe("jestGenerator", () => {
   describe("package.json", () => {
     describe("adds the appropriate dependencies", () => {
       it("adds jest as a devDependency", () => {
-        expect(tree).toHaveDevDependency(
-          "jest",
-          DEFAULT_MOCK_INSTALLED_PACKAGE_VERSION,
-        );
+        expect(tree).toHaveDevDependency("jest", "^27.5.1");
       });
 
       it("adds @nrwl/jest as a devDependency", () => {

@@ -15,6 +15,7 @@ describe("preset generator", () => {
     description: "Testing for the preset generator",
 
     skipInstall: true,
+    yarnCacheClean: false,
   };
 
   beforeAll(async () => {
