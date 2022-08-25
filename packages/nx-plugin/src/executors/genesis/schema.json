@@ -30,6 +30,11 @@
     "destination": {
       "type": "string",
       "description": "Path to the destination dir where workspace will be created. When not provided, will generate workspace in default temporary E2E directory."
+    },
+    "yarnCacheClean": {
+      "type": "boolean",
+      "description": "Whether or not to clear the yarn cache before running install. Useful if installing local packages that change often during development.",
+      "default": true
     }
   },
   "required": ["workspaceScope", "workspaceName"]

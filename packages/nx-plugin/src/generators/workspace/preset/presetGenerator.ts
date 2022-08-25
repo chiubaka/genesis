@@ -88,7 +88,7 @@ function modifyWorkspaceLayout(tree: Tree) {
 }
 
 function reinstallPackagesWithYarn(tree: Tree, options: PresetGeneratorSchema) {
-  const { skipInstall, registry } = options;
+  const { skipInstall, registry, yarnCacheClean } = options;
 
   if (skipInstall) {
     return noOpTask;
@@ -106,6 +106,12 @@ function reinstallPackagesWithYarn(tree: Tree, options: PresetGeneratorSchema) {
       force: true,
       recursive: true,
     });
+
+    if (yarnCacheClean) {
+      await exec("yarn cache clean", {
+        cwd: tree.root,
+      });
+    }
 
     await exec(`yarn set version berry`, {
       cwd: tree.root,

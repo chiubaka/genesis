@@ -7,8 +7,14 @@ import { exec } from "../../utils";
 import { GenesisExecutorSchema } from "./genesisExecutor.schema";
 
 export async function genesisExecutor(options: GenesisExecutorSchema) {
-  const { workspaceScope, workspaceName, description, skipGitHub, registry } =
-    options;
+  const {
+    workspaceScope,
+    workspaceName,
+    description,
+    skipGitHub,
+    registry,
+    yarnCacheClean,
+  } = options;
 
   // Generate inside of a temporary directory, then move to the destination afterward to avoid git repo inside
   // of git repo errors in E2E testing situations
@@ -23,6 +29,10 @@ export async function genesisExecutor(options: GenesisExecutorSchema) {
 
   if (registry) {
     command = `${command} --registry=${registry}`;
+  }
+
+  if (yarnCacheClean) {
+    command = `${command} --yarn-cache-clean`;
   }
 
   await exec(command, {

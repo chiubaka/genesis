@@ -31,6 +31,11 @@
     "registry": {
       "description": "URL for registry to use in generated repository",
       "type": "string"
+    },
+    "yarnCacheClean": {
+      "description": "Whether or not to clean the Yarn cache before installation. Useful for local installs and E2E testing where the cache may cause problems otherwise.",
+      "type": "boolean",
+      "default": false
     }
   },
   "required": ["workspaceName", "workspaceScope", "description"]

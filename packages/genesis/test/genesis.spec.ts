@@ -27,6 +27,7 @@ describe("genesis", () => {
       "-d",
       "Test description",
       "--skip-github",
+      "--yarn-cache-clean",
     ]);
 
     expect(mockSpawn).toHaveBeenCalledTimes(1);
@@ -42,6 +43,7 @@ describe("genesis", () => {
         "--workspaceScope=chiubaka",
         "--skipGitHub",
         "--registry=http://localhost:4873",
+        "--yarnCacheClean",
         '--description="Test description"',
       ],
       {

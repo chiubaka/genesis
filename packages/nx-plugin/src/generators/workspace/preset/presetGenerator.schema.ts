@@ -8,4 +8,5 @@ export interface PresetGeneratorSchema {
   skipInstall?: boolean;
 
   registry?: string;
+  yarnCacheClean: boolean;
 }
