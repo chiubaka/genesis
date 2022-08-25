@@ -6,7 +6,10 @@ export const toHaveDependencies = (
   tree: Tree,
   expectedDependencies: Record<string, string | undefined>,
   packageJsonPath = "package.json",
-  checkDevDependencies = false,
+  dependenciesKey:
+    | "dependencies"
+    | "devDependencies"
+    | "peerDependencies" = "dependencies",
 ): jest.CustomMatcherResult => {
   expect(tree).toBeNxTree();
 
@@ -23,10 +26,6 @@ export const toHaveDependencies = (
   }
 
   const packageJson = readJson<PackageJson>(tree, packageJsonPath);
-
-  const dependenciesKey = checkDevDependencies
-    ? "devDependencies"
-    : "dependencies";
 
   // eslint-disable-next-line security/detect-object-injection
   const dependencies = packageJson[dependenciesKey];

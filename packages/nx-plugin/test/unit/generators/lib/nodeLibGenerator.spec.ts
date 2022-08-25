@@ -3,12 +3,15 @@
 import {
   getWorkspaceLayout,
   ProjectConfiguration,
+  ProjectsConfigurations,
   readJson,
   TargetConfiguration,
   Tree,
 } from "@nrwl/devkit";
 import { createTreeWithEmptyWorkspace } from "@nrwl/devkit/testing";
+import { Linter } from "eslint";
 import path from "node:path";
+import { PackageJson } from "nx/src/utils/package-json";
 import { CompilerOptions, ProjectReference } from "typescript";
 
 import { nodeLibGenerator } from "../../../../src/generators";
@@ -17,6 +20,7 @@ import { TsConfig } from "../../../types/tsconfig";
 describe("nodeLibGenerator", () => {
   let tree: Tree;
 
+  let libsPath: (relativePath?: string) => string;
   let projectPath: (relativePath?: string) => string;
   let srcPath: (relativePath?: string) => string;
   let testPath: (relativePath?: string) => string;
@@ -37,8 +41,12 @@ describe("nodeLibGenerator", () => {
     });
 
     const { libsDir } = getWorkspaceLayout(tree);
+    libsPath = (relativePath = "") => {
+      return path.join(libsDir, relativePath);
+    };
+
     projectPath = (relativePath = "") => {
-      return path.join(libsDir, "node-lib", relativePath);
+      return libsPath(path.join("node-lib", relativePath));
     };
 
     srcPath = (relativePath = "") => {
@@ -58,13 +66,24 @@ describe("nodeLibGenerator", () => {
 
   describe("workspace configurations", () => {
     describe("workspace.json", () => {
-      it.todo(
-        "updates projects to include a path to the newly generated package",
-      );
+      it("updates projects to include a path to the newly generated package", () => {
+        const workspaceJson = readJson<ProjectsConfigurations>(
+          tree,
+          "workspace.json",
+        );
+
+        expect(workspaceJson.projects["node-lib"]).toBe(projectPath());
+      });
     });
 
     describe("tsconfig.base.json", () => {
-      it.todo("updates paths to point to the newly generated package");
+      it("updates paths to point to the newly generated package", () => {
+        const tsConfig = readJson<TsConfig>(tree, "tsconfig.base.json");
+
+        expect(tsConfig.compilerOptions?.paths?.["@chiubaka/node-lib"]).toEqual(
+          [projectPath("/src/index.ts")],
+        );
+      });
     });
   });
 
@@ -81,16 +100,20 @@ describe("nodeLibGenerator", () => {
   });
 
   describe("package.json", () => {
-    describe("dependencies", () => {
-      it.todo("lists node 18 as a peer dependency");
+    let packageJson: PackageJson;
 
-      it.todo("lists node as a dev dependency");
+    beforeAll(() => {
+      packageJson = readJson<PackageJson>(tree, projectPath("package.json"));
     });
 
     describe("scripts", () => {
-      it.todo("generates a deploy script");
+      it("generates a deploy script", () => {
+        expect(packageJson.scripts?.deploy).toBeTruthy();
+      });
 
-      it.todo("generates a deploy:ci script");
+      it("generates a deploy:ci script", () => {
+        expect(packageJson.scripts?.["deploy:ci"]).toBeTruthy();
+      });
     });
   });
 
@@ -103,6 +126,13 @@ describe("nodeLibGenerator", () => {
       expect(tree).not.toHaveFileWithContent(
         projectPath("jest.config.ts"),
         "/* eslint-disable */",
+      );
+    });
+
+    it("sets the testEnvironment to node", () => {
+      expect(tree).toHaveFileWithContent(
+        projectPath("jest.config.ts"),
+        'testEnvironment: "node"',
       );
     });
 
@@ -147,11 +177,24 @@ describe("nodeLibGenerator", () => {
   });
 
   describe(".babelrc", () => {
-    it.todo("generates a .babelrc file");
+    it("generates a .babelrc file", () => {
+      expect(tree.exists(projectPath(".babelrc"))).toBe(true);
+    });
   });
 
   describe(".eslintrc.json", () => {
-    it.todo("generates a .eslintrc.json file");
+    it("generates a .eslintrc.json file", () => {
+      expect(tree.exists(projectPath(".eslintrc.json"))).toBe(true);
+    });
+
+    it("extends from the root monorepo .eslintrc.json file", () => {
+      const eslintConfig = readJson<Linter.Config>(
+        tree,
+        projectPath(".eslintrc.json"),
+      );
+
+      expect(eslintConfig.extends).toEqual(["../../.eslintrc.json"]);
+    });
   });
 
   describe("tsconfig.json", () => {

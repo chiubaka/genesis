@@ -2,15 +2,15 @@ import { Tree } from "@nrwl/devkit";
 
 import { toHaveDependencies } from "./toHaveDependencies.matcher";
 
-export const toHaveDevDependencies = (
+export const toHavePeerDependencies = (
   tree: Tree,
-  expectedDevDependencies: Record<string, string | undefined>,
+  expectedPeerDependencies: Record<string, string | undefined>,
   packageJsonPath = "package.json",
 ) => {
   return toHaveDependencies(
     tree,
-    expectedDevDependencies,
+    expectedPeerDependencies,
     packageJsonPath,
-    "devDependencies",
+    "peerDependencies",
   );
 };

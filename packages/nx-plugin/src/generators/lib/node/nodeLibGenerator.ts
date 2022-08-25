@@ -1,6 +1,14 @@
-import { generateFiles, getWorkspaceLayout, Tree } from "@nrwl/devkit";
+import {
+  detectPackageManager,
+  generateFiles,
+  getPackageManagerCommand,
+  getWorkspaceLayout,
+  Tree,
+  updateJson,
+} from "@nrwl/devkit";
 import { libraryGenerator } from "@nrwl/node";
 import path from "node:path";
+import { PackageJson } from "nx/src/utils/package-json";
 
 import { projectNameCasings, ProjectNames } from "../../../utils";
 import { NodeLibGeneratorSchema } from "./nodeLibGenerator.schema";
@@ -25,6 +33,8 @@ export async function nodeLibGenerator(
 ) {
   const { scope, name } = options;
   const projectName = projectNameCasings(name);
+  const { libsDir } = getWorkspaceLayout(tree);
+  const projectDir = path.join(libsDir, projectName.kebabCase);
 
   const baseGeneratorTask = await libraryGenerator(tree, {
     ...options,
@@ -35,9 +45,11 @@ export async function nodeLibGenerator(
     buildable: true,
   });
 
+  updatePackageJsonScripts(tree, projectDir);
+
   const codecov = getCodecovTemplateValues(tree);
 
-  copyTemplateFiles(tree, {
+  copyTemplateFiles(tree, projectDir, {
     codecov,
     generatorName: "node-lib",
     projectName,
@@ -48,6 +60,26 @@ export async function nodeLibGenerator(
   return async () => {
     await baseGeneratorTask();
   };
+}
+
+function updatePackageJsonScripts(tree: Tree, projectDir: string) {
+  const packageManager = detectPackageManager(tree.root);
+  const pmc = getPackageManagerCommand(packageManager);
+
+  updateJson(
+    tree,
+    path.join(projectDir, "package.json"),
+    (packageJson: PackageJson) => {
+      if (!packageJson.scripts) {
+        packageJson.scripts = {};
+      }
+
+      packageJson.scripts.deploy = "npm publish --access public";
+      packageJson.scripts["deploy:ci"] = pmc.run("deploy", "").trim();
+
+      return packageJson;
+    },
+  );
 }
 
 function getCodecovTemplateValues(
@@ -85,13 +117,9 @@ function getCodecovTemplateValues(
 
 function copyTemplateFiles(
   tree: Tree,
+  projectDir: string,
   templateValues: NodeLibGeneratorTemplateValues,
 ) {
-  const { projectName } = templateValues;
-
-  const { libsDir } = getWorkspaceLayout(tree);
-
-  const projectDir = path.join(libsDir, projectName.kebabCase);
   const srcDir = path.join(projectDir, "./src");
 
   tree.delete(srcDir);

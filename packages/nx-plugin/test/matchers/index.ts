@@ -5,6 +5,8 @@ import { toHaveDevDependencies } from "./toHaveDevDependencies.matcher";
 import { toHaveDevDependency } from "./toHaveDevDependency.matcher";
 import { toHaveFileWithContent } from "./toHaveFileWithContent.matcher";
 import { toHaveFunctions } from "./toHaveFunctions.matcher";
+import { toHavePeerDependencies } from "./toHavePeerDependencies.matcher";
+import { toHavePeerDependency } from "./toHavePeerDependency.matcher";
 import { toHaveProperties } from "./toHaveProperties.matcher";
 
 export const matchers: jest.ExpectExtendMap = {
@@ -15,5 +17,7 @@ export const matchers: jest.ExpectExtendMap = {
   toHaveDevDependency,
   toHaveFileWithContent,
   toHaveFunctions,
+  toHavePeerDependencies,
+  toHavePeerDependency,
   toHaveProperties,
 };
