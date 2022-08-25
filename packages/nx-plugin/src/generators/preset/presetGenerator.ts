@@ -4,6 +4,7 @@ import {
   getPackageManagerCommand,
   readWorkspaceConfiguration,
   Tree,
+  updateJson,
   updateWorkspaceConfiguration,
 } from "@nrwl/devkit";
 import path from "node:path";
@@ -68,6 +69,14 @@ function modifyWorkspaceLayout(tree: Tree) {
     cli: {
       packageManager: "yarn",
     },
+  });
+
+  updateJson(tree, "package.json", (packageJson: PackageJsonType) => {
+    packageJson.workspaces = {
+      packages: ["packages/*"],
+    };
+
+    return packageJson;
   });
 
   tree.delete("apps");
