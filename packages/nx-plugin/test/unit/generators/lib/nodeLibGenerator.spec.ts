@@ -183,17 +183,25 @@ describe("nodeLibGenerator", () => {
   });
 
   describe(".eslintrc.json", () => {
+    let eslintConfig: Linter.Config;
+
+    beforeAll(() => {
+      eslintConfig = readJson<Linter.Config>(
+        tree,
+        projectPath(".eslintrc.json"),
+      );
+    });
+
     it("generates a .eslintrc.json file", () => {
       expect(tree.exists(projectPath(".eslintrc.json"))).toBe(true);
     });
 
     it("extends from the root monorepo .eslintrc.json file", () => {
-      const eslintConfig = readJson<Linter.Config>(
-        tree,
-        projectPath(".eslintrc.json"),
-      );
-
       expect(eslintConfig.extends).toEqual(["../../.eslintrc.json"]);
+    });
+
+    it("only ignores node_modules", () => {
+      expect(eslintConfig.ignorePatterns).toEqual(["node_modules"]);
     });
   });
 
