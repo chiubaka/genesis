@@ -4,6 +4,5 @@ export interface GenesisExecutorSchema {
   description: string;
   skipGitHub: boolean;
   registry?: string;
-  yarnCacheClean: boolean;
   destination?: string;
 }

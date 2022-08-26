@@ -11,7 +11,6 @@ interface GenesisOptions {
   description: string;
   registry?: string;
   skipGithub?: boolean;
-  yarnCacheClean?: boolean;
 }
 
 export async function genesis(argv = process.argv) {
@@ -20,8 +19,7 @@ export async function genesis(argv = process.argv) {
     .requiredOption("-n, --workspace-name <workspaceName>")
     .requiredOption("-d, --description <description>")
     .option("-r, --registry <registry>")
-    .option("--skip-github")
-    .option("--yarn-cache-clean");
+    .option("--skip-github");
 
   program.parse(argv);
 
@@ -33,7 +31,6 @@ export async function genesis(argv = process.argv) {
     description,
     registry,
     skipGithub: skipGitHub,
-    yarnCacheClean,
   } = opts;
 
   const pmc = getPackageManagerCommand("npm");
@@ -46,10 +43,6 @@ export async function genesis(argv = process.argv) {
 
   if (registry) {
     fullCommand = `${fullCommand} --registry=${registry}`;
-  }
-
-  if (yarnCacheClean) {
-    fullCommand = `${fullCommand} --yarnCacheClean`;
   }
 
   const commandTokens = fullCommand.split(" ");

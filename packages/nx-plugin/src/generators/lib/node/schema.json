@@ -24,6 +24,12 @@
       "type": "boolean",
       "description": "Whether or not this library is publishable",
       "default": true
+    },
+
+    "skipE2e": {
+      "type": "boolean",
+      "description": "If true, skips generation of E2E testing app for this library",
+      "default": false
     }
   },
   "required": ["name", "scope"]

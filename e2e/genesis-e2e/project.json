@@ -51,8 +51,17 @@
       },
       "outputs": ["tmp/nx-e2e/genesis-lib-e2e"]
     },
+    "yarn-cache-clean": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "yarn cache clean --all"
+      }
+    },
     "install-local-genesis-cli": {
-      "dependsOn": [{ "target": "local-publish", "projects": "dependencies" }],
+      "dependsOn": [
+        { "target": "local-publish", "projects": "dependencies" },
+        { "target": "yarn-cache-clean", "projects": "self" }
+      ],
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "command": "npm install @chiubaka/genesis --location=global --registry=http://localhost:4873"

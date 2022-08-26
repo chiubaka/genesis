@@ -3,7 +3,7 @@ import { PackageJson } from "nx/src/utils/package-json";
 
 import { generatorLogger as logger } from "../../../../logger";
 import { addDependenciesToPackageJson, exec } from "../../../../utils";
-import { noOpTask } from "../../tasks";
+import { noOpTask } from "../../../../utils/tasks/index";
 import { GitHooksGeneratorSchema } from "./gitHooksGenerator.schema";
 
 enum GitHook {

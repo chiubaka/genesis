@@ -10,7 +10,9 @@ import { libraryGenerator } from "@nrwl/node";
 import path from "node:path";
 import { PackageJson } from "nx/src/utils/package-json";
 
-import { projectNameCasings, ProjectNames } from "../../../utils";
+import { noOpTask, projectNameCasings, ProjectNames } from "../../../utils";
+import { eslintProjectGenerator } from "../../project";
+import { nodeLibE2eGenerator } from "./e2e";
 import { NodeLibGeneratorSchema } from "./nodeLibGenerator.schema";
 
 interface NodeLibGeneratorTemplateValues {
@@ -31,7 +33,7 @@ export async function nodeLibGenerator(
   tree: Tree,
   options: NodeLibGeneratorSchema,
 ) {
-  const { scope, name } = options;
+  const { scope, name, skipE2e } = options;
   const projectName = projectNameCasings(name);
   const { libsDir } = getWorkspaceLayout(tree);
   const projectDir = path.join(libsDir, projectName.kebabCase);
@@ -44,6 +46,18 @@ export async function nodeLibGenerator(
     strict: true,
     buildable: true,
   });
+
+  eslintProjectGenerator(tree, {
+    projectName: projectName.kebabCase,
+    projectType: "library",
+  });
+
+  const e2eGeneratorTask = skipE2e
+    ? noOpTask
+    : await nodeLibE2eGenerator(tree, {
+        scope: scope,
+        name: `${projectName.kebabCase}-e2e`,
+      });
 
   updatePackageJsonScripts(tree, projectDir);
 
@@ -59,6 +73,7 @@ export async function nodeLibGenerator(
 
   return async () => {
     await baseGeneratorTask();
+    await e2eGeneratorTask();
   };
 }
 
@@ -122,6 +137,7 @@ function copyTemplateFiles(
 ) {
   const srcDir = path.join(projectDir, "./src");
 
+  tree.delete(path.join(projectDir, ".babelrc"));
   tree.delete(srcDir);
   generateFiles(
     tree,

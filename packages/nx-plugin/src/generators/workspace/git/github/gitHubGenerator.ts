@@ -2,7 +2,7 @@ import { Tree } from "@nrwl/devkit";
 
 import { generatorLogger as logger } from "../../../../logger";
 import { exec, github } from "../../../../utils";
-import { noOpTask } from "../../tasks";
+import { noOpTask } from "../../../../utils/tasks/index";
 import { gitHubBranchProtectionGenerator } from "./branchProtection";
 import { GitHubGeneratorSchema } from "./gitHubGenerator.schema";
 import { gitHubLabelsGenerator } from "./labels";

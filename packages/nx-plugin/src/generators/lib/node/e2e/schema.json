@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "NodeLibE2e",
+  "cli": "nx",
+  "title": "Create a Node library E2E testing app",
+  "description": "Create a Node library E2E testing app",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "E2E app name.",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What name would you like to use for the E2e app?",
+      "pattern": "^[a-zA-Z].*$"
+    }
+  },
+  "required": ["name", "scope"]
+}

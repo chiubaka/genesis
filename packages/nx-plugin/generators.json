@@ -63,6 +63,11 @@
       "schema": "./src/generators/lib/node/schema.json",
       "description": "Generates a shareable node library"
     },
+    "lib.node.e2e": {
+      "factory": "./src/generators/lib/node/e2e",
+      "schema": "./src/generators/lib/node/e2e/schema.json",
+      "description": "Generates E2E testing framework for a shareable node library"
+    },
     "preset": {
       "factory": "./src/generators/workspace/preset",
       "schema": "./src/generators/workspace/preset/schema.json",
@@ -72,6 +77,11 @@
       "factory": "./src/generators/workspace/linting/prettier",
       "schema": "./src/generators/workspace/linting/prettier/schema.json",
       "description": "Generates Prettier configuration and setup"
+    },
+    "project.eslint": {
+      "factory": "./src/generators/project/eslint",
+      "schema": "./src/generators/project/eslint/schema.json",
+      "description": "Generates an ESLint config for a project"
     },
     "readme": {
       "factory": "./src/generators/workspace/readme",

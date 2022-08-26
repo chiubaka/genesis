@@ -2,7 +2,7 @@ import { Tree } from "@nrwl/devkit";
 
 import { generatorLogger as logger } from "../../../logger";
 import { exec } from "../../../utils";
-import { noOpTask } from "../tasks";
+import { noOpTask } from "../../../utils/tasks/index";
 import { GitGeneratorSchema } from "./gitGenerator.schema";
 import { gitHooksGenerator } from "./gitHooks";
 import { gitHubGenerator, GitHubGeneratorSchema } from "./github";

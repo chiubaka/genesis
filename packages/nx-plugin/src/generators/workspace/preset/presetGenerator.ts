@@ -14,11 +14,11 @@ import { PackageJson as PackageJsonType } from "nx/src/utils/package-json";
 import PackageJson from "../../../../package.json";
 import { generatorLogger as logger } from "../../../logger";
 import { exec } from "../../../utils";
+import { noOpTask } from "../../../utils/tasks/index";
 import { ciGenerator } from "../ci";
 import { gitGenerator } from "../git";
 import { lintingGenerator } from "../linting";
 import { readmeGenerator } from "../readme";
-import { noOpTask } from "../tasks";
 import { testingGenerator } from "../testing";
 import { tsconfigGenerator } from "../tsconfig";
 import { PresetGeneratorSchema } from "./presetGenerator.schema";
@@ -88,7 +88,7 @@ function modifyWorkspaceLayout(tree: Tree) {
 }
 
 function reinstallPackagesWithYarn(tree: Tree, options: PresetGeneratorSchema) {
-  const { skipInstall, registry, yarnCacheClean } = options;
+  const { skipInstall, registry } = options;
 
   if (skipInstall) {
     return noOpTask;
@@ -106,13 +106,6 @@ function reinstallPackagesWithYarn(tree: Tree, options: PresetGeneratorSchema) {
       force: true,
       recursive: true,
     });
-
-    if (yarnCacheClean) {
-      logger.info("Cleaning yarn cache");
-      await exec("yarn cache clean --all", {
-        cwd: tree.root,
-      });
-    }
 
     await exec(`yarn set version berry`, {
       cwd: tree.root,
