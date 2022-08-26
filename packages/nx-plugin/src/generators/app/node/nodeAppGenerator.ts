@@ -1,7 +1,7 @@
 import { Tree } from "@nrwl/devkit";
 import { applicationGenerator } from "@nrwl/node";
 
-import { projectNameCasings } from "../../../utils";
+import { Project } from "../../../utils";
 import { eslintProjectGenerator, readmeProjectGenerator } from "../../project";
 import { NodeAppGeneratorSchema } from "./nodeAppGenerator.schema";
 
@@ -10,17 +10,18 @@ export async function nodeAppGenerator(
   options: NodeAppGeneratorSchema,
 ) {
   const { name } = options;
-  const projectName = projectNameCasings(name);
-  const projectType = "application";
+  const project = new Project(tree, name, "application");
+  const projectName = project.getName();
+  const projectType = project.getType();
 
   const baseGeneratorTask = await applicationGenerator(tree, options);
 
   eslintProjectGenerator(tree, {
-    projectName: projectName.kebabCase,
+    projectName,
     projectType,
   });
   readmeProjectGenerator(tree, {
-    projectName: projectName.kebabCase,
+    projectName,
     projectType,
     rootProjectGeneratorName: "app.node",
   });

@@ -1,5 +1,5 @@
 export default {
-  displayName: "<%= projectName.kebabCase %>",
+  displayName: "<%= projectName %>",
   preset: "../../jest.preset.js",
   globals: {
     "ts-jest": {
@@ -11,7 +11,7 @@ export default {
     "^.+\\.[tj]s$": "ts-jest",
   },
   moduleFileExtensions: ["ts", "js", "html"],
-  coverageDirectory: "../../reports/coverage/packages/<%= projectName.kebabCase %>",
+  coverageDirectory: "../../reports/coverage/packages/<%= projectName %>",
   reporters: [
     "default",
     [
@@ -20,7 +20,7 @@ export default {
         addFileAttribute: "true",
         classNameTemplate: "{suitename}",
         outputDirectory: "reports/junit",
-        outputName: "<%= projectName.kebabCase %>.xml",
+        outputName: "<%= projectName %>.xml",
       },
     ],
   ],

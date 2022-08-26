@@ -1,20 +1,21 @@
 import { generateFiles, Tree } from "@nrwl/devkit";
 import path from "node:path";
 
-import { getProjectDir } from "../../../utils";
+import { Project } from "../../../utils";
 import { EsLintProjectGeneratorSchema } from "./eslintProjectGenerator.schema";
 
 export function eslintProjectGenerator(
   tree: Tree,
   options: EsLintProjectGeneratorSchema,
 ) {
-  copyConfigTemplate(tree, options);
+  const { projectName, projectType } = options;
+  const project = new Project(tree, projectName, projectType);
+  copyConfigTemplate(project);
 }
 
-function copyConfigTemplate(tree: Tree, options: EsLintProjectGeneratorSchema) {
-  const { projectName, projectType } = options;
+function copyConfigTemplate(project: Project) {
+  const tree = project.getTree();
 
   const templateDirectory = path.join(__dirname, "./files");
-  const projectDir = getProjectDir(tree, projectName, projectType);
-  generateFiles(tree, templateDirectory, projectDir, { template: "" });
+  generateFiles(tree, templateDirectory, project.path(), { template: "" });
 }

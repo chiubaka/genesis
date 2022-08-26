@@ -1,24 +1,24 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/<%= projectName.kebabCase %>/src",
+  "sourceRoot": "packages/<%= projectName %>/src",
   "projectType": "library",
   "targets": {
     "build": {
       "executor": "@nrwl/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/packages/<%= projectName.kebabCase %>",
-        "main": "packages/<%= projectName.kebabCase %>/src/index.ts",
-        "tsConfig": "packages/<%= projectName.kebabCase %>/tsconfig.lib.json",
+        "outputPath": "dist/packages/<%= projectName %>",
+        "main": "packages/<%= projectName %>/src/index.ts",
+        "tsConfig": "packages/<%= projectName %>/tsconfig.lib.json",
         "assets": [
-          "packages/<%= projectName.kebabCase %>/*.md",
+          "packages/<%= projectName %>/*.md",
           {
-            "input": "./packages/<%= projectName.kebabCase %>/src",
+            "input": "./packages/<%= projectName %>/src",
             "glob": "**/!(*.ts)",
             "output": "./src"
           },
           {
-            "input": "./packages/<%= projectName.kebabCase %>/src",
+            "input": "./packages/<%= projectName %>/src",
             "glob": "**/*.d.ts",
             "output": "./src"
           }
@@ -29,17 +29,17 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/<%= projectName.kebabCase %>"]
+        "lintFilePatterns": ["packages/<%= projectName %>"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": [
-        "reports/coverage/packages/<%= projectName.kebabCase %>",
-        "reports/junit/<%= projectName.kebabCase %>.xml"
+        "reports/coverage/packages/<%= projectName %>",
+        "reports/junit/<%= projectName %>.xml"
       ],
       "options": {
-        "jestConfig": "packages/<%= projectName.kebabCase %>/jest.config.ts",
+        "jestConfig": "packages/<%= projectName %>/jest.config.ts",
         "passWithNoTests": true
       }
     }
