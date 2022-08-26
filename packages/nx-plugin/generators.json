@@ -83,6 +83,11 @@
       "schema": "./src/generators/project/eslint/schema.json",
       "description": "Generates an ESLint config for a project"
     },
+    "project.readme": {
+      "factory": "./src/generators/project/readme",
+      "schema": "./src/generators/project/readme/schema.json",
+      "description": "Generates a README for a project"
+    },
     "readme": {
       "factory": "./src/generators/workspace/readme",
       "schema": "./src/generators/workspace/readme/schema.json",

@@ -11,7 +11,7 @@ import path from "node:path";
 import { PackageJson } from "nx/src/utils/package-json";
 
 import { noOpTask, projectNameCasings, ProjectNames } from "../../../utils";
-import { eslintProjectGenerator } from "../../project";
+import { eslintProjectGenerator, readmeProjectGenerator } from "../../project";
 import { nodeLibE2eGenerator } from "./e2e";
 import { NodeLibGeneratorSchema } from "./nodeLibGenerator.schema";
 
@@ -19,8 +19,8 @@ interface NodeLibGeneratorTemplateValues {
   codecov?: CodecovTemplateValues;
   template: "";
   generatorName: string;
-  projectName: ProjectNames;
   scope: string;
+  projectName: ProjectNames;
 }
 
 interface CodecovTemplateValues {
@@ -33,9 +33,11 @@ export async function nodeLibGenerator(
   tree: Tree,
   options: NodeLibGeneratorSchema,
 ) {
-  const { scope, name, skipE2e } = options;
+  const { name, skipE2e } = options;
   const projectName = projectNameCasings(name);
-  const { libsDir } = getWorkspaceLayout(tree);
+  const projectType = "library";
+
+  const { libsDir, npmScope: scope } = getWorkspaceLayout(tree);
   const projectDir = path.join(libsDir, projectName.kebabCase);
 
   const baseGeneratorTask = await libraryGenerator(tree, {
@@ -49,7 +51,12 @@ export async function nodeLibGenerator(
 
   eslintProjectGenerator(tree, {
     projectName: projectName.kebabCase,
-    projectType: "library",
+    projectType,
+  });
+  readmeProjectGenerator(tree, {
+    projectName: projectName.kebabCase,
+    projectType,
+    rootProjectGeneratorName: "lib.node",
   });
 
   const e2eGeneratorTask = skipE2e
@@ -61,10 +68,7 @@ export async function nodeLibGenerator(
 
   updatePackageJsonScripts(tree, projectDir);
 
-  const codecov = getCodecovTemplateValues(tree);
-
   copyTemplateFiles(tree, projectDir, {
-    codecov,
     generatorName: "node-lib",
     projectName,
     scope,
@@ -95,39 +99,6 @@ function updatePackageJsonScripts(tree: Tree, projectDir: string) {
       return packageJson;
     },
   );
-}
-
-function getCodecovTemplateValues(
-  tree: Tree,
-): CodecovTemplateValues | undefined {
-  const rootReadme = tree.read("README.md")?.toString();
-
-  if (!rootReadme) {
-    return;
-  }
-
-  const codecovRegex =
-    // eslint-disable-next-line security/detect-unsafe-regex
-    /\[!\[codecov]\(ht{2}ps:\/{2}codecov\.io\/gh\/(?<repoOrg>[.A-Z_a-z-]+)\/(?<repoName>[.A-Z_a-z-]+)\/branch\/master\/graph\/badge\.svg\?token=(?<token>\w+)\)]\(ht{2}ps:\/{2}codecov\.io\/gh(?:\/[.A-Z_a-z-]+){2}\)/;
-
-  const match = rootReadme.match(codecovRegex);
-
-  if (!match) {
-    return;
-  }
-
-  const groups = match.groups;
-
-  if (!groups) {
-    return;
-  }
-
-  return {
-    repoOrg: groups.repoOrg,
-    repoName: groups.repoName,
-    token: groups.token,
-  };
-  // return match.groups as NodeLibGeneratorTemplateValues["codecov"];
 }
 
 function copyTemplateFiles(

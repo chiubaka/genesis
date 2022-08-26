@@ -20,8 +20,8 @@ describe("eslintProjectGenerator", () => {
       compiler: "tsc",
     });
     eslintProjectGenerator(tree, {
-      projectName: projectName,
-      projectType: projectType,
+      projectName,
+      projectType,
     });
 
     project = new Project(tree, projectName, projectType);

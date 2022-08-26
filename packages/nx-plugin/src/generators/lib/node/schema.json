@@ -16,10 +16,6 @@
       "x-prompt": "What name would you like to use for the library?",
       "pattern": "^[a-zA-Z].*$"
     },
-    "scope": {
-      "type": "string",
-      "description": "NPM scope of this package"
-    },
     "publishable": {
       "type": "boolean",
       "description": "Whether or not this library is publishable",

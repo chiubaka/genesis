@@ -1,8 +1,8 @@
 import { createTreeWithEmptyWorkspace } from "@nrwl/devkit/testing";
 
+import { Project } from "../../../../src";
 import { nodeAppGenerator } from "../../../../src/generators";
 import { nodeProjectTestCases } from "../../../cases";
-import { Project } from "../../../utils";
 
 describe("nodeAppGenerator", () => {
   const tree = createTreeWithEmptyWorkspace();

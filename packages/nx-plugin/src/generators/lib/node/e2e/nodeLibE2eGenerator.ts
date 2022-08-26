@@ -1,6 +1,6 @@
 import { Tree } from "@nrwl/devkit";
 
-import { nodeAppGenerator } from "../../../../app/index";
+import { nodeAppGenerator } from "../../../app";
 import { NodeLibE2eGeneratorSchema } from "./nodeLibE2eGenerator.schema";
 
 export async function nodeLibE2eGenerator(

@@ -1,7 +1,8 @@
-import { Project } from "../../utils/index";
+import { Project } from "../../utils";
 import { eslintProjectTestCases } from "./eslintProjectTestCases";
 import { jestProjectTestCases } from "./jestProjectTestCases";
 import { projectTestCases } from "./projectTestCases";
+import { readmeProjectTestCases } from "./readmeProjectTestCases";
 import { tsConfigTestCases } from "./tsConfigTestCases";
 
 /**
@@ -26,4 +27,5 @@ export const nodeProjectTestCases = (project: Project) => {
     target: "es2022",
   });
   eslintProjectTestCases(project);
+  readmeProjectTestCases(project);
 };

@@ -18,14 +18,16 @@ describe("nodeLibGenerator", () => {
   const project: Project = new Project(tree, "node-lib", "library");
 
   beforeAll(async () => {
+    const projectScope = project.getScope();
+    const projectName = project.getName();
+
     tree.write(
       "README.md",
-      "[![codecov](https://codecov.io/gh/chiubaka/node-lib/branch/master/graph/badge.svg?token=foobar)](https://codecov.io/gh/chiubaka/node-lib)",
+      `[![codecov](https://codecov.io/gh/${projectScope}/${projectName}/branch/master/graph/badge.svg?token=foobar)](https://codecov.io/gh/${projectScope}/${projectName})`,
     );
 
     await nodeLibGenerator(tree, {
       name: "node-lib",
-      scope: "chiubaka",
       publishable: true,
       skipE2e: false,
     });
@@ -55,35 +57,6 @@ describe("nodeLibGenerator", () => {
 
       it("generates a deploy:ci script", () => {
         expect(packageJson.scripts?.["deploy:ci"]).toBeTruthy();
-      });
-    });
-  });
-
-  it("generates a README.md file", () => {
-    expect(tree.exists(project.path("README.md"))).toBe(true);
-  });
-
-  describe("README.md", () => {
-    it("includes the project name as the title", () => {
-      expect(tree).toHaveFileWithContent(
-        project.path("README.md"),
-        "# node-lib",
-      );
-    });
-
-    describe("shields", () => {
-      it("generates an NPM package version shield", () => {
-        expect(tree).toHaveFileWithContent(
-          project.path("README.md"),
-          `[![npm](https://img.shields.io/npm/v/@chiubaka/node-lib)](https://www.npmjs.com/package/@chiubaka/node-lib)`,
-        );
-      });
-
-      it("generates a Codecov shield for just the flag matching this project", () => {
-        expect(tree).toHaveFileWithContent(
-          project.path("README.md"),
-          `[![codecov](https://codecov.io/gh/chiubaka/node-lib/branch/master/graph/badge.svg?token=foobar&flag=node-lib)](https://codecov.io/gh/chiubaka/node-lib)`,
-        );
       });
     });
   });

@@ -1,1 +1,1 @@
-export * from "./Project";
+export * from "../../src/utils/Project";
