@@ -34,7 +34,9 @@ describe("nodeLibGenerator", () => {
   });
 
   it("generates a project with a working linting setup", async () => {
-    await expect(workspace.execNx("lint node-lib")).resolves.not.toThrow();
+    await expect(
+      workspace.execNx("lint node-lib --max-warnings 0"),
+    ).resolves.not.toThrow();
   });
 
   it("generates a project with a working build setup", async () => {

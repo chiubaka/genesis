@@ -108,7 +108,8 @@ function reinstallPackagesWithYarn(tree: Tree, options: PresetGeneratorSchema) {
     });
 
     if (yarnCacheClean) {
-      await exec("yarn cache clean", {
+      logger.info("Cleaning yarn cache");
+      await exec("yarn cache clean --all", {
         cwd: tree.root,
       });
     }

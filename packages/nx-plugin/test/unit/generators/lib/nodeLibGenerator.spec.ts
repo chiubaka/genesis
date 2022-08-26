@@ -252,6 +252,10 @@ describe("nodeLibGenerator", () => {
       expect(tsConfig.extends).toBe("./tsconfig.json");
     });
 
+    it("excludes the test directory", () => {
+      expect(tsConfig.exclude).toContain("test");
+    });
+
     describe("compilerOptions", () => {
       let compilerOptions: CompilerOptions | undefined;
 
@@ -270,6 +274,10 @@ describe("nodeLibGenerator", () => {
       it("ensures that declarations are output", () => {
         expect(compilerOptions?.declaration).toBe(true);
       });
+
+      it("ensures node typings are included", () => {
+        expect(compilerOptions?.types).toContain("node");
+      });
     });
   });
 
@@ -282,6 +290,10 @@ describe("nodeLibGenerator", () => {
 
     it("extends from the main project tsconfig file", () => {
       expect(tsConfig.extends).toBe("./tsconfig.json");
+    });
+
+    it("includes the test directory", () => {
+      expect(tsConfig.include).toContain("test");
     });
 
     describe("compilerOptions", () => {
