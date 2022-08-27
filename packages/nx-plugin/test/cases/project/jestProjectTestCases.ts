@@ -1,12 +1,23 @@
-import { Project } from "../../utils";
+import { Tree } from "@nrwl/devkit";
+
+import { Project } from "../../../src";
 
 export const jestProjectTestCases = (
-  project: Project,
+  getProject: () => Project,
   expectedTestEnvironment?: string,
 ) => {
-  const tree = project.getTree();
-  const projectName = project.getName();
-  const jestConfigPath = project.jestConfigPath();
+  let project: Project;
+  let tree: Tree;
+
+  let projectName: string;
+  let jestConfigPath: string;
+
+  beforeAll(() => {
+    project = getProject();
+    tree = project.getTree();
+    projectName = project.getName();
+    jestConfigPath = project.jestConfigPath();
+  });
 
   describe("jest.config.ts", () => {
     it("generates a jest config", () => {

@@ -1,22 +1,31 @@
-import { readJson } from "@nrwl/devkit";
+import { readJson, Tree } from "@nrwl/devkit";
 import { ProjectReference } from "typescript";
 
+import { Project } from "../../../src";
 import { CompilerOptions, TsConfig } from "../../types/tsconfig";
-import { Project } from "../../utils";
 
 const DEFAULT_COMPILER_OPTIONS: CompilerOptions = {
   outDir: "../../dist/out-tsc",
 };
 
 export const tsConfigTestCases = (
-  project: Project,
+  getProject: () => Project,
   expectedCompilerOptions: CompilerOptions = {},
 ) => {
-  const tree = project.getTree();
-  const primaryTsConfigName =
-    project.getType() === "application"
-      ? "tsconfig.app.json"
-      : "tsconfig.lib.json";
+  let project: Project;
+  let tree: Tree;
+
+  let primaryTsConfigName: string;
+
+  beforeAll(() => {
+    project = getProject();
+    tree = project.getTree();
+
+    primaryTsConfigName =
+      project.getType() === "application"
+        ? "tsconfig.app.json"
+        : "tsconfig.lib.json";
+  });
 
   describe("tsconfig.json", () => {
     it("generates a tsconfig.json file", () => {
@@ -70,45 +79,50 @@ export const tsConfigTestCases = (
     });
   });
 
-  describe(primaryTsConfigName, () => {
-    let tsConfig: TsConfig;
-
-    beforeAll(() => {
-      tsConfig = readJson<TsConfig>(tree, project.path(primaryTsConfigName));
-    });
-
-    it("extends from the main project tsconfig file", () => {
-      expect(tsConfig.extends).toBe("./tsconfig.json");
-    });
-
-    it("excludes the test directory", () => {
-      expect(tsConfig.exclude).toContain("test");
-    });
-
-    describe("compilerOptions", () => {
-      let compilerOptions: CompilerOptions | undefined;
+  describe(
+    () => {
+      return primaryTsConfigName;
+    },
+    () => {
+      let tsConfig: TsConfig;
 
       beforeAll(() => {
-        compilerOptions = tsConfig.compilerOptions;
+        tsConfig = readJson<TsConfig>(tree, project.path(primaryTsConfigName));
       });
 
-      it("does not specify outDir", () => {
-        expect(compilerOptions?.outDir).toBeUndefined();
+      it("extends from the main project tsconfig file", () => {
+        expect(tsConfig.extends).toBe("./tsconfig.json");
       });
 
-      it("does not specify module", () => {
-        expect(compilerOptions?.module).toBeUndefined();
+      it("excludes the test directory", () => {
+        expect(tsConfig.exclude).toContain("test");
       });
 
-      it("ensures that declarations are output", () => {
-        expect(compilerOptions?.declaration).toBe(true);
-      });
+      describe("compilerOptions", () => {
+        let compilerOptions: CompilerOptions | undefined;
 
-      it("ensures node typings are included", () => {
-        expect(compilerOptions?.types).toContain("node");
+        beforeAll(() => {
+          compilerOptions = tsConfig.compilerOptions;
+        });
+
+        it("does not specify outDir", () => {
+          expect(compilerOptions?.outDir).toBeUndefined();
+        });
+
+        it("does not specify module", () => {
+          expect(compilerOptions?.module).toBeUndefined();
+        });
+
+        it("ensures that declarations are output", () => {
+          expect(compilerOptions?.declaration).toBe(true);
+        });
+
+        it("ensures node typings are included", () => {
+          expect(compilerOptions?.types).toContain("node");
+        });
       });
-    });
-  });
+    },
+  );
 
   describe("tsconfig.spec.json", () => {
     let tsConfig: TsConfig;

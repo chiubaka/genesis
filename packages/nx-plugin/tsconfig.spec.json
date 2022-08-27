@@ -10,7 +10,6 @@
     "**/*.test.ts",
     "**/*.spec.ts",
     "**/*.d.ts",
-    "test",
-    "src/utils/Project.ts"
+    "test"
   ]
 }

@@ -83,6 +83,11 @@
       "schema": "./src/generators/project/eslint/schema.json",
       "description": "Generates an ESLint config for a project"
     },
+    "project.jest": {
+      "factory": "./src/generators/project/jest",
+      "schema": "./src/generators/project/jest/schema.json",
+      "description": "Generates a Jest config for a project"
+    },
     "project.readme": {
       "factory": "./src/generators/project/readme",
       "schema": "./src/generators/project/readme/schema.json",

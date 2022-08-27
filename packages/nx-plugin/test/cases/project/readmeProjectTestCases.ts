@@ -1,9 +1,21 @@
-import { Project } from "../../utils";
+import { Tree } from "@nrwl/devkit";
 
-export const readmeProjectTestCases = (project: Project) => {
-  const tree = project.getTree();
-  const projectScope = project.getScope();
-  const projectName = project.getName();
+import { Project } from "../../../src";
+
+export const readmeProjectTestCases = (getProject: () => Project) => {
+  let project: Project;
+  let tree: Tree;
+
+  let projectScope: string;
+  let projectName: string;
+
+  beforeAll(() => {
+    project = getProject();
+    tree = project.getTree();
+
+    projectScope = project.getScope();
+    projectName = project.getName();
+  });
 
   it("generates a README.md file", () => {
     // eslint-disable-next-line security/detect-non-literal-fs-filename

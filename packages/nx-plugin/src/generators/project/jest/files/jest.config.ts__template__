@@ -1,0 +1,29 @@
+export default {
+  displayName: "<%= projectName %>",
+  preset: "../../jest.preset.js",
+  globals: {
+    "ts-jest": {
+      tsconfig: "<rootDir>/tsconfig.spec.json",
+    },
+  },
+  <% if (testEnvironment) { -%>
+  testEnvironment: <%= testEnvironment %>,
+  <% } -%>
+  transform: {
+    "^.+\\.[tj]s$": "ts-jest",
+  },
+  moduleFileExtensions: ["ts", "js", "html"],
+  coverageDirectory: "../../reports/coverage/packages/<%= projectName %>",
+  reporters: [
+    "default",
+    [
+      "jest-junit",
+      {
+        addFileAttribute: "true",
+        classNameTemplate: "{suitename}",
+        outputDirectory: "reports/junit",
+        outputName: "<%= projectName %>.xml",
+      },
+    ],
+  ],
+};

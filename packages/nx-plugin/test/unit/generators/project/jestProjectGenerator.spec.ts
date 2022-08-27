@@ -1,9 +1,9 @@
 import { createTreeWithLibWorkspace } from "@chiubaka/nx-plugin-testing";
 
-import { eslintProjectGenerator, Project } from "../../../../src";
-import { eslintProjectTestCases } from "../../../cases";
+import { jestProjectGenerator, Project } from "../../../../src";
+import { jestProjectTestCases } from "../../../cases/project/jestProjectTestCases";
 
-describe("eslintProjectGenerator", () => {
+describe("jestProjectGenerator", () => {
   let project: Project;
 
   const getProject = () => {
@@ -11,17 +11,16 @@ describe("eslintProjectGenerator", () => {
   };
 
   beforeAll(async () => {
-    const projectName = "eslint-project";
+    const projectName = "jest-project";
     const projectType = "library";
 
     const tree = await createTreeWithLibWorkspace(projectName);
-    eslintProjectGenerator(tree, {
+    jestProjectGenerator(tree, {
       projectName,
       projectType,
     });
-
     project = new Project(tree, projectName, projectType);
   });
 
-  eslintProjectTestCases(getProject);
+  jestProjectTestCases(getProject);
 });

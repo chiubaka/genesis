@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "JestProject",
+  "cli": "nx",
+  "title": "Create a Jest configuration for a project",
+  "description": "Create a Jest configuration for a project",
+  "type": "object",
+  "properties": {
+    "projectName": {
+      "type": "string",
+      "description": "The name of the project to generate configuration for"
+    },
+    "projectType": {
+      "type": "string",
+      "description": "The type of project to generate configuration for",
+      "enum": ["application", "library"]
+    },
+    "testEnvironment": {
+      "type": "string",
+      "description": "Test environment setting for Jest."
+    }
+  },
+  "required": ["projectName", "projectType", "testEnvironment"]
+}

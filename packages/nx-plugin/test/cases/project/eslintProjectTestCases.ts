@@ -1,10 +1,16 @@
-import { readJson } from "@nrwl/devkit";
+import { readJson, Tree } from "@nrwl/devkit";
 import { Linter } from "eslint";
 
-import { Project } from "../../utils";
+import { Project } from "../../../src";
 
-export const eslintProjectTestCases = (project: Project) => {
-  const tree = project.getTree();
+export const eslintProjectTestCases = (getProject: () => Project) => {
+  let project: Project;
+  let tree: Tree;
+
+  beforeAll(() => {
+    project = getProject();
+    tree = project.getTree();
+  });
 
   describe(".eslintrc.json", () => {
     let eslintConfig: Linter.Config;

@@ -1,4 +1,6 @@
-import { Project } from "../../utils";
+import { Tree } from "@nrwl/devkit";
+
+import { Project } from "../../../src";
 import { eslintProjectTestCases } from "./eslintProjectTestCases";
 import { jestProjectTestCases } from "./jestProjectTestCases";
 import { projectTestCases } from "./projectTestCases";
@@ -9,8 +11,14 @@ import { tsConfigTestCases } from "./tsConfigTestCases";
  * Configures common test cases that should be included for all node project generators
  * @param projectName name of the project being tested
  */
-export const nodeProjectTestCases = (project: Project) => {
-  const tree = project.getTree();
+export const nodeProjectTestCases = (getProject: () => Project) => {
+  let project: Project;
+  let tree: Tree;
+
+  beforeAll(() => {
+    project = getProject();
+    tree = project.getTree();
+  });
 
   describe(".babelrc", () => {
     it("does not generate a .babelrc file", () => {
@@ -19,13 +27,13 @@ export const nodeProjectTestCases = (project: Project) => {
     });
   });
 
-  projectTestCases(project);
-  jestProjectTestCases(project, "node");
-  tsConfigTestCases(project, {
+  projectTestCases(getProject);
+  jestProjectTestCases(getProject, "node");
+  tsConfigTestCases(getProject, {
     lib: ["es2022"],
     module: "commonjs",
     target: "es2022",
   });
-  eslintProjectTestCases(project);
-  readmeProjectTestCases(project);
+  eslintProjectTestCases(getProject);
+  readmeProjectTestCases(getProject);
 };

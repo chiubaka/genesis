@@ -1,16 +1,25 @@
-import { ProjectsConfigurations, readJson } from "@nrwl/devkit";
+import { ProjectsConfigurations, readJson, Tree } from "@nrwl/devkit";
 
+import { Project } from "../../../src";
 import { TsConfig } from "../../types/tsconfig";
-import { Project } from "../../utils";
 
 /**
  * Configures common test cases that should be included for all project generators
  * @param projectName name of the project being tested
  */
-export const projectTestCases = (project: Project) => {
-  const tree = project.getTree();
-  const projectScope = project.getScope();
-  const projectName = project.getName();
+export const projectTestCases = (getProject: () => Project) => {
+  let project: Project;
+  let tree: Tree;
+  let projectScope: string;
+  let projectName: string;
+
+  beforeAll(() => {
+    project = getProject();
+    tree = project.getTree();
+
+    projectScope = project.getScope();
+    projectName = project.getName();
+  });
 
   it("generates a directory for the new project", () => {
     // eslint-disable-next-line security/detect-non-literal-fs-filename

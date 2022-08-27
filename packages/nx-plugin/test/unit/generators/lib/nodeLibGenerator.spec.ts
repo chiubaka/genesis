@@ -10,14 +10,21 @@ import { createTreeWithEmptyWorkspace } from "@nrwl/devkit/testing";
 import { PackageJson } from "nx/src/utils/package-json";
 
 import { nodeLibGenerator } from "../../../../src/generators";
+import { Project } from "../../../../src/utils";
 import { nodeProjectTestCases } from "../../../cases";
-import { Project } from "../../../utils";
 
 describe("nodeLibGenerator", () => {
-  const tree: Tree = createTreeWithEmptyWorkspace();
-  const project: Project = new Project(tree, "node-lib", "library");
+  let tree: Tree;
+  let project: Project;
+
+  const getProject = () => {
+    return project;
+  };
 
   beforeAll(async () => {
+    tree = createTreeWithEmptyWorkspace();
+    project = new Project(tree, "node-lib", "library");
+
     const projectScope = project.getScope();
     const projectName = project.getName();
 
@@ -33,7 +40,7 @@ describe("nodeLibGenerator", () => {
     });
   });
 
-  nodeProjectTestCases(project);
+  nodeProjectTestCases(getProject);
 
   it("generates a sample unit test file in pascal case", () => {
     expect(tree.exists(project.testPath("unit/hello.spec.ts"))).toBe(true);

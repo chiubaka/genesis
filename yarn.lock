@@ -1062,6 +1062,39 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@nrwl/node@npm:14.5.6":
+  version: 14.5.6
+  resolution: "@nrwl/node@npm:14.5.6"
+  dependencies:
+    "@nrwl/devkit": 14.5.6
+    "@nrwl/jest": 14.5.6
+    "@nrwl/js": 14.5.6
+    "@nrwl/linter": 14.5.6
+    "@nrwl/workspace": 14.5.6
+    chalk: 4.1.0
+    copy-webpack-plugin: ^10.2.4
+    dotenv: ~10.0.0
+    enhanced-resolve: ^5.8.3
+    fork-ts-checker-webpack-plugin: 7.2.13
+    fs-extra: ^10.1.0
+    glob: 7.1.4
+    license-webpack-plugin: ^4.0.2
+    rxjs: ^6.5.4
+    source-map-support: 0.5.19
+    terser-webpack-plugin: ^5.3.3
+    tree-kill: 1.2.2
+    ts-loader: ^9.3.1
+    ts-node: 10.9.1
+    tsconfig-paths: ^3.9.0
+    tsconfig-paths-webpack-plugin: 3.5.2
+    tslib: ^2.3.0
+    webpack: ^5.58.1
+    webpack-merge: ^5.8.0
+    webpack-node-externals: ^3.0.0
+  checksum: da47b66712d85a673eb8cd78cf081a0002ae09148ce2be61462efd37e84f583a830b6b36c7030041cab4572b09fecd8e0a8c10201e249d656d65044e5e0ce516
+  languageName: node
+  linkType: hard
+
 "@nrwl/node@npm:^14.5.8":
   version: 14.5.9
   resolution: "@nrwl/node@npm:14.5.9"
@@ -7893,6 +7926,7 @@ __metadata:
   resolution: "nx-plugin-testing@workspace:packages/nx-plugin-testing"
   dependencies:
     "@nrwl/devkit": 14.5.6
+    "@nrwl/node": 14.5.6
     nx: 14.5.6
   languageName: unknown
   linkType: soft
