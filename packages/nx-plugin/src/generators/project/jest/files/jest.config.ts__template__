@@ -7,7 +7,7 @@ export default {
     },
   },
   <% if (testEnvironment) { -%>
-  testEnvironment: <%= testEnvironment %>,
+  testEnvironment: "<%= testEnvironment %>",
   <% } -%>
   transform: {
     "^.+\\.[tj]s$": "ts-jest",

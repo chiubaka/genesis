@@ -79,50 +79,45 @@ export const tsConfigTestCases = (
     });
   });
 
-  describe(
-    () => {
-      return primaryTsConfigName;
-    },
-    () => {
-      let tsConfig: TsConfig;
+  describe("tsconfig.app.json or tsconfig.lib.json", () => {
+    let tsConfig: TsConfig;
+
+    beforeAll(() => {
+      tsConfig = readJson<TsConfig>(tree, project.path(primaryTsConfigName));
+    });
+
+    it("extends from the main project tsconfig file", () => {
+      expect(tsConfig.extends).toBe("./tsconfig.json");
+    });
+
+    it("excludes the test directory", () => {
+      expect(tsConfig.exclude).toContain("test");
+    });
+
+    describe("compilerOptions", () => {
+      let compilerOptions: CompilerOptions | undefined;
 
       beforeAll(() => {
-        tsConfig = readJson<TsConfig>(tree, project.path(primaryTsConfigName));
+        compilerOptions = tsConfig.compilerOptions;
       });
 
-      it("extends from the main project tsconfig file", () => {
-        expect(tsConfig.extends).toBe("./tsconfig.json");
+      it("does not specify outDir", () => {
+        expect(compilerOptions?.outDir).toBeUndefined();
       });
 
-      it("excludes the test directory", () => {
-        expect(tsConfig.exclude).toContain("test");
+      it("does not specify module", () => {
+        expect(compilerOptions?.module).toBeUndefined();
       });
 
-      describe("compilerOptions", () => {
-        let compilerOptions: CompilerOptions | undefined;
-
-        beforeAll(() => {
-          compilerOptions = tsConfig.compilerOptions;
-        });
-
-        it("does not specify outDir", () => {
-          expect(compilerOptions?.outDir).toBeUndefined();
-        });
-
-        it("does not specify module", () => {
-          expect(compilerOptions?.module).toBeUndefined();
-        });
-
-        it("ensures that declarations are output", () => {
-          expect(compilerOptions?.declaration).toBe(true);
-        });
-
-        it("ensures node typings are included", () => {
-          expect(compilerOptions?.types).toContain("node");
-        });
+      it("ensures that declarations are output", () => {
+        expect(compilerOptions?.declaration).toBe(true);
       });
-    },
-  );
+
+      it("ensures node typings are included", () => {
+        expect(compilerOptions?.types).toContain("node");
+      });
+    });
+  });
 
   describe("tsconfig.spec.json", () => {
     let tsConfig: TsConfig;

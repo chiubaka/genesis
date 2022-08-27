@@ -2,7 +2,11 @@ import { Tree } from "@nrwl/devkit";
 import { applicationGenerator } from "@nrwl/node";
 
 import { Project } from "../../../utils";
-import { eslintProjectGenerator, readmeProjectGenerator } from "../../project";
+import {
+  eslintProjectGenerator,
+  jestProjectGenerator,
+  readmeProjectGenerator,
+} from "../../project";
 import { NodeAppGeneratorSchema } from "./nodeAppGenerator.schema";
 
 export async function nodeAppGenerator(
@@ -24,6 +28,11 @@ export async function nodeAppGenerator(
     projectName,
     projectType,
     rootProjectGeneratorName: "app.node",
+  });
+  jestProjectGenerator(tree, {
+    projectName,
+    projectType,
+    testEnvironment: "node",
   });
 
   return async () => {

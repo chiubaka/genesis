@@ -15,12 +15,20 @@ describe("nodeAppGenerator", () => {
 
   beforeAll(async () => {
     tree = createTreeWithEmptyWorkspace();
+    project = new Project(tree, "node-app", "application");
+
+    const projectScope = project.getScope();
+    const projectName = project.getName();
+
+    tree.write(
+      "README.md",
+      `[![codecov](https://codecov.io/gh/${projectScope}/${projectName}/branch/master/graph/badge.svg?token=foobar)](https://codecov.io/gh/${projectScope}/${projectName})`,
+    );
+
     await nodeAppGenerator(tree, {
       scope: "chiubaka",
       name: "node-app",
     });
-
-    project = new Project(tree, "node-app", "application");
   });
 
   nodeProjectTestCases(getProject);
