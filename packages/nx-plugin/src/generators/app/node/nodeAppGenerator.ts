@@ -6,6 +6,8 @@ import {
   eslintProjectGenerator,
   jestProjectGenerator,
   readmeProjectGenerator,
+  TsConfigGeneratorPresets,
+  tsconfigProjectGenerator,
 } from "../../project";
 import { NodeAppGeneratorSchema } from "./nodeAppGenerator.schema";
 
@@ -20,6 +22,11 @@ export async function nodeAppGenerator(
 
   const baseGeneratorTask = await applicationGenerator(tree, options);
 
+  tsconfigProjectGenerator(tree, {
+    projectName,
+    projectType,
+    ...TsConfigGeneratorPresets.node18,
+  });
   eslintProjectGenerator(tree, {
     projectName,
     projectType,

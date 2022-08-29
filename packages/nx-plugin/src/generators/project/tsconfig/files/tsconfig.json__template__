@@ -1,9 +1,15 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "lib": ["es2022"],
-    "module": "commonjs",
-    "target": "es2022",
+    <% if (locals.lib) { -%>
+    "lib": <%- lib %>,
+    <% } -%>
+    <% if (locals.module) { -%>
+    "module": "<%= module %>",
+    <% } -%>
+    <% if (locals.target) { -%>
+    "target": "<%= target %>",
+    <% } -%>
     "outDir": "../../dist/out-tsc"
   },
   "files": [],

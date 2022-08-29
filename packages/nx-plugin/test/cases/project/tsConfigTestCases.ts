@@ -1,17 +1,24 @@
 import { readJson, Tree } from "@nrwl/devkit";
 import { ProjectReference } from "typescript";
 
-import { Project } from "../../../src";
+import { Project } from "../../../src/index";
 import { CompilerOptions, TsConfig } from "../../types/tsconfig";
 
 const DEFAULT_COMPILER_OPTIONS: CompilerOptions = {
   outDir: "../../dist/out-tsc",
 };
 
-export const tsConfigTestCases = (
+interface ExpectedTsConfigOptions {
+  appLibTypes?: string[];
+  compilerOptions?: CompilerOptions;
+}
+
+export const tsconfigTestCases = (
   getProject: () => Project,
-  expectedCompilerOptions: CompilerOptions = {},
+  options: ExpectedTsConfigOptions = {},
 ) => {
+  const expectedCompilerOptions = options.compilerOptions || {};
+
   let project: Project;
   let tree: Tree;
 
@@ -113,8 +120,12 @@ export const tsConfigTestCases = (
         expect(compilerOptions?.declaration).toBe(true);
       });
 
-      it("ensures node typings are included", () => {
-        expect(compilerOptions?.types).toContain("node");
+      it("ensures correct typings are included", () => {
+        const expectedTypes = options.appLibTypes || [];
+
+        for (const expectedType of expectedTypes) {
+          expect(compilerOptions?.types).toContain(expectedType);
+        }
       });
     });
   });

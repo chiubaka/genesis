@@ -10,7 +10,12 @@ import path from "node:path";
 import { PackageJson } from "nx/src/utils/package-json";
 
 import { noOpTask, Project } from "../../../utils";
-import { eslintProjectGenerator, readmeProjectGenerator } from "../../project";
+import {
+  eslintProjectGenerator,
+  readmeProjectGenerator,
+  TsConfigGeneratorPresets,
+  tsconfigProjectGenerator,
+} from "../../project";
 import { nodeLibE2eGenerator } from "./e2e";
 import { NodeLibGeneratorSchema } from "./nodeLibGenerator.schema";
 
@@ -33,6 +38,11 @@ export async function nodeLibGenerator(
     buildable: true,
   });
 
+  tsconfigProjectGenerator(tree, {
+    projectName,
+    projectType,
+    ...TsConfigGeneratorPresets.node18,
+  });
   eslintProjectGenerator(tree, {
     projectName: projectName,
     projectType,

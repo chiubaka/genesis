@@ -5,7 +5,7 @@ import { eslintProjectTestCases } from "./eslintProjectTestCases";
 import { jestProjectTestCases } from "./jestProjectTestCases";
 import { projectTestCases } from "./projectTestCases";
 import { readmeProjectTestCases } from "./readmeProjectTestCases";
-import { tsConfigTestCases } from "./tsConfigTestCases";
+import { tsconfigTestCases } from "./tsconfigTestCases";
 
 /**
  * Configures common test cases that should be included for all node project generators
@@ -29,10 +29,13 @@ export const nodeProjectTestCases = (getProject: () => Project) => {
 
   projectTestCases(getProject);
   jestProjectTestCases(getProject, "node");
-  tsConfigTestCases(getProject, {
-    lib: ["es2022"],
-    module: "commonjs",
-    target: "es2022",
+  tsconfigTestCases(getProject, {
+    appLibTypes: ["node"],
+    compilerOptions: {
+      lib: ["es2022"],
+      module: "commonjs",
+      target: "es2022",
+    },
   });
   eslintProjectTestCases(getProject);
   readmeProjectTestCases(getProject);

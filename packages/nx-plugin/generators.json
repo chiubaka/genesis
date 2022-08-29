@@ -93,6 +93,11 @@
       "schema": "./src/generators/project/readme/schema.json",
       "description": "Generates a README for a project"
     },
+    "project.tsconfig": {
+      "factory": "./src/generators/project/tsconfig",
+      "schema": "./src/generators/project/tsconfig/schema.json",
+      "description": "Generates a TypeScript configuration files for a project"
+    },
     "readme": {
       "factory": "./src/generators/workspace/readme",
       "schema": "./src/generators/workspace/readme/schema.json",
