@@ -15,11 +15,7 @@
       },
       "x-prompt": "What name would you like to use for the application?",
       "pattern": "^[a-zA-Z].*$"
-    },
-    "scope": {
-      "type": "string",
-      "description": "NPM scope of this package"
     }
   },
-  "required": ["name", "scope"]
+  "required": ["name"]
 }

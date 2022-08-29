@@ -1,5 +1,6 @@
-import { createTreeWithEmptyWorkspace } from "@nrwl/devkit/testing";
 import { libraryGenerator } from "@nrwl/node";
+
+import { createTreeWithEmptyWorkspace } from "./createTreeWithEmptyWorkspace";
 
 export const createTreeWithLibWorkspace = async (
   projectName: string,

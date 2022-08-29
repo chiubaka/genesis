@@ -10,6 +10,7 @@
         "outputPath": "dist/packages/nx-plugin",
         "main": "packages/nx-plugin/src/index.ts",
         "tsConfig": "packages/nx-plugin/tsconfig.lib.json",
+        "updateBuildableProjectDepsInPackageJson": false,
         "assets": [
           "packages/nx-plugin/*.md",
           {

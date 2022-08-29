@@ -1,16 +1,8 @@
-/* eslint-disable security/detect-non-literal-fs-filename */
-
-import {
-  ProjectConfiguration,
-  readJson,
-  TargetConfiguration,
-  Tree,
-} from "@nrwl/devkit";
-import { createTreeWithEmptyWorkspace } from "@nrwl/devkit/testing";
+import { createTreeWithEmptyWorkspace } from "@chiubaka/nx-plugin-testing";
+import { readJson, Tree } from "@nrwl/devkit";
 import { PackageJson } from "nx/src/utils/package-json";
 
-import { nodeLibGenerator } from "../../../../src/generators";
-import { Project } from "../../../../src/utils";
+import { nodeLibGenerator, Project } from "../../../../src";
 import { nodeProjectTestCases } from "../../../cases";
 
 describe("nodeLibGenerator", () => {
@@ -40,13 +32,19 @@ describe("nodeLibGenerator", () => {
     });
   });
 
-  nodeProjectTestCases(getProject);
+  nodeProjectTestCases(getProject, {
+    projectJson: {
+      targetNames: ["lint", "build", "test"],
+    },
+  });
 
   it("generates a sample unit test file in pascal case", () => {
+    // eslint-disable-next-line security/detect-non-literal-fs-filename
     expect(tree.exists(project.testPath("unit/hello.spec.ts"))).toBe(true);
   });
 
   it("generates a sample file in pascal case", () => {
+    // eslint-disable-next-line security/detect-non-literal-fs-filename
     expect(tree.exists(project.srcPath("hello.ts"))).toBe(true);
   });
 
@@ -67,40 +65,4 @@ describe("nodeLibGenerator", () => {
       });
     });
   });
-
-  it("generates a project.json file", () => {
-    expect(tree.exists(project.path("project.json"))).toBe(true);
-  });
-
-  describe("project.json", () => {
-    let projectJson: ProjectConfiguration;
-
-    beforeAll(() => {
-      projectJson = readJson<ProjectConfiguration>(
-        tree,
-        project.path("project.json"),
-      );
-    });
-
-    describe("targets", () => {
-      let targets: Record<string, TargetConfiguration> | undefined;
-
-      beforeAll(() => {
-        targets = projectJson.targets;
-      });
-
-      it("includes a lint target", () => {
-        expect(targets?.lint).toBeDefined();
-      });
-
-      it("includes a test target", () => {
-        expect(targets?.test).toBeDefined();
-      });
-
-      it("includes a build target", () => {
-        expect(targets?.build).toBeDefined();
-      });
-    });
-  });
 });
-/* eslint-enable security/detect-non-literal-fs-filename */

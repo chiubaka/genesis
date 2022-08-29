@@ -1,5 +1,12 @@
-import { getWorkspaceLayout, names, ProjectType, Tree } from "@nrwl/devkit";
+import {
+  getWorkspaceLayout,
+  names,
+  ProjectType as NxProjectType,
+  Tree,
+} from "@nrwl/devkit";
 import path from "node:path";
+
+export type ProjectType = NxProjectType | "e2e";
 
 export interface ProjectNames {
   camelCase: string;
@@ -30,9 +37,13 @@ export class Project {
   }
 
   public path(relativePath = "") {
-    const { appsDir, libsDir } = getWorkspaceLayout(this.tree);
-    const baseDir = this.type === "application" ? appsDir : libsDir;
-    return path.join(baseDir, this.getName(), relativePath);
+    return this.baseDir(path.join(this.getName(), relativePath));
+  }
+
+  public relativePath(relativePath = "") {
+    const baseDirName = path.basename(this.baseDir());
+
+    return path.join(baseDirName, this.getName(), relativePath);
   }
 
   public srcPath(relativePath = "") {
@@ -41,6 +52,10 @@ export class Project {
 
   public testPath(relativePath = "") {
     return path.join(this.path("test"), relativePath);
+  }
+
+  public distPath(relativePath = "") {
+    return path.join("dist", this.relativePath(relativePath));
   }
 
   public jestConfigPath() {
@@ -66,5 +81,21 @@ export class Project {
 
   public getType() {
     return this.type;
+  }
+
+  private baseDir(relativePath = "") {
+    const { appsDir, libsDir } = getWorkspaceLayout(this.tree);
+
+    const isPackagesLayout = path.basename(libsDir) === "packages";
+
+    let baseDir = libsDir;
+    if (
+      (isPackagesLayout && this.type === "e2e") ||
+      (!isPackagesLayout && this.type === "application")
+    ) {
+      baseDir = appsDir;
+    }
+
+    return path.join(baseDir, relativePath);
   }
 }

@@ -1,5 +1,12 @@
-import { Tree } from "@nrwl/devkit";
+import {
+  getWorkspaceLayout,
+  moveFilesToNewDirectory,
+  Tree,
+  updateJson,
+} from "@nrwl/devkit";
 import { applicationGenerator } from "@nrwl/node";
+import path from "node:path";
+import { RawProjectsConfigurations } from "nx/src/config/workspace-json-project-json";
 
 import { Project } from "../../../utils";
 import {
@@ -7,6 +14,7 @@ import {
   eslintProjectGenerator,
   jestProjectGenerator,
   readmeProjectGenerator,
+  standardizeProjectJson,
   TsConfigGeneratorPresets,
   tsconfigProjectGenerator,
 } from "../../project";
@@ -22,6 +30,12 @@ export async function nodeAppGenerator(
   const projectType = project.getType();
 
   const baseGeneratorTask = await applicationGenerator(tree, options);
+
+  const { appsDir } = getWorkspaceLayout(tree);
+  const originalDir = path.join(appsDir, project.getName());
+
+  moveFilesToNewDirectory(tree, originalDir, project.relativePath());
+  updateProjectJsonReferences(project, originalDir);
 
   tsconfigProjectGenerator(tree, {
     projectName,
@@ -43,9 +57,34 @@ export async function nodeAppGenerator(
     rootProjectGeneratorName: "app.node",
   });
 
+  updateJson(
+    tree,
+    "workspace.json",
+    (workspaceJson: RawProjectsConfigurations) => {
+      // eslint-disable-next-line security/detect-object-injection
+      workspaceJson.projects[projectName] = project.path();
+      return workspaceJson;
+    },
+  );
+  standardizeProjectJson(project);
+
   copyNodeAppSample(project);
 
   return async () => {
     await baseGeneratorTask();
   };
+}
+
+function updateProjectJsonReferences(project: Project, originalDir: string) {
+  const tree = project.getTree();
+  let projectJson = tree.read(project.path("project.json"))?.toString();
+
+  if (projectJson) {
+    projectJson = projectJson?.replace(
+      // eslint-disable-next-line security/detect-non-literal-regexp
+      new RegExp(originalDir, "g"),
+      project.relativePath(),
+    );
+    tree.write(project.path("project.json"), projectJson);
+  }
 }

@@ -3,15 +3,26 @@ import { Tree } from "@nrwl/devkit";
 import { Project } from "../../../src";
 import { eslintProjectTestCases } from "./eslintProjectTestCases";
 import { jestProjectTestCases } from "./jestProjectTestCases";
+import {
+  projectJsonTestCases,
+  ProjectJsonTestCasesOptions,
+} from "./projectJsonTestCases";
 import { projectTestCases } from "./projectTestCases";
 import { readmeProjectTestCases } from "./readmeProjectTestCases";
 import { tsconfigTestCases } from "./tsconfigTestCases";
+
+interface NodeProjectTestCasesOptions {
+  projectJson: ProjectJsonTestCasesOptions;
+}
 
 /**
  * Configures common test cases that should be included for all node project generators
  * @param projectName name of the project being tested
  */
-export const nodeProjectTestCases = (getProject: () => Project) => {
+export const nodeProjectTestCases = (
+  getProject: () => Project,
+  options: NodeProjectTestCasesOptions,
+) => {
   let project: Project;
   let tree: Tree;
 
@@ -28,6 +39,7 @@ export const nodeProjectTestCases = (getProject: () => Project) => {
   });
 
   projectTestCases(getProject);
+  projectJsonTestCases(getProject, options.projectJson);
   jestProjectTestCases(getProject, "node");
   tsconfigTestCases(getProject, {
     appLibTypes: ["node"],

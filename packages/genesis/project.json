@@ -10,6 +10,7 @@
         "outputPath": "dist/packages/genesis",
         "main": "packages/genesis/bin/index.ts",
         "tsConfig": "packages/genesis/tsconfig.lib.json",
+        "updateBuildableProjectDepsInPackageJson": false,
         "assets": [
           "packages/genesis/*.md",
           {

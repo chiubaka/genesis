@@ -1,4 +1,4 @@
-import { ProjectType } from "@nrwl/devkit";
+import { ProjectType } from "../../utils";
 
 export interface ProjectGeneratorSchema {
   projectName: string;

@@ -13,6 +13,7 @@ import {
   eslintProjectGenerator,
   jestProjectGenerator,
   readmeProjectGenerator,
+  standardizeProjectJson,
   TsConfigGeneratorPresets,
   tsconfigProjectGenerator,
 } from "../../project";
@@ -49,11 +50,11 @@ export async function nodeLibGenerator(
     testEnvironment: "node",
   });
   eslintProjectGenerator(tree, {
-    projectName: projectName,
+    projectName,
     projectType,
   });
   readmeProjectGenerator(tree, {
-    projectName: projectName,
+    projectName,
     projectType,
     rootProjectGeneratorName: "lib.node",
   });
@@ -65,6 +66,7 @@ export async function nodeLibGenerator(
         name: `${projectName}-e2e`,
       });
 
+  standardizeProjectJson(project);
   updatePackageJsonScripts(project);
   copyNodeLibSample(project);
 

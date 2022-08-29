@@ -3,6 +3,11 @@
   "name": "nx-plugin",
   "version": "0.0.1",
   "generators": {
+    "app.node": {
+      "factory": "./src/generators/app/node",
+      "schema": "./src/generators/app/node/schema.json",
+      "description": "Generates a simple Node application"
+    },
     "ci": {
       "factory": "./src/generators/workspace/ci",
       "schema": "./src/generators/workspace/ci/schema.json",
