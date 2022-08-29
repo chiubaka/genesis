@@ -1,16 +1,15 @@
 import {
   detectPackageManager,
-  generateFiles,
   getPackageManagerCommand,
   Tree,
   updateJson,
 } from "@nrwl/devkit";
 import { libraryGenerator } from "@nrwl/node";
-import path from "node:path";
 import { PackageJson } from "nx/src/utils/package-json";
 
 import { noOpTask, Project } from "../../../utils";
 import {
+  copyNodeLibSample,
   eslintProjectGenerator,
   jestProjectGenerator,
   readmeProjectGenerator,
@@ -67,7 +66,7 @@ export async function nodeLibGenerator(
       });
 
   updatePackageJsonScripts(project);
-  copyTemplateFiles(project);
+  copyNodeLibSample(project);
 
   return async () => {
     await baseGeneratorTask();
@@ -90,17 +89,5 @@ function updatePackageJsonScripts(project: Project) {
     packageJson.scripts["deploy:ci"] = pmc.run("deploy", "").trim();
 
     return packageJson;
-  });
-}
-
-function copyTemplateFiles(project: Project) {
-  const tree = project.getTree();
-
-  tree.delete(project.path(".babelrc"));
-  tree.delete(project.srcPath());
-
-  generateFiles(tree, path.join(__dirname, "./files"), project.path(), {
-    template: "",
-    projectName: project.getName(),
   });
 }

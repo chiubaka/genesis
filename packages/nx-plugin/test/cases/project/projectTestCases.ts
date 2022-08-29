@@ -41,6 +41,11 @@ export const projectTestCases = (getProject: () => Project) => {
 
     describe("tsconfig.base.json", () => {
       it("updates paths to point to the newly generated project", () => {
+        // Application-level code doesn't typically get shared around and reference by other projects
+        if (project.getType() === "application") {
+          return;
+        }
+
         const tsConfig = readJson<TsConfig>(tree, "tsconfig.base.json");
         const packageName = `@${projectScope}/${projectName}`;
 

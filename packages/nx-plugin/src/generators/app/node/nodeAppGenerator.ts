@@ -3,6 +3,7 @@ import { applicationGenerator } from "@nrwl/node";
 
 import { Project } from "../../../utils";
 import {
+  copyNodeAppSample,
   eslintProjectGenerator,
   jestProjectGenerator,
   readmeProjectGenerator,
@@ -41,6 +42,8 @@ export async function nodeAppGenerator(
     projectType,
     rootProjectGeneratorName: "app.node",
   });
+
+  copyNodeAppSample(project);
 
   return async () => {
     await baseGeneratorTask();
