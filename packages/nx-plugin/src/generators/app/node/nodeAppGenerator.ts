@@ -27,6 +27,11 @@ export async function nodeAppGenerator(
     projectType,
     ...TsConfigGeneratorPresets.node18,
   });
+  jestProjectGenerator(tree, {
+    projectName,
+    projectType,
+    testEnvironment: "node",
+  });
   eslintProjectGenerator(tree, {
     projectName,
     projectType,
@@ -35,11 +40,6 @@ export async function nodeAppGenerator(
     projectName,
     projectType,
     rootProjectGeneratorName: "app.node",
-  });
-  jestProjectGenerator(tree, {
-    projectName,
-    projectType,
-    testEnvironment: "node",
   });
 
   return async () => {

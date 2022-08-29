@@ -12,6 +12,7 @@ import { PackageJson } from "nx/src/utils/package-json";
 import { noOpTask, Project } from "../../../utils";
 import {
   eslintProjectGenerator,
+  jestProjectGenerator,
   readmeProjectGenerator,
   TsConfigGeneratorPresets,
   tsconfigProjectGenerator,
@@ -42,6 +43,11 @@ export async function nodeLibGenerator(
     projectName,
     projectType,
     ...TsConfigGeneratorPresets.node18,
+  });
+  jestProjectGenerator(tree, {
+    projectName,
+    projectType,
+    testEnvironment: "node",
   });
   eslintProjectGenerator(tree, {
     projectName: projectName,
