@@ -15,4 +15,14 @@ describe("nodeAppGenerator", () => {
   it("generates a project with a working testing setup", async () => {
     await expect(workspace.execNx("test node-app")).resolves.not.toThrow();
   });
+
+  it("generates a project with a working linting setup", async () => {
+    await expect(workspace.execNx("lint node-app")).resolves.not.toThrow();
+  });
+
+  it("generates a project with a working build setup", async () => {
+    await expect(workspace.execNx("build node-app")).resolves.not.toThrow();
+  });
+
+  it.todo("generates a project with a working E2E setup");
 });

@@ -55,5 +55,7 @@ describe("nodeLibGenerator", () => {
     ).resolves.not.toThrow();
   });
 
-  it.todo("produces a library project that can be consumed by another project");
+  it("produces a library project that can be consumed by another project", async () => {
+    await expect(workspace.execNx("e2e node-lib-e2e")).resolves.not.toThrow();
+  });
 });
