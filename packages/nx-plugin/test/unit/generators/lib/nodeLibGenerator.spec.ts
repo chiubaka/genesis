@@ -75,6 +75,7 @@ describe("nodeLibGenerator", () => {
       projectJson: {
         targetNames: ["lint", "build", "e2e", "serve"],
       },
+      repoName: "node-lib",
     });
 
     it("generates a main file", () => {

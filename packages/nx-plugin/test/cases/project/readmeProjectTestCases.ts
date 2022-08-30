@@ -2,7 +2,10 @@ import { Tree } from "@nrwl/devkit";
 
 import { Project } from "../../../src";
 
-export const readmeProjectTestCases = (getProject: () => Project) => {
+export const readmeProjectTestCases = (
+  getProject: () => Project,
+  repoName?: string,
+) => {
   let project: Project;
   let tree: Tree;
 
@@ -15,6 +18,8 @@ export const readmeProjectTestCases = (getProject: () => Project) => {
 
     projectScope = project.getScope();
     projectName = project.getName();
+
+    repoName = repoName || projectName;
   });
 
   it("generates a README.md file", () => {
@@ -41,7 +46,11 @@ export const readmeProjectTestCases = (getProject: () => Project) => {
       it("generates a Codecov shield for just the flag matching this project", () => {
         expect(tree).toHaveFileWithContent(
           project.path("README.md"),
-          `[![codecov](https://codecov.io/gh/${projectScope}/${projectName}/branch/master/graph/badge.svg?token=foobar&flag=${projectName})](https://codecov.io/gh/${projectScope}/${projectName})`,
+          `[![codecov](https://codecov.io/gh/${projectScope}/${
+            repoName as string
+          }/branch/master/graph/badge.svg?token=foobar&flag=${projectName})](https://codecov.io/gh/${projectScope}/${
+            repoName as string
+          })`,
         );
       });
     });

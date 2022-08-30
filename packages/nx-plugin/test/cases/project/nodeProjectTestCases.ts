@@ -13,6 +13,7 @@ import { tsconfigTestCases } from "./tsconfigTestCases";
 
 interface NodeProjectTestCasesOptions {
   projectJson: ProjectJsonTestCasesOptions;
+  repoName?: string;
 }
 
 /**
@@ -50,5 +51,5 @@ export const nodeProjectTestCases = (
     },
   });
   eslintProjectTestCases(getProject);
-  readmeProjectTestCases(getProject);
+  readmeProjectTestCases(getProject, options.repoName);
 };
