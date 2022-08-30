@@ -24,7 +24,7 @@ export async function nodeLibE2eGenerator(
   });
 
   copyNodeE2eSample(project, libName);
-  // patchPackageJson(project, libName);
+  patchPackageJson(project, libName);
   updateProjectJsonE2eTarget(project, libName);
 
   return async () => {

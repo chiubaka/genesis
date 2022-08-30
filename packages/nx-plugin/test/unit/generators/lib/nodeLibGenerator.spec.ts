@@ -89,7 +89,7 @@ describe("nodeLibGenerator", () => {
     });
 
     describe("package.json", () => {
-      it.skip("installs the library from the dist directory", () => {
+      it("installs the library from the dist directory", () => {
         expect(tree).toHaveDependency(
           `@${project.getScope()}/${project.getName()}`,
           `file:dist/packages/node-lib`,

@@ -1,5 +1,6 @@
 import {
   formatFiles,
+  generateFiles,
   getWorkspaceLayout,
   moveFilesToNewDirectory,
   Tree,
@@ -33,7 +34,7 @@ export async function nodeProjectGenerator(
   const baseGeneratorTask = await baseGenerator(project, options);
 
   relocateProject(project);
-
+  copyPackageJsonTemplate(project);
   standardizeProjectJson(project);
 
   tsconfigProjectGenerator(tree, {
@@ -70,6 +71,7 @@ function baseGenerator(project: Project, options: NodeProjectGeneratorSchema) {
     compiler: "tsc",
     importPath: `@${projectScope}/${projectName}`,
     publishable: true,
+    skipPackageJson: false,
     standaloneConfig: true,
     strict: true,
     tags,
@@ -102,6 +104,18 @@ function relocateProject(project: Project) {
     },
   );
   updateProjectJsonReferences(project, originalProjectDir);
+}
+
+function copyPackageJsonTemplate(project: Project) {
+  const tree = project.getTree();
+  const projectScope = project.getScope();
+  const projectName = project.getName();
+
+  generateFiles(tree, path.join(__dirname, "./files"), project.path(), {
+    projectScope,
+    projectName,
+    template: "",
+  });
 }
 
 function getBaseGenerator(project: Project) {
