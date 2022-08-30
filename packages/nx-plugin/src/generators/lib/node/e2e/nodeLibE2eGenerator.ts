@@ -1,9 +1,15 @@
-import { generateFiles, Tree } from "@nrwl/devkit";
+import {
+  generateFiles,
+  ProjectConfiguration,
+  Tree,
+  updateJson,
+} from "@nrwl/devkit";
 import { nodeProjectGenerator } from "../../../project";
 
 import { NodeLibE2eGeneratorSchema } from "./nodeLibE2eGenerator.schema";
 import { Project } from "../../../..";
 import path from "node:path";
+import { PackageJson } from "nx/src/utils/package-json";
 
 export async function nodeLibE2eGenerator(
   tree: Tree,
@@ -17,11 +23,17 @@ export async function nodeLibE2eGenerator(
     rootProjectGeneratorName,
   });
 
-  // TODO: Finish building out E2E sample code
-  // TODO: Point to dist for lib project in package.json
-  // TODO: Update project.json
-  // - Test task should become E2E task
-  // - E2E task should build lib project as a dependent task
+  copyNodeE2eSample(project, libName);
+  // patchPackageJson(project, libName);
+  updateProjectJsonE2eTarget(project, libName);
+
+  return async () => {
+    await nodeProjectTask();
+  };
+}
+
+function copyNodeE2eSample(project: Project, libName: string) {
+  const tree = project.getTree();
 
   tree.delete(project.srcPath("app"));
 
@@ -30,8 +42,53 @@ export async function nodeLibE2eGenerator(
     libName,
     template: "",
   });
+}
 
-  return async () => {
-    await nodeProjectTask();
-  };
+function patchPackageJson(project: Project, libName: string) {
+  const tree = project.getTree();
+  const libProject = new Project(tree, libName, "library");
+  const libScope = libProject.getScope();
+
+  updateJson(tree, project.path("package.json"), (packageJson: PackageJson) => {
+    if (!packageJson.dependencies) {
+      packageJson.dependencies = {};
+    }
+
+    packageJson.dependencies[
+      `@${libScope}/${libName}`
+    ] = `file:${libProject.distPath()}`;
+
+    return packageJson;
+  });
+}
+
+function updateProjectJsonE2eTarget(project: Project, libName: string) {
+  const tree = project.getTree();
+
+  updateJson(
+    tree,
+    project.path("project.json"),
+    (projectJson: ProjectConfiguration) => {
+      const targets = projectJson.targets;
+
+      if (!targets) {
+        return projectJson;
+      }
+
+      const testTarget = targets.test;
+      testTarget.dependsOn = testTarget.dependsOn || [];
+      testTarget.dependsOn.push({ target: "build", projects: "dependencies" });
+
+      targets.e2e = testTarget;
+      delete targets.test;
+
+      projectJson.implicitDependencies = projectJson.implicitDependencies || [];
+
+      if (!projectJson.implicitDependencies.includes(libName)) {
+        projectJson.implicitDependencies.push(libName);
+      }
+
+      return projectJson;
+    },
+  );
 }

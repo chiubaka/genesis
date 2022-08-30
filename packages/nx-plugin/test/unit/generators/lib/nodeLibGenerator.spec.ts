@@ -1,5 +1,5 @@
 import { createTreeWithEmptyWorkspace } from "@chiubaka/nx-plugin-testing";
-import { readJson, Tree } from "@nrwl/devkit";
+import { ProjectConfiguration, readJson, Tree } from "@nrwl/devkit";
 import { PackageJson } from "nx/src/utils/package-json";
 
 import { nodeLibGenerator, Project } from "../../../../src";
@@ -86,6 +86,33 @@ describe("nodeLibGenerator", () => {
     it("generates a file that enhances exported members of the lib", () => {
       // eslint-disable-next-line security/detect-non-literal-fs-filename
       expect(tree.exists(e2eProject.srcPath("helloExtended.ts"))).toBe(true);
+    });
+
+    describe("package.json", () => {
+      it.skip("installs the library from the dist directory", () => {
+        expect(tree).toHaveDependency(
+          `@${project.getScope()}/${project.getName()}`,
+          `file:dist/packages/node-lib`,
+          e2eProject.path("package.json"),
+        );
+      });
+    });
+
+    describe("project.json", () => {
+      describe("e2e target", () => {
+        it("depends on the library's build job", () => {
+          const projectJson = readJson<ProjectConfiguration>(
+            tree,
+            e2eProject.path("project.json"),
+          );
+
+          expect(projectJson.implicitDependencies).toContain("node-lib");
+          expect(projectJson.targets?.e2e.dependsOn).toContainEqual({
+            target: "build",
+            projects: "dependencies",
+          });
+        });
+      });
     });
   });
 });
