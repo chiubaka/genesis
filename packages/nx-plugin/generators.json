@@ -93,6 +93,11 @@
       "schema": "./src/generators/project/jest/schema.json",
       "description": "Generates a Jest config for a project"
     },
+    "project.node": {
+      "factory": "./src/generators/project/node",
+      "schema": "./src/generators/project/node/schema.json",
+      "description": "Generates a generic Node project"
+    },
     "project.readme": {
       "factory": "./src/generators/project/readme",
       "schema": "./src/generators/project/readme/schema.json",

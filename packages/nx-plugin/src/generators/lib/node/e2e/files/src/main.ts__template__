@@ -1,0 +1,12 @@
+import { EnhancedGreeter, enhancedHello, helloFromFile } from "./helloExtended";
+
+function main() {
+  const greeter = new EnhancedGreeter();
+  /* eslint-disable no-console */
+  console.log(greeter.hello());
+  console.log(enhancedHello);
+  console.log(helloFromFile);
+  /* eslint-enable no-console */
+}
+
+main();

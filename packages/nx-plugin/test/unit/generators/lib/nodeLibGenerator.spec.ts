@@ -8,14 +8,19 @@ import { nodeProjectTestCases } from "../../../cases";
 describe("nodeLibGenerator", () => {
   let tree: Tree;
   let project: Project;
+  let e2eProject: Project;
 
   const getProject = () => {
     return project;
+  };
+  const getE2eProject = () => {
+    return e2eProject;
   };
 
   beforeAll(async () => {
     tree = createTreeWithEmptyWorkspace();
     project = new Project(tree, "node-lib", "library");
+    e2eProject = new Project(tree, "node-lib-e2e", "e2e");
 
     const projectScope = project.getScope();
     const projectName = project.getName();
@@ -63,6 +68,24 @@ describe("nodeLibGenerator", () => {
       it("generates a deploy:ci script", () => {
         expect(packageJson.scripts?.["deploy:ci"]).toBeTruthy();
       });
+    });
+  });
+
+  describe("E2E project", () => {
+    nodeProjectTestCases(getE2eProject, {
+      projectJson: {
+        targetNames: ["lint", "build", "e2e", "serve"],
+      },
+    });
+
+    it("generates a main file", () => {
+      // eslint-disable-next-line security/detect-non-literal-fs-filename
+      expect(tree.exists(e2eProject.srcPath("main.ts"))).toBe(true);
+    });
+
+    it("generates a file that enhances exported members of the lib", () => {
+      // eslint-disable-next-line security/detect-non-literal-fs-filename
+      expect(tree.exists(e2eProject.srcPath("helloExtended.ts"))).toBe(true);
     });
   });
 });

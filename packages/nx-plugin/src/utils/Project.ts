@@ -6,6 +6,8 @@ import {
 } from "@nrwl/devkit";
 import path from "node:path";
 
+import { ProjectGeneratorSchema } from "../generators/project/projectGenerator.schema";
+
 export type ProjectType = NxProjectType | "e2e";
 
 export interface ProjectNames {
@@ -18,6 +20,11 @@ export class Project {
   private tree: Tree;
   private names: ProjectNames;
   private type: ProjectType;
+
+  public static createFromOptions(tree: Tree, options: ProjectGeneratorSchema) {
+    const { projectName, projectType } = options;
+    return new Project(tree, projectName, projectType);
+  }
 
   constructor(tree: Tree, name: string, type: ProjectType) {
     this.tree = tree;
@@ -81,6 +88,13 @@ export class Project {
 
   public getType() {
     return this.type;
+  }
+
+  public getMeta() {
+    return {
+      projectName: this.getName(),
+      projectType: this.getType(),
+    };
   }
 
   private baseDir(relativePath = "") {

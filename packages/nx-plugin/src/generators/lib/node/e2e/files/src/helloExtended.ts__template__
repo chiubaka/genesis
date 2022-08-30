@@ -1,0 +1,15 @@
+import { Greeter, hello, writeHelloWorld } from "@<%= libScope %>/<%= libName %>";
+import fs from "node:fs";
+
+export const helloEnhanced = `${hello} ${hello}`;
+
+export function helloFromFile() {
+  const filePath = writeHelloWorld();
+  return fs.readFileSync(filePath).toString();
+}
+
+export class EnhancedGreeter extends Greeter {
+  public hello() {
+    return `${super.hello()} ${super.hello()}`;
+  }
+}
