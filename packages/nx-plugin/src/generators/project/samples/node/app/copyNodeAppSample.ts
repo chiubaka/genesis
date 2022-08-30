@@ -10,6 +10,7 @@ export function copyNodeAppSample(project: Project) {
   copyNodeLibSample(project);
 
   tree.delete(project.srcPath("index.ts"));
+  tree.delete(project.srcPath("app"));
 
   generateFiles(tree, path.join(__dirname, "./files"), project.path(), {
     template: "",

@@ -1,4 +1,5 @@
 import {
+  formatFiles,
   getWorkspaceLayout,
   moveFilesToNewDirectory,
   Tree,
@@ -49,6 +50,8 @@ export async function nodeProjectGenerator(
     rootProjectGeneratorName,
   });
 
+  await formatFiles(tree);
+
   return async () => {
     await baseGeneratorTask();
   };
@@ -66,7 +69,6 @@ function baseGenerator(project: Project, options: NodeProjectGeneratorSchema) {
     buildable: true,
     compiler: "tsc",
     importPath: `@${projectScope}/${projectName}`,
-    pascalCaseFiles: true,
     publishable: true,
     standaloneConfig: true,
     strict: true,

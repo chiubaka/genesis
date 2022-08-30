@@ -1,6 +1,6 @@
 import fs from "node:fs";
 
-import { Greeter, hello, writeHelloWorld } from "../../src";
+import { Greeter, hello, writeHelloWorld } from "../../src/hello";
 
 describe("hello", () => {
   it("contains a familiar phrase", () => {

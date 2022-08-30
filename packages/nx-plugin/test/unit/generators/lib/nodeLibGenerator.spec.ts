@@ -32,7 +32,6 @@ describe("nodeLibGenerator", () => {
 
     await nodeLibGenerator(tree, {
       name: "node-lib",
-      publishable: true,
       skipE2e: false,
     });
   });

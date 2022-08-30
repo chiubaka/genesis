@@ -16,11 +16,6 @@
       "x-prompt": "What name would you like to use for the library?",
       "pattern": "^[a-zA-Z].*$"
     },
-    "publishable": {
-      "type": "boolean",
-      "description": "Whether or not this library is publishable",
-      "default": true
-    },
 
     "skipE2e": {
       "type": "boolean",
@@ -28,5 +23,5 @@
       "default": false
     }
   },
-  "required": ["name", "scope"]
+  "required": ["name"]
 }

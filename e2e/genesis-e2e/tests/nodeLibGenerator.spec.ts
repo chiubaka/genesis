@@ -8,7 +8,7 @@ describe("nodeLibGenerator", () => {
     workspace = new TestingWorkspace(destination);
 
     await workspace.execNx(
-      "generate @chiubaka/nx-plugin:lib.node --name=node-lib --scope=chiubaka",
+      "generate @chiubaka/nx-plugin:lib.node --name=node-lib",
     );
   });
 

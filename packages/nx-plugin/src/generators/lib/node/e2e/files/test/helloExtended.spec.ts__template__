@@ -1,9 +1,9 @@
-import { EnhancedGreeter, enhancedHello, helloFromFile } from "../src/helloExtended";
+import { EnhancedGreeter, helloEnhanced, helloFromFile } from "../src/helloExtended";
 
 describe("helloEnhanced", () => {
   describe("enhancedHello", () => {
     it("enhances a familiar phrase", () => {
-      expect(enhancedHello).toBe("Hello world! Hello world!");
+      expect(helloEnhanced).toBe("Hello, world! Hello, world!");
     });
   });
 
@@ -11,14 +11,14 @@ describe("helloEnhanced", () => {
     describe("#hello", () => {
       it("enhances a familiar phrase", () => {
         const greeter = new EnhancedGreeter();
-        expect(greeter.hello()).toBe("Hello world! Hello world!");
+        expect(greeter.hello()).toBe("Hello, world! Hello, world!");
       });
     });
   });
 
   describe("helloFromFile", () => {
-    it("enhances a familiar phrase", () => {
-      expect(helloFromFile()).toBe("Hello world! Hello world!");
+    it("returns a familiar phrase", () => {
+      expect(helloFromFile()).toBe("Hello, world!");
     });
   });
 });

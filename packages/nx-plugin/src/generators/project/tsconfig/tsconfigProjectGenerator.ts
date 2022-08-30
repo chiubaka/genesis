@@ -27,7 +27,7 @@ function copyConfigTemplates(
 
   generateFiles(tree, templateDir, project.path(), {
     ...options,
-    appLibTypes: JSON.stringify(appLibTypes),
+    appLibTypes,
     lib,
     projectType: project.getType() === "application" ? "app" : "lib",
     template: "",
