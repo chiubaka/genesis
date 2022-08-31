@@ -32,7 +32,7 @@ export async function nodeLibE2eGenerator(
   copyTemplates(project, libProject);
   const installTask = await addDependenciesToPackageJson(
     tree,
-    { [libProject.getImportPath()]: "^0.0.1" },
+    { [libProject.getImportPath()]: `file:../../${libProject.distPath()}` },
     {},
     project.path("package.json"),
   );
@@ -76,10 +76,11 @@ function updateProjectJson(project: Project, libName: string) {
       targets.install = {
         executor: "@nrwl/workspace:run-commands",
 
-        dependsOn: [{ target: "publish:local", projects: "dependencies" }],
+        dependsOn: [{ target: "build", projects: "dependencies" }],
         options: {
           commands: ["yarn cache clean --all", "yarn install"],
           cwd: project.path(),
+          parallel: false,
         },
       };
 

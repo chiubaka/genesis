@@ -114,10 +114,10 @@ describe("nodeLibGenerator", () => {
     });
 
     describe("package.json", () => {
-      it("lists the library project as a dependency", () => {
+      it("install the library project from the dist directory", () => {
         expect(tree).toHaveDependency(
           importPath,
-          undefined,
+          `file:../../${project.distPath()}`,
           e2eProject.path("package.json"),
         );
       });
@@ -188,9 +188,9 @@ describe("nodeLibGenerator", () => {
           expect(installTarget.options?.commands?.[1]).toBe("yarn install");
         });
 
-        it("depends on the library's publish:local target", () => {
+        it("depends on the library's build target", () => {
           expect(installTarget.dependsOn).toContainEqual({
-            target: "publish:local",
+            target: "build",
             projects: "dependencies",
           });
         });
