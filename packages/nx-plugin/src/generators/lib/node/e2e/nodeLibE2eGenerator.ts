@@ -4,12 +4,12 @@ import {
   Tree,
   updateJson,
 } from "@nrwl/devkit";
-import { nodeProjectGenerator } from "../../../project";
-
-import { NodeLibE2eGeneratorSchema } from "./nodeLibE2eGenerator.schema";
-import { Project } from "../../../..";
 import path from "node:path";
-import { PackageJson } from "nx/src/utils/package-json";
+
+import { nodeProjectGenerator } from "../../../project";
+import { Project, updateYaml } from "../../../../utils";
+import { DockerComposeConfig, VerdaccioConfig } from "../../../../types";
+import { NodeLibE2eGeneratorSchema } from "./nodeLibE2eGenerator.schema";
 
 export async function nodeLibE2eGenerator(
   tree: Tree,
@@ -17,27 +17,31 @@ export async function nodeLibE2eGenerator(
 ) {
   const { libName, name, rootProjectGeneratorName } = options;
   const project = new Project(tree, name, "e2e");
+  const libProject = new Project(tree, libName, "library");
 
   const nodeProjectTask = await nodeProjectGenerator(tree, {
     ...project.getMeta(),
     rootProjectGeneratorName,
   });
 
-  copyTemplates(project, libName);
+  copyTemplates(project, libProject);
   updateProjectJson(project, libName);
+  generateDockerComposeVerdaccioConfig(project, libProject);
 
   return async () => {
     await nodeProjectTask();
   };
 }
 
-function copyTemplates(project: Project, libName: string) {
+function copyTemplates(project: Project, libProject: Project) {
   const tree = project.getTree();
+  const libScope = libProject.getScope();
+  const libName = libProject.getName();
 
   tree.delete(project.srcPath("app"));
 
-  generateFiles(tree, path.join(__dirname, "./files"), project.path(), {
-    libScope: project.getScope(),
+  generateFiles(tree, path.join(__dirname, "./files/project"), project.path(), {
+    libScope,
     libName,
     template: "",
   });
@@ -56,11 +60,21 @@ function updateProjectJson(project: Project, libName: string) {
         return projectJson;
       }
 
+      targets.install = {
+        executor: "@nrwl/workspace:run-commands",
+
+        dependsOn: [{ target: "publish:local", projects: "dependencies" }],
+        options: {
+          commands: ["yarn cache clean --all", "yarn install"],
+          cwd: project.path(),
+        },
+      };
+
       const testTarget = targets.test;
       testTarget.dependsOn = testTarget.dependsOn || [];
       testTarget.dependsOn.push({
-        target: "publish:local",
-        projects: "dependencies",
+        target: "install",
+        projects: "self",
       });
 
       targets.e2e = testTarget;
@@ -75,6 +89,81 @@ function updateProjectJson(project: Project, libName: string) {
       }
 
       return projectJson;
+    },
+  );
+}
+
+function generateDockerComposeVerdaccioConfig(
+  project: Project,
+  libProject: Project,
+) {
+  const tree = project.getTree();
+
+  if (tree.exists("docker-compose.yml")) {
+    addRegistryServiceToDockerCompose(libProject);
+  } else {
+    generateFiles(tree, path.join(__dirname, "./files/docker-compose"), ".", {
+      containerNamePrefix: libProject.getNames().snakeCase,
+      template: "",
+    });
+  }
+
+  if (tree.exists("verdaccio/config.yaml")) {
+    addUnproxiedPackageToVerdaccio(libProject);
+  } else {
+    generateFiles(
+      tree,
+      path.join(__dirname, "./files/verdaccio"),
+      "./verdaccio",
+      {
+        projectScope: libProject.getScope(),
+        projectName: libProject.getName(),
+      },
+    );
+  }
+}
+
+function addRegistryServiceToDockerCompose(libProject: Project) {
+  const tree = libProject.getTree();
+
+  updateYaml(
+    tree,
+    "docker-compose.yml",
+    (dockerComposeConfig: DockerComposeConfig) => {
+      const services = dockerComposeConfig.services;
+
+      if (services.registry) {
+        return dockerComposeConfig;
+      }
+
+      services.registry = {
+        container_name: `${libProject.getNames().snakeCase}_registry`,
+        image: "verdaccio/verdaccio",
+        ports: ["4873:4873"],
+        volumes: ["./verdaccio:/verdaccio/conf"],
+      };
+
+      return dockerComposeConfig;
+    },
+  );
+}
+
+function addUnproxiedPackageToVerdaccio(libProject: Project) {
+  const tree = libProject.getTree();
+  const libScope = libProject.getScope();
+  const libName = libProject.getName();
+
+  updateYaml(
+    tree,
+    "verdaccio/config.yaml",
+    (verdaccioConfig: VerdaccioConfig) => {
+      verdaccioConfig.packages[`@${libScope}/${libName}`] = {
+        access: "$all",
+        publish: "$authenticated",
+        unpublish: "$authenticated",
+      } as any;
+
+      return verdaccioConfig;
     },
   );
 }

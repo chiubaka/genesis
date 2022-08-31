@@ -14,6 +14,7 @@ export interface ProjectNames {
   camelCase: string;
   kebabCase: string;
   pascalCase: string;
+  snakeCase: string;
 }
 
 export class Project {
@@ -32,6 +33,7 @@ export class Project {
 
     const {
       className: pascalCase,
+      constantName: upperSnakeCase,
       fileName: kebabCase,
       propertyName: camelCase,
     } = names(name);
@@ -40,6 +42,7 @@ export class Project {
       camelCase,
       kebabCase,
       pascalCase,
+      snakeCase: upperSnakeCase.toLowerCase(),
     };
   }
 

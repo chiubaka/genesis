@@ -18,6 +18,7 @@
     "@chiubaka/nx-plugin-testing": "0.0.1",
     "@types/js-yaml": "^4.0.5",
     "@types/nock": "^11.1.0",
+    "@verdaccio/types": "^10.5.2",
     "nock": "^13.2.9"
   },
   "generators": "./generators.json",

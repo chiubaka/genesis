@@ -456,10 +456,12 @@ __metadata:
     "@nrwl/node": ^14.5.8
     "@types/js-yaml": ^4.0.5
     "@types/nock": ^11.1.0
+    "@verdaccio/types": ^10.5.2
     js-yaml: ^4.1.0
     nock: ^13.2.9
     octokit: ^2.0.7
     tslib: ^2.3.0
+    verdaccio: ^5.14.0
     winston: ^3.8.1
     winston-transport: ^4.5.0
   languageName: unknown
@@ -2448,6 +2450,13 @@ __metadata:
   version: 10.2.0
   resolution: "@verdaccio/streams@npm:10.2.0"
   checksum: 2c5fd4953ff46f3f415c7b782335709b004f8717a3d5da2e345ec781f3da96b9c0ffb76829c64fe189cd5d97dbe8ed74ccb0493ca92054414ee8a4650c53f7cd
+  languageName: node
+  linkType: hard
+
+"@verdaccio/types@npm:^10.5.2":
+  version: 10.5.2
+  resolution: "@verdaccio/types@npm:10.5.2"
+  checksum: 5c3fdd6e63f24720dda9fd949329f2dcfd6ba5074e6d82c17834b02ce79f890e7ea909d9677a94df954dca194dd63d8dee52d466b6a2a86b2903a5eddcbbcd99
   languageName: node
   linkType: hard
 

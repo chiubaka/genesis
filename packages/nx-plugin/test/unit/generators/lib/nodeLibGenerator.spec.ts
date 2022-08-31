@@ -1,5 +1,10 @@
 import { createTreeWithEmptyWorkspace } from "@chiubaka/nx-plugin-testing";
-import { ProjectConfiguration, readJson, Tree } from "@nrwl/devkit";
+import {
+  ProjectConfiguration,
+  readJson,
+  TargetConfiguration,
+  Tree,
+} from "@nrwl/devkit";
 import { PackageJson } from "nx/src/utils/package-json";
 
 import {
@@ -8,6 +13,8 @@ import {
   nodeLibGenerator,
   Project,
   readYaml,
+  RunCommandsOptions,
+  VerdaccioConfig,
   YarnConfig,
 } from "../../../../src";
 import { nodeProjectTestCases } from "../../../cases";
@@ -16,6 +23,9 @@ describe("nodeLibGenerator", () => {
   let tree: Tree;
   let project: Project;
   let e2eProject: Project;
+
+  let projectScope: string;
+  let projectName: string;
 
   const getProject = () => {
     return project;
@@ -29,8 +39,8 @@ describe("nodeLibGenerator", () => {
     project = new Project(tree, "node-lib", "library");
     e2eProject = new Project(tree, "node-lib-e2e", "e2e");
 
-    const projectScope = project.getScope();
-    const projectName = project.getName();
+    projectScope = project.getScope();
+    projectName = project.getName();
 
     tree.write(
       "README.md",
@@ -127,17 +137,68 @@ describe("nodeLibGenerator", () => {
     });
 
     describe("project.json", () => {
-      describe("e2e target", () => {
-        it("depends on the library's build job", () => {
-          const projectJson = readJson<ProjectConfiguration>(
-            tree,
-            e2eProject.path("project.json"),
-          );
+      let projectJson: ProjectConfiguration;
 
-          expect(projectJson.implicitDependencies).toContain("node-lib");
-          expect(projectJson.targets?.e2e.dependsOn).toContainEqual({
+      beforeAll(() => {
+        projectJson = readJson<ProjectConfiguration>(
+          tree,
+          e2eProject.path("project.json"),
+        );
+      });
+
+      it("lists the library project as an implicit dependency", () => {
+        expect(projectJson.implicitDependencies).toContain("node-lib");
+      });
+
+      describe("install target", () => {
+        let installTarget: TargetConfiguration<RunCommandsOptions>;
+
+        beforeAll(() => {
+          installTarget = projectJson.targets
+            ?.install as TargetConfiguration<RunCommandsOptions>;
+        });
+
+        it("users the @nrwl/workspace:run-commands executor", () => {
+          expect(installTarget.executor).toBe("@nrwl/workspace:run-commands");
+        });
+
+        it("runs commands in the e2e project", () => {
+          expect(installTarget.options?.cwd).toBe(e2eProject.path());
+        });
+
+        it("first clears the global yarn cache", () => {
+          expect(installTarget.options?.commands?.[0]).toBe(
+            "yarn cache clean --all",
+          );
+        });
+
+        it("then runs the yarn install command", () => {
+          expect(installTarget.options?.commands?.[1]).toBe("yarn install");
+        });
+
+        it("depends on the library's publish:local target", () => {
+          expect(installTarget.dependsOn).toContainEqual({
             target: "publish:local",
             projects: "dependencies",
+          });
+        });
+      });
+
+      describe("e2e target", () => {
+        let e2eTarget: TargetConfiguration;
+
+        beforeAll(() => {
+          e2eTarget = projectJson.targets?.e2e as TargetConfiguration;
+        });
+
+        it("uses the jest executor", () => {
+          expect(e2eTarget.executor).toBe("@nrwl/jest:jest");
+        });
+
+        it("depends on the install target", () => {
+          expect(e2eTarget.dependsOn).toContainEqual({
+            target: "install",
+            projects: "self",
           });
         });
       });
@@ -146,13 +207,23 @@ describe("nodeLibGenerator", () => {
 
   describe("workspace", () => {
     describe("package.json", () => {
-      it.todo("Adds a start:verdaccio script");
+      let packageJson: PackageJson;
+
+      beforeAll(() => {
+        packageJson = readJson(tree, "package.json");
+      });
+
+      it("Adds a start:verdaccio script", () => {
+        expect(packageJson.scripts?.["start:verdaccio"]).toBe(
+          "docker-compose up -d && npx npm-cli-login -u test -p test -e test@chiubaka.com -r http://localhost:4873",
+        );
+      });
     });
 
     describe("README.md", () => {
-      it.todo(
-        "Updates the README with instructions about how to run E2E tests",
-      );
+      it("Updates the README with instructions about how to run E2E tests", () => {
+        expect(tree).toHaveFileWithContent("README.md", "yarn start:verdaccio");
+      });
     });
 
     describe("docker-compose", () => {
@@ -175,6 +246,10 @@ describe("nodeLibGenerator", () => {
 
           beforeAll(() => {
             registryConfig = dockerComposeConfig.services.registry;
+          });
+
+          it("sets the correct container name", () => {
+            expect(registryConfig.container_name).toBe("node_lib_registry");
           });
 
           it("defines a registry service", () => {
@@ -203,9 +278,21 @@ describe("nodeLibGenerator", () => {
         });
 
         describe("config.yaml", () => {
-          it.todo(
-            "ensures that the access to the generated package is not proxied to NPM",
-          );
+          let verdaccioConfig: VerdaccioConfig;
+
+          beforeAll(() => {
+            verdaccioConfig = readYaml(tree, "verdaccio/config.yaml");
+          });
+
+          it("ensures that access to the generated package is not proxied to NPM", () => {
+            expect(
+              verdaccioConfig.packages[`@${projectScope}/${projectName}`],
+            ).toEqual({
+              access: "$all",
+              publish: "$authenticated",
+              unpublish: "$authenticated",
+            });
+          });
         });
       });
     });
