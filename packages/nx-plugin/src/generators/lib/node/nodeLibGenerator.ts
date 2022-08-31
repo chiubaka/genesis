@@ -82,7 +82,7 @@ function updateProjectJson(project: Project, localRegistry: string) {
 function generateE2eProject(project: Project, options: NodeLibGeneratorSchema) {
   const tree = project.getTree();
   const projectName = project.getName();
-  const { skipE2e } = options;
+  const { localRegistry, skipE2e } = options;
 
   if (skipE2e) {
     return noOpTask;
@@ -91,6 +91,7 @@ function generateE2eProject(project: Project, options: NodeLibGeneratorSchema) {
   return nodeLibE2eGenerator(tree, {
     name: `${projectName}-e2e`,
     libName: projectName,
+    localRegistry: localRegistry,
     rootProjectGeneratorName: "lib.node",
   });
 }

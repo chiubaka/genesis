@@ -10,12 +10,13 @@ import { nodeProjectGenerator } from "../../../project";
 import { Project, updateYaml } from "../../../../utils";
 import { DockerComposeConfig, VerdaccioConfig } from "../../../../types";
 import { NodeLibE2eGeneratorSchema } from "./nodeLibE2eGenerator.schema";
+import { PackageJson } from "nx/src/utils/package-json";
 
 export async function nodeLibE2eGenerator(
   tree: Tree,
   options: NodeLibE2eGeneratorSchema,
 ) {
-  const { libName, name, rootProjectGeneratorName } = options;
+  const { libName, name, localRegistry, rootProjectGeneratorName } = options;
   const project = new Project(tree, name, "e2e");
   const libProject = new Project(tree, libName, "library");
 
@@ -26,7 +27,8 @@ export async function nodeLibE2eGenerator(
 
   copyTemplates(project, libProject);
   updateProjectJson(project, libName);
-  generateDockerComposeVerdaccioConfig(project, libProject);
+  updateWorkspacePackageJsonScripts(project, localRegistry);
+  generateDockerComposeVerdaccioConfig(project, libProject, localRegistry);
 
   return async () => {
     await nodeProjectTask();
@@ -93,14 +95,34 @@ function updateProjectJson(project: Project, libName: string) {
   );
 }
 
+function updateWorkspacePackageJsonScripts(
+  project: Project,
+  localRegistry: string,
+) {
+  const tree = project.getTree();
+
+  updateJson(tree, "package.json", (packageJson: PackageJson) => {
+    if (!packageJson.scripts) {
+      packageJson.scripts = {};
+    }
+
+    packageJson.scripts[
+      "start:verdaccio"
+    ] = `docker-compose up -d && npx npm-cli-login -u test -p test -e test@chiubaka.com -r ${localRegistry}`;
+
+    return packageJson;
+  });
+}
+
 function generateDockerComposeVerdaccioConfig(
   project: Project,
   libProject: Project,
+  localRegistry: string,
 ) {
   const tree = project.getTree();
 
   if (tree.exists("docker-compose.yml")) {
-    addRegistryServiceToDockerCompose(libProject);
+    addRegistryServiceToDockerCompose(libProject, localRegistry);
   } else {
     generateFiles(tree, path.join(__dirname, "./files/docker-compose"), ".", {
       containerNamePrefix: libProject.getNames().snakeCase,
@@ -123,8 +145,12 @@ function generateDockerComposeVerdaccioConfig(
   }
 }
 
-function addRegistryServiceToDockerCompose(libProject: Project) {
+function addRegistryServiceToDockerCompose(
+  libProject: Project,
+  localRegistry: string,
+) {
   const tree = libProject.getTree();
+  const registryPort = new URL(localRegistry).port;
 
   updateYaml(
     tree,
@@ -139,7 +165,7 @@ function addRegistryServiceToDockerCompose(libProject: Project) {
       services.registry = {
         container_name: `${libProject.getNames().snakeCase}_registry`,
         image: "verdaccio/verdaccio",
-        ports: ["4873:4873"],
+        ports: [`${registryPort}:4873`],
         volumes: ["./verdaccio:/verdaccio/conf"],
       };
 

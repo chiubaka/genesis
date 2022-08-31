@@ -21,6 +21,11 @@
       "type": "string",
       "description": "Name of the library this project creates E2E tests for"
     },
+    "localRegistry": {
+      "type": "string",
+      "description": "Registry to use for publish:local target",
+      "default": "http://localhost:4873"
+    },
     "rootProjectGeneratorName": {
       "type": "string",
       "description": "Name of the root project generator invoking this generator",
