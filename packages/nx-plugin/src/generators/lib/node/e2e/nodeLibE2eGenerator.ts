@@ -24,7 +24,6 @@ export async function nodeLibE2eGenerator(
   });
 
   copyTemplates(project, libName);
-  patchPackageJson(project, libName);
   updateProjectJson(project, libName);
 
   return async () => {
@@ -41,24 +40,6 @@ function copyTemplates(project: Project, libName: string) {
     libScope: project.getScope(),
     libName,
     template: "",
-  });
-}
-
-function patchPackageJson(project: Project, libName: string) {
-  const tree = project.getTree();
-  const libProject = new Project(tree, libName, "library");
-  const libScope = libProject.getScope();
-
-  updateJson(tree, project.path("package.json"), (packageJson: PackageJson) => {
-    if (!packageJson.dependencies) {
-      packageJson.dependencies = {};
-    }
-
-    packageJson.dependencies[
-      `@${libScope}/${libName}`
-    ] = `file:${libProject.distPath()}`;
-
-    return packageJson;
   });
 }
 
