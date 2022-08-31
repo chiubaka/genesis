@@ -8,13 +8,10 @@ import {
 import { PackageJson } from "nx/src/utils/package-json";
 
 import {
-  DockerComposeConfig,
-  DockerComposeService,
   nodeLibGenerator,
   Project,
   readYaml,
   RunCommandsOptions,
-  VerdaccioConfig,
   YarnConfig,
 } from "../../../../src";
 import { nodeProjectTestCases } from "../../../cases";
@@ -52,13 +49,12 @@ describe("nodeLibGenerator", () => {
     await nodeLibGenerator(tree, {
       name: "node-lib",
       skipE2e: false,
-      localRegistry: "http://localhost:4873",
     });
   });
 
   nodeProjectTestCases(getProject, {
     projectJson: {
-      targetNames: ["lint", "build", "test", "publish:local"],
+      targetNames: ["lint", "build", "test"],
     },
   });
 
@@ -211,98 +207,6 @@ describe("nodeLibGenerator", () => {
           expect(e2eTarget.dependsOn).toContainEqual({
             target: "install",
             projects: "self",
-          });
-        });
-      });
-    });
-  });
-
-  describe("workspace", () => {
-    describe("package.json", () => {
-      let packageJson: PackageJson;
-
-      beforeAll(() => {
-        packageJson = readJson(tree, "package.json");
-      });
-
-      it("Adds a start:verdaccio script", () => {
-        expect(packageJson.scripts?.["start:verdaccio"]).toBe(
-          "docker-compose up -d && npx npm-cli-login -u test -p test -e test@chiubaka.com -r http://localhost:4873",
-        );
-      });
-    });
-
-    describe("README.md", () => {
-      it("Updates the README with instructions about how to run E2E tests", () => {
-        expect(tree).toHaveFileWithContent("README.md", "yarn start:verdaccio");
-      });
-    });
-
-    describe("docker-compose", () => {
-      it("generates a docker-compose.yml file for the workspace", () => {
-        expect(tree.exists("docker-compose.yml")).toBe(true);
-      });
-
-      describe("docker-compose.yml", () => {
-        let dockerComposeConfig: DockerComposeConfig;
-
-        beforeAll(() => {
-          dockerComposeConfig = readYaml<DockerComposeConfig>(
-            tree,
-            "docker-compose.yml",
-          );
-        });
-
-        describe("registry", () => {
-          let registryConfig: DockerComposeService;
-
-          beforeAll(() => {
-            registryConfig = dockerComposeConfig.services.registry;
-          });
-
-          it("sets the correct container name", () => {
-            expect(registryConfig.container_name).toBe("node_lib_registry");
-          });
-
-          it("defines a registry service", () => {
-            expect(registryConfig).toBeDefined();
-          });
-
-          it("creates a verdaccio service", () => {
-            expect(registryConfig.image).toBe("verdaccio/verdaccio");
-          });
-
-          it("runs verdaccio on port 4873", () => {
-            expect(registryConfig.ports).toContain("4873:4873");
-          });
-
-          it("uses the generated verdaccio config in the docker container", () => {
-            expect(registryConfig.volumes).toContain(
-              "./verdaccio:/verdaccio/conf",
-            );
-          });
-        });
-      });
-
-      describe("verdaccio", () => {
-        it("generates a basic verdaccio config", () => {
-          expect(tree.exists("verdaccio/config.yaml")).toBe(true);
-        });
-
-        describe("config.yaml", () => {
-          let verdaccioConfig: VerdaccioConfig;
-
-          beforeAll(() => {
-            verdaccioConfig = readYaml(tree, "verdaccio/config.yaml");
-          });
-
-          it("ensures that access to the generated package is not proxied to NPM", () => {
-            // eslint-disable-next-line security/detect-object-injection
-            expect(verdaccioConfig.packages[importPath]).toEqual({
-              access: "$all",
-              publish: "$authenticated",
-              unpublish: "$authenticated",
-            });
           });
         });
       });

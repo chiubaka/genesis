@@ -21,11 +21,6 @@
       "type": "boolean",
       "description": "If true, skips generation of E2E testing app for this library",
       "default": false
-    },
-    "localRegistry": {
-      "type": "string",
-      "description": "Registry to use for publish:local target",
-      "default": "http://localhost:4873"
     }
   },
   "required": ["name"]
