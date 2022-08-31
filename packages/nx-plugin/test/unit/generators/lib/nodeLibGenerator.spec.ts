@@ -40,6 +40,7 @@ describe("nodeLibGenerator", () => {
     await nodeLibGenerator(tree, {
       name: "node-lib",
       skipE2e: false,
+      localRegistry: "http://localhost:4873",
     });
   });
 

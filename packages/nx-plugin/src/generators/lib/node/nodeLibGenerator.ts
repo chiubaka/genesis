@@ -16,7 +16,7 @@ export async function nodeLibGenerator(
   tree: Tree,
   options: NodeLibGeneratorSchema,
 ) {
-  const { name } = options;
+  const { name, localRegistry } = options;
   const project = new Project(tree, name, "library");
 
   const nodeProjectTask = await nodeProjectGenerator(tree, {
@@ -25,7 +25,7 @@ export async function nodeLibGenerator(
   });
 
   updatePackageJsonScripts(project);
-  updateProjectJson(project);
+  updateProjectJson(project, localRegistry);
   copyNodeLibSample(project);
 
   const e2eProjectTask = await generateE2eProject(project, options);
@@ -54,7 +54,7 @@ function updatePackageJsonScripts(project: Project) {
   });
 }
 
-function updateProjectJson(project: Project) {
+function updateProjectJson(project: Project, localRegistry: string) {
   const tree = project.getTree();
 
   updateJson(
@@ -69,7 +69,7 @@ function updateProjectJson(project: Project) {
         executor: "@chiubaka/nx-plugin:publish-local",
         dependsOn: [{ target: "build", projects: "self" }],
         options: {
-          registryUrl: "http://localhost:4873",
+          registryUrl: localRegistry,
           packagePath: project.distPath(),
         },
       };
