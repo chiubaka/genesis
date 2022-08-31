@@ -1,5 +1,4 @@
 import {
-  formatFiles,
   generateFiles,
   getWorkspaceLayout,
   moveFilesToNewDirectory,
@@ -10,7 +9,7 @@ import { applicationGenerator, libraryGenerator } from "@nrwl/node";
 import path from "node:path";
 import { RawProjectsConfigurations } from "nx/src/config/workspace-json-project-json";
 
-import { Project } from "../../../utils";
+import { lintFix, Project } from "../../../utils";
 import { eslintProjectGenerator } from "../eslint";
 import { jestProjectGenerator } from "../jest";
 import {
@@ -51,10 +50,9 @@ export async function nodeProjectGenerator(
     rootProjectGeneratorName,
   });
 
-  await formatFiles(tree);
-
   return async () => {
     await baseGeneratorTask();
+    await lintFix(tree.root, project.getName());
   };
 }
 
