@@ -38,7 +38,7 @@ describe("nodeLibGenerator", () => {
 
   nodeProjectTestCases(getProject, {
     projectJson: {
-      targetNames: ["lint", "build", "test"],
+      targetNames: ["lint", "build", "test", "local-publish"],
     },
   });
 
@@ -70,6 +70,37 @@ describe("nodeLibGenerator", () => {
     });
   });
 
+  describe("docker-compose", () => {
+    it("generates a docker-compose.yml file for the workspace", () => {
+      expect(tree.exists("docker-compose.yml")).toBe(true);
+    });
+
+    describe("verdaccio", () => {
+      it("creates a verdaccio service", () => {
+        // TODO: This assertion should use something that actually parses YAML
+        // https://github.com/chiubaka/genesis/issues/111
+        expect(tree).toHaveFileWithContent(
+          "docker-compose.yml",
+          "image: verdaccio/verdaccio",
+        );
+      });
+
+      it.todo("runs verdaccio on port 4873");
+
+      it("generates a basic verdaccio config", () => {
+        expect(tree.exists("verdaccio/config.yaml")).toBe(true);
+      });
+
+      it.todo("uses the generated verdaccio config in the docker container");
+
+      describe("config.yaml", () => {
+        it.todo(
+          "ensures that the access to the generated package is not proxied to NPM",
+        );
+      });
+    });
+  });
+
   describe("E2E project", () => {
     nodeProjectTestCases(getE2eProject, {
       projectJson: {
@@ -86,6 +117,39 @@ describe("nodeLibGenerator", () => {
     it("generates a file that enhances exported members of the lib", () => {
       // eslint-disable-next-line security/detect-non-literal-fs-filename
       expect(tree.exists(e2eProject.srcPath("helloExtended.ts"))).toBe(true);
+    });
+
+    it("generates a yarn.lock file to keep this project separate from the parent workspace", () => {
+      // eslint-disable-next-line security/detect-non-literal-fs-filename
+      expect(tree.exists(e2eProject.path("yarn.lock"))).toBe(true);
+    });
+
+    it("generates a .yarnrc.yml file", () => {
+      // eslint-disable-next-line security/detect-non-literal-fs-filename
+      expect(tree.exists(e2eProject.path(".yarnrc.yml"))).toBe(true);
+    });
+
+    describe(".yarnrc.yml", () => {
+      it("uses the node-modules nodeLinker", () => {
+        expect(tree).toHaveFileWithContent(
+          ".yarnrc.yml",
+          "nodeLinker: node-modules",
+        );
+      });
+
+      it("uses the local registry to install packages", () => {
+        expect(tree).toHaveFileWithContent(
+          ".yarnrc.yml",
+          'npmRegistryServer: "http://localhost:4873"',
+        );
+      });
+
+      it("whitelists localhost for http", () => {
+        expect(tree).toHaveFileWithContent(
+          ".yarnrc.yml",
+          'unsafeHttpWhitelist: ["localhost"]',
+        );
+      });
     });
 
     describe("package.json", () => {
@@ -108,7 +172,7 @@ describe("nodeLibGenerator", () => {
 
           expect(projectJson.implicitDependencies).toContain("node-lib");
           expect(projectJson.targets?.e2e.dependsOn).toContainEqual({
-            target: "build",
+            target: "local-publish",
             projects: "dependencies",
           });
         });

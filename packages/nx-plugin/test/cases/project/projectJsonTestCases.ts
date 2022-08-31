@@ -8,6 +8,7 @@ import {
 import {
   EsLintExecutorOptions,
   JestExecutorOptions,
+  LocalPublishExecutorSchema,
   Project,
 } from "../../../src";
 
@@ -117,6 +118,45 @@ export const projectJsonTestCases = (
           it("uses the jest config provided in the project", () => {
             expect(testTarget.options?.jestConfig).toEqual(
               project.relativePath("jest.config.ts"),
+            );
+          });
+        });
+      }
+
+      if (targetNames.includes("local-publish")) {
+        describe("local-publish target", () => {
+          let localPublishTarget: TargetConfiguration<LocalPublishExecutorSchema>;
+
+          beforeAll(() => {
+            localPublishTarget = targets?.[
+              "local-publish"
+            ] as TargetConfiguration<LocalPublishExecutorSchema>;
+          });
+
+          it("uses the @chiubaka/nx-plugin:local-publish executor", () => {
+            expect(localPublishTarget.executor).toEqual(
+              "@chiubaka/nx-plugin:local-publish",
+            );
+          });
+
+          it("depends on the self:build target", () => {
+            expect(localPublishTarget.dependsOn).toEqual([
+              {
+                target: "build",
+                projects: "self",
+              },
+            ]);
+          });
+
+          it("specifies the local registry", () => {
+            expect(localPublishTarget.options?.registryUrl).toEqual(
+              "http://localhost:4873",
+            );
+          });
+
+          it("specifies the correct packagePath", () => {
+            expect(localPublishTarget.options?.packagePath).toEqual(
+              project.distPath(),
             );
           });
         });
