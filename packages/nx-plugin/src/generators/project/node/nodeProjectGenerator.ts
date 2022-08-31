@@ -40,7 +40,7 @@ export async function nodeProjectGenerator(
     ...project.getMeta(),
     ...TsConfigGeneratorPresets.node18,
   });
-  jestProjectGenerator(tree, {
+  const jestTask = await jestProjectGenerator(tree, {
     ...project.getMeta(),
     testEnvironment: "node",
   });
@@ -52,6 +52,7 @@ export async function nodeProjectGenerator(
 
   return async () => {
     await baseGeneratorTask();
+    await jestTask();
     await lintFix(tree.root, project.getName());
   };
 }

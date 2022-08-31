@@ -26,6 +26,7 @@ describe("nodeLibGenerator", () => {
 
   let projectScope: string;
   let projectName: string;
+  let importPath: string;
 
   const getProject = () => {
     return project;
@@ -41,6 +42,7 @@ describe("nodeLibGenerator", () => {
 
     projectScope = project.getScope();
     projectName = project.getName();
+    importPath = `@${projectScope}/${projectName}`;
 
     tree.write(
       "README.md",
@@ -109,6 +111,16 @@ describe("nodeLibGenerator", () => {
     it("generates a yarn.lock file to keep this project separate from the parent workspace", () => {
       // eslint-disable-next-line security/detect-non-literal-fs-filename
       expect(tree.exists(e2eProject.path("yarn.lock"))).toBe(true);
+    });
+
+    describe("package.json", () => {
+      it("lists the library project as a dependency", () => {
+        expect(tree).toHaveDependency(
+          importPath,
+          undefined,
+          e2eProject.path("package.json"),
+        );
+      });
     });
 
     it("generates a .yarnrc.yml file", () => {
@@ -285,9 +297,8 @@ describe("nodeLibGenerator", () => {
           });
 
           it("ensures that access to the generated package is not proxied to NPM", () => {
-            expect(
-              verdaccioConfig.packages[`@${projectScope}/${projectName}`],
-            ).toEqual({
+            // eslint-disable-next-line security/detect-object-injection
+            expect(verdaccioConfig.packages[importPath]).toEqual({
               access: "$all",
               publish: "$authenticated",
               unpublish: "$authenticated",

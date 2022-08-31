@@ -12,6 +12,7 @@ export const addDependenciesToPackageJson = async (
   tree: Tree,
   dependencies: Dependencies,
   devDependencies: Dependencies,
+  packageJsonPath?: string,
 ) => {
   const dependenciesWithVersions = await calculateDependencyVersions(
     dependencies,
@@ -24,6 +25,7 @@ export const addDependenciesToPackageJson = async (
     tree,
     dependenciesWithVersions,
     devDependenciesWithVersions,
+    packageJsonPath,
   );
 };
 

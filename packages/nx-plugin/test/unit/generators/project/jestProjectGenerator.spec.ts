@@ -15,11 +15,12 @@ describe("jestProjectGenerator", () => {
     const projectType = "library";
 
     const tree = await createTreeWithLibWorkspace(projectName);
-    jestProjectGenerator(tree, {
+    project = new Project(tree, projectName, projectType);
+
+    await jestProjectGenerator(tree, {
       projectName,
       projectType,
     });
-    project = new Project(tree, projectName, projectType);
   });
 
   jestProjectTestCases(getProject);

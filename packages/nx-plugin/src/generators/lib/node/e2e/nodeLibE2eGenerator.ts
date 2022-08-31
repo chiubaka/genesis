@@ -7,7 +7,11 @@ import {
 import path from "node:path";
 
 import { nodeProjectGenerator } from "../../../project";
-import { Project, updateYaml } from "../../../../utils";
+import {
+  addDependenciesToPackageJson,
+  Project,
+  updateYaml,
+} from "../../../../utils";
 import { DockerComposeConfig, VerdaccioConfig } from "../../../../types";
 import { NodeLibE2eGeneratorSchema } from "./nodeLibE2eGenerator.schema";
 import { PackageJson } from "nx/src/utils/package-json";
@@ -26,12 +30,19 @@ export async function nodeLibE2eGenerator(
   });
 
   copyTemplates(project, libProject);
+  const installTask = await addDependenciesToPackageJson(
+    tree,
+    { [libProject.getImportPath()]: "^0.0.1" },
+    {},
+    project.path("package.json"),
+  );
   updateProjectJson(project, libName);
   updateWorkspacePackageJsonScripts(project, localRegistry);
   generateDockerComposeVerdaccioConfig(project, libProject, localRegistry);
 
   return async () => {
     await nodeProjectTask();
+    await installTask();
   };
 }
 

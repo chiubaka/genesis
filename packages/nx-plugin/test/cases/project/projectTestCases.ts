@@ -1,4 +1,5 @@
 import { ProjectsConfigurations, readJson, Tree } from "@nrwl/devkit";
+import { PackageJson } from "nx/src/utils/package-json";
 
 import { Project } from "../../../src";
 import { TsConfig } from "../../types/tsconfig";
@@ -60,5 +61,44 @@ export const projectTestCases = (getProject: () => Project) => {
   it("generates a separate test dir", () => {
     // eslint-disable-next-line security/detect-non-literal-fs-filename
     expect(tree.exists(project.testPath())).toBe(true);
+  });
+
+  it("generates a package.json file", () => {
+    // eslint-disable-next-line security/detect-non-literal-fs-filename
+    expect(tree.exists(project.path("package.json"))).toBe(true);
+  });
+
+  describe("package.json", () => {
+    let packageJson: PackageJson;
+
+    beforeAll(() => {
+      packageJson = readJson(tree, project.path("package.json"));
+    });
+
+    it("sets the correct name for the package", () => {
+      expect(packageJson.name).toBe(project.getImportPath());
+    });
+
+    it("sets the correct version for the package", () => {
+      expect(packageJson.version).toBe("0.0.1");
+    });
+
+    describe("devDependencies", () => {
+      it("lists jest", () => {
+        expect(tree).toHaveDevDependency(
+          "jest",
+          "^27.5.1",
+          project.path("package.json"),
+        );
+      });
+
+      it("lists jest-junit", () => {
+        expect(tree).toHaveDevDependency(
+          "jest-junit",
+          undefined,
+          project.path("package.json"),
+        );
+      });
+    });
   });
 };

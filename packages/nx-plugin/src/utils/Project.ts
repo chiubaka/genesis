@@ -89,6 +89,10 @@ export class Project {
     return this.names;
   }
 
+  public getImportPath() {
+    return `@${this.getScope()}/${this.getName()}`;
+  }
+
   public getType() {
     return this.type;
   }
