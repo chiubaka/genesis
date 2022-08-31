@@ -1,6 +1,6 @@
-import { Tree } from "@nrwl/devkit";
+import { readJson, Tree } from "@nrwl/devkit";
 
-import { Project } from "../../../src";
+import { PackageJson, Project } from "../../../src";
 import { eslintProjectTestCases } from "./eslintProjectTestCases";
 import { jestProjectTestCases } from "./jestProjectTestCases";
 import {
@@ -39,6 +39,30 @@ export const nodeProjectTestCases = (
     });
   });
 
+  describe("package.json", () => {
+    let packageJson: PackageJson;
+
+    beforeAll(() => {
+      packageJson = readJson(tree, project.path("package.json"));
+    });
+
+    describe("engines", () => {
+      let engines: Record<string, string> | undefined;
+
+      beforeAll(() => {
+        engines = packageJson.engines;
+      });
+
+      it("specifies a node version under engines", () => {
+        expect(engines?.node).toBe(">=16.0.0 <17.0.0");
+      });
+
+      it("specifies an npm version under engines", () => {
+        expect(engines?.npm).toBe(">=8.1.0 <9.0.0");
+      });
+    });
+  });
+
   projectTestCases(getProject);
   projectJsonTestCases(getProject, options.projectJson);
   jestProjectTestCases(getProject, "node");
@@ -52,4 +76,14 @@ export const nodeProjectTestCases = (
   });
   eslintProjectTestCases(getProject);
   readmeProjectTestCases(getProject, options.repoName);
+
+  describe("workspace", () => {
+    describe(".nvmrc", () => {
+      it("specifies the correct node version in .nvmrc", () => {
+        expect(tree).toHaveFileWithContent(".nvmrc", "lts/gallium", {
+          exact: true,
+        });
+      });
+    });
+  });
 };

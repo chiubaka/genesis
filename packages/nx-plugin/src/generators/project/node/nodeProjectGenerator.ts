@@ -9,6 +9,7 @@ import { applicationGenerator, libraryGenerator } from "@nrwl/node";
 import path from "node:path";
 import { RawProjectsConfigurations } from "nx/src/config/workspace-json-project-json";
 
+import { PackageJson } from "../../../types";
 import { lintFix, Project } from "../../../utils";
 import { eslintProjectGenerator } from "../eslint";
 import { jestProjectGenerator } from "../jest";
@@ -35,6 +36,7 @@ export async function nodeProjectGenerator(
   relocateProject(project);
   copyPackageJsonTemplate(project);
   standardizeProjectJson(project);
+  enforceNodeVersion(project);
 
   tsconfigProjectGenerator(tree, {
     ...project.getMeta(),
@@ -125,4 +127,21 @@ function getBaseGenerator(project: Project) {
   }
 
   return libraryGenerator;
+}
+
+function enforceNodeVersion(project: Project) {
+  const tree = project.getTree();
+
+  tree.write(".nvmrc", "lts/gallium");
+
+  updateJson(tree, project.path("package.json"), (packageJson: PackageJson) => {
+    if (!packageJson.engines) {
+      packageJson.engines = {};
+    }
+
+    packageJson.engines.node = ">=16.0.0 <17.0.0";
+    packageJson.engines.npm = ">=8.1.0 <9.0.0";
+
+    return packageJson;
+  });
 }
