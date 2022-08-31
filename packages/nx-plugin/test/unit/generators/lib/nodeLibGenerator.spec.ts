@@ -2,7 +2,14 @@ import { createTreeWithEmptyWorkspace } from "@chiubaka/nx-plugin-testing";
 import { ProjectConfiguration, readJson, Tree } from "@nrwl/devkit";
 import { PackageJson } from "nx/src/utils/package-json";
 
-import { nodeLibGenerator, Project } from "../../../../src";
+import {
+  DockerComposeConfig,
+  DockerComposeService,
+  nodeLibGenerator,
+  Project,
+  readYaml,
+  YarnConfig,
+} from "../../../../src";
 import { nodeProjectTestCases } from "../../../cases";
 
 describe("nodeLibGenerator", () => {
@@ -99,25 +106,22 @@ describe("nodeLibGenerator", () => {
     });
 
     describe(".yarnrc.yml", () => {
+      let yarnConfig: YarnConfig;
+
+      beforeAll(() => {
+        yarnConfig = readYaml<YarnConfig>(tree, ".yarnrc.yml");
+      });
+
       it("uses the node-modules nodeLinker", () => {
-        expect(tree).toHaveFileWithContent(
-          ".yarnrc.yml",
-          "nodeLinker: node-modules",
-        );
+        expect(yarnConfig.nodeLinker).toBe("node-modules");
       });
 
       it("uses the local registry to install packages", () => {
-        expect(tree).toHaveFileWithContent(
-          ".yarnrc.yml",
-          'npmRegistryServer: "http://localhost:4873"',
-        );
+        expect(yarnConfig.npmRegistryServer).toBe("http://localhost:4873");
       });
 
       it("whitelists localhost for http", () => {
-        expect(tree).toHaveFileWithContent(
-          ".yarnrc.yml",
-          'unsafeHttpWhitelist: ["localhost"]',
-        );
+        expect(yarnConfig.unsafeHttpWhitelist).toEqual(["localhost"]);
       });
     });
 
@@ -165,23 +169,47 @@ describe("nodeLibGenerator", () => {
         expect(tree.exists("docker-compose.yml")).toBe(true);
       });
 
-      describe("verdaccio", () => {
-        it("creates a verdaccio service", () => {
-          // TODO: This assertion should use something that actually parses YAML
-          // https://github.com/chiubaka/genesis/issues/111
-          expect(tree).toHaveFileWithContent(
+      describe("docker-compose.yml", () => {
+        let dockerComposeConfig: DockerComposeConfig;
+
+        beforeAll(() => {
+          dockerComposeConfig = readYaml<DockerComposeConfig>(
+            tree,
             "docker-compose.yml",
-            "image: verdaccio/verdaccio",
           );
         });
 
-        it.todo("runs verdaccio on port 4873");
+        describe("registry", () => {
+          let registryConfig: DockerComposeService;
 
+          beforeAll(() => {
+            registryConfig = dockerComposeConfig.services.registry;
+          });
+
+          it("defines a registry service", () => {
+            expect(registryConfig).toBeDefined();
+          });
+
+          it("creates a verdaccio service", () => {
+            expect(registryConfig.image).toBe("verdaccio/verdaccio");
+          });
+
+          it("runs verdaccio on port 4873", () => {
+            expect(registryConfig.ports).toContain("4873:4873");
+          });
+
+          it("uses the generated verdaccio config in the docker container", () => {
+            expect(registryConfig.volumes).toContain(
+              "./verdaccio:/verdaccio/conf",
+            );
+          });
+        });
+      });
+
+      describe("verdaccio", () => {
         it("generates a basic verdaccio config", () => {
           expect(tree.exists("verdaccio/config.yaml")).toBe(true);
         });
-
-        it.todo("uses the generated verdaccio config in the docker container");
 
         describe("config.yaml", () => {
           it.todo(
