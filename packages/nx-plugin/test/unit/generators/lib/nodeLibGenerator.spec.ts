@@ -109,7 +109,7 @@ describe("nodeLibGenerator", () => {
       let yarnConfig: YarnConfig;
 
       beforeAll(() => {
-        yarnConfig = readYaml<YarnConfig>(tree, ".yarnrc.yml");
+        yarnConfig = readYaml<YarnConfig>(tree, e2eProject.path(".yarnrc.yml"));
       });
 
       it("uses the node-modules nodeLinker", () => {
@@ -122,16 +122,6 @@ describe("nodeLibGenerator", () => {
 
       it("whitelists localhost for http", () => {
         expect(yarnConfig.unsafeHttpWhitelist).toEqual(["localhost"]);
-      });
-    });
-
-    describe("package.json", () => {
-      it("installs the library from the dist directory", () => {
-        expect(tree).toHaveDependency(
-          `@${project.getScope()}/${project.getName()}`,
-          `file:dist/packages/node-lib`,
-          e2eProject.path("package.json"),
-        );
       });
     });
 

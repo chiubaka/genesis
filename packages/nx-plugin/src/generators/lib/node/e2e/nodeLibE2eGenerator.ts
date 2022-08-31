@@ -23,7 +23,7 @@ export async function nodeLibE2eGenerator(
     rootProjectGeneratorName,
   });
 
-  copyNodeE2eSample(project, libName);
+  copyTemplates(project, libName);
   patchPackageJson(project, libName);
   updateProjectJson(project, libName);
 
@@ -32,7 +32,7 @@ export async function nodeLibE2eGenerator(
   };
 }
 
-function copyNodeE2eSample(project: Project, libName: string) {
+function copyTemplates(project: Project, libName: string) {
   const tree = project.getTree();
 
   tree.delete(project.srcPath("app"));
