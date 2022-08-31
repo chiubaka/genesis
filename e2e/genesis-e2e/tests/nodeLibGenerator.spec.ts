@@ -58,4 +58,18 @@ describe("nodeLibGenerator", () => {
   it("produces a library project that can be consumed by another project", async () => {
     await expect(workspace.execNx("e2e node-lib-e2e")).resolves.not.toThrow();
   });
+
+  describe("e2e project", () => {
+    it("generates a project with a working linting setup", async () => {
+      await expect(
+        workspace.execNx("lint node-lib-e2e --max-warnings 0"),
+      ).resolves.not.toThrow();
+    });
+
+    it("generates a project with a working build setup", async () => {
+      await expect(
+        workspace.execNx("build node-lib-e2e"),
+      ).resolves.not.toThrow();
+    });
+  });
 });

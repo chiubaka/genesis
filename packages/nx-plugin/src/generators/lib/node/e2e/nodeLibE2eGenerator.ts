@@ -25,7 +25,7 @@ export async function nodeLibE2eGenerator(
 
   copyNodeE2eSample(project, libName);
   patchPackageJson(project, libName);
-  updateProjectJsonE2eTarget(project, libName);
+  updateProjectJson(project, libName);
 
   return async () => {
     await nodeProjectTask();
@@ -62,7 +62,7 @@ function patchPackageJson(project: Project, libName: string) {
   });
 }
 
-function updateProjectJsonE2eTarget(project: Project, libName: string) {
+function updateProjectJson(project: Project, libName: string) {
   const tree = project.getTree();
 
   updateJson(
@@ -80,7 +80,9 @@ function updateProjectJsonE2eTarget(project: Project, libName: string) {
       testTarget.dependsOn.push({ target: "build", projects: "dependencies" });
 
       targets.e2e = testTarget;
+
       delete targets.test;
+      delete targets.serve;
 
       projectJson.implicitDependencies = projectJson.implicitDependencies || [];
 

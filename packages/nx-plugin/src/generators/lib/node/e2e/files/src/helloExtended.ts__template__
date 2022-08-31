@@ -5,6 +5,7 @@ export const helloEnhanced = `${hello} ${hello}`;
 
 export function helloFromFile() {
   const filePath = writeHelloWorld();
+  // eslint-disable-next-line security/detect-non-literal-fs-filename
   return fs.readFileSync(filePath).toString();
 }
 

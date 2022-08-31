@@ -1,4 +1,8 @@
-import { EnhancedGreeter, helloEnhanced, helloFromFile } from "../src/helloExtended";
+import {
+  EnhancedGreeter,
+  helloEnhanced,
+  helloFromFile,
+} from "../src/helloExtended";
 
 describe("helloEnhanced", () => {
   describe("enhancedHello", () => {
@@ -11,6 +15,7 @@ describe("helloEnhanced", () => {
     describe("#hello", () => {
       it("enhances a familiar phrase", () => {
         const greeter = new EnhancedGreeter();
+
         expect(greeter.hello()).toBe("Hello, world! Hello, world!");
       });
     });

@@ -73,7 +73,7 @@ describe("nodeLibGenerator", () => {
   describe("E2E project", () => {
     nodeProjectTestCases(getE2eProject, {
       projectJson: {
-        targetNames: ["lint", "build", "e2e", "serve"],
+        targetNames: ["lint", "build", "e2e"],
       },
       repoName: "node-lib",
     });
