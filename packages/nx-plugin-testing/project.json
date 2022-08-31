@@ -35,6 +35,14 @@
         ]
       }
     },
+    "publish:local": {
+      "executor": "@chiubaka/nx-plugin:local-publish",
+      "dependsOn": [{ "target": "build", "projects": "self" }],
+      "options": {
+        "registryUrl": "http://localhost:4873",
+        "packagePath": "dist/packages/nx-plugin-testing"
+      }
+    },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],

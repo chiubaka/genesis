@@ -438,10 +438,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chiubaka/nx-plugin-testing@0.0.1, @chiubaka/nx-plugin-testing@workspace:packages/nx-plugin-testing":
+  version: 0.0.0-use.local
+  resolution: "@chiubaka/nx-plugin-testing@workspace:packages/nx-plugin-testing"
+  dependencies:
+    "@nrwl/devkit": 14.5.6
+    "@nrwl/node": 14.5.6
+    nx: 14.5.6
+  languageName: unknown
+  linkType: soft
+
 "@chiubaka/nx-plugin@^0.0.1, @chiubaka/nx-plugin@workspace:packages/nx-plugin":
   version: 0.0.0-use.local
   resolution: "@chiubaka/nx-plugin@workspace:packages/nx-plugin"
   dependencies:
+    "@chiubaka/nx-plugin-testing": 0.0.1
     "@nrwl/node": ^14.5.8
     "@types/nock": ^11.1.0
     nock: ^13.2.9
@@ -7920,16 +7931,6 @@ __metadata:
   checksum: 6c21fcb6950538012516b39137ed9b53ed56843e521362e977282c781169f229e7bca8ec6e207165b19912550f360806b222f77b6c9202bb8d66818456875c3d
   languageName: node
   linkType: hard
-
-"nx-plugin-testing@workspace:packages/nx-plugin-testing":
-  version: 0.0.0-use.local
-  resolution: "nx-plugin-testing@workspace:packages/nx-plugin-testing"
-  dependencies:
-    "@nrwl/devkit": 14.5.6
-    "@nrwl/node": 14.5.6
-    nx: 14.5.6
-  languageName: unknown
-  linkType: soft
 
 "nx-plugin@workspace:.":
   version: 0.0.0-use.local

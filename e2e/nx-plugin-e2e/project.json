@@ -4,7 +4,7 @@
   "sourceRoot": "e2e/nx-plugin-e2e/tests",
   "targets": {
     "e2e": {
-      "dependsOn": [{ "target": "local-publish", "projects": "dependencies" }],
+      "dependsOn": [{ "target": "publish:local", "projects": "dependencies" }],
       "executor": "@nrwl/jest:jest",
       "options": {
         "jestConfig": "e2e/nx-plugin-e2e/jest.config.ts",

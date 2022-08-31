@@ -38,7 +38,7 @@ describe("nodeLibGenerator", () => {
 
   nodeProjectTestCases(getProject, {
     projectJson: {
-      targetNames: ["lint", "build", "test", "local-publish"],
+      targetNames: ["lint", "build", "test", "publish:local"],
     },
   });
 

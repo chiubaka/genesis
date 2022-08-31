@@ -36,7 +36,7 @@
         ]
       }
     },
-    "local-publish": {
+    "publish:local": {
       "executor": "@chiubaka/nx-plugin:local-publish",
       "dependsOn": [{ "target": "build", "projects": "self" }],
       "options": {

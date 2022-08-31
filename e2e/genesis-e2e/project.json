@@ -59,7 +59,7 @@
     },
     "install-local-genesis-cli": {
       "dependsOn": [
-        { "target": "local-publish", "projects": "dependencies" },
+        { "target": "publish:local", "projects": "dependencies" },
         { "target": "yarn-cache-clean", "projects": "self" }
       ],
       "executor": "@nrwl/workspace:run-commands",
