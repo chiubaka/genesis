@@ -70,37 +70,6 @@ describe("nodeLibGenerator", () => {
     });
   });
 
-  describe("docker-compose", () => {
-    it("generates a docker-compose.yml file for the workspace", () => {
-      expect(tree.exists("docker-compose.yml")).toBe(true);
-    });
-
-    describe("verdaccio", () => {
-      it("creates a verdaccio service", () => {
-        // TODO: This assertion should use something that actually parses YAML
-        // https://github.com/chiubaka/genesis/issues/111
-        expect(tree).toHaveFileWithContent(
-          "docker-compose.yml",
-          "image: verdaccio/verdaccio",
-        );
-      });
-
-      it.todo("runs verdaccio on port 4873");
-
-      it("generates a basic verdaccio config", () => {
-        expect(tree.exists("verdaccio/config.yaml")).toBe(true);
-      });
-
-      it.todo("uses the generated verdaccio config in the docker container");
-
-      describe("config.yaml", () => {
-        it.todo(
-          "ensures that the access to the generated package is not proxied to NPM",
-        );
-      });
-    });
-  });
-
   describe("E2E project", () => {
     nodeProjectTestCases(getE2eProject, {
       projectJson: {
@@ -175,6 +144,49 @@ describe("nodeLibGenerator", () => {
             target: "local-publish",
             projects: "dependencies",
           });
+        });
+      });
+    });
+  });
+
+  describe("workspace", () => {
+    describe("package.json", () => {
+      it.todo("Adds a start:verdaccio script");
+    });
+
+    describe("README.md", () => {
+      it.todo(
+        "Updates the README with instructions about how to run E2E tests",
+      );
+    });
+
+    describe("docker-compose", () => {
+      it("generates a docker-compose.yml file for the workspace", () => {
+        expect(tree.exists("docker-compose.yml")).toBe(true);
+      });
+
+      describe("verdaccio", () => {
+        it("creates a verdaccio service", () => {
+          // TODO: This assertion should use something that actually parses YAML
+          // https://github.com/chiubaka/genesis/issues/111
+          expect(tree).toHaveFileWithContent(
+            "docker-compose.yml",
+            "image: verdaccio/verdaccio",
+          );
+        });
+
+        it.todo("runs verdaccio on port 4873");
+
+        it("generates a basic verdaccio config", () => {
+          expect(tree.exists("verdaccio/config.yaml")).toBe(true);
+        });
+
+        it.todo("uses the generated verdaccio config in the docker container");
+
+        describe("config.yaml", () => {
+          it.todo(
+            "ensures that the access to the generated package is not proxied to NPM",
+          );
         });
       });
     });
