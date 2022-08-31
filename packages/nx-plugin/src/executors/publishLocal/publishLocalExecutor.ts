@@ -1,14 +1,14 @@
 import { workspaceRoot } from "@nrwl/devkit";
 import path from "node:path";
 
-import { exec } from "../../utils";
+import { exec } from "../../utils/index";
 import {
-  LocalPublishExecutorSchema,
+  PublishLocalExecutorSchema,
   RegistryCredentials,
-} from "./localPublishExecutor.schema";
+} from "./publishLocalExecutor.schema";
 
-export async function localPublishExecutor(
-  options: LocalPublishExecutorSchema,
+export async function publishLocalExecutor(
+  options: PublishLocalExecutorSchema,
 ) {
   const { registryUrl, registryCredentials, packagePath } = options;
 

@@ -36,7 +36,7 @@
       }
     },
     "publish:local": {
-      "executor": "@chiubaka/nx-plugin:local-publish",
+      "executor": "@chiubaka/nx-plugin:publish-local",
       "dependsOn": [{ "target": "build", "projects": "self" }],
       "options": {
         "registryUrl": "http://localhost:4873",

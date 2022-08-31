@@ -135,7 +135,7 @@ describe("nodeLibGenerator", () => {
 
           expect(projectJson.implicitDependencies).toContain("node-lib");
           expect(projectJson.targets?.e2e.dependsOn).toContainEqual({
-            target: "local-publish",
+            target: "publish:local",
             projects: "dependencies",
           });
         });

@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "title": "Local Publish",
+  "title": "Publish Local",
   "type": "object",
   "cli": "nx",
   "properties": {

@@ -1,6 +1,7 @@
 import {
   detectPackageManager,
   getPackageManagerCommand,
+  ProjectConfiguration,
   Tree,
   updateJson,
 } from "@nrwl/devkit";
@@ -24,6 +25,7 @@ export async function nodeLibGenerator(
   });
 
   updatePackageJsonScripts(project);
+  updateProjectJson(project);
   copyNodeLibSample(project);
 
   const e2eProjectTask = await generateE2eProject(project, options);
@@ -50,6 +52,31 @@ function updatePackageJsonScripts(project: Project) {
 
     return packageJson;
   });
+}
+
+function updateProjectJson(project: Project) {
+  const tree = project.getTree();
+
+  updateJson(
+    tree,
+    project.path("project.json"),
+    (projectJson: ProjectConfiguration) => {
+      if (!projectJson.targets) {
+        projectJson.targets = {};
+      }
+
+      projectJson.targets["publish:local"] = {
+        executor: "@chiubaka/nx-plugin:publish-local",
+        dependsOn: [{ target: "build", projects: "self" }],
+        options: {
+          registryUrl: "http://localhost:4873",
+          packagePath: project.distPath(),
+        },
+      };
+
+      return projectJson;
+    },
+  );
 }
 
 function generateE2eProject(project: Project, options: NodeLibGeneratorSchema) {

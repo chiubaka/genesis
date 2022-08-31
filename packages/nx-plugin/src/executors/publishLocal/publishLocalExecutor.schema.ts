@@ -1,4 +1,4 @@
-export interface LocalPublishExecutorSchema {
+export interface PublishLocalExecutorSchema {
   registryCredentials: RegistryCredentials;
   registryUrl: string;
 

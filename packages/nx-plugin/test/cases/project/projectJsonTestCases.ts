@@ -8,8 +8,8 @@ import {
 import {
   EsLintExecutorOptions,
   JestExecutorOptions,
-  LocalPublishExecutorSchema,
   Project,
+  PublishLocalExecutorSchema,
 } from "../../../src";
 
 export interface ProjectJsonTestCasesOptions {
@@ -123,19 +123,19 @@ export const projectJsonTestCases = (
         });
       }
 
-      if (targetNames.includes("local-publish")) {
-        describe("local-publish target", () => {
-          let localPublishTarget: TargetConfiguration<LocalPublishExecutorSchema>;
+      if (targetNames.includes("publish:local")) {
+        describe("publish:local target", () => {
+          let localPublishTarget: TargetConfiguration<PublishLocalExecutorSchema>;
 
           beforeAll(() => {
             localPublishTarget = targets?.[
-              "local-publish"
-            ] as TargetConfiguration<LocalPublishExecutorSchema>;
+              "publish:local"
+            ] as TargetConfiguration<PublishLocalExecutorSchema>;
           });
 
           it("uses the @chiubaka/nx-plugin:local-publish executor", () => {
             expect(localPublishTarget.executor).toEqual(
-              "@chiubaka/nx-plugin:local-publish",
+              "@chiubaka/nx-plugin:publish-local",
             );
           });
 

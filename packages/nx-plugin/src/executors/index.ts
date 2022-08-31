@@ -1,2 +1,2 @@
 export * from "./genesis";
-export * from "./localPublish";
+export * from "./publishLocal";

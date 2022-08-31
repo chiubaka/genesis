@@ -77,7 +77,10 @@ function updateProjectJson(project: Project, libName: string) {
 
       const testTarget = targets.test;
       testTarget.dependsOn = testTarget.dependsOn || [];
-      testTarget.dependsOn.push({ target: "build", projects: "dependencies" });
+      testTarget.dependsOn.push({
+        target: "publish:local",
+        projects: "dependencies",
+      });
 
       targets.e2e = testTarget;
 
