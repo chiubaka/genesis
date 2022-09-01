@@ -9,6 +9,7 @@ export async function jestGenerator(tree: Tree) {
 
   const installTask = await installDependencies(tree);
   copyConfigTemplates(tree);
+  updateGitignore(tree);
 
   return async () => {
     logger.info("Running post-processing tasks for Jest generator");
@@ -35,4 +36,22 @@ function copyConfigTemplates(tree: Tree) {
   logger.info("Copying Jest configuration templates");
 
   generateFiles(tree, path.join(__dirname, "./files"), ".", { template: "" });
+}
+
+function updateGitignore(tree: Tree) {
+  logger.info("Updating .gitignore");
+
+  if (!tree.exists(".gitignore")) {
+    logger.warn("No .gitignore file found");
+    return;
+  }
+
+  const gitignore = tree.read(".gitignore")?.toString();
+
+  if (!gitignore) {
+    logger.warn("Received empty buffer for .gitignore");
+    return;
+  }
+
+  tree.write(".gitignore", `${gitignore}\n\n# Test reports\n/reports\n`);
 }

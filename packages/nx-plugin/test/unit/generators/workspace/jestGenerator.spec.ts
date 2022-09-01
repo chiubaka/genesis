@@ -10,7 +10,14 @@ describe("jestGenerator", () => {
 
   beforeAll(async () => {
     tree = createTreeWithEmptyWorkspace();
+    tree.write(".gitignore", "# compiled output\n/dist\n\n");
     await jestGenerator(tree);
+  });
+
+  describe(".gitignore", () => {
+    it("adds /reports to .gitignore", () => {
+      expect(tree).toHaveFileWithContent(".gitignore", "/reports\n");
+    });
   });
 
   describe("package.json", () => {

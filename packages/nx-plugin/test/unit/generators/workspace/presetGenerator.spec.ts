@@ -7,7 +7,7 @@ import {
   PresetGeneratorSchema,
 } from "../../../../src/generators";
 
-describe("preset generator", () => {
+describe("presetGenerator", () => {
   let tree: Tree;
   const options: PresetGeneratorSchema = {
     workspaceName: "preset",
