@@ -37,10 +37,19 @@
     },
     "publish:local": {
       "executor": "@chiubaka/nx-plugin:publish-local",
-      "dependsOn": [{ "target": "build", "projects": "self" }],
+      "dependsOn": [
+        { "target": "build", "projects": "self" },
+        { "target": "publish:local:remove-yarn-module", "projects": "self" }
+      ],
       "options": {
         "registryUrl": "http://localhost:4873",
         "packagePath": "dist/packages/nx-plugin-testing"
+      }
+    },
+    "publish:local:remove-yarn-module": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "rm -rf node_modules/@chiubaka/nx-plugin"
       }
     },
     "lint": {
