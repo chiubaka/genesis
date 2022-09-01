@@ -14,6 +14,7 @@ describe("preset generator", () => {
     workspaceScope: "chiubaka",
     description: "Testing for the preset generator",
 
+    disableImmutableInstalls: false,
     skipInstall: true,
   };
 
