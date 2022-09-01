@@ -23,6 +23,16 @@ describe("genesis", () => {
     workspace.assert.fs.notExists("apps");
   });
 
+  describe(".gitignore", () => {
+    it("generates a .gitignore file", () => {
+      workspace.assert.fs.exists(".gitignore");
+    });
+
+    it("ignores the reports directory", () => {
+      workspace.assert.fs.fileContents(".gitignore", "/reports");
+    });
+  });
+
   describe("package manager", () => {
     it("should install packages with yarn", () => {
       workspace.assert.fs.exists("yarn.lock");
