@@ -1,3 +1,4 @@
+import { detectPackageManager, getPackageManagerCommand } from "@nrwl/devkit";
 import {
   generateFiles,
   getWorkspaceLayout,
@@ -10,7 +11,7 @@ import path from "node:path";
 import { RawProjectsConfigurations } from "nx/src/config/workspace-json-project-json";
 
 import { PackageJson } from "../../../types";
-import { lintFix, Project } from "../../../utils";
+import { exec, lintFix, noOpTask, Project } from "../../../utils";
 import { eslintProjectGenerator } from "../eslint";
 import { jestProjectGenerator } from "../jest";
 import {
@@ -52,9 +53,12 @@ export async function nodeProjectGenerator(
     rootProjectGeneratorName,
   });
 
+  const updateYarnWorkspaceTask = updateYarnWorkspace(project);
+
   return async () => {
     await baseGeneratorTask();
     await jestTask();
+    await updateYarnWorkspaceTask();
     await lintFix(tree.root, project.getName());
   };
 }
@@ -144,4 +148,21 @@ function enforceNodeVersion(project: Project) {
 
     return packageJson;
   });
+}
+
+function updateYarnWorkspace(project: Project) {
+  const tree = project.getTree();
+  const packageManager = detectPackageManager(tree.root);
+
+  if (packageManager !== "yarn") {
+    return noOpTask;
+  }
+
+  const pmc = getPackageManagerCommand(packageManager);
+
+  return async () => {
+    await exec(pmc.install, {
+      cwd: tree.root,
+    });
+  };
 }
