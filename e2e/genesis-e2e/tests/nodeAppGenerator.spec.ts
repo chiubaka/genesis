@@ -1,7 +1,6 @@
 import { e2eTmpPath, TestingWorkspace } from "@chiubaka/nx-plugin-testing";
 
-// eslint-disable-next-line jest/no-disabled-tests
-describe.skip("nodeAppGenerator", () => {
+describe("nodeAppGenerator", () => {
   let workspace: TestingWorkspace;
 
   beforeAll(async () => {

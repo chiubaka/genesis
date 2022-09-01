@@ -11,7 +11,8 @@
       "executor": "@nrwl/jest:jest",
       "options": {
         "jestConfig": "e2e/genesis-e2e/jest.config.ts",
-        "passWithNoTests": true
+        "passWithNoTests": true,
+        "runInBand": true
       },
       "outputs": [
         "reports/coverage/e2e/genesis-e2e",
