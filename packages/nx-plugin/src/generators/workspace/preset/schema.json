@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "$id": "Preset",
+  "title": "",
+  "type": "object",
+  "properties": {
+    "workspaceName": {
+      "description": "The name of the workspace / project being generated. Different from Nx's workspaceName. This option will usually be passed by genesis.",
+      "type": "string"
+    },
+    "workspaceScope": {
+      "description": "The scope of the workspace. Usually the org's name. This option should be passed by Nx automatically.",
+      "type": "string"
+    },
+
+    "description": {
+      "description": "A description of what this new workspace will accomplish",
+      "type": "string"
+    },
+
+    "skipGitHub": {
+      "description": "Whether or not to skip GitHub repository generation",
+      "type": "boolean"
+    },
+    "skipInstall": {
+      "description": "Whether or not to skip package manager install",
+      "type": "boolean"
+    },
+
+    "disableImmutableInstalls": {
+      "description": "Whether or not to allow mutations to yarn.lock. Useful for E2E testing, especially on CI.",
+      "type": "boolean",
+      "default": false
+    },
+    "registry": {
+      "description": "URL for registry to use in generated repository",
+      "type": "string"
+    }
+  },
+  "required": ["workspaceName", "workspaceScope", "description"]
+}

@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    <% if (locals.appLibTypes) { -%>
+    "types": <%- appLibTypes %>,
+    <% } -%>
+    "declaration": true
+  },
+  "include": ["**/*.ts"],
+  "exclude": ["jest.config.ts", "**/*.spec.ts", "**/*.test.ts", "test"]
+}

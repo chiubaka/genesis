@@ -11,6 +11,6 @@ export const toHaveDevDependencies = (
     tree,
     expectedDevDependencies,
     packageJsonPath,
-    true,
+    "devDependencies",
   );
 };

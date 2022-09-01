@@ -10,6 +10,7 @@
         "outputPath": "dist/packages/genesis",
         "main": "packages/genesis/bin/index.ts",
         "tsConfig": "packages/genesis/tsconfig.lib.json",
+        "updateBuildableProjectDepsInPackageJson": false,
         "assets": [
           "packages/genesis/*.md",
           {
@@ -51,6 +52,23 @@
       "options": {
         "jestConfig": "packages/genesis/jest.config.ts",
         "passWithNoTests": true
+      }
+    },
+    "publish:local": {
+      "executor": "@chiubaka/nx-plugin:publish-local",
+      "dependsOn": [
+        { "target": "build", "projects": "self" },
+        { "target": "publish:local:remove-yarn-module", "projects": "self" }
+      ],
+      "options": {
+        "registryUrl": "http://localhost:4873",
+        "packagePath": "dist/packages/genesis"
+      }
+    },
+    "publish:local:remove-yarn-module": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "rm -rf node_modules/@chiubaka/nx-plugin"
       }
     }
   },

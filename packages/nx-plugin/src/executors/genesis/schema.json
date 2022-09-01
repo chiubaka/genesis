@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "title": "Genesis",
+  "type": "object",
+  "cli": "nx",
+  "properties": {
+    "workspaceScope": {
+      "type": "string",
+      "description": "Scope of the workspace to create"
+    },
+    "workspaceName": {
+      "type": "string",
+      "description": "Name of the workspace to create"
+    },
+    "description": {
+      "type": "string",
+      "description": "A description of the workspace to create",
+      "default": "This project was created by the genesis CLI"
+    },
+    "skipGitHub": {
+      "type": "boolean",
+      "description": "Whether or not to skip generating a GitHub repository for this workspace",
+      "default": false
+    },
+
+    "registry": {
+      "type": "string",
+      "description": "URL of the registry to run the CLI against. Will use the registry for grabbing genesis and for genesis to grab dependencies"
+    },
+    "disableImmutableInstalls": {
+      "type": "boolean",
+      "description": "Whether or not to disallow changes to the yarn.lock file. Useful for E2E testing, particularly on CI.",
+      "default": false
+    },
+    "destination": {
+      "type": "string",
+      "description": "Path to the destination dir where workspace will be created. When not provided, will generate workspace in default temporary E2E directory."
+    }
+  },
+  "required": ["workspaceScope", "workspaceName"]
+}

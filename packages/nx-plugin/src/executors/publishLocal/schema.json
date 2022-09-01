@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "title": "Publish Local",
+  "type": "object",
+  "cli": "nx",
+  "properties": {
+    "registryCredentials": {
+      "type": "object",
+      "description": "Login credentials for the local registry",
+      "properties": {
+        "username": {
+          "type": "string",
+          "description": "Username for logging into the local registry",
+          "default": "test"
+        },
+        "password": {
+          "type": "string",
+          "description": "Password for logging into the local registry",
+          "default": "test"
+        },
+        "email": {
+          "type": "string",
+          "description": "Email for logging into the local registry",
+          "default": "test@chiubaka.com"
+        }
+      }
+    },
+    "registryUrl": {
+      "type": "string",
+      "description": "Full URL of the local registry to publish packages to"
+    },
+
+    "packagePath": {
+      "type": "string",
+      "description": "Path to the built package to publish"
+    }
+  },
+  "required": ["registryUrl", "packagePath"]
+}

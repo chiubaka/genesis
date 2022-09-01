@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "ReadmeProject",
+  "cli": "nx",
+  "title": "Generate a README for a project",
+  "description": "Generate a README for a project",
+  "type": "object",
+  "properties": {
+    "projectName": {
+      "type": "string",
+      "description": "The name of the project to generate configuration for"
+    },
+    "projectType": {
+      "type": "string",
+      "description": "The type of project to generate configuration for",
+      "enum": ["application", "library"]
+    },
+    "rootProjectGeneratorName": {
+      "type": "string",
+      "description": "The name of the root project generator that invoked this generator",
+      "default": "project.readme"
+    }
+  },
+  "required": ["projectName", "projectType"]
+}

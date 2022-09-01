@@ -1,0 +1,29 @@
+import {
+  EnhancedGreeter,
+  helloEnhanced,
+  helloFromFile,
+} from "../src/helloExtended";
+
+describe("helloEnhanced", () => {
+  describe("enhancedHello", () => {
+    it("enhances a familiar phrase", () => {
+      expect(helloEnhanced).toBe("Hello, world! Hello, world!");
+    });
+  });
+
+  describe("EnhancedGreeter", () => {
+    describe("#hello", () => {
+      it("enhances a familiar phrase", () => {
+        const greeter = new EnhancedGreeter();
+
+        expect(greeter.hello()).toBe("Hello, world! Hello, world!");
+      });
+    });
+  });
+
+  describe("helloFromFile", () => {
+    it("returns a familiar phrase", () => {
+      expect(helloFromFile()).toBe("Hello, world!");
+    });
+  });
+});

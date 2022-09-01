@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "EsLintProject",
+  "cli": "nx",
+  "title": "Create an ESLint configuration for a project",
+  "description": "Create an ESLint configuration for a project",
+  "type": "object",
+  "properties": {
+    "projectName": {
+      "type": "string",
+      "description": "The name of the project to generate configuration for"
+    },
+    "projectType": {
+      "type": "string",
+      "description": "The type of project to generate configuration for",
+      "enum": ["application", "library"]
+    }
+  },
+  "required": ["projectName", "projectType"]
+}

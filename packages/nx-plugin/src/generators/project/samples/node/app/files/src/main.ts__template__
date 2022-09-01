@@ -1,0 +1,6 @@
+import { hello, writeHelloWorld } from "./hello";
+
+writeHelloWorld();
+
+// eslint-disable-next-line no-console
+console.log(hello);

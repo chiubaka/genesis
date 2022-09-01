@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "NodeProject",
+  "cli": "nx",
+  "title": "Create a Node project",
+  "description": "Create a Node project",
+  "type": "object",
+  "properties": {
+    "projectName": {
+      "type": "string",
+      "description": "Project name",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What name would you like to use for the library?",
+      "pattern": "^[a-zA-Z].*$"
+    },
+    "projectType": {
+      "type": "string",
+      "description": "Type of Node project",
+      "enum": ["application", "e2e", "library"]
+    },
+
+    "rootProjectGeneratorName": {
+      "type": "string",
+      "description": "Name of the project generator invoking this project generator",
+      "default": "project.node"
+    },
+    "tags": {
+      "type": "string",
+      "description": "Add tags to the project (used for linting",
+      "alias": "t"
+    }
+  },
+  "required": ["projectName", "projectType"]
+}

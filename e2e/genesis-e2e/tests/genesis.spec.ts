@@ -1,14 +1,12 @@
-import {
-  createGenesisWorkspace,
-  TestingWorkspace,
-} from "@chiubaka/nx-plugin-testing";
+import { e2eTmpPath, TestingWorkspace } from "@chiubaka/nx-plugin-testing";
 import path from "node:path";
 
 describe("genesis", () => {
   let workspace: TestingWorkspace;
 
   beforeAll(() => {
-    workspace = createGenesisWorkspace("chiubaka", "genesis");
+    const destination = e2eTmpPath("genesis-e2e");
+    workspace = new TestingWorkspace(destination);
   });
 
   afterAll(async () => {
@@ -18,7 +16,7 @@ describe("genesis", () => {
   it("should create a workspace root directory matching name option, not org scope", () => {
     const workspaceName = path.basename(workspace.getRoot());
 
-    expect(workspaceName).toBe("genesis");
+    expect(workspaceName).toBe("genesis-e2e");
   });
 
   it("should not create an apps dir", () => {

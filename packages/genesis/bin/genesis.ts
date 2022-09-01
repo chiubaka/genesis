@@ -9,6 +9,7 @@ interface GenesisOptions {
   workspaceScope: string;
   workspaceName: string;
   description: string;
+  disableImmutableInstalls?: boolean;
   registry?: string;
   skipGithub?: boolean;
 }
@@ -18,6 +19,7 @@ export async function genesis(argv = process.argv) {
     .requiredOption("-s, --workspace-scope <workspaceScope>")
     .requiredOption("-n, --workspace-name <workspaceName>")
     .requiredOption("-d, --description <description>")
+    .option("--disable-immutable-installs")
     .option("-r, --registry <registry>")
     .option("--skip-github");
 
@@ -29,22 +31,31 @@ export async function genesis(argv = process.argv) {
     workspaceScope,
     workspaceName,
     description,
+    disableImmutableInstalls,
     registry,
     skipGithub: skipGitHub,
   } = opts;
 
   const pmc = getPackageManagerCommand("npm");
 
-  let fullCommand = `${pmc.exec} create-nx-workspace ${workspaceScope} --preset=@chiubaka/nx-plugin --nxCloud=false --directory=${workspaceName} --workspaceName=${workspaceName} --workspaceScope=${workspaceScope} --description=${description}`;
+  let fullCommand = `${pmc.exec} create-nx-workspace ${workspaceScope} --preset=@chiubaka/nx-plugin --nxCloud=false --directory=${workspaceName} --workspaceName=${workspaceName} --workspaceScope=${workspaceScope}`;
 
   if (skipGitHub) {
     fullCommand = `${fullCommand} --skipGitHub`;
   }
 
+  if (registry) {
+    fullCommand = `${fullCommand} --registry=${registry}`;
+  }
+
+  if (disableImmutableInstalls) {
+    fullCommand = `${fullCommand} --disableImmutableInstalls=true`;
+  }
+
   const commandTokens = fullCommand.split(" ");
   const [command, ...args] = commandTokens;
 
-  await spawn(command, args, {
+  await spawn(command, [...args, `--description="${description}"`], {
     cwd: process.cwd(),
     env: registry
       ? {

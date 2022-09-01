@@ -4,13 +4,19 @@
   "sourceRoot": "e2e/nx-plugin-e2e/tests",
   "targets": {
     "e2e": {
-      "dependsOn": [{ "target": "build", "projects": "dependencies" }],
+      "dependsOn": [{ "target": "publish:local", "projects": "dependencies" }],
       "executor": "@nrwl/jest:jest",
       "options": {
         "jestConfig": "e2e/nx-plugin-e2e/jest.config.ts",
         "passWithNoTests": true
       },
       "outputs": [
+        "tmp/nx-e2e/git",
+        "tmp/nx-e2e/git-hooks",
+        "tmp/nx-e2e/github",
+        "tmp/nx-e2e/linting",
+        "tmp/nx-e2e/testing",
+        "tmp/nx-e2e/tsconfig",
         "reports/coverage/e2e/nx-plugin-e2e",
         "reports/junit/nx-plugin-e2e.xml"
       ]

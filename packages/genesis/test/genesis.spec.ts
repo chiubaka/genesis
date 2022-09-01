@@ -24,7 +24,9 @@ describe("genesis", () => {
       "genesis",
       "-r",
       "http://localhost:4873",
-      '--description="Test"',
+      "--disable-immutable-installs",
+      "-d",
+      "Test description",
       "--skip-github",
     ]);
 
@@ -39,8 +41,10 @@ describe("genesis", () => {
         "--directory=genesis",
         "--workspaceName=genesis",
         "--workspaceScope=chiubaka",
-        '--description="Test"',
         "--skipGitHub",
+        "--registry=http://localhost:4873",
+        "--disableImmutableInstalls=true",
+        '--description="Test description"',
       ],
       {
         cwd: process.cwd(),

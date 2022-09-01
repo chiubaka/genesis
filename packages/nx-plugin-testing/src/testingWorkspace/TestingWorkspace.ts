@@ -68,7 +68,7 @@ export class TestingWorkspace extends AbstractTestingWorkspace {
   public runPackageManagerInstall() {
     const packageManager = detectPackageManager(this.rootPath);
     if (packageManager !== "npm") {
-      rmSync(this.path("package-lock.json"));
+      rmSync(this.path("package-lock.json"), { force: true });
     }
 
     const pmc = this.getPackageManagerCommand();

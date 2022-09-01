@@ -1,0 +1,25 @@
+import crypto from "node:crypto";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+
+export const hello = "Hello, world!";
+
+export function writeHelloWorld() {
+  const randomSuffix = crypto.randomBytes(48).toString("base64url");
+  const fileName = `hello-${randomSuffix}.txt`;
+
+  const tmpDir = os.tmpdir();
+  const filePath = path.join(tmpDir, fileName);
+
+  // eslint-disable-next-line security/detect-non-literal-fs-filename
+  fs.writeFileSync(filePath, hello);
+
+  return filePath;
+}
+
+export class Greeter {
+  public hello() {
+    return hello;
+  }
+}

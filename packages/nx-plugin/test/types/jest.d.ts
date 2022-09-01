@@ -27,6 +27,15 @@ declare namespace jest {
       options?: FileWithContentMatcherOptions,
     ) => CustomMatcherResult;
     toHaveFunctions: (functionNames: string[]) => CustomMatcherResult;
+    toHavePeerDependencies: (
+      expectedPeerDependencies: Record<string, string | undefined>,
+      packageJsonPath?: string,
+    ) => CustomMatcherResult;
+    toHavePeerDependency: (
+      dependencyName: string,
+      dependencyVersion?: string,
+      packageJsonPath?: string,
+    ) => CustomMatcherResult;
     toHaveProperties: (propertyNames: string[]) => CustomMatcherResult;
   }
 }

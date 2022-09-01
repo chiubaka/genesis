@@ -5,7 +5,7 @@ expect.extend(matchers);
 
 jest.mock("octokit");
 
-jest.mock("../../src/utils/getLatestPackageVersion", () => {
+jest.mock("../../src/utils/dependencies/getLatestPackageVersion", () => {
   return {
     getLatestPackageVersion,
   };
