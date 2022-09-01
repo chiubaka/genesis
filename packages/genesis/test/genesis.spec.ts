@@ -24,6 +24,7 @@ describe("genesis", () => {
       "genesis",
       "-r",
       "http://localhost:4873",
+      "--disable-immutable-installs",
       "-d",
       "Test description",
       "--skip-github",
@@ -42,6 +43,7 @@ describe("genesis", () => {
         "--workspaceScope=chiubaka",
         "--skipGitHub",
         "--registry=http://localhost:4873",
+        "--disableImmutableInstalls=true",
         '--description="Test description"',
       ],
       {

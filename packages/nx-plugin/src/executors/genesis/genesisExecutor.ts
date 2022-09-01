@@ -15,7 +15,7 @@ export async function genesisExecutor(options: GenesisExecutorSchema) {
   const tmpDir = path.join(os.tmpdir(), uniq(workspaceName));
   ensureDirSync(tmpDir);
 
-  let command = `genesis --workspace-scope=${workspaceScope} --workspace-name=${workspaceName} --description="${description}"`;
+  let command = `genesis --workspace-scope=${workspaceScope} --workspace-name=${workspaceName} --description="${description} --disable-immutable-installs"`;
 
   if (skipGitHub) {
     command = `${command} --skip-github`;

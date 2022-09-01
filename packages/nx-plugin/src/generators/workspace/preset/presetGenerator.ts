@@ -88,7 +88,7 @@ function modifyWorkspaceLayout(tree: Tree) {
 }
 
 function reinstallPackagesWithYarn(tree: Tree, options: PresetGeneratorSchema) {
-  const { skipInstall, registry } = options;
+  const { disableImmutableInstalls, skipInstall, registry } = options;
 
   if (skipInstall) {
     return noOpTask;
@@ -110,6 +110,12 @@ function reinstallPackagesWithYarn(tree: Tree, options: PresetGeneratorSchema) {
     await exec(`yarn set version berry`, {
       cwd: tree.root,
     });
+
+    if (disableImmutableInstalls) {
+      await exec(`yarn set enableImmutableInstalls false`, {
+        cwd: tree.root,
+      });
+    }
 
     if (registry) {
       logger.info(`Using registry ${registry}`);

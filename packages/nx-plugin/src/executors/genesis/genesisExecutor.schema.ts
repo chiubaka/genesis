@@ -4,5 +4,6 @@ export interface GenesisExecutorSchema {
   description: string;
   skipGitHub: boolean;
   registry?: string;
+  disableImmutableInstalls: boolean;
   destination?: string;
 }

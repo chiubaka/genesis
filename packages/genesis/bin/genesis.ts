@@ -9,6 +9,7 @@ interface GenesisOptions {
   workspaceScope: string;
   workspaceName: string;
   description: string;
+  disableImmutableInstalls?: boolean;
   registry?: string;
   skipGithub?: boolean;
 }
@@ -18,6 +19,7 @@ export async function genesis(argv = process.argv) {
     .requiredOption("-s, --workspace-scope <workspaceScope>")
     .requiredOption("-n, --workspace-name <workspaceName>")
     .requiredOption("-d, --description <description>")
+    .option("--disable-immutable-installs")
     .option("-r, --registry <registry>")
     .option("--skip-github");
 
@@ -29,6 +31,7 @@ export async function genesis(argv = process.argv) {
     workspaceScope,
     workspaceName,
     description,
+    disableImmutableInstalls,
     registry,
     skipGithub: skipGitHub,
   } = opts;
@@ -43,6 +46,10 @@ export async function genesis(argv = process.argv) {
 
   if (registry) {
     fullCommand = `${fullCommand} --registry=${registry}`;
+  }
+
+  if (disableImmutableInstalls) {
+    fullCommand = `${fullCommand} --disableImmutableInstalls=true`;
   }
 
   const commandTokens = fullCommand.split(" ");

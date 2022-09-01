@@ -28,6 +28,11 @@
       "type": "boolean"
     },
 
+    "disableImmutableInstalls": {
+      "description": "Whether or not to allow mutations to yarn.lock. Useful for E2E testing, especially on CI.",
+      "type": "boolean",
+      "default": false
+    },
     "registry": {
       "description": "URL for registry to use in generated repository",
       "type": "string"

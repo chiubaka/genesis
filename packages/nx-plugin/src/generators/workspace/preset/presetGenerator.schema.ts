@@ -7,5 +7,6 @@ export interface PresetGeneratorSchema {
   skipGitHub?: boolean;
   skipInstall?: boolean;
 
+  disableImmutableInstalls: boolean;
   registry?: string;
 }

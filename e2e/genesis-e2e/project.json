@@ -47,7 +47,8 @@
         "workspaceScope": "chiubaka",
         "workspaceName": "genesis-lib-e2e",
         "skipGitHub": true,
-        "registry": "http://localhost:4873"
+        "registry": "http://localhost:4873",
+        "disableImmutableInstalls": true
       },
       "outputs": ["tmp/nx-e2e/genesis-lib-e2e"]
     },
