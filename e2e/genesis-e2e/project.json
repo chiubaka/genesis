@@ -34,15 +34,14 @@
         "workspaceScope": "chiubaka",
         "workspaceName": "genesis-e2e",
         "skipGitHub": true,
-        "registry": "http://localhost:4873"
+        "registry": "http://localhost:4873",
+        "disableImmutableInstalls": true
       },
       "outputs": ["tmp/nx-e2e/genesis-e2e"]
     },
     "setup-lib-e2e": {
       "executor": "@chiubaka/nx-plugin:genesis",
-      "dependsOn": [
-        { "target": "install-local-genesis-cli", "projects": "self" }
-      ],
+      "dependsOn": [{ "target": "setup-e2e", "projects": "self" }],
       "options": {
         "workspaceScope": "chiubaka",
         "workspaceName": "genesis-lib-e2e",

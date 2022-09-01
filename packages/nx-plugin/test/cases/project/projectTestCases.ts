@@ -82,23 +82,5 @@ export const projectTestCases = (getProject: () => Project) => {
     it("sets the correct version for the package", () => {
       expect(packageJson.version).toBe("0.0.1");
     });
-
-    describe("devDependencies", () => {
-      it("lists jest", () => {
-        expect(tree).toHaveDevDependency(
-          "jest",
-          "^27.5.1",
-          project.path("package.json"),
-        );
-      });
-
-      it("lists jest-junit", () => {
-        expect(tree).toHaveDevDependency(
-          "jest-junit",
-          undefined,
-          project.path("package.json"),
-        );
-      });
-    });
   });
 };

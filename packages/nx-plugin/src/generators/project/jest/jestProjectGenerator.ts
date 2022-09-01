@@ -13,8 +13,8 @@ export async function jestProjectGenerator(
 
   const installDependenciesTask = await addDependenciesToPackageJson(
     tree,
-    {},
-    { jest: "^27.5.1", "jest-junit": undefined },
+    [],
+    ["jest", "jest-junit"],
     project.path("package.json"),
   );
 

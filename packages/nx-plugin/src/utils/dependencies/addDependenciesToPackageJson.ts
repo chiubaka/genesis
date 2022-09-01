@@ -3,6 +3,7 @@ import {
   Tree,
 } from "@nrwl/devkit";
 
+import { compatiblePackageVersions } from "./compatiblePackageVersions";
 import { getLatestPackageVersion } from "./getLatestPackageVersion";
 
 type Dependencies = string[] | DependenciesWithVersions;
@@ -61,6 +62,13 @@ const isDependencyArray = (
 };
 
 const calculateDependencyVersion = async (dependencyName: string) => {
+  // eslint-disable-next-line security/detect-object-injection
+  const compatibleVersion = compatiblePackageVersions[dependencyName];
+
+  if (compatibleVersion) {
+    return compatibleVersion;
+  }
+
   const latestVersion = await getLatestPackageVersion(dependencyName);
 
   return `^${latestVersion}`;

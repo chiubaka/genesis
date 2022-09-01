@@ -112,7 +112,7 @@ function reinstallPackagesWithYarn(tree: Tree, options: PresetGeneratorSchema) {
     });
 
     if (disableImmutableInstalls) {
-      await exec(`yarn set enableImmutableInstalls false`, {
+      await exec(`yarn config set enableImmutableInstalls false`, {
         cwd: tree.root,
       });
     }

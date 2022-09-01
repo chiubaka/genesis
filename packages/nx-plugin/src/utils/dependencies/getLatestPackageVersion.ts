@@ -1,4 +1,4 @@
-import { exec } from "./exec";
+import { exec } from "../exec";
 
 export const getLatestPackageVersion = async (
   packageName: string,

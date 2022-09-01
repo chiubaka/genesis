@@ -1,6 +1,7 @@
 import { Tree } from "@nrwl/devkit";
 import { createTreeWithEmptyWorkspace } from "@nrwl/devkit/testing";
 
+import { compatiblePackageVersions } from "../../../../src";
 import { jestGenerator } from "../../../../src/generators";
 import { DEFAULT_MOCK_INSTALLED_PACKAGE_VERSION } from "../../../mocks";
 
@@ -15,7 +16,10 @@ describe("jestGenerator", () => {
   describe("package.json", () => {
     describe("adds the appropriate dependencies", () => {
       it("adds jest as a devDependency", () => {
-        expect(tree).toHaveDevDependency("jest", "^27.5.1");
+        expect(tree).toHaveDevDependency(
+          "jest",
+          compatiblePackageVersions["jest"],
+        );
       });
 
       it("adds @nrwl/jest as a devDependency", () => {

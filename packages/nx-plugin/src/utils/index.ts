@@ -1,4 +1,4 @@
-export * from "./addDependenciesToPackageJson";
+export * from "./dependencies";
 export * from "./exec";
 export * from "./git";
 export * from "./github";

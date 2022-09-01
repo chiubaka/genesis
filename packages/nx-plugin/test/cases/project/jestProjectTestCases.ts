@@ -1,6 +1,6 @@
 import { Tree } from "@nrwl/devkit";
 
-import { Project } from "../../../src";
+import { compatiblePackageVersions, Project } from "../../../src";
 
 export const jestProjectTestCases = (
   getProject: () => Project,
@@ -17,6 +17,26 @@ export const jestProjectTestCases = (
     tree = project.getTree();
     projectName = project.getName();
     jestConfigPath = project.jestConfigPath();
+  });
+
+  describe("package.json", () => {
+    describe("devDependencies", () => {
+      it("lists jest", () => {
+        expect(tree).toHaveDevDependency(
+          "jest",
+          compatiblePackageVersions["jest"],
+          project.path("package.json"),
+        );
+      });
+
+      it("lists jest-junit", () => {
+        expect(tree).toHaveDevDependency(
+          "jest-junit",
+          undefined,
+          project.path("package.json"),
+        );
+      });
+    });
   });
 
   describe("jest.config.ts", () => {

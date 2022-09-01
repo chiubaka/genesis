@@ -20,8 +20,8 @@ export async function jestGenerator(tree: Tree) {
 async function installDependencies(tree: Tree) {
   const installTask = await addDependenciesToPackageJson(
     tree,
-    {},
-    { "@nrwl/jest": undefined, jest: "^27.5.1" },
+    [],
+    ["@nrwl/jest", "jest"],
   );
 
   return async () => {
