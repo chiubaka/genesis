@@ -4,3 +4,4 @@ export * from "./nodeProjectTestCases";
 export * from "./projectJsonTestCases";
 export * from "./readmeProjectTestCases";
 export * from "./tsconfigTestCases";
+export * from "./tsProjectTestCases";

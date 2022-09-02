@@ -9,12 +9,12 @@ import { PackageJson } from "nx/src/utils/package-json";
 
 import { noOpTask, Project } from "../../../utils";
 import { copyNodeLibSample, nodeProjectGenerator } from "../../project";
+import { LibGeneratorSchema } from "../libGenerator.schema";
 import { nodeLibE2eGenerator } from "./e2e";
-import { NodeLibGeneratorSchema } from "./nodeLibGenerator.schema";
 
 export async function nodeLibGenerator(
   tree: Tree,
-  options: NodeLibGeneratorSchema,
+  options: LibGeneratorSchema,
 ) {
   const { name } = options;
   const project = new Project(tree, name, "library");
@@ -70,7 +70,7 @@ function updateProjectJson(project: Project) {
   );
 }
 
-function generateE2eProject(project: Project, options: NodeLibGeneratorSchema) {
+function generateE2eProject(project: Project, options: LibGeneratorSchema) {
   const tree = project.getTree();
   const projectName = project.getName();
   const { skipE2e } = options;

@@ -50,7 +50,7 @@ describe("nodeLibGenerator", () => {
 
   beforeAll(async () => {
     await nodeLibGenerator(tree, {
-      name: "node-lib",
+      name: projectName,
       skipE2e: false,
     });
   });
