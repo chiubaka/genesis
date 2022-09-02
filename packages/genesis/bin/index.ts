@@ -2,4 +2,4 @@
 
 import { genesis } from "./genesis";
 
-void genesis();
+genesis();

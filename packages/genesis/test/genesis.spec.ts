@@ -1,21 +1,14 @@
-const mockSpawn = jest.fn();
-
 jest.mock("node:child_process");
-jest.mock("node:util", () => {
-  return {
-    promisify: () => {
-      return mockSpawn;
-    },
-  };
-});
+
+import { spawn } from "node:child_process";
 
 import { genesis } from "../bin/genesis";
 
 jest.setTimeout(20_000);
 
 describe("genesis", () => {
-  it("passes the correct variables down to `create-nx-workspace`", async () => {
-    await genesis([
+  it("passes the correct variables down to `create-nx-workspace`", () => {
+    genesis([
       "node",
       "genesis",
       "-s",
@@ -30,8 +23,8 @@ describe("genesis", () => {
       "--skip-github",
     ]);
 
-    expect(mockSpawn).toHaveBeenCalledTimes(1);
-    expect(mockSpawn).toHaveBeenCalledWith(
+    expect(spawn).toHaveBeenCalledTimes(1);
+    expect(spawn).toHaveBeenCalledWith(
       "npx",
       [
         "create-nx-workspace",
@@ -51,7 +44,9 @@ describe("genesis", () => {
         env: {
           ...process.env,
           npm_config_registry: "http://localhost:4873",
+          NX_VERBOSE_LOGGING: "true",
         },
+        stdio: "inherit",
       },
     );
   });
