@@ -2,11 +2,11 @@ import { generateFiles, Tree } from "@nrwl/devkit";
 import path from "node:path";
 
 import { Project } from "../../../utils";
-import { ProjectGeneratorSchema } from "../project/projectGenerator.schema";
+import { ProjectGeneratorBaseSchema } from "../projectGeneratorBase.schema";
 
 export function eslintProjectGenerator(
   tree: Tree,
-  options: ProjectGeneratorSchema,
+  options: ProjectGeneratorBaseSchema,
 ) {
   const { projectName, projectType } = options;
   const project = new Project(tree, projectName, projectType);

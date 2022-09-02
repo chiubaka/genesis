@@ -1,9 +1,9 @@
 import { CompilerOptions } from "typescript";
 
-import { ProjectGeneratorSchema } from "../project/projectGenerator.schema";
+import { ProjectGeneratorBaseSchema } from "../projectGeneratorBase.schema";
 
 export interface TsConfigProjectGeneratorSchema
-  extends ProjectGeneratorSchema,
+  extends ProjectGeneratorBaseSchema,
     TsConfigProjectGeneratorOwnOptions {}
 
 export interface TsConfigProjectGeneratorOwnOptions {

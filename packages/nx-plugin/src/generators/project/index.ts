@@ -3,6 +3,7 @@ export * from "./jest";
 export * from "./node";
 export * from "./packageJson";
 export * from "./project";
+export * from "./projectGeneratorBase.schema";
 export * from "./projectJson";
 export * from "./readme";
 export * from "./samples";
