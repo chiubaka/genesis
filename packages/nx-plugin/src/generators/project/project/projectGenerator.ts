@@ -35,6 +35,7 @@ export async function projectGenerator(
   copyPackageJsonTemplate(project);
   standardizePackageJson(project);
   standardizeProjectJson(project);
+  pruneSrcDirectories(project);
 
   tsconfigProjectGenerator(tree, {
     ...options,
@@ -82,6 +83,17 @@ function relocateProject(project: Project) {
     },
   );
   updateProjectJsonReferences(project, originalProjectDir);
+}
+
+function pruneSrcDirectories(project: Project) {
+  const tree = project.getTree();
+  const projectType = project.getType();
+
+  if (projectType === "library") {
+    tree.delete(project.srcPath("lib"));
+  } else {
+    tree.delete(project.srcPath("app"));
+  }
 }
 
 function updateYarnWorkspace(project: Project) {

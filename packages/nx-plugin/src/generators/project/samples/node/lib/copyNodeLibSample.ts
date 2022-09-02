@@ -7,7 +7,6 @@ export function copyNodeLibSample(project: Project) {
   const tree = project.getTree();
 
   tree.delete(project.path(".babelrc"));
-  tree.delete(project.srcPath("lib"));
 
   generateFiles(tree, path.join(__dirname, "./files"), project.path(), {
     template: "",

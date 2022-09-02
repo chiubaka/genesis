@@ -6,13 +6,7 @@ import {
   Tree,
 } from "@nrwl/devkit";
 
-import {
-  nodeLibGenerator,
-  Project,
-  readYaml,
-  RunCommandsOptions,
-  YarnConfig,
-} from "../../../../src";
+import { nodeLibGenerator, Project, RunCommandsOptions } from "../../../../src";
 import { libTestCases, nodeProjectTestCases } from "../../../cases";
 
 describe("nodeLibGenerator", () => {
@@ -95,31 +89,6 @@ describe("nodeLibGenerator", () => {
           `file:../../${project.distPath()}`,
           e2eProject.path("package.json"),
         );
-      });
-    });
-
-    it("generates a .yarnrc.yml file", () => {
-      // eslint-disable-next-line security/detect-non-literal-fs-filename
-      expect(tree.exists(e2eProject.path(".yarnrc.yml"))).toBe(true);
-    });
-
-    describe(".yarnrc.yml", () => {
-      let yarnConfig: YarnConfig;
-
-      beforeAll(() => {
-        yarnConfig = readYaml<YarnConfig>(tree, e2eProject.path(".yarnrc.yml"));
-      });
-
-      it("uses the node-modules nodeLinker", () => {
-        expect(yarnConfig.nodeLinker).toBe("node-modules");
-      });
-
-      it("uses the local registry to install packages", () => {
-        expect(yarnConfig.npmRegistryServer).toBe("http://localhost:4873");
-      });
-
-      it("whitelists localhost for http", () => {
-        expect(yarnConfig.unsafeHttpWhitelist).toEqual(["localhost"]);
       });
     });
 

@@ -2,21 +2,30 @@ import { createTreeWithEmptyWorkspace } from "@chiubaka/nx-plugin-testing";
 import { Tree } from "@nrwl/devkit";
 
 import { Project, tsLibGenerator } from "../../../../src";
-import { libTestCases, tsProjectTestCases } from "../../../cases";
+import {
+  libTestCases,
+  nodeProjectTestCases,
+  tsProjectTestCases,
+} from "../../../cases";
 
 describe("tsLibGenerator", () => {
   let tree: Tree;
   let project: Project;
+  let e2eProject: Project;
 
   let projectName: string;
 
   const getProject = () => {
     return project;
   };
+  const getE2eProject = () => {
+    return e2eProject;
+  };
 
   beforeAll(() => {
     tree = createTreeWithEmptyWorkspace();
     project = new Project(tree, "ts-lib", "library");
+    e2eProject = new Project(tree, "ts-lib-e2e", "e2e");
 
     projectName = project.getName();
   });
@@ -49,6 +58,15 @@ describe("tsLibGenerator", () => {
     it("generates a sample unit test", () => {
       // eslint-disable-next-line security/detect-non-literal-fs-filename
       expect(tree.exists(project.testPath("unit/hello.spec.ts"))).toBe(true);
+    });
+  });
+
+  describe("E2E project", () => {
+    nodeProjectTestCases(getE2eProject, {
+      projectJson: {
+        targetNames: ["lint", "build", "e2e"],
+      },
+      repoName: "ts-lib",
     });
   });
 });
