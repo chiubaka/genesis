@@ -1,13 +1,7 @@
 import { readJson, Tree } from "@nrwl/devkit";
 
 import { PackageJson, Project } from "../../../src";
-import { ProjectJsonTestCasesOptions } from "./projectJsonTestCases";
-import { projectTestCases } from "./projectTestCases";
-
-interface NodeProjectTestCasesOptions {
-  projectJson: ProjectJsonTestCasesOptions;
-  repoName?: string;
-}
+import { projectTestCases, ProjectTestCasesOptions } from "./projectTestCases";
 
 /**
  * Configures common test cases that should be included for all node project generators
@@ -15,7 +9,7 @@ interface NodeProjectTestCasesOptions {
  */
 export const nodeProjectTestCases = (
   getProject: () => Project,
-  options: NodeProjectTestCasesOptions,
+  options: ProjectTestCasesOptions,
 ) => {
   let project: Project;
   let tree: Tree;

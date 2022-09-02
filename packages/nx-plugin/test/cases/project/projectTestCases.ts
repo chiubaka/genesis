@@ -22,10 +22,10 @@ import {
   TsConfigTestCasesOptions,
 } from "./tsconfigTestCases";
 
-interface ProjectTestCasesOptions {
+export interface ProjectTestCasesOptions {
   repoName?: string;
 
-  jest: JestTestCasesOptions;
+  jest?: JestTestCasesOptions;
   projectJson: ProjectJsonTestCasesOptions;
   tsconfig?: TsConfigTestCasesOptions;
 }

@@ -1,15 +1,9 @@
 import { Project } from "../../../src";
-import { ProjectJsonTestCasesOptions } from "./projectJsonTestCases";
-import { projectTestCases } from "./projectTestCases";
-
-interface TsProjectTestCasesOptions {
-  projectJson: ProjectJsonTestCasesOptions;
-  repoName?: string;
-}
+import { projectTestCases, ProjectTestCasesOptions } from "./projectTestCases";
 
 export const tsProjectTestCases = (
   getProject: () => Project,
-  options: TsProjectTestCasesOptions,
+  options: ProjectTestCasesOptions,
 ) => {
   projectTestCases(getProject, {
     ...options,
