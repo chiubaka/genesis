@@ -1,24 +1,12 @@
 import { detectPackageManager, getPackageManagerCommand } from "@nrwl/devkit";
-import {
-  generateFiles,
-  getWorkspaceLayout,
-  moveFilesToNewDirectory,
-  Tree,
-  updateJson,
-} from "@nrwl/devkit";
+import { Tree, updateJson } from "@nrwl/devkit";
 import { applicationGenerator, libraryGenerator } from "@nrwl/node";
-import path from "node:path";
-import { RawProjectsConfigurations } from "nx/src/config/workspace-json-project-json";
 
 import { PackageJson } from "../../../types";
 import { exec, lintFix, noOpTask, Project } from "../../../utils";
 import { eslintProjectGenerator } from "../eslint";
 import { jestProjectGenerator } from "../jest";
-import { standardizePackageJson } from "../packageJson";
-import {
-  standardizeProjectJson,
-  updateProjectJsonReferences,
-} from "../projectJson";
+import { projectGenerator } from "../projectGenerator";
 import { readmeProjectGenerator } from "../readme";
 import {
   TsConfigGeneratorPresets,
@@ -34,11 +22,7 @@ export async function nodeProjectGenerator(
   const project = Project.createFromOptions(tree, options);
 
   const baseGeneratorTask = await baseGenerator(project, options);
-
-  relocateProject(project);
-  copyPackageJsonTemplate(project);
-  standardizePackageJson(project);
-  standardizeProjectJson(project);
+  projectGenerator(tree, options);
   enforceNodeVersion(project);
 
   tsconfigProjectGenerator(tree, {
@@ -82,46 +66,6 @@ function baseGenerator(project: Project, options: NodeProjectGeneratorSchema) {
     standaloneConfig: true,
     strict: true,
     tags,
-  });
-}
-
-function relocateProject(project: Project) {
-  const tree = project.getTree();
-  const { projectName, projectType } = project.getMeta();
-
-  const { appsDir, libsDir } = getWorkspaceLayout(tree);
-  const originalBaseDir = projectType === "library" ? libsDir : appsDir;
-  const originalProjectDir = path.join(originalBaseDir, projectName);
-
-  const newProjectDir = project.relativePath();
-
-  if (originalProjectDir === newProjectDir) {
-    return;
-  }
-
-  moveFilesToNewDirectory(tree, originalProjectDir, newProjectDir);
-
-  updateJson(
-    tree,
-    "workspace.json",
-    (workspaceJson: RawProjectsConfigurations) => {
-      // eslint-disable-next-line security/detect-object-injection
-      workspaceJson.projects[projectName] = project.path();
-      return workspaceJson;
-    },
-  );
-  updateProjectJsonReferences(project, originalProjectDir);
-}
-
-function copyPackageJsonTemplate(project: Project) {
-  const tree = project.getTree();
-  const projectScope = project.getScope();
-  const projectName = project.getName();
-
-  generateFiles(tree, path.join(__dirname, "./files"), project.path(), {
-    projectScope,
-    projectName,
-    template: "",
   });
 }
 
