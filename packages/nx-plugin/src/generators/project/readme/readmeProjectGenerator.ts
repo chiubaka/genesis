@@ -2,7 +2,7 @@ import { generateFiles, Tree } from "@nrwl/devkit";
 import path from "node:path";
 
 import { Project } from "../../../utils";
-import { ProjectGeneratorBaseSchema } from "../projectGeneratorBase.schema";
+import { ReadmeProjectGeneratorSchema } from "./readmeProjectGenerator.schema";
 
 interface CodecovTemplateValues {
   token: string;
@@ -12,7 +12,7 @@ interface CodecovTemplateValues {
 
 export function readmeProjectGenerator(
   tree: Tree,
-  options: ProjectGeneratorBaseSchema,
+  options: ReadmeProjectGeneratorSchema,
 ) {
   const { projectName, projectType, rootProjectGeneratorName } = options;
 
