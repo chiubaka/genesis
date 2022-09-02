@@ -5,7 +5,6 @@ import {
   TargetConfiguration,
   Tree,
 } from "@nrwl/devkit";
-import { PackageJson } from "nx/src/utils/package-json";
 
 import {
   nodeLibGenerator,
@@ -14,7 +13,7 @@ import {
   RunCommandsOptions,
   YarnConfig,
 } from "../../../../src";
-import { nodeProjectTestCases } from "../../../cases";
+import { libTestCases, nodeProjectTestCases } from "../../../cases";
 
 describe("nodeLibGenerator", () => {
   let tree: Tree;
@@ -42,6 +41,7 @@ describe("nodeLibGenerator", () => {
     importPath = `@${projectScope}/${projectName}`;
   });
 
+  libTestCases(getProject);
   nodeProjectTestCases(getProject, {
     projectJson: {
       targetNames: ["lint", "build", "test"],
@@ -63,24 +63,6 @@ describe("nodeLibGenerator", () => {
   it("generates a sample file in pascal case", () => {
     // eslint-disable-next-line security/detect-non-literal-fs-filename
     expect(tree.exists(project.srcPath("hello.ts"))).toBe(true);
-  });
-
-  describe("package.json", () => {
-    let packageJson: PackageJson;
-
-    beforeAll(() => {
-      packageJson = readJson<PackageJson>(tree, project.path("package.json"));
-    });
-
-    describe("scripts", () => {
-      it("generates a deploy script", () => {
-        expect(packageJson.scripts?.deploy).toBeTruthy();
-      });
-
-      it("generates a deploy:ci script", () => {
-        expect(packageJson.scripts?.["deploy:ci"]).toBeTruthy();
-      });
-    });
   });
 
   describe("E2E project", () => {
