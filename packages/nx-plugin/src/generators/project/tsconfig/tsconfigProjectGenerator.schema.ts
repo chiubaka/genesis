@@ -1,8 +1,12 @@
 import { CompilerOptions } from "typescript";
 
-import { ProjectGeneratorSchema } from "../projectGenerator.schema";
+import { ProjectGeneratorSchema } from "../project/projectGenerator.schema";
 
-export interface TsConfigProjectGeneratorSchema extends ProjectGeneratorSchema {
+export interface TsConfigProjectGeneratorSchema
+  extends ProjectGeneratorSchema,
+    TsConfigProjectGeneratorOwnOptions {}
+
+export interface TsConfigProjectGeneratorOwnOptions {
   appLibTypes?: CompilerOptions["types"];
   lib?: CompilerOptions["lib"];
   module?: string;

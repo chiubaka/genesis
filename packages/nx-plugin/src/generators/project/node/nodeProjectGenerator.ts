@@ -1,51 +1,31 @@
-import { detectPackageManager, getPackageManagerCommand } from "@nrwl/devkit";
 import { Tree, updateJson } from "@nrwl/devkit";
 import { applicationGenerator, libraryGenerator } from "@nrwl/node";
 
 import { PackageJson } from "../../../types";
-import { exec, lintFix, noOpTask, Project } from "../../../utils";
-import { eslintProjectGenerator } from "../eslint";
-import { jestProjectGenerator } from "../jest";
-import { projectGenerator } from "../projectGenerator";
-import { readmeProjectGenerator } from "../readme";
-import {
-  TsConfigGeneratorPresets,
-  tsconfigProjectGenerator,
-} from "../tsconfig";
+import { Project } from "../../../utils";
+import { projectGenerator } from "../project";
+import { TsConfigGeneratorPresets } from "../tsconfig";
 import { NodeProjectGeneratorSchema } from "./nodeProjectGenerator.schema";
 
 export async function nodeProjectGenerator(
   tree: Tree,
   options: NodeProjectGeneratorSchema,
 ) {
-  const { rootProjectGeneratorName } = options;
   const project = Project.createFromOptions(tree, options);
 
   const baseGeneratorTask = await baseGenerator(project, options);
-  projectGenerator(tree, options);
+  const projectGeneratorTask = await projectGenerator(tree, {
+    ...options,
+    jest: {
+      testEnvironment: "node",
+    },
+    tsconfig: TsConfigGeneratorPresets.node18,
+  });
   enforceNodeVersion(project);
-
-  tsconfigProjectGenerator(tree, {
-    ...project.getMeta(),
-    ...TsConfigGeneratorPresets.node18,
-  });
-  const jestTask = await jestProjectGenerator(tree, {
-    ...project.getMeta(),
-    testEnvironment: "node",
-  });
-  eslintProjectGenerator(tree, project.getMeta());
-  readmeProjectGenerator(tree, {
-    ...project.getMeta(),
-    rootProjectGeneratorName,
-  });
-
-  const updateYarnWorkspaceTask = updateYarnWorkspace(project);
 
   return async () => {
     await baseGeneratorTask();
-    await jestTask();
-    await updateYarnWorkspaceTask();
-    await lintFix(tree.root, project.getName());
+    await projectGeneratorTask();
   };
 }
 
@@ -94,21 +74,4 @@ function enforceNodeVersion(project: Project) {
 
     return packageJson;
   });
-}
-
-function updateYarnWorkspace(project: Project) {
-  const tree = project.getTree();
-  const packageManager = detectPackageManager(tree.root);
-
-  if (packageManager !== "yarn") {
-    return noOpTask;
-  }
-
-  const pmc = getPackageManagerCommand(packageManager);
-
-  return async () => {
-    await exec(pmc.install, {
-      cwd: tree.root,
-    });
-  };
 }

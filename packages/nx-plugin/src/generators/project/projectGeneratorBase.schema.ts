@@ -1,6 +1,7 @@
 import { ProjectType } from "../../utils";
 
-export interface ProjectGeneratorSchema {
+export interface ProjectGeneratorBaseSchema {
   projectName: string;
   projectType: ProjectType;
+  rootProjectGeneratorName: string;
 }

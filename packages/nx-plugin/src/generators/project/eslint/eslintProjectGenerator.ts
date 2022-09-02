@@ -2,7 +2,7 @@ import { generateFiles, Tree } from "@nrwl/devkit";
 import path from "node:path";
 
 import { Project } from "../../../utils";
-import { ProjectGeneratorSchema } from "../projectGenerator.schema";
+import { ProjectGeneratorSchema } from "../project/projectGenerator.schema";
 
 export function eslintProjectGenerator(
   tree: Tree,
