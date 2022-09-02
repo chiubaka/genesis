@@ -1,14 +1,21 @@
-import { ProjectsConfigurations, readJson, Tree } from "@nrwl/devkit";
-import { PackageJson } from "nx/src/utils/package-json";
+import {
+  ProjectsConfigurations,
+  readJson,
+  Tree,
+  updateJson,
+} from "@nrwl/devkit";
 
-import { Project } from "../../../src";
+import { PackageJson, Project } from "../../../src";
 import { TsConfig } from "../../types/tsconfig";
 
 /**
  * Configures common test cases that should be included for all project generators
  * @param projectName name of the project being tested
  */
-export const projectTestCases = (getProject: () => Project) => {
+export const projectTestCases = (
+  getProject: () => Project,
+  repoName?: string,
+) => {
   let project: Project;
   let tree: Tree;
   let projectScope: string;
@@ -20,6 +27,33 @@ export const projectTestCases = (getProject: () => Project) => {
 
     projectScope = project.getScope();
     projectName = project.getName();
+
+    repoName = repoName || projectName;
+
+    updateJson<PackageJson>(
+      tree,
+      "package.json",
+      (packageJson: PackageJson) => {
+        packageJson.repository = {
+          type: "git",
+          url: `git+ssh://git@github.com/${projectScope}/${
+            repoName as string
+          }.git`,
+        };
+
+        packageJson.bugs = {
+          url: `https://github.com/${projectScope}/${
+            repoName as string
+          }/issues`,
+        };
+
+        packageJson.homepage = `https://github.com/${projectScope}/${
+          repoName as string
+        }#readme`;
+
+        return packageJson;
+      },
+    );
   });
 
   it("generates a directory for the new project", () => {
@@ -75,12 +109,40 @@ export const projectTestCases = (getProject: () => Project) => {
       packageJson = readJson(tree, project.path("package.json"));
     });
 
-    it("sets the correct name for the package", () => {
+    it("sets the correct name", () => {
       expect(packageJson.name).toBe(project.getImportPath());
     });
 
-    it("sets the correct version for the package", () => {
+    it("sets the correct version", () => {
       expect(packageJson.version).toBe("0.0.1");
+    });
+
+    it("sets the LICENSE", () => {
+      expect(packageJson.license).toBe("UNLICENSED");
+    });
+
+    it("sets the repository section", () => {
+      expect(packageJson.repository).toEqual({
+        type: "git",
+        url: `git+ssh://git@github.com/${projectScope}/${
+          repoName as string
+        }.git`,
+        directory: project.path(),
+      });
+    });
+
+    it("sets the bugs section", () => {
+      expect(packageJson.bugs).toEqual({
+        url: `https://github.com/${projectScope}/${repoName as string}/issues`,
+      });
+    });
+
+    it("sets the homepage", () => {
+      expect(packageJson.homepage).toEqual(
+        `https://github.com/${projectScope}/${
+          repoName as string
+        }/blob/master/${project.path("README.md")}`,
+      );
     });
   });
 };

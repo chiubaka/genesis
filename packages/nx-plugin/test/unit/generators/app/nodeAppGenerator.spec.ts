@@ -21,27 +21,21 @@ describe("nodeAppGenerator", () => {
     return project;
   };
 
-  beforeAll(async () => {
+  beforeAll(() => {
     tree = createTreeWithEmptyWorkspace();
     project = new Project(tree, "node-app", "application");
-
-    const projectScope = project.getScope();
-    const projectName = project.getName();
-
-    tree.write(
-      "README.md",
-      `[![codecov](https://codecov.io/gh/${projectScope}/${projectName}/branch/master/graph/badge.svg?token=foobar)](https://codecov.io/gh/${projectScope}/${projectName})`,
-    );
-
-    await nodeAppGenerator(tree, {
-      name: "node-app",
-    });
   });
 
   nodeProjectTestCases(getProject, {
     projectJson: {
       targetNames: ["lint", "build", "test", "serve"],
     },
+  });
+
+  beforeAll(async () => {
+    await nodeAppGenerator(tree, {
+      name: "node-app",
+    });
   });
 
   it("generates a main.ts file", () => {
