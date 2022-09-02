@@ -1,8 +1,8 @@
-import { Tree } from "@nrwl/devkit";
+import { Tree, updateJson } from "@nrwl/devkit";
 
 import { generatorLogger as logger } from "../../../../logger";
-import { exec, github } from "../../../../utils";
-import { noOpTask } from "../../../../utils/tasks/index";
+import { PackageJson } from "../../../../types";
+import { exec, github, noOpTask } from "../../../../utils";
 import { gitHubBranchProtectionGenerator } from "./branchProtection";
 import { GitHubGeneratorSchema } from "./gitHubGenerator.schema";
 import { gitHubLabelsGenerator } from "./labels";
@@ -18,6 +18,7 @@ export function gitHubGenerator(tree: Tree, options: GitHubGeneratorSchema) {
 
   const createOrUpdateRepoTask = createOrUpdateRepo(options);
   const addGitRemoteTask = addGitRemote(tree, options);
+  updatePackageJson(tree, options);
   const pushToRemoteMasterTask = pushToRemoteMaster(tree, options);
   const protectBranchesTask = gitHubBranchProtectionGenerator(tree, options);
   const updateLabelsTask = gitHubLabelsGenerator(tree);
@@ -82,10 +83,8 @@ function pushToRemoteMaster(tree: Tree, options: GitHubGeneratorSchema) {
   };
 }
 
-function addGitRemote(
-  tree: Tree,
-  { organization, repositoryName }: GitHubGeneratorSchema,
-) {
+function addGitRemote(tree: Tree, options: GitHubGeneratorSchema) {
+  const { organization, repositoryName } = options;
   const gitUrl = `git@github.com:${organization}/${repositoryName}.git`;
 
   logger.info(`Adding git remote origin with URL ${gitUrl}`);
@@ -95,4 +94,27 @@ function addGitRemote(
       cwd: tree.root,
     });
   };
+}
+
+function updatePackageJson(tree: Tree, options: GitHubGeneratorSchema) {
+  const { organization, repositoryName } = options;
+  const repoUrl = `git+ssh://git@github.com/${organization}/${repositoryName}.git`;
+  const githubBaseUrl = `https://github.com/${organization}/${repositoryName}`;
+  const issuesUrl = `${githubBaseUrl}/issues`;
+  const homepageUrl = `${githubBaseUrl}#readme`;
+
+  updateJson(tree, "package.json", (packageJson: PackageJson) => {
+    packageJson.repository = {
+      type: "git",
+      url: repoUrl,
+    };
+
+    packageJson.bugs = {
+      url: issuesUrl,
+    };
+
+    packageJson.homepage = homepageUrl;
+
+    return packageJson;
+  });
 }

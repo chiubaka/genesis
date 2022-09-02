@@ -75,12 +75,22 @@ export const projectTestCases = (getProject: () => Project) => {
       packageJson = readJson(tree, project.path("package.json"));
     });
 
-    it("sets the correct name for the package", () => {
+    it("sets the correct name", () => {
       expect(packageJson.name).toBe(project.getImportPath());
     });
 
-    it("sets the correct version for the package", () => {
+    it("sets the correct version", () => {
       expect(packageJson.version).toBe("0.0.1");
     });
+
+    it.todo("sets the LICENSE");
+
+    it.todo("sets the repository section");
+
+    it.todo("includes a directory key for repository");
+
+    it.todo("sets the bugs section");
+
+    it.todo("sets the homepage");
   });
 };
