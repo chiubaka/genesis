@@ -1,0 +1,11 @@
+export const hello = "Hello, world!";
+
+export function getGreeting() {
+  return hello;
+}
+
+export class Greeter {
+  public hello() {
+    return hello;
+  }
+}

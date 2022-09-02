@@ -4,6 +4,7 @@ import { libraryGenerator } from "@nrwl/js";
 import { Project } from "../../../utils";
 import {
   addNpmPublishDeployScriptsToPackageJson,
+  copyTsLibSample,
   projectGenerator,
 } from "../../project";
 import { LibGeneratorSchema } from "../libGenerator.schema";
@@ -38,6 +39,7 @@ export async function tsLibGenerator(tree: Tree, options: LibGeneratorSchema) {
   });
 
   addNpmPublishDeployScriptsToPackageJson(project);
+  copyTsLibSample(project);
 
   return async () => {
     await libraryGeneratorTask();

@@ -34,4 +34,21 @@ describe("tsLibGenerator", () => {
       skipE2e: false,
     });
   });
+
+  describe("it generates a code sample", () => {
+    it("generates a src/index.ts file", () => {
+      // eslint-disable-next-line security/detect-non-literal-fs-filename
+      expect(tree.exists(project.srcPath("index.ts"))).toBe(true);
+    });
+
+    it("generates a src/hello.ts file", () => {
+      // eslint-disable-next-line security/detect-non-literal-fs-filename
+      expect(tree.exists(project.srcPath("hello.ts"))).toBe(true);
+    });
+
+    it("generates a sample unit test", () => {
+      // eslint-disable-next-line security/detect-non-literal-fs-filename
+      expect(tree.exists(project.testPath("unit/hello.spec.ts"))).toBe(true);
+    });
+  });
 });

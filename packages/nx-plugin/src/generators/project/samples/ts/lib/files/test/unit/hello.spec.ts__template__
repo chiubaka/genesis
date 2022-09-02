@@ -1,0 +1,23 @@
+import { hello, getGreeting, Greeter } from "../../src";
+
+describe("hello", () => {
+  it("contains a familiar phrase", () => {
+    expect(hello).toBe("Hello, world!");
+  });
+});
+
+describe("getGreeting", () => {
+  it("returns a familiar phrase", () => {
+    expect(getGreeting()).toBe("Hello, world!");
+  });
+});
+
+describe("Greeter", () => {
+  describe("#hello", () => {
+    it("returns a familiar phrase", () => {
+      const greeter = new Greeter();
+
+      expect(greeter.hello()).toBe("Hello, world!");
+    });
+  });
+});
