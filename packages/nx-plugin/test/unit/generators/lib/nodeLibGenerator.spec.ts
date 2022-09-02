@@ -32,7 +32,7 @@ describe("nodeLibGenerator", () => {
     return e2eProject;
   };
 
-  beforeAll(async () => {
+  beforeAll(() => {
     tree = createTreeWithEmptyWorkspace();
     project = new Project(tree, "node-lib", "library");
     e2eProject = new Project(tree, "node-lib-e2e", "e2e");
@@ -45,17 +45,19 @@ describe("nodeLibGenerator", () => {
       "README.md",
       `[![codecov](https://codecov.io/gh/${projectScope}/${projectName}/branch/master/graph/badge.svg?token=foobar)](https://codecov.io/gh/${projectScope}/${projectName})`,
     );
-
-    await nodeLibGenerator(tree, {
-      name: "node-lib",
-      skipE2e: false,
-    });
   });
 
   nodeProjectTestCases(getProject, {
     projectJson: {
       targetNames: ["lint", "build", "test"],
     },
+  });
+
+  beforeAll(async () => {
+    await nodeLibGenerator(tree, {
+      name: "node-lib",
+      skipE2e: false,
+    });
   });
 
   it("generates a sample unit test file in pascal case", () => {

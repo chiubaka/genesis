@@ -63,7 +63,7 @@ export const nodeProjectTestCases = (
     });
   });
 
-  projectTestCases(getProject);
+  projectTestCases(getProject, options.repoName);
   projectJsonTestCases(getProject, options.projectJson);
   jestProjectTestCases(getProject, "node");
   tsconfigTestCases(getProject, {
