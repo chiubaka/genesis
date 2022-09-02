@@ -17,6 +17,7 @@ export async function tsLibGenerator(tree: Tree, options: LibGeneratorSchema) {
   const libraryGeneratorTask = await libraryGenerator(tree, {
     ...options,
     buildable: true,
+    config: "project",
     importPath: project.getImportPath(),
     includeBabelRc: false,
     publishable: true,
