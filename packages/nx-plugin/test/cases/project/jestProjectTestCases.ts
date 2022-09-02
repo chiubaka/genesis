@@ -2,10 +2,16 @@ import { Tree } from "@nrwl/devkit";
 
 import { compatiblePackageVersions, Project } from "../../../src";
 
+export interface JestTestCasesOptions {
+  testEnvironment?: string;
+}
+
 export const jestProjectTestCases = (
   getProject: () => Project,
-  expectedTestEnvironment?: string,
+  options?: JestTestCasesOptions,
 ) => {
+  const expectedTestEnvironment = options?.testEnvironment;
+
   let project: Project;
   let tree: Tree;
 

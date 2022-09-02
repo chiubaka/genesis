@@ -8,14 +8,14 @@ const DEFAULT_COMPILER_OPTIONS: CompilerOptions = {
   outDir: "../../dist/out-tsc",
 };
 
-interface ExpectedTsConfigOptions {
+export interface TsConfigTestCasesOptions {
   appLibTypes?: string[];
   compilerOptions?: CompilerOptions;
 }
 
 export const tsconfigTestCases = (
   getProject: () => Project,
-  options: ExpectedTsConfigOptions = {},
+  options: TsConfigTestCasesOptions = {},
 ) => {
   const expectedCompilerOptions = options.compilerOptions || {};
 
