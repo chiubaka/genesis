@@ -45,6 +45,7 @@
       "dependsOn": [{ "target": "setup-e2e", "projects": "self" }],
       "options": {
         "commands": [
+          "rm -rf tmp/nx-e2e/genesis-lib-e2e",
           "cp -r tmp/nx-e2e/genesis-e2e tmp/nx-e2e/genesis-lib-e2e",
           "cd tmp/nx-e2e/genesis-lib-e2e && yarn install"
         ],

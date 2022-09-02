@@ -7,6 +7,28 @@ import {
 
 import { PackageJson, Project } from "../../../src";
 import { TsConfig } from "../../types/tsconfig";
+import { eslintProjectTestCases } from "./eslintProjectTestCases";
+import {
+  jestProjectTestCases,
+  JestTestCasesOptions,
+} from "./jestProjectTestCases";
+import {
+  projectJsonTestCases,
+  ProjectJsonTestCasesOptions,
+} from "./projectJsonTestCases";
+import { readmeProjectTestCases } from "./readmeProjectTestCases";
+import {
+  tsconfigTestCases,
+  TsConfigTestCasesOptions,
+} from "./tsconfigTestCases";
+
+export interface ProjectTestCasesOptions {
+  repoName?: string;
+
+  jest?: JestTestCasesOptions;
+  projectJson: ProjectJsonTestCasesOptions;
+  tsconfig?: TsConfigTestCasesOptions;
+}
 
 /**
  * Configures common test cases that should be included for all project generators
@@ -14,12 +36,13 @@ import { TsConfig } from "../../types/tsconfig";
  */
 export const projectTestCases = (
   getProject: () => Project,
-  repoName?: string,
+  options: ProjectTestCasesOptions,
 ) => {
   let project: Project;
   let tree: Tree;
   let projectScope: string;
   let projectName: string;
+  let repoName: string;
 
   beforeAll(() => {
     project = getProject();
@@ -28,7 +51,7 @@ export const projectTestCases = (
     projectScope = project.getScope();
     projectName = project.getName();
 
-    repoName = repoName || projectName;
+    repoName = options.repoName || projectName;
 
     updateJson<PackageJson>(
       tree,
@@ -36,20 +59,14 @@ export const projectTestCases = (
       (packageJson: PackageJson) => {
         packageJson.repository = {
           type: "git",
-          url: `git+ssh://git@github.com/${projectScope}/${
-            repoName as string
-          }.git`,
+          url: `git+ssh://git@github.com/${projectScope}/${repoName}.git`,
         };
 
         packageJson.bugs = {
-          url: `https://github.com/${projectScope}/${
-            repoName as string
-          }/issues`,
+          url: `https://github.com/${projectScope}/${repoName}/issues`,
         };
 
-        packageJson.homepage = `https://github.com/${projectScope}/${
-          repoName as string
-        }#readme`;
+        packageJson.homepage = `https://github.com/${projectScope}/${repoName}#readme`;
 
         return packageJson;
       },
@@ -124,25 +141,29 @@ export const projectTestCases = (
     it("sets the repository section", () => {
       expect(packageJson.repository).toEqual({
         type: "git",
-        url: `git+ssh://git@github.com/${projectScope}/${
-          repoName as string
-        }.git`,
+        url: `git+ssh://git@github.com/${projectScope}/${repoName}.git`,
         directory: project.path(),
       });
     });
 
     it("sets the bugs section", () => {
       expect(packageJson.bugs).toEqual({
-        url: `https://github.com/${projectScope}/${repoName as string}/issues`,
+        url: `https://github.com/${projectScope}/${repoName}/issues`,
       });
     });
 
     it("sets the homepage", () => {
       expect(packageJson.homepage).toEqual(
-        `https://github.com/${projectScope}/${
-          repoName as string
-        }/blob/master/${project.path("README.md")}`,
+        `https://github.com/${projectScope}/${repoName}/blob/master/${project.path(
+          "README.md",
+        )}`,
       );
     });
   });
+
+  projectJsonTestCases(getProject, options.projectJson);
+  jestProjectTestCases(getProject, options.jest);
+  tsconfigTestCases(getProject, options.tsconfig);
+  eslintProjectTestCases(getProject);
+  readmeProjectTestCases(getProject, options.repoName);
 };

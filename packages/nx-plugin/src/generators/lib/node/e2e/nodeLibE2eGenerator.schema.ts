@@ -1,6 +1,5 @@
-export interface NodeLibE2eGeneratorSchema {
-  name: string;
+import { LibE2eGeneratorBaseSchema } from "../../e2e";
 
-  libName: string;
+export interface NodeLibE2eGeneratorSchema extends LibE2eGeneratorBaseSchema {
   rootProjectGeneratorName: string;
 }

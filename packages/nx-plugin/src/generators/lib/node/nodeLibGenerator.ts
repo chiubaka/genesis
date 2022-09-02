@@ -1,20 +1,17 @@
-import {
-  detectPackageManager,
-  getPackageManagerCommand,
-  ProjectConfiguration,
-  Tree,
-  updateJson,
-} from "@nrwl/devkit";
-import { PackageJson } from "nx/src/utils/package-json";
+import { Tree } from "@nrwl/devkit";
 
 import { noOpTask, Project } from "../../../utils";
-import { copyNodeLibSample, nodeProjectGenerator } from "../../project";
+import {
+  addNpmPublishDeployScriptsToPackageJson,
+  copyNodeLibSample,
+  nodeProjectGenerator,
+} from "../../project";
+import { LibGeneratorSchema } from "../libGenerator.schema";
 import { nodeLibE2eGenerator } from "./e2e";
-import { NodeLibGeneratorSchema } from "./nodeLibGenerator.schema";
 
 export async function nodeLibGenerator(
   tree: Tree,
-  options: NodeLibGeneratorSchema,
+  options: LibGeneratorSchema,
 ) {
   const { name } = options;
   const project = new Project(tree, name, "library");
@@ -24,8 +21,7 @@ export async function nodeLibGenerator(
     rootProjectGeneratorName: "lib.node",
   });
 
-  updatePackageJsonScripts(project);
-  updateProjectJson(project);
+  addNpmPublishDeployScriptsToPackageJson(project);
   copyNodeLibSample(project);
 
   const e2eProjectTask = await generateE2eProject(project, options);
@@ -36,41 +32,7 @@ export async function nodeLibGenerator(
   };
 }
 
-function updatePackageJsonScripts(project: Project) {
-  const tree = project.getTree();
-
-  const packageManager = detectPackageManager(tree.root);
-  const pmc = getPackageManagerCommand(packageManager);
-
-  updateJson(tree, project.path("package.json"), (packageJson: PackageJson) => {
-    if (!packageJson.scripts) {
-      packageJson.scripts = {};
-    }
-
-    packageJson.scripts.deploy = "npm publish --access public";
-    packageJson.scripts["deploy:ci"] = pmc.run("deploy", "").trim();
-
-    return packageJson;
-  });
-}
-
-function updateProjectJson(project: Project) {
-  const tree = project.getTree();
-
-  updateJson(
-    tree,
-    project.path("project.json"),
-    (projectJson: ProjectConfiguration) => {
-      if (!projectJson.targets) {
-        projectJson.targets = {};
-      }
-
-      return projectJson;
-    },
-  );
-}
-
-function generateE2eProject(project: Project, options: NodeLibGeneratorSchema) {
+function generateE2eProject(project: Project, options: LibGeneratorSchema) {
   const tree = project.getTree();
   const projectName = project.getName();
   const { skipE2e } = options;

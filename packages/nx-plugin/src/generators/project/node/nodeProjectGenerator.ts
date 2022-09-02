@@ -1,67 +1,31 @@
-import { detectPackageManager, getPackageManagerCommand } from "@nrwl/devkit";
-import {
-  generateFiles,
-  getWorkspaceLayout,
-  moveFilesToNewDirectory,
-  Tree,
-  updateJson,
-} from "@nrwl/devkit";
+import { Tree, updateJson } from "@nrwl/devkit";
 import { applicationGenerator, libraryGenerator } from "@nrwl/node";
-import path from "node:path";
-import { RawProjectsConfigurations } from "nx/src/config/workspace-json-project-json";
 
 import { PackageJson } from "../../../types";
-import { exec, lintFix, noOpTask, Project } from "../../../utils";
-import { eslintProjectGenerator } from "../eslint";
-import { jestProjectGenerator } from "../jest";
-import { standardizePackageJson } from "../packageJson";
-import {
-  standardizeProjectJson,
-  updateProjectJsonReferences,
-} from "../projectJson";
-import { readmeProjectGenerator } from "../readme";
-import {
-  TsConfigGeneratorPresets,
-  tsconfigProjectGenerator,
-} from "../tsconfig";
+import { Project } from "../../../utils";
+import { projectGenerator } from "../project";
+import { TsConfigGeneratorPresets } from "../tsconfig";
 import { NodeProjectGeneratorSchema } from "./nodeProjectGenerator.schema";
 
 export async function nodeProjectGenerator(
   tree: Tree,
   options: NodeProjectGeneratorSchema,
 ) {
-  const { rootProjectGeneratorName } = options;
   const project = Project.createFromOptions(tree, options);
 
   const baseGeneratorTask = await baseGenerator(project, options);
-
-  relocateProject(project);
-  copyPackageJsonTemplate(project);
-  standardizePackageJson(project);
-  standardizeProjectJson(project);
+  const projectGeneratorTask = await projectGenerator(tree, {
+    ...options,
+    jest: {
+      testEnvironment: "node",
+    },
+    tsconfig: TsConfigGeneratorPresets.node18,
+  });
   enforceNodeVersion(project);
-
-  tsconfigProjectGenerator(tree, {
-    ...project.getMeta(),
-    ...TsConfigGeneratorPresets.node18,
-  });
-  const jestTask = await jestProjectGenerator(tree, {
-    ...project.getMeta(),
-    testEnvironment: "node",
-  });
-  eslintProjectGenerator(tree, project.getMeta());
-  readmeProjectGenerator(tree, {
-    ...project.getMeta(),
-    rootProjectGeneratorName,
-  });
-
-  const updateYarnWorkspaceTask = updateYarnWorkspace(project);
 
   return async () => {
     await baseGeneratorTask();
-    await jestTask();
-    await updateYarnWorkspaceTask();
-    await lintFix(tree.root, project.getName());
+    await projectGeneratorTask();
   };
 }
 
@@ -82,46 +46,6 @@ function baseGenerator(project: Project, options: NodeProjectGeneratorSchema) {
     standaloneConfig: true,
     strict: true,
     tags,
-  });
-}
-
-function relocateProject(project: Project) {
-  const tree = project.getTree();
-  const { projectName, projectType } = project.getMeta();
-
-  const { appsDir, libsDir } = getWorkspaceLayout(tree);
-  const originalBaseDir = projectType === "library" ? libsDir : appsDir;
-  const originalProjectDir = path.join(originalBaseDir, projectName);
-
-  const newProjectDir = project.relativePath();
-
-  if (originalProjectDir === newProjectDir) {
-    return;
-  }
-
-  moveFilesToNewDirectory(tree, originalProjectDir, newProjectDir);
-
-  updateJson(
-    tree,
-    "workspace.json",
-    (workspaceJson: RawProjectsConfigurations) => {
-      // eslint-disable-next-line security/detect-object-injection
-      workspaceJson.projects[projectName] = project.path();
-      return workspaceJson;
-    },
-  );
-  updateProjectJsonReferences(project, originalProjectDir);
-}
-
-function copyPackageJsonTemplate(project: Project) {
-  const tree = project.getTree();
-  const projectScope = project.getScope();
-  const projectName = project.getName();
-
-  generateFiles(tree, path.join(__dirname, "./files"), project.path(), {
-    projectScope,
-    projectName,
-    template: "",
   });
 }
 
@@ -150,21 +74,4 @@ function enforceNodeVersion(project: Project) {
 
     return packageJson;
   });
-}
-
-function updateYarnWorkspace(project: Project) {
-  const tree = project.getTree();
-  const packageManager = detectPackageManager(tree.root);
-
-  if (packageManager !== "yarn") {
-    return noOpTask;
-  }
-
-  const pmc = getPackageManagerCommand(packageManager);
-
-  return async () => {
-    await exec(pmc.install, {
-      cwd: tree.root,
-    });
-  };
 }

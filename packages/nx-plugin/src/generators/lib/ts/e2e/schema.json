@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "TsLibE2e",
+  "cli": "nx",
+  "title": "Create a TypeScript library E2E testing app",
+  "description": "Create a TypeScript library E2E testing app",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "E2E app name.",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What name would you like to use for the E2e app?",
+      "pattern": "^[a-zA-Z].*$"
+    },
+
+    "libName": {
+      "type": "string",
+      "description": "Name of the library this project creates E2E tests for"
+    },
+    "rootProjectGeneratorName": {
+      "type": "string",
+      "description": "Name of the root project generator invoking this generator",
+      "default": "lib.node.e2e"
+    }
+  },
+  "required": ["name", "libName"]
+}

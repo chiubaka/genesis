@@ -1,5 +1,6 @@
-import { ProjectGeneratorSchema } from "../projectGenerator.schema";
+import { ProjectGeneratorBaseSchema } from "../projectGeneratorBase.schema";
 
-export interface ReadmeProjectGeneratorSchema extends ProjectGeneratorSchema {
+export interface ReadmeProjectGeneratorSchema
+  extends ProjectGeneratorBaseSchema {
   rootProjectGeneratorName: string;
 }

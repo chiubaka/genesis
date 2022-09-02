@@ -1,0 +1,13 @@
+import { getGreeting, Greeter, hello } from "@<%= libScope %>/<%= libName %>";
+
+export const helloEnhanced = `${hello} ${hello}`;
+
+export function getEnhancedGreeting() {
+  return `${getGreeting()} ${getGreeting()}`;
+}
+
+export class EnhancedGreeter extends Greeter {
+  public hello() {
+    return `${super.hello()} ${super.hello()}`;
+  }
+}

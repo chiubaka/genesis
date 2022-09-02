@@ -6,7 +6,7 @@ import {
 } from "@nrwl/devkit";
 import path from "node:path";
 
-import { ProjectGeneratorSchema } from "../generators/project/projectGenerator.schema";
+import { ProjectGeneratorSchema } from "../generators/project/project/projectGenerator.schema";
 
 export type ProjectType = NxProjectType | "e2e";
 

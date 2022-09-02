@@ -1,20 +1,7 @@
 import { readJson, Tree } from "@nrwl/devkit";
 
 import { PackageJson, Project } from "../../../src";
-import { eslintProjectTestCases } from "./eslintProjectTestCases";
-import { jestProjectTestCases } from "./jestProjectTestCases";
-import {
-  projectJsonTestCases,
-  ProjectJsonTestCasesOptions,
-} from "./projectJsonTestCases";
-import { projectTestCases } from "./projectTestCases";
-import { readmeProjectTestCases } from "./readmeProjectTestCases";
-import { tsconfigTestCases } from "./tsconfigTestCases";
-
-interface NodeProjectTestCasesOptions {
-  projectJson: ProjectJsonTestCasesOptions;
-  repoName?: string;
-}
+import { projectTestCases, ProjectTestCasesOptions } from "./projectTestCases";
 
 /**
  * Configures common test cases that should be included for all node project generators
@@ -22,7 +9,7 @@ interface NodeProjectTestCasesOptions {
  */
 export const nodeProjectTestCases = (
   getProject: () => Project,
-  options: NodeProjectTestCasesOptions,
+  options: ProjectTestCasesOptions,
 ) => {
   let project: Project;
   let tree: Tree;
@@ -63,20 +50,6 @@ export const nodeProjectTestCases = (
     });
   });
 
-  projectTestCases(getProject, options.repoName);
-  projectJsonTestCases(getProject, options.projectJson);
-  jestProjectTestCases(getProject, "node");
-  tsconfigTestCases(getProject, {
-    appLibTypes: ["node"],
-    compilerOptions: {
-      lib: ["es2022"],
-      module: "commonjs",
-      target: "es2022",
-    },
-  });
-  eslintProjectTestCases(getProject);
-  readmeProjectTestCases(getProject, options.repoName);
-
   describe("workspace", () => {
     describe(".nvmrc", () => {
       it("specifies the correct node version in .nvmrc", () => {
@@ -85,5 +58,20 @@ export const nodeProjectTestCases = (
         });
       });
     });
+  });
+
+  projectTestCases(getProject, {
+    ...options,
+    jest: {
+      testEnvironment: "node",
+    },
+    tsconfig: {
+      appLibTypes: ["node"],
+      compilerOptions: {
+        lib: ["es2022"],
+        module: "commonjs",
+        target: "es2022",
+      },
+    },
   });
 };
