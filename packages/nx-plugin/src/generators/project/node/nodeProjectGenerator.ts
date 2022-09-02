@@ -14,6 +14,7 @@ import { PackageJson } from "../../../types";
 import { exec, lintFix, noOpTask, Project } from "../../../utils";
 import { eslintProjectGenerator } from "../eslint";
 import { jestProjectGenerator } from "../jest";
+import { standardizePackageJson } from "../packageJson";
 import {
   standardizeProjectJson,
   updateProjectJsonReferences,
@@ -36,6 +37,7 @@ export async function nodeProjectGenerator(
 
   relocateProject(project);
   copyPackageJsonTemplate(project);
+  standardizePackageJson(project);
   standardizeProjectJson(project);
   enforceNodeVersion(project);
 

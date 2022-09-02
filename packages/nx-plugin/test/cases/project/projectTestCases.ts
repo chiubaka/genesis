@@ -1,7 +1,6 @@
 import { ProjectsConfigurations, readJson, Tree } from "@nrwl/devkit";
-import { PackageJson } from "nx/src/utils/package-json";
 
-import { Project } from "../../../src";
+import { PackageJson, Project } from "../../../src";
 import { TsConfig } from "../../types/tsconfig";
 
 /**
@@ -83,9 +82,9 @@ export const projectTestCases = (getProject: () => Project) => {
       expect(packageJson.version).toBe("0.0.1");
     });
 
-    it.todo("sets the LICENSE");
-
-    it.todo("sets the repository section");
+    it("sets the LICENSE", () => {
+      expect(packageJson.license).toBe("UNLICENSED");
+    });
 
     it.todo("includes a directory key for repository");
 
