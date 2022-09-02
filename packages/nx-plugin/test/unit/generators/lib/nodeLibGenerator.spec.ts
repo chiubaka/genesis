@@ -40,11 +40,6 @@ describe("nodeLibGenerator", () => {
     projectScope = project.getScope();
     projectName = project.getName();
     importPath = `@${projectScope}/${projectName}`;
-
-    tree.write(
-      "README.md",
-      `[![codecov](https://codecov.io/gh/${projectScope}/${projectName}/branch/master/graph/badge.svg?token=foobar)](https://codecov.io/gh/${projectScope}/${projectName})`,
-    );
   });
 
   nodeProjectTestCases(getProject, {

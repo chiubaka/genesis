@@ -20,6 +20,11 @@ export const readmeProjectTestCases = (
     projectName = project.getName();
 
     repoName = repoName || projectName;
+
+    tree.write(
+      "README.md",
+      `[![codecov](https://codecov.io/gh/${projectScope}/${repoName}/branch/master/graph/badge.svg?token=foobar)](https://codecov.io/gh/${projectScope}/${projectName})`,
+    );
   });
 
   it("generates a README.md file", () => {
