@@ -1,4 +1,4 @@
-import { ProjectConfiguration, Tree, updateJson } from "@nrwl/devkit";
+import { Tree } from "@nrwl/devkit";
 
 import { noOpTask, Project } from "../../../utils";
 import {
@@ -22,7 +22,6 @@ export async function nodeLibGenerator(
   });
 
   addNpmPublishDeployScriptsToPackageJson(project);
-  updateProjectJson(project);
   copyNodeLibSample(project);
 
   const e2eProjectTask = await generateE2eProject(project, options);
@@ -31,22 +30,6 @@ export async function nodeLibGenerator(
     await nodeProjectTask();
     await e2eProjectTask();
   };
-}
-
-function updateProjectJson(project: Project) {
-  const tree = project.getTree();
-
-  updateJson(
-    tree,
-    project.path("project.json"),
-    (projectJson: ProjectConfiguration) => {
-      if (!projectJson.targets) {
-        projectJson.targets = {};
-      }
-
-      return projectJson;
-    },
-  );
 }
 
 function generateE2eProject(project: Project, options: LibGeneratorSchema) {
