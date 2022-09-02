@@ -2,7 +2,10 @@ import { Tree } from "@nrwl/devkit";
 import { libraryGenerator } from "@nrwl/js";
 
 import { Project } from "../../../utils";
-import { projectGenerator } from "../../project";
+import {
+  addNpmPublishDeployScriptsToPackageJson,
+  projectGenerator,
+} from "../../project";
 import { LibGeneratorSchema } from "../libGenerator.schema";
 
 export async function tsLibGenerator(tree: Tree, options: LibGeneratorSchema) {
@@ -33,6 +36,8 @@ export async function tsLibGenerator(tree: Tree, options: LibGeneratorSchema) {
       target: "es2015",
     },
   });
+
+  addNpmPublishDeployScriptsToPackageJson(project);
 
   return async () => {
     await libraryGeneratorTask();

@@ -1,14 +1,11 @@
-import {
-  detectPackageManager,
-  getPackageManagerCommand,
-  ProjectConfiguration,
-  Tree,
-  updateJson,
-} from "@nrwl/devkit";
-import { PackageJson } from "nx/src/utils/package-json";
+import { ProjectConfiguration, Tree, updateJson } from "@nrwl/devkit";
 
 import { noOpTask, Project } from "../../../utils";
-import { copyNodeLibSample, nodeProjectGenerator } from "../../project";
+import {
+  addNpmPublishDeployScriptsToPackageJson,
+  copyNodeLibSample,
+  nodeProjectGenerator,
+} from "../../project";
 import { LibGeneratorSchema } from "../libGenerator.schema";
 import { nodeLibE2eGenerator } from "./e2e";
 
@@ -24,7 +21,7 @@ export async function nodeLibGenerator(
     rootProjectGeneratorName: "lib.node",
   });
 
-  updatePackageJsonScripts(project);
+  addNpmPublishDeployScriptsToPackageJson(project);
   updateProjectJson(project);
   copyNodeLibSample(project);
 
@@ -34,24 +31,6 @@ export async function nodeLibGenerator(
     await nodeProjectTask();
     await e2eProjectTask();
   };
-}
-
-function updatePackageJsonScripts(project: Project) {
-  const tree = project.getTree();
-
-  const packageManager = detectPackageManager(tree.root);
-  const pmc = getPackageManagerCommand(packageManager);
-
-  updateJson(tree, project.path("package.json"), (packageJson: PackageJson) => {
-    if (!packageJson.scripts) {
-      packageJson.scripts = {};
-    }
-
-    packageJson.scripts.deploy = "npm publish --access public";
-    packageJson.scripts["deploy:ci"] = pmc.run("deploy", "").trim();
-
-    return packageJson;
-  });
 }
 
 function updateProjectJson(project: Project) {
