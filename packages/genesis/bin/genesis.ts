@@ -1,9 +1,6 @@
 import { getPackageManagerCommand } from "@nrwl/devkit";
 import { program } from "commander";
-import { spawn as nodeSpawn } from "node:child_process";
-import { promisify } from "node:util";
-
-const spawn = promisify(nodeSpawn);
+import { spawn } from "node:child_process";
 
 interface GenesisOptions {
   workspaceScope: string;
@@ -14,7 +11,7 @@ interface GenesisOptions {
   skipGithub?: boolean;
 }
 
-export async function genesis(argv = process.argv) {
+export function genesis(argv = process.argv) {
   program
     .requiredOption("-s, --workspace-scope <workspaceScope>")
     .requiredOption("-n, --workspace-name <workspaceName>")
@@ -55,13 +52,18 @@ export async function genesis(argv = process.argv) {
   const commandTokens = fullCommand.split(" ");
   const [command, ...args] = commandTokens;
 
-  await spawn(command, [...args, `--description="${description}"`], {
+  const env: NodeJS.ProcessEnv = {
+    ...process.env,
+    NX_VERBOSE_LOGGING: "true",
+  };
+
+  if (registry) {
+    env.npm_config_registry = registry;
+  }
+
+  spawn(command, [...args, `--description="${description}"`], {
     cwd: process.cwd(),
-    env: registry
-      ? {
-          ...process.env,
-          npm_config_registry: registry,
-        }
-      : undefined,
+    env,
+    stdio: "inherit",
   });
 }
