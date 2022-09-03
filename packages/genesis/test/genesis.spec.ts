@@ -2,7 +2,7 @@ jest.mock("node:child_process");
 
 import { spawn } from "node:child_process";
 
-import { genesis } from "../bin/genesis";
+import { genesis, parseImportPath } from "../bin/genesis";
 
 jest.setTimeout(20_000);
 
@@ -11,10 +11,7 @@ describe("genesis", () => {
     genesis([
       "node",
       "genesis",
-      "-s",
-      "chiubaka",
-      "-n",
-      "genesis",
+      "@chiubaka/genesis",
       "-r",
       "http://localhost:4873",
       "--disable-immutable-installs",
@@ -49,5 +46,21 @@ describe("genesis", () => {
         stdio: "inherit",
       },
     );
+  });
+});
+
+describe("parseImportPath", () => {
+  it("separates the workspace scope from workspace name", () => {
+    const { workspaceScope, workspaceName } =
+      parseImportPath("@chiubaka/genesis");
+
+    expect(workspaceScope).toBe("chiubaka");
+    expect(workspaceName).toBe("genesis");
+  });
+
+  it("throws an error if given an invalid import path", () => {
+    expect(() => {
+      parseImportPath("@chiubaka/invalid/path");
+    }).toThrow("@chiubaka/invalid/path is not a valid import path");
   });
 });

@@ -1,10 +1,10 @@
 import { getPackageManagerCommand } from "@nrwl/devkit";
 import { program } from "commander";
 import { spawn } from "node:child_process";
+import packageNameRegex from "package-name-regex";
 
 interface GenesisOptions {
-  workspaceScope: string;
-  workspaceName: string;
+  importPath: string;
   description: string;
   disableImmutableInstalls?: boolean;
   registry?: string;
@@ -13,8 +13,10 @@ interface GenesisOptions {
 
 export function genesis(argv = process.argv) {
   program
-    .requiredOption("-s, --workspace-scope <workspaceScope>")
-    .requiredOption("-n, --workspace-name <workspaceName>")
+    .argument(
+      "<importPath>",
+      "full import path (@scope/project) for the primary project you are creating in this workspace",
+    )
     .requiredOption("-d, --description <description>")
     .option("--disable-immutable-installs")
     .option("-r, --registry <registry>")
@@ -22,11 +24,11 @@ export function genesis(argv = process.argv) {
 
   program.parse(argv);
 
+  const importPath = program.args[0];
+
   const opts = program.opts<GenesisOptions>();
 
   const {
-    workspaceScope,
-    workspaceName,
     description,
     disableImmutableInstalls,
     registry,
@@ -34,6 +36,7 @@ export function genesis(argv = process.argv) {
   } = opts;
 
   const pmc = getPackageManagerCommand("npm");
+  const { workspaceScope, workspaceName } = parseImportPath(importPath);
 
   let fullCommand = `${pmc.exec} create-nx-workspace ${workspaceScope} --preset=@chiubaka/nx-plugin --nxCloud=false --directory=${workspaceName} --workspaceName=${workspaceName} --workspaceScope=${workspaceScope}`;
 
@@ -66,4 +69,16 @@ export function genesis(argv = process.argv) {
     env,
     stdio: "inherit",
   });
+}
+
+export function parseImportPath(importPath: string) {
+  if (!importPath.startsWith("@") || !packageNameRegex.test(importPath)) {
+    throw new Error(`${importPath} is not a valid import path`);
+  }
+
+  const tokens = importPath.split("/");
+  const workspaceScope = tokens[0].slice(1);
+  const workspaceName = tokens[1];
+
+  return { workspaceScope, workspaceName };
 }
