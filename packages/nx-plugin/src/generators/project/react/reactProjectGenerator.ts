@@ -6,7 +6,7 @@ import {
   storybookConfigurationGenerator,
 } from "@nrwl/react";
 
-import { Project } from "../../../utils";
+import { lintFix, Project } from "../../../utils";
 import { TsConfigGeneratorPresets } from "..";
 import { projectGenerator, ProjectGeneratorSchema } from "../project";
 
@@ -35,6 +35,7 @@ export async function reactProjectGenerator(
     await baseGeneratorTask();
     await projectGeneratorTask();
     await storybookGeneratorTask();
+    await lintFix(tree.root);
   };
 }
 

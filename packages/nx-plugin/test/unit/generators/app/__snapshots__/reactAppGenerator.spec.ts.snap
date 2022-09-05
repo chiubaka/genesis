@@ -130,6 +130,69 @@ Object {
 }
 `;
 
+exports[`reactAppGenerator storybook .storybook/main.ts matches snapshot 1`] = `
+"import { rootMain } from '../../../.storybook/main';
+import type { StorybookConfig, Options } from '@storybook/core-common';
+
+
+const config: StorybookConfig = {
+  ...rootMain,
+  
+  core: { ...rootMain.core, builder: 'webpack5' },
+  
+
+  stories: [
+    ...rootMain.stories,
+    '../src/app/**/*.stories.mdx',
+    '../src/app/**/*.stories.@(js|jsx|ts|tsx)'
+  ],
+  addons: [...(rootMain.addons || []) , '@nrwl/react/plugins/storybook' 
+    
+    
+  ],
+  webpackFinal: async (config, { configType }: Options) => {
+    // apply any global webpack configs that might have been specified in .storybook/main.ts
+    if (rootMain.webpackFinal) {
+      config = await rootMain.webpackFinal(config, { configType } as Options);
+    }
+
+    // add your own webpack tweaks if needed
+
+    return config;
+  },
+};
+
+module.exports = config;
+"
+`;
+
+exports[`reactAppGenerator storybook .storybook/preview.ts matches snapshot 1`] = `""`;
+
+exports[`reactAppGenerator storybook .storybook/tsconfig.json matches snapshot 1`] = `
+Object {
+  "compilerOptions": Object {
+    "emitDecoratorMetadata": true,
+    "outDir": "",
+  },
+  "exclude": Array [
+    "../**/*.spec.ts",
+    "../**/*.spec.tsx",
+  ],
+  "extends": "../tsconfig.json",
+  "files": Array [
+    "../../../node_modules/@nrwl/react/typings/styled-jsx.d.ts",
+    "../../../node_modules/@nrwl/react/typings/cssmodule.d.ts",
+    "../../../node_modules/@nrwl/react/typings/image.d.ts",
+  ],
+  "include": Array [
+    "../src/**/*.stories.ts",
+    "../src/**/*.stories.tsx",
+    "../src/**/*.stories.mdx",
+    "*.ts",
+  ],
+}
+`;
+
 exports[`reactAppGenerator tsconfig.app.json or tsconfig.lib.json matches snapshot 1`] = `
 Object {
   "compilerOptions": Object {
