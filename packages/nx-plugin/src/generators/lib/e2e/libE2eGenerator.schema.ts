@@ -1,8 +1,5 @@
-export interface LibE2eGeneratorSchema extends LibE2eGeneratorBaseSchema {
-  codeSamplePath: string;
-}
+import { E2eGeneratorBaseSchema } from "../../e2eGeneratorBase.schema";
 
-export interface LibE2eGeneratorBaseSchema {
-  name: string;
-  libName: string;
+export interface LibE2eGeneratorSchema extends E2eGeneratorBaseSchema {
+  codeSamplePath: string;
 }

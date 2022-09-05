@@ -7,8 +7,8 @@ import {
 } from "@nrwl/react";
 
 import { lintFix, Project } from "../../../utils";
-import { TsConfigGeneratorPresets } from "..";
 import { projectGenerator, ProjectGeneratorSchema } from "../project";
+import { TsConfigGeneratorPresets } from "../tsconfig";
 
 export async function reactProjectGenerator(
   tree: Tree,
@@ -17,6 +17,7 @@ export async function reactProjectGenerator(
   const project = Project.createFromOptions(tree, options);
 
   const baseGeneratorTask = await baseGenerator(project, options);
+
   const projectGeneratorTask = await projectGenerator(tree, {
     ...options,
     jest: {
@@ -24,9 +25,12 @@ export async function reactProjectGenerator(
     },
     tsconfig: TsConfigGeneratorPresets.REACT,
   });
+
   const storybookGeneratorTask = await storybookConfigurationGenerator(tree, {
     name: project.getName(),
     configureCypress: true,
+    generateCypressSpecs: true,
+    generateStories: true,
     standaloneConfig: true,
     tsConfiguration: true,
   });
@@ -50,6 +54,7 @@ function baseGenerator(project: Project, options: ProjectGeneratorSchema) {
     e2eTestRunner: "cypress",
     linter: Linter.EsLint,
     importPath: project.getImportPath(),
+    pascalCaseFiles: true,
     publishable: true,
     routing: true,
     skipFormat: true,

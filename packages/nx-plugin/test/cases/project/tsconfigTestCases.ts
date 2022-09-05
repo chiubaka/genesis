@@ -3,7 +3,17 @@ import { readJson, Tree } from "@nrwl/devkit";
 import { Project } from "../../../src/index";
 import { TsConfig } from "../../types/tsconfig";
 
-export const tsconfigTestCases = (getProject: () => Project) => {
+interface TsConfigTestCasesOptions {
+  skipAppOrLibConfig?: boolean;
+  skipTestConfig?: boolean;
+}
+
+export const tsconfigTestCases = (
+  getProject: () => Project,
+  options: TsConfigTestCasesOptions = {},
+) => {
+  const { skipAppOrLibConfig, skipTestConfig } = options;
+
   let project: Project;
   let tree: Tree;
 
@@ -36,37 +46,41 @@ export const tsconfigTestCases = (getProject: () => Project) => {
     });
   });
 
-  it("generates a tsconfig.app.json or tsconfig.lib.json file", () => {
-    // eslint-disable-next-line security/detect-non-literal-fs-filename
-    expect(tree.exists(project.path(primaryTsConfigName))).toBe(true);
-  });
-
-  describe("tsconfig.app.json or tsconfig.lib.json", () => {
-    let tsConfig: TsConfig;
-
-    beforeAll(() => {
-      tsConfig = readJson(tree, project.path(primaryTsConfigName));
+  if (!skipAppOrLibConfig) {
+    it("generates a tsconfig.app.json or tsconfig.lib.json file", () => {
+      // eslint-disable-next-line security/detect-non-literal-fs-filename
+      expect(tree.exists(project.path(primaryTsConfigName))).toBe(true);
     });
 
-    it("matches snapshot", () => {
-      expect(tsConfig).toMatchSnapshot();
+    describe("tsconfig.app.json or tsconfig.lib.json", () => {
+      let tsConfig: TsConfig;
+
+      beforeAll(() => {
+        tsConfig = readJson(tree, project.path(primaryTsConfigName));
+      });
+
+      it("matches snapshot", () => {
+        expect(tsConfig).toMatchSnapshot();
+      });
     });
-  });
+  }
 
-  it("generates a tsconfig.spec.json file", () => {
-    // eslint-disable-next-line security/detect-non-literal-fs-filename
-    expect(tree.exists(project.path("tsconfig.spec.json"))).toBe(true);
-  });
-
-  describe("tsconfig.spec.json", () => {
-    let tsConfig: TsConfig;
-
-    beforeAll(() => {
-      tsConfig = readJson(tree, project.path("tsconfig.spec.json"));
+  if (!skipTestConfig) {
+    it("generates a tsconfig.spec.json file", () => {
+      // eslint-disable-next-line security/detect-non-literal-fs-filename
+      expect(tree.exists(project.path("tsconfig.spec.json"))).toBe(true);
     });
 
-    it("matches snapshot", () => {
-      expect(tsConfig).toMatchSnapshot();
+    describe("tsconfig.spec.json", () => {
+      let tsConfig: TsConfig;
+
+      beforeAll(() => {
+        tsConfig = readJson(tree, project.path("tsconfig.spec.json"));
+      });
+
+      it("matches snapshot", () => {
+        expect(tsConfig).toMatchSnapshot();
+      });
     });
-  });
+  }
 };

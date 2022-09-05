@@ -28,14 +28,21 @@ export async function projectGenerator(
   tree: Tree,
   options: ProjectGeneratorSchema,
 ) {
-  const { jest: jestOptions, tsconfig: tsconfigOptions } = options;
+  const {
+    jest: jestOptions,
+    pruneSrcSubdirectories,
+    tsconfig: tsconfigOptions,
+  } = options;
   const project = Project.createFromOptions(tree, options);
 
   relocateProject(project);
   copyPackageJsonTemplate(project);
   standardizePackageJson(project);
   standardizeProjectJson(project);
-  pruneSrcDirectories(project);
+
+  if (pruneSrcSubdirectories) {
+    pruneSrcDirectories(project);
+  }
 
   tsconfigProjectGenerator(tree, {
     ...options,

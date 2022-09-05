@@ -1,8 +1,8 @@
 import { readJson, Tree } from "@nrwl/devkit";
 
-import { Project } from "../../../src";
-import { TsConfig } from "../../types/tsconfig";
-import { projectTestCases, ProjectTestCasesOptions } from "./projectTestCases";
+import { Project } from "../../../../src";
+import { TsConfig } from "../../../types/tsconfig";
+import { projectTestCases, ProjectTestCasesOptions } from "../projectTestCases";
 
 export const reactProjectTestCases = (
   getProject: () => Project,

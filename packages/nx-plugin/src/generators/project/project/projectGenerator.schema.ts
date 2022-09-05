@@ -9,4 +9,5 @@ export interface ProjectGeneratorSchema
   jest?: JestProjectGeneratorOwnOptions;
   tags?: string;
   tsconfig?: TsConfigProjectGeneratorOwnOptions;
+  pruneSrcSubdirectories?: boolean;
 }

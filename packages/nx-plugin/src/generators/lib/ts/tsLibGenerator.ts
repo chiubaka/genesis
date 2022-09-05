@@ -32,6 +32,7 @@ export async function tsLibGenerator(tree: Tree, options: LibGeneratorSchema) {
     jest: {
       testEnvironment: "node",
     },
+    pruneSrcSubdirectories: true,
     tsconfig: {
       appLibTypes: [],
       lib: ["es2015"],
@@ -63,7 +64,7 @@ function generateE2eProject(project: Project, options: LibGeneratorSchema) {
 
   return tsLibE2eGenerator(tree, {
     name: `${projectName}-e2e`,
-    libName: projectName,
+    appOrLibName: projectName,
     rootProjectGeneratorName: "lib.ts",
   });
 }

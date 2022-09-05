@@ -44,6 +44,106 @@ Object {
 }
 `;
 
+exports[`reactAppGenerator E2E project .eslintrc.json matches snapshot 1`] = `
+Object {
+  "extends": Array [
+    "plugin:cypress/recommended",
+    "../../.eslintrc.json",
+  ],
+  "ignorePatterns": Array [
+    "node_modules",
+  ],
+  "overrides": Array [
+    Object {
+      "files": Array [
+        "*.ts",
+        "*.tsx",
+        "*.js",
+        "*.jsx",
+      ],
+      "rules": Object {},
+    },
+    Object {
+      "files": Array [
+        "src/plugins/index.js",
+      ],
+      "rules": Object {
+        "@typescript-eslint/no-var-requires": "off",
+        "no-undef": "off",
+      },
+    },
+  ],
+}
+`;
+
+exports[`reactAppGenerator E2E project cypress.config.ts matches snapshot 1`] = `
+"import { defineConfig } from 'cypress';
+import { nxE2EPreset } from '@nrwl/cypress/plugins/cypress-preset';
+
+export default defineConfig({
+  e2e: nxE2EPreset(__dirname)
+});
+"
+`;
+
+exports[`reactAppGenerator E2E project project.json matches snapshot 1`] = `
+Object {
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "implicitDependencies": Array [
+    "react-app",
+  ],
+  "projectType": "application",
+  "sourceRoot": "e2e/react-app-e2e/src",
+  "tags": Array [],
+  "targets": Object {
+    "e2e": Object {
+      "configurations": Object {
+        "production": Object {
+          "devServerTarget": "react-app:serve:production",
+        },
+      },
+      "executor": "@nrwl/cypress:cypress",
+      "options": Object {
+        "cypressConfig": "e2e/react-app-e2e/cypress.config.ts",
+        "devServerTarget": "react-app:serve:development",
+        "testingType": "e2e",
+      },
+    },
+    "lint": Object {
+      "executor": "@nrwl/linter:eslint",
+      "options": Object {
+        "lintFilePatterns": Array [
+          "e2e/react-app-e2e/**/*.{js,ts}",
+        ],
+      },
+      "outputs": Array [
+        "{options.outputFile}",
+      ],
+    },
+  },
+}
+`;
+
+exports[`reactAppGenerator E2E project tsconfig.json matches snapshot 1`] = `
+Object {
+  "compilerOptions": Object {
+    "allowJs": true,
+    "outDir": "../../dist/out-tsc",
+    "sourceMap": false,
+    "types": Array [
+      "cypress",
+      "node",
+    ],
+  },
+  "extends": "../../tsconfig.base.json",
+  "include": Array [
+    "src/**/*.ts",
+    "src/**/*.js",
+    "cypress.config.ts",
+  ],
+}
+`;
+
 exports[`reactAppGenerator jest.config.ts matches snapshot 1`] = `
 "export default {
   displayName: \\"react-app\\",

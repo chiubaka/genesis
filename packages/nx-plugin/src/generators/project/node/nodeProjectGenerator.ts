@@ -18,6 +18,7 @@ export async function nodeProjectGenerator(
     jest: {
       testEnvironment: "node",
     },
+    pruneSrcSubdirectories: true,
     tsconfig: TsConfigGeneratorPresets.NODE18,
   });
   enforceNodeVersion(project);

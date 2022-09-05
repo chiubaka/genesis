@@ -43,7 +43,7 @@ function generateE2eProject(project: Project, options: LibGeneratorSchema) {
 
   return nodeLibE2eGenerator(tree, {
     name: `${projectName}-e2e`,
-    libName: projectName,
+    appOrLibName: projectName,
     rootProjectGeneratorName: "lib.node",
   });
 }

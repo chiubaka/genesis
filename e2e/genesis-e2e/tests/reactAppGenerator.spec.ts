@@ -1,6 +1,6 @@
 import { e2eTmpPath, TestingWorkspace } from "@chiubaka/nx-plugin-testing";
 
-import { projectTestCases } from "../utils";
+import { e2eProjectTestCases, projectTestCases } from "../utils";
 
 describe("reactAppGenerator", () => {
   let workspace: TestingWorkspace;
@@ -18,5 +18,6 @@ describe("reactAppGenerator", () => {
     );
   });
 
-  projectTestCases("node-app", getWorkspace);
+  projectTestCases("react-app", getWorkspace);
+  e2eProjectTestCases("react-app-e2e", getWorkspace, { buildable: false });
 });

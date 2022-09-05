@@ -10,12 +10,6 @@ export function projectTestCases(
     workspace = getWorkspace();
   });
 
-  it("generates a project with a working testing setup", async () => {
-    await expect(
-      workspace.execNx(`test ${projectName}`),
-    ).resolves.not.toThrow();
-  });
-
   it("generates a project with a working linting setup", async () => {
     await expect(
       workspace.execNx(`lint ${projectName}`),
@@ -25,6 +19,12 @@ export function projectTestCases(
   it("generates a project with a working build setup", async () => {
     await expect(
       workspace.execNx(`build ${projectName}`),
+    ).resolves.not.toThrow();
+  });
+
+  it("generates a project with a working testing setup", async () => {
+    await expect(
+      workspace.execNx(`test ${projectName}`),
     ).resolves.not.toThrow();
   });
 }
