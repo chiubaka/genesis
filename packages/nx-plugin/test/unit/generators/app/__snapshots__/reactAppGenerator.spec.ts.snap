@@ -44,6 +44,33 @@ Object {
 }
 `;
 
+exports[`reactAppGenerator jest.config.ts matches snapshot 1`] = `
+"export default {
+  displayName: \\"react-app\\",
+  preset: \\"../../jest.preset.js\\",
+  testEnvironment: \\"jsdom\\",
+  transform: {
+    "^(?!.*\\.(js|jsx|ts|tsx|css|json)$)": "@nrwl/react/plugins/jest",
+    "^.+\\.[tj]sx?$": "babel-jest",
+  },
+  moduleFileExtensions: [\\"ts\\", \\"tsx\\", \\"js\\", \\"jsx\\"],
+  coverageDirectory: \\"../../reports/coverage/packages/react-app\\",
+  reporters: [
+    \\"default\\",
+    [
+      \\"jest-junit\\",
+      {
+        addFileAttribute: \\"true\\",
+        classNameTemplate: \\"{suitename}\\",
+        outputDirectory: \\"reports/junit\\",
+        outputName: \\"react-app.xml\\",
+      },
+    ],
+  ],
+};
+"
+`;
+
 exports[`reactAppGenerator project.json matches snapshot 1`] = `
 Object {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",

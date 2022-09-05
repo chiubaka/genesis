@@ -22,6 +22,37 @@ Object {
 }
 `;
 
+exports[`nodeLibGenerator E2E project jest.config.ts matches snapshot 1`] = `
+"export default {
+  displayName: \\"node-lib-e2e\\",
+  preset: \\"../../jest.preset.js\\",
+  globals: {
+    \\"ts-jest\\": {
+      tsconfig: \\"<rootDir>/tsconfig.spec.json\\",
+    },
+  },
+    testEnvironment: \\"node\\",
+    transform: {
+    \\"^.+\\\\\\\\.[tj]s$\\": \\"ts-jest\\",
+  },
+  moduleFileExtensions: [\\"ts\\", \\"js\\", \\"html\\"],
+  coverageDirectory: \\"../../reports/coverage/packages/node-lib-e2e\\",
+  reporters: [
+    \\"default\\",
+    [
+      \\"jest-junit\\",
+      {
+        addFileAttribute: \\"true\\",
+        classNameTemplate: \\"{suitename}\\",
+        outputDirectory: \\"reports/junit\\",
+        outputName: \\"node-lib-e2e.xml\\",
+      },
+    ],
+  ],
+};
+"
+`;
+
 exports[`nodeLibGenerator E2E project project.json matches snapshot 1`] = `
 Object {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
@@ -170,6 +201,37 @@ Object {
     "test",
   ],
 }
+`;
+
+exports[`nodeLibGenerator jest.config.ts matches snapshot 1`] = `
+"export default {
+  displayName: \\"node-lib\\",
+  preset: \\"../../jest.preset.js\\",
+  globals: {
+    \\"ts-jest\\": {
+      tsconfig: \\"<rootDir>/tsconfig.spec.json\\",
+    },
+  },
+    testEnvironment: \\"node\\",
+    transform: {
+    \\"^.+\\\\\\\\.[tj]s$\\": \\"ts-jest\\",
+  },
+  moduleFileExtensions: [\\"ts\\", \\"js\\", \\"html\\"],
+  coverageDirectory: \\"../../reports/coverage/packages/node-lib\\",
+  reporters: [
+    \\"default\\",
+    [
+      \\"jest-junit\\",
+      {
+        addFileAttribute: \\"true\\",
+        classNameTemplate: \\"{suitename}\\",
+        outputDirectory: \\"reports/junit\\",
+        outputName: \\"node-lib.xml\\",
+      },
+    ],
+  ],
+};
+"
 `;
 
 exports[`nodeLibGenerator project.json matches snapshot 1`] = `

@@ -3,12 +3,7 @@ import { projectTestCases, ProjectTestCasesOptions } from "./projectTestCases";
 
 export const tsProjectTestCases = (
   getProject: () => Project,
-  options: ProjectTestCasesOptions,
+  options: ProjectTestCasesOptions = {},
 ) => {
-  projectTestCases(getProject, {
-    ...options,
-    jest: {
-      testEnvironment: "node",
-    },
-  });
+  projectTestCases(getProject, options);
 };

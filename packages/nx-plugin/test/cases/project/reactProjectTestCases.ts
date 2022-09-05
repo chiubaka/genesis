@@ -6,7 +6,7 @@ import { projectTestCases, ProjectTestCasesOptions } from "./projectTestCases";
 
 export const reactProjectTestCases = (
   getProject: () => Project,
-  options: ProjectTestCasesOptions,
+  options: ProjectTestCasesOptions = {},
 ) => {
   let project: Project;
   let tree: Tree;
@@ -94,10 +94,5 @@ export const reactProjectTestCases = (
     });
   });
 
-  projectTestCases(getProject, {
-    ...options,
-    jest: {
-      testEnvironment: "jsdom",
-    },
-  });
+  projectTestCases(getProject, options);
 };

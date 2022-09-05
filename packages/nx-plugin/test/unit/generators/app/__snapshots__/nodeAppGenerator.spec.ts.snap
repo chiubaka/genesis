@@ -11,6 +11,37 @@ Object {
 }
 `;
 
+exports[`nodeAppGenerator jest.config.ts matches snapshot 1`] = `
+"export default {
+  displayName: \\"node-app\\",
+  preset: \\"../../jest.preset.js\\",
+  globals: {
+    \\"ts-jest\\": {
+      tsconfig: \\"<rootDir>/tsconfig.spec.json\\",
+    },
+  },
+    testEnvironment: \\"node\\",
+    transform: {
+    \\"^.+\\\\\\\\.[tj]s$\\": \\"ts-jest\\",
+  },
+  moduleFileExtensions: [\\"ts\\", \\"js\\", \\"html\\"],
+  coverageDirectory: \\"../../reports/coverage/packages/node-app\\",
+  reporters: [
+    \\"default\\",
+    [
+      \\"jest-junit\\",
+      {
+        addFileAttribute: \\"true\\",
+        classNameTemplate: \\"{suitename}\\",
+        outputDirectory: \\"reports/junit\\",
+        outputName: \\"node-app.xml\\",
+      },
+    ],
+  ],
+};
+"
+`;
+
 exports[`nodeAppGenerator project.json matches snapshot 1`] = `
 Object {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",

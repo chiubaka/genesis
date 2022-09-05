@@ -60,10 +60,5 @@ export const nodeProjectTestCases = (
     });
   });
 
-  projectTestCases(getProject, {
-    ...options,
-    jest: {
-      testEnvironment: "node",
-    },
-  });
+  projectTestCases(getProject, options);
 };

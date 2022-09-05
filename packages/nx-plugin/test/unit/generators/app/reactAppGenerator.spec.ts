@@ -17,18 +17,7 @@ describe("reactAppGenerator", () => {
     project = new Project(tree, "react-app", "application");
   });
 
-  reactProjectTestCases(getProject, {
-    projectJson: {
-      targetNames: [
-        "lint",
-        "build",
-        "test",
-        "serve",
-        "storybook",
-        "build-storybook",
-      ],
-    },
-  });
+  reactProjectTestCases(getProject);
 
   beforeAll(async () => {
     await reactAppGenerator(tree, {
