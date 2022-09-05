@@ -16,6 +16,22 @@ export const reactProjectTestCases = (
     tree = project.getTree();
   });
 
+  it("generates a .babelrc file", () => {
+    // eslint-disable-next-line security/detect-non-literal-fs-filename
+    expect(tree.exists(project.path(".babelrc"))).toBe(true);
+  });
+
+  describe(".babelrc", () => {
+    it("matches snapshot", () => {
+      const babelrc = readJson<Record<string, unknown>>(
+        tree,
+        project.path(".babelrc"),
+      );
+
+      expect(babelrc).toMatchSnapshot();
+    });
+  });
+
   describe("storybook", () => {
     it("generates a .storybook/tsconfig.json file", () => {
       // eslint-disable-next-line security/detect-non-literal-fs-filename
