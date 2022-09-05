@@ -33,6 +33,17 @@ Firefox ESR
 not IE 9-11 # For IE 9-11 support, remove 'not'."
 `;
 
+exports[`reactAppGenerator .eslintrc.json matches snapshot 1`] = `
+Object {
+  "extends": Array [
+    "../../.eslintrc.json",
+  ],
+  "ignorePatterns": Array [
+    "node_modules",
+  ],
+}
+`;
+
 exports[`reactAppGenerator project.json matches snapshot 1`] = `
 Object {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
