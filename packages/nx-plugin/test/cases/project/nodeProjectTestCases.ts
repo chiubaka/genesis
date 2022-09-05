@@ -65,13 +65,5 @@ export const nodeProjectTestCases = (
     jest: {
       testEnvironment: "node",
     },
-    tsconfig: {
-      appLibTypes: ["node"],
-      compilerOptions: {
-        lib: ["es2022"],
-        module: "commonjs",
-        target: "es2022",
-      },
-    },
   });
 };

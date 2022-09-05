@@ -10,13 +10,5 @@ export const tsProjectTestCases = (
     jest: {
       testEnvironment: "node",
     },
-    tsconfig: {
-      appLibTypes: [],
-      compilerOptions: {
-        lib: ["es2015"],
-        module: "commonjs",
-        target: "es2015",
-      },
-    },
   });
 };

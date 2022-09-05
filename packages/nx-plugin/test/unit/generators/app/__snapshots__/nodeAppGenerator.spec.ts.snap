@@ -70,3 +70,67 @@ Object {
   },
 }
 `;
+
+exports[`nodeAppGenerator tsconfig.app.json or tsconfig.lib.json matches snapshot 1`] = `
+Object {
+  "compilerOptions": Object {
+    "declaration": true,
+    "types": Array [
+      "node",
+    ],
+  },
+  "exclude": Array [
+    "jest.config.ts",
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "test",
+  ],
+  "extends": "./tsconfig.json",
+  "include": Array [
+    "**/*.ts",
+  ],
+}
+`;
+
+exports[`nodeAppGenerator tsconfig.json matches snapshot 1`] = `
+Object {
+  "compilerOptions": Object {
+    "lib": Array [
+      "es2022",
+    ],
+    "module": "commonjs",
+    "outDir": "../../dist/out-tsc",
+    "target": "es2022",
+  },
+  "extends": "../../tsconfig.base.json",
+  "files": Array [],
+  "include": Array [],
+  "references": Array [
+    Object {
+      "path": "./tsconfig.app.json",
+    },
+    Object {
+      "path": "./tsconfig.spec.json",
+    },
+  ],
+}
+`;
+
+exports[`nodeAppGenerator tsconfig.spec.json matches snapshot 1`] = `
+Object {
+  "compilerOptions": Object {
+    "types": Array [
+      "jest",
+      "node",
+    ],
+  },
+  "extends": "./tsconfig.json",
+  "include": Array [
+    "jest.config.ts",
+    "**/*.test.ts",
+    "**/*.spec.ts",
+    "**/*.d.ts",
+    "test",
+  ],
+}
+`;

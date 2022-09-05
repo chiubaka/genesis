@@ -86,6 +86,70 @@ Object {
 }
 `;
 
+exports[`tsLibGenerator E2E project tsconfig.app.json or tsconfig.lib.json matches snapshot 1`] = `
+Object {
+  "compilerOptions": Object {
+    "declaration": true,
+    "types": Array [
+      "node",
+    ],
+  },
+  "exclude": Array [
+    "jest.config.ts",
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "test",
+  ],
+  "extends": "./tsconfig.json",
+  "include": Array [
+    "**/*.ts",
+  ],
+}
+`;
+
+exports[`tsLibGenerator E2E project tsconfig.json matches snapshot 1`] = `
+Object {
+  "compilerOptions": Object {
+    "lib": Array [
+      "es2022",
+    ],
+    "module": "commonjs",
+    "outDir": "../../dist/out-tsc",
+    "target": "es2022",
+  },
+  "extends": "../../tsconfig.base.json",
+  "files": Array [],
+  "include": Array [],
+  "references": Array [
+    Object {
+      "path": "./tsconfig.lib.json",
+    },
+    Object {
+      "path": "./tsconfig.spec.json",
+    },
+  ],
+}
+`;
+
+exports[`tsLibGenerator E2E project tsconfig.spec.json matches snapshot 1`] = `
+Object {
+  "compilerOptions": Object {
+    "types": Array [
+      "jest",
+      "node",
+    ],
+  },
+  "extends": "./tsconfig.json",
+  "include": Array [
+    "jest.config.ts",
+    "**/*.test.ts",
+    "**/*.spec.ts",
+    "**/*.d.ts",
+    "test",
+  ],
+}
+`;
+
 exports[`tsLibGenerator project.json matches snapshot 1`] = `
 Object {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
@@ -142,5 +206,67 @@ Object {
       ],
     },
   },
+}
+`;
+
+exports[`tsLibGenerator tsconfig.app.json or tsconfig.lib.json matches snapshot 1`] = `
+Object {
+  "compilerOptions": Object {
+    "declaration": true,
+    "types": Array [],
+  },
+  "exclude": Array [
+    "jest.config.ts",
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "test",
+  ],
+  "extends": "./tsconfig.json",
+  "include": Array [
+    "**/*.ts",
+  ],
+}
+`;
+
+exports[`tsLibGenerator tsconfig.json matches snapshot 1`] = `
+Object {
+  "compilerOptions": Object {
+    "lib": Array [
+      "es2015",
+    ],
+    "module": "commonjs",
+    "outDir": "../../dist/out-tsc",
+    "target": "es2015",
+  },
+  "extends": "../../tsconfig.base.json",
+  "files": Array [],
+  "include": Array [],
+  "references": Array [
+    Object {
+      "path": "./tsconfig.lib.json",
+    },
+    Object {
+      "path": "./tsconfig.spec.json",
+    },
+  ],
+}
+`;
+
+exports[`tsLibGenerator tsconfig.spec.json matches snapshot 1`] = `
+Object {
+  "compilerOptions": Object {
+    "types": Array [
+      "jest",
+      "node",
+    ],
+  },
+  "extends": "./tsconfig.json",
+  "include": Array [
+    "jest.config.ts",
+    "**/*.test.ts",
+    "**/*.spec.ts",
+    "**/*.d.ts",
+    "test",
+  ],
 }
 `;

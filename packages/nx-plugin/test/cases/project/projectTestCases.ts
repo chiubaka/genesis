@@ -14,16 +14,12 @@ import {
 } from "./jestProjectTestCases";
 import { projectJsonTestCases } from "./projectJsonTestCases";
 import { readmeProjectTestCases } from "./readmeProjectTestCases";
-import {
-  tsconfigTestCases,
-  TsConfigTestCasesOptions,
-} from "./tsconfigTestCases";
+import { tsconfigTestCases } from "./tsconfigTestCases";
 
 export interface ProjectTestCasesOptions {
   repoName?: string;
 
   jest?: JestTestCasesOptions;
-  tsconfig?: TsConfigTestCasesOptions;
 }
 
 /**
@@ -159,7 +155,7 @@ export const projectTestCases = (
 
   projectJsonTestCases(getProject);
   jestProjectTestCases(getProject, options.jest);
-  tsconfigTestCases(getProject, options.tsconfig);
+  tsconfigTestCases(getProject);
   eslintProjectTestCases(getProject);
   readmeProjectTestCases(getProject, options.repoName);
 };

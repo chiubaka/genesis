@@ -10,15 +10,5 @@ export const reactProjectTestCases = (
     jest: {
       testEnvironment: "jsdom",
     },
-    tsconfig: {
-      appLibTypes: [],
-      compilerOptions: {
-        lib: ["dom", "dom.iterable", "esnext"],
-        module: "esnext",
-        target: "es5",
-
-        jsx: "react-jsx",
-      },
-    },
   });
 };

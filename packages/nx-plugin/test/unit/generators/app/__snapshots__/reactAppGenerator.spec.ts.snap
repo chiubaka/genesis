@@ -129,3 +129,85 @@ Object {
   },
 }
 `;
+
+exports[`reactAppGenerator tsconfig.app.json or tsconfig.lib.json matches snapshot 1`] = `
+Object {
+  "compilerOptions": Object {
+    "declaration": true,
+  },
+  "exclude": Array [
+    "jest.config.ts",
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "**/*.spec.tsx",
+    "**/*.test.tsx",
+    "**/*.stories.ts",
+    "**/*.stories.tsx",
+    "test",
+  ],
+  "extends": "./tsconfig.json",
+  "files": Array [
+    "../../node_modules/@nrwl/react/typings/cssmodule.d.ts",
+    "../../node_modules/@nrwl/react/typings/image.d.ts",
+  ],
+  "include": Array [
+    "**/*.ts",
+    "**/*.tsx",
+  ],
+}
+`;
+
+exports[`reactAppGenerator tsconfig.json matches snapshot 1`] = `
+Object {
+  "compilerOptions": Object {
+    "lib": Array [
+      "dom",
+      "dom.iterable",
+      "esnext",
+    ],
+    "jsx": "react-jsx",
+    "module": "esnext",
+    "outDir": "../../dist/out-tsc",
+    "target": "es5",
+  },
+  "extends": "../../tsconfig.base.json",
+  "files": Array [],
+  "include": Array [],
+  "references": Array [
+    Object {
+      "path": "./tsconfig.app.json",
+    },
+    Object {
+      "path": "./tsconfig.spec.json",
+    },
+    Object {
+      "path": "./.storybook/tsconfig.json",
+    },
+  ],
+}
+`;
+
+exports[`reactAppGenerator tsconfig.spec.json matches snapshot 1`] = `
+Object {
+  "compilerOptions": Object {
+    "module": "commonjs",
+    "types": Array [
+      "jest",
+      "node",
+    ],
+  },
+  "extends": "./tsconfig.json",
+  "files": Array [
+    "../../node_modules/@nrwl/react/typings/cssmodule.d.ts",
+    "../../node_modules/@nrwl/react/typings/image.d.ts",
+  ],
+  "include": Array [
+    "jest.config.ts",
+    "**/*.test.ts",
+    "**/*.spec.ts",
+    "**/*.test.tsx",
+    "**/*.spec.tsx",
+    "**/*.d.ts",
+  ],
+}
+`;
