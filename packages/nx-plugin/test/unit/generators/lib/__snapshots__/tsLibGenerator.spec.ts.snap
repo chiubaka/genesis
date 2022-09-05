@@ -195,8 +195,8 @@ Object {
   "extends": "./tsconfig.json",
   "include": Array [
     "jest.config.ts",
-    "**/*.test.ts",
     "**/*.spec.ts",
+    "**/*.test.ts",
     "**/*.d.ts",
     "test",
   ],
@@ -297,7 +297,6 @@ exports[`tsLibGenerator tsconfig.app.json or tsconfig.lib.json matches snapshot 
 Object {
   "compilerOptions": Object {
     "declaration": true,
-    "types": Array [],
   },
   "exclude": Array [
     "jest.config.ts",
@@ -347,8 +346,8 @@ Object {
   "extends": "./tsconfig.json",
   "include": Array [
     "jest.config.ts",
-    "**/*.test.ts",
     "**/*.spec.ts",
+    "**/*.test.ts",
     "**/*.d.ts",
     "test",
   ],

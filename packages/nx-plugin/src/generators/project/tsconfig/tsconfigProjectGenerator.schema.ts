@@ -1,5 +1,4 @@
-import { CompilerOptions } from "typescript";
-
+import { TsConfig } from "../../../types";
 import { ProjectGeneratorBaseSchema } from "../projectGeneratorBase.schema";
 
 export interface TsConfigProjectGeneratorSchema
@@ -7,8 +6,7 @@ export interface TsConfigProjectGeneratorSchema
     TsConfigProjectGeneratorOwnOptions {}
 
 export interface TsConfigProjectGeneratorOwnOptions {
-  appLibTypes?: CompilerOptions["types"];
-  lib?: CompilerOptions["lib"];
-  module?: string;
-  target?: string;
+  baseConfig?: TsConfig;
+  primaryConfig?: TsConfig;
+  testConfig?: TsConfig;
 }

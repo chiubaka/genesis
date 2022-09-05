@@ -1,6 +1,7 @@
 import { generateFiles, Tree } from "@nrwl/devkit";
 import path from "path";
-import { Project } from "../../../..";
+import { Project } from "../../../../utils";
+import { eslintProjectGenerator } from "../../../project";
 import { E2eGeneratorBaseSchema } from "../../../e2eGeneratorBase.schema";
 
 export function reactAppE2eGenerator(
@@ -14,4 +15,6 @@ export function reactAppE2eGenerator(
   generateFiles(tree, path.join(__dirname, "files"), project.path(), {
     template: "",
   });
+
+  eslintProjectGenerator(tree, project.getMeta());
 }

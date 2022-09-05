@@ -1,19 +1,49 @@
-export const TsConfigGeneratorPresets = {
+import { TsConfigProjectGeneratorOwnOptions } from ".";
+
+export const TsConfigGeneratorPresets: Record<
+  string,
+  TsConfigProjectGeneratorOwnOptions
+> = {
   LIB: {
-    lib: ["es2015"],
-    module: "commonjs",
-    target: "es2015",
+    baseConfig: {
+      compilerOptions: {
+        lib: ["es2015"],
+        module: "commonjs",
+        target: "es2015",
+      },
+    },
   },
   NODE18: {
-    appLibTypes: ["node"],
-    lib: ["es2022"],
-    module: "commonjs",
-    target: "es2022",
+    baseConfig: {
+      compilerOptions: {
+        lib: ["es2022"],
+        module: "commonjs",
+        target: "es2022",
+      },
+    },
+    primaryConfig: {
+      compilerOptions: {
+        types: ["node"],
+      },
+    },
   },
   REACT: {
-    lib: ["dom", "dom.iterable", "esnext"],
-    module: "esnext",
-    target: "es5",
-    jsx: "react-jsx",
+    baseConfig: {
+      compilerOptions: {
+        jsx: "react-jsx",
+        lib: ["dom", "dom.iterable", "esnext"],
+        module: "esnext",
+        target: "es5",
+      },
+      files: [
+        "../../node_modules/@nrwl/react/typings/cssmodule.d.ts",
+        "../../node_modules/@nrwl/react/typings/image.d.ts",
+      ],
+    },
+    testConfig: {
+      compilerOptions: {
+        module: "commonjs",
+      },
+    },
   },
 };

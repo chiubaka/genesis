@@ -6,6 +6,7 @@ import {
   addNpmPublishDeployScriptsToPackageJson,
   copyTsLibSample,
   projectGenerator,
+  TsConfigGeneratorPresets,
 } from "../../project";
 import { LibGeneratorSchema } from "../libGenerator.schema";
 import { tsLibE2eGenerator } from "./e2e";
@@ -33,12 +34,7 @@ export async function tsLibGenerator(tree: Tree, options: LibGeneratorSchema) {
       testEnvironment: "node",
     },
     pruneSrcSubdirectories: true,
-    tsconfig: {
-      appLibTypes: [],
-      lib: ["es2015"],
-      module: "commonjs",
-      target: "es2015",
-    },
+    tsconfig: TsConfigGeneratorPresets.LIB,
   });
 
   addNpmPublishDeployScriptsToPackageJson(project);

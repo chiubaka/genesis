@@ -4,6 +4,9 @@
     <% if (locals.lib) { -%>
     "lib": <%- lib %>,
     <% } -%>
+    <% if (locals.jsx) { -%>
+    "jsx": "react-jsx",
+    <% } -%>
     <% if (locals.module) { -%>
     "module": "<%= module %>",
     <% } -%>

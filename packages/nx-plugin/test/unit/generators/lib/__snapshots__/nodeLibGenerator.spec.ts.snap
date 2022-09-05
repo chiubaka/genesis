@@ -195,8 +195,8 @@ Object {
   "extends": "./tsconfig.json",
   "include": Array [
     "jest.config.ts",
-    "**/*.test.ts",
     "**/*.spec.ts",
+    "**/*.test.ts",
     "**/*.d.ts",
     "test",
   ],
@@ -338,8 +338,8 @@ Object {
   "extends": "./tsconfig.json",
   "include": Array [
     "jest.config.ts",
-    "**/*.test.ts",
     "**/*.spec.ts",
+    "**/*.test.ts",
     "**/*.d.ts",
     "test",
   ],

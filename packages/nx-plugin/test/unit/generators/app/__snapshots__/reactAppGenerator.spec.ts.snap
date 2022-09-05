@@ -347,7 +347,9 @@ Object {
   },
   "exclude": Array [
     "../**/*.spec.ts",
+    "../**/*.spec.js",
     "../**/*.spec.tsx",
+    "../**/*.spec.jsx",
   ],
   "extends": "../tsconfig.json",
   "files": Array [
@@ -357,9 +359,12 @@ Object {
   ],
   "include": Array [
     "../src/**/*.stories.ts",
+    "../src/**/*.stories.js",
+    "../src/**/*.stories.jsx",
     "../src/**/*.stories.tsx",
     "../src/**/*.stories.mdx",
     "*.ts",
+    "*.js",
   ],
 }
 `;
@@ -375,15 +380,13 @@ Object {
     "**/*.test.ts",
     "**/*.spec.tsx",
     "**/*.test.tsx",
-    "**/*.stories.ts",
-    "**/*.stories.tsx",
     "test",
+    "**/*.stories.ts",
+    "**/*.stories.js",
+    "**/*.stories.jsx",
+    "**/*.stories.tsx",
   ],
   "extends": "./tsconfig.json",
-  "files": Array [
-    "../../node_modules/@nrwl/react/typings/cssmodule.d.ts",
-    "../../node_modules/@nrwl/react/typings/image.d.ts",
-  ],
   "include": Array [
     "**/*.ts",
     "**/*.tsx",
@@ -394,18 +397,27 @@ Object {
 exports[`reactAppGenerator tsconfig.json matches snapshot 1`] = `
 Object {
   "compilerOptions": Object {
+    "jsx": "react-jsx",
     "lib": Array [
       "dom",
       "dom.iterable",
       "esnext",
     ],
-    "jsx": "react-jsx",
     "module": "esnext",
     "outDir": "../../dist/out-tsc",
     "target": "es5",
   },
+  "exclude": Array [
+    "**/*.stories.ts",
+    "**/*.stories.js",
+    "**/*.stories.jsx",
+    "**/*.stories.tsx",
+  ],
   "extends": "../../tsconfig.base.json",
-  "files": Array [],
+  "files": Array [
+    "../../node_modules/@nrwl/react/typings/cssmodule.d.ts",
+    "../../node_modules/@nrwl/react/typings/image.d.ts",
+  ],
   "include": Array [],
   "references": Array [
     Object {
@@ -431,17 +443,14 @@ Object {
     ],
   },
   "extends": "./tsconfig.json",
-  "files": Array [
-    "../../node_modules/@nrwl/react/typings/cssmodule.d.ts",
-    "../../node_modules/@nrwl/react/typings/image.d.ts",
-  ],
   "include": Array [
     "jest.config.ts",
-    "**/*.test.ts",
     "**/*.spec.ts",
-    "**/*.test.tsx",
+    "**/*.test.ts",
     "**/*.spec.tsx",
+    "**/*.test.tsx",
     "**/*.d.ts",
+    "test",
   ],
 }
 `;

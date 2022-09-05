@@ -6,6 +6,25 @@
     <% } -%>
     "declaration": true
   },
-  "include": ["**/*.ts"],
-  "exclude": ["jest.config.ts", "**/*.spec.ts", "**/*.test.ts", "test"]
+  "include": [
+    "**/*.ts",
+    <% if (locals.jsx) { -%>
+    "**/*.tsx",
+    <% } -%>
+  ],
+  "exclude": [
+    "jest.config.ts",
+    "**/*.spec.ts",
+    <% if (locals.jsx) { -%>
+    "**/*.spec.tsx",
+    <% } -%>
+    "**/*.test.ts",
+    <% if (locals.jsx) { -%>
+    "**/*.test.tsx",
+    <% } -%>
+    "test"
+  ],
+  <% if (locals.files) { -%>
+  "files": <%- files %>,
+  <% } -%>
 }
