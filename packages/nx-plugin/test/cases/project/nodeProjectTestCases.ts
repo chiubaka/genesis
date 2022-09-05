@@ -9,7 +9,7 @@ import { projectTestCases, ProjectTestCasesOptions } from "./projectTestCases";
  */
 export const nodeProjectTestCases = (
   getProject: () => Project,
-  options: ProjectTestCasesOptions,
+  options: ProjectTestCasesOptions = {},
 ) => {
   let project: Project;
   let tree: Tree;

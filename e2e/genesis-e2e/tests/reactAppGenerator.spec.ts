@@ -2,7 +2,7 @@ import { e2eTmpPath, TestingWorkspace } from "@chiubaka/nx-plugin-testing";
 
 import { projectTestCases } from "../utils";
 
-describe("nodeAppGenerator", () => {
+describe("reactAppGenerator", () => {
   let workspace: TestingWorkspace;
 
   const getWorkspace = () => {
@@ -14,11 +14,9 @@ describe("nodeAppGenerator", () => {
     workspace = new TestingWorkspace(destination);
 
     await workspace.execNx(
-      "generate @chiubaka/nx-plugin:app.node --name=node-app",
+      "generate @chiubaka/nx-plugin:app.react --name=react-app",
     );
   });
 
   projectTestCases("node-app", getWorkspace);
-
-  it.todo("generates a project with a working E2E setup");
 });

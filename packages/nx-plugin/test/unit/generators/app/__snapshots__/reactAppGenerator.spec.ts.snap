@@ -1,0 +1,131 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reactAppGenerator project.json matches snapshot 1`] = `
+Object {
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "packages/react-app/src",
+  "tags": Array [],
+  "targets": Object {
+    "build": Object {
+      "configurations": Object {
+        "development": Object {
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true,
+        },
+        "production": Object {
+          "extractLicenses": true,
+          "fileReplacements": Array [
+            Object {
+              "replace": "packages/react-app/src/environments/environment.ts",
+              "with": "packages/react-app/src/environments/environment.prod.ts",
+            },
+          ],
+          "namedChunks": false,
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "vendorChunk": false,
+        },
+      },
+      "defaultConfiguration": "production",
+      "executor": "@nrwl/web:webpack",
+      "options": Object {
+        "assets": Array [
+          "packages/react-app/src/favicon.ico",
+          "packages/react-app/src/assets",
+        ],
+        "baseHref": "/",
+        "compiler": "babel",
+        "index": "packages/react-app/src/index.html",
+        "main": "packages/react-app/src/main.tsx",
+        "outputPath": "dist/packages/react-app",
+        "polyfills": "packages/react-app/src/polyfills.ts",
+        "scripts": Array [],
+        "styles": Array [
+          "packages/react-app/src/styles.scss",
+        ],
+        "tsConfig": "packages/react-app/tsconfig.app.json",
+        "webpackConfig": "@nrwl/react/plugins/webpack",
+      },
+      "outputs": Array [
+        "{options.outputPath}",
+      ],
+    },
+    "build-storybook": Object {
+      "configurations": Object {
+        "ci": Object {
+          "quiet": true,
+        },
+      },
+      "executor": "@nrwl/storybook:build",
+      "options": Object {
+        "config": Object {
+          "configFolder": "packages/react-app/.storybook",
+        },
+        "outputPath": "dist/storybook/react-app",
+        "uiFramework": "@storybook/react",
+      },
+      "outputs": Array [
+        "{options.outputPath}",
+      ],
+    },
+    "lint": Object {
+      "executor": "@nrwl/linter:eslint",
+      "options": Object {
+        "lintFilePatterns": Array [
+          "packages/react-app",
+        ],
+      },
+      "outputs": Array [
+        "{options.outputFile}",
+      ],
+    },
+    "serve": Object {
+      "configurations": Object {
+        "development": Object {
+          "buildTarget": "react-app:build:development",
+        },
+        "production": Object {
+          "buildTarget": "react-app:build:production",
+          "hmr": false,
+        },
+      },
+      "defaultConfiguration": "development",
+      "executor": "@nrwl/web:dev-server",
+      "options": Object {
+        "buildTarget": "react-app:build",
+        "hmr": true,
+      },
+    },
+    "storybook": Object {
+      "configurations": Object {
+        "ci": Object {
+          "quiet": true,
+        },
+      },
+      "executor": "@nrwl/storybook:storybook",
+      "options": Object {
+        "config": Object {
+          "configFolder": "packages/react-app/.storybook",
+        },
+        "port": 4400,
+        "uiFramework": "@storybook/react",
+      },
+    },
+    "test": Object {
+      "executor": "@nrwl/jest:jest",
+      "options": Object {
+        "jestConfig": "packages/react-app/jest.config.ts",
+        "passWithNoTests": true,
+      },
+      "outputs": Array [
+        "reports/coverage/packages/react-app",
+        "reports/junit/react-app.xml",
+      ],
+    },
+  },
+}
+`;

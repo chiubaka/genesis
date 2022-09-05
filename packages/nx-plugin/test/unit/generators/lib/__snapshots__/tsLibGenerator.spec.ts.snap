@@ -1,0 +1,146 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`tsLibGenerator E2E project project.json matches snapshot 1`] = `
+Object {
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "implicitDependencies": Array [
+    "ts-lib",
+  ],
+  "projectType": "application",
+  "sourceRoot": "e2e/ts-lib-e2e/src",
+  "tags": Array [],
+  "targets": Object {
+    "build": Object {
+      "configurations": Object {
+        "production": Object {
+          "extractLicenses": true,
+          "fileReplacements": Array [
+            Object {
+              "replace": "e2e/ts-lib-e2e/src/environments/environment.ts",
+              "with": "e2e/ts-lib-e2e/src/environments/environment.prod.ts",
+            },
+          ],
+          "inspect": false,
+          "optimization": true,
+        },
+      },
+      "executor": "@nrwl/node:webpack",
+      "options": Object {
+        "assets": Array [
+          "e2e/ts-lib-e2e/src/assets",
+        ],
+        "main": "e2e/ts-lib-e2e/src/main.ts",
+        "outputPath": "dist/e2e/ts-lib-e2e",
+        "tsConfig": "e2e/ts-lib-e2e/tsconfig.app.json",
+      },
+      "outputs": Array [
+        "{options.outputPath}",
+      ],
+    },
+    "e2e": Object {
+      "dependsOn": Array [
+        Object {
+          "projects": "self",
+          "target": "install",
+        },
+      ],
+      "executor": "@nrwl/jest:jest",
+      "options": Object {
+        "jestConfig": "e2e/ts-lib-e2e/jest.config.ts",
+        "passWithNoTests": true,
+      },
+      "outputs": Array [
+        "reports/coverage/e2e/ts-lib-e2e",
+        "reports/junit/ts-lib-e2e.xml",
+      ],
+    },
+    "install": Object {
+      "dependsOn": Array [
+        Object {
+          "projects": "dependencies",
+          "target": "build",
+        },
+      ],
+      "executor": "@nrwl/workspace:run-commands",
+      "options": Object {
+        "commands": Array [
+          "yarn cache clean --all",
+          "yarn install",
+        ],
+        "cwd": "e2e/ts-lib-e2e",
+        "parallel": false,
+      },
+    },
+    "lint": Object {
+      "executor": "@nrwl/linter:eslint",
+      "options": Object {
+        "lintFilePatterns": Array [
+          "e2e/ts-lib-e2e",
+        ],
+      },
+      "outputs": Array [
+        "{options.outputFile}",
+      ],
+    },
+  },
+}
+`;
+
+exports[`tsLibGenerator project.json matches snapshot 1`] = `
+Object {
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "packages/ts-lib/src",
+  "tags": Array [],
+  "targets": Object {
+    "build": Object {
+      "executor": "@nrwl/js:tsc",
+      "options": Object {
+        "assets": Array [
+          "packages/ts-lib/*.md",
+        ],
+        "main": "packages/ts-lib/src/index.ts",
+        "outputPath": "dist/packages/ts-lib",
+        "tsConfig": "packages/ts-lib/tsconfig.lib.json",
+      },
+      "outputs": Array [
+        "{options.outputPath}",
+      ],
+    },
+    "lint": Object {
+      "executor": "@nrwl/linter:eslint",
+      "options": Object {
+        "lintFilePatterns": Array [
+          "packages/ts-lib",
+        ],
+      },
+      "outputs": Array [
+        "{options.outputFile}",
+      ],
+    },
+    "publish": Object {
+      "dependsOn": Array [
+        Object {
+          "projects": "self",
+          "target": "build",
+        },
+      ],
+      "executor": "@nrwl/workspace:run-commands",
+      "options": Object {
+        "command": "node tools/scripts/publish.mjs ts-lib {args.ver} {args.tag}",
+      },
+    },
+    "test": Object {
+      "executor": "@nrwl/jest:jest",
+      "options": Object {
+        "jestConfig": "packages/ts-lib/jest.config.ts",
+        "passWithNoTests": true,
+      },
+      "outputs": Array [
+        "reports/coverage/packages/ts-lib",
+        "reports/junit/ts-lib.xml",
+      ],
+    },
+  },
+}
+`;

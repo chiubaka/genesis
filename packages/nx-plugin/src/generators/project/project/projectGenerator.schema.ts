@@ -7,5 +7,6 @@ export interface ProjectGeneratorSchema
   extends ProjectGeneratorBaseSchema,
     ReadmeProjectGeneratorSchema {
   jest?: JestProjectGeneratorOwnOptions;
+  tags?: string;
   tsconfig?: TsConfigProjectGeneratorOwnOptions;
 }

@@ -12,10 +12,7 @@ import {
   jestProjectTestCases,
   JestTestCasesOptions,
 } from "./jestProjectTestCases";
-import {
-  projectJsonTestCases,
-  ProjectJsonTestCasesOptions,
-} from "./projectJsonTestCases";
+import { projectJsonTestCases } from "./projectJsonTestCases";
 import { readmeProjectTestCases } from "./readmeProjectTestCases";
 import {
   tsconfigTestCases,
@@ -26,7 +23,6 @@ export interface ProjectTestCasesOptions {
   repoName?: string;
 
   jest?: JestTestCasesOptions;
-  projectJson: ProjectJsonTestCasesOptions;
   tsconfig?: TsConfigTestCasesOptions;
 }
 
@@ -36,7 +32,7 @@ export interface ProjectTestCasesOptions {
  */
 export const projectTestCases = (
   getProject: () => Project,
-  options: ProjectTestCasesOptions,
+  options: ProjectTestCasesOptions = {},
 ) => {
   let project: Project;
   let tree: Tree;
@@ -161,7 +157,7 @@ export const projectTestCases = (
     });
   });
 
-  projectJsonTestCases(getProject, options.projectJson);
+  projectJsonTestCases(getProject);
   jestProjectTestCases(getProject, options.jest);
   tsconfigTestCases(getProject, options.tsconfig);
   eslintProjectTestCases(getProject);

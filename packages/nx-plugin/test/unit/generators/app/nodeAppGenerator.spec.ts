@@ -1,16 +1,7 @@
 import { createTreeWithEmptyWorkspace } from "@chiubaka/nx-plugin-testing";
-import {
-  ProjectConfiguration,
-  readJson,
-  TargetConfiguration,
-  Tree,
-} from "@nrwl/devkit";
+import { Tree } from "@nrwl/devkit";
 
-import {
-  nodeAppGenerator,
-  Project,
-  WebpackExecutorOptions,
-} from "../../../../src";
+import { nodeAppGenerator, Project } from "../../../../src";
 import { nodeProjectTestCases } from "../../../cases";
 
 describe("nodeAppGenerator", () => {
@@ -26,11 +17,7 @@ describe("nodeAppGenerator", () => {
     project = new Project(tree, "node-app", "application");
   });
 
-  nodeProjectTestCases(getProject, {
-    projectJson: {
-      targetNames: ["lint", "build", "test", "serve"],
-    },
-  });
+  nodeProjectTestCases(getProject);
 
   beforeAll(async () => {
     await nodeAppGenerator(tree, {
@@ -74,51 +61,5 @@ describe("nodeAppGenerator", () => {
   it("does not generate an app dir", () => {
     // eslint-disable-next-line security/detect-non-literal-fs-filename
     expect(tree.exists(project.srcPath("app"))).toBe(false);
-  });
-
-  describe("project.json", () => {
-    let projectJson: ProjectConfiguration;
-
-    beforeAll(() => {
-      projectJson = readJson<ProjectConfiguration>(
-        tree,
-        project.path("project.json"),
-      );
-    });
-
-    describe("build target", () => {
-      let buildTarget: TargetConfiguration<WebpackExecutorOptions>;
-      let buildOptions: WebpackExecutorOptions | undefined;
-
-      beforeAll(() => {
-        buildTarget = projectJson.targets
-          ?.build as TargetConfiguration<WebpackExecutorOptions>;
-        buildOptions = buildTarget.options;
-      });
-
-      it("uses the webpack executor", () => {
-        expect(buildTarget.executor).toBe("@nrwl/node:webpack");
-      });
-
-      it("specifies the correct output path", () => {
-        expect(buildOptions?.outputPath).toEqual(project.distPath());
-      });
-
-      it("specifies the correct main script", () => {
-        expect(buildOptions?.main).toEqual(project.relativePath("src/main.ts"));
-      });
-
-      it("specifies the correct tsConfig", () => {
-        expect(buildOptions?.tsConfig).toEqual(
-          project.relativePath("tsconfig.app.json"),
-        );
-      });
-
-      it("specifies the correct assets directory", () => {
-        expect(buildOptions?.assets).toEqual([
-          project.relativePath("src/assets"),
-        ]);
-      });
-    });
   });
 });

@@ -36,7 +36,7 @@ describe("tsconfigProjectGenerator", () => {
       tsconfigProjectGenerator(tree, {
         projectName,
         projectType,
-        ...TsConfigGeneratorPresets.node18,
+        ...TsConfigGeneratorPresets.NODE18,
       });
       project = new Project(tree, projectName, projectType);
     });

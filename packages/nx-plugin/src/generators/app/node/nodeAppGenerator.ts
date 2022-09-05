@@ -2,11 +2,11 @@ import { Tree } from "@nrwl/devkit";
 
 import { Project } from "../../../utils";
 import { copyNodeAppSample, nodeProjectGenerator } from "../../project";
-import { NodeAppGeneratorSchema } from "./nodeAppGenerator.schema";
+import { AppGeneratorSchema } from "../appGenerator.schema";
 
 export async function nodeAppGenerator(
   tree: Tree,
-  options: NodeAppGeneratorSchema,
+  options: AppGeneratorSchema,
 ) {
   const { name } = options;
   const project = new Project(tree, name, "application");

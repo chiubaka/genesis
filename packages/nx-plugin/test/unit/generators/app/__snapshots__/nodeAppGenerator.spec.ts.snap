@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`nodeAppGenerator project.json matches snapshot 1`] = `
+Object {
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "packages/node-app/src",
+  "tags": Array [],
+  "targets": Object {
+    "build": Object {
+      "configurations": Object {
+        "production": Object {
+          "extractLicenses": true,
+          "fileReplacements": Array [
+            Object {
+              "replace": "packages/node-app/src/environments/environment.ts",
+              "with": "packages/node-app/src/environments/environment.prod.ts",
+            },
+          ],
+          "inspect": false,
+          "optimization": true,
+        },
+      },
+      "executor": "@nrwl/node:webpack",
+      "options": Object {
+        "assets": Array [
+          "packages/node-app/src/assets",
+        ],
+        "main": "packages/node-app/src/main.ts",
+        "outputPath": "dist/packages/node-app",
+        "tsConfig": "packages/node-app/tsconfig.app.json",
+      },
+      "outputs": Array [
+        "{options.outputPath}",
+      ],
+    },
+    "lint": Object {
+      "executor": "@nrwl/linter:eslint",
+      "options": Object {
+        "lintFilePatterns": Array [
+          "packages/node-app",
+        ],
+      },
+      "outputs": Array [
+        "{options.outputFile}",
+      ],
+    },
+    "serve": Object {
+      "configurations": Object {
+        "production": Object {
+          "buildTarget": "node-app:build:production",
+        },
+      },
+      "executor": "@nrwl/node:node",
+      "options": Object {
+        "buildTarget": "node-app:build",
+      },
+    },
+    "test": Object {
+      "executor": "@nrwl/jest:jest",
+      "options": Object {
+        "jestConfig": "packages/node-app/jest.config.ts",
+        "passWithNoTests": true,
+      },
+      "outputs": Array [
+        "reports/coverage/packages/node-app",
+        "reports/junit/node-app.xml",
+      ],
+    },
+  },
+}
+`;

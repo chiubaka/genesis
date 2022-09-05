@@ -36,11 +36,7 @@ describe("nodeLibGenerator", () => {
   });
 
   libTestCases(getProject);
-  nodeProjectTestCases(getProject, {
-    projectJson: {
-      targetNames: ["lint", "build", "test"],
-    },
-  });
+  nodeProjectTestCases(getProject);
 
   beforeAll(async () => {
     await nodeLibGenerator(tree, {
@@ -61,9 +57,6 @@ describe("nodeLibGenerator", () => {
 
   describe("E2E project", () => {
     nodeProjectTestCases(getE2eProject, {
-      projectJson: {
-        targetNames: ["lint", "build", "e2e"],
-      },
       repoName: "node-lib",
     });
 
