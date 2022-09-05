@@ -32,6 +32,19 @@ export const reactProjectTestCases = (
     });
   });
 
+  it("generates a .browserslistrc file", () => {
+    // eslint-disable-next-line security/detect-non-literal-fs-filename
+    expect(tree.exists(project.path(".browserslistrc"))).toBe(true);
+  });
+
+  describe(".browserslistrc", () => {
+    it("matches snapshot", () => {
+      const contents = tree.read(project.path(".browserslistrc"))?.toString();
+
+      expect(contents).toMatchSnapshot();
+    });
+  });
+
   describe("storybook", () => {
     it("generates a .storybook/tsconfig.json file", () => {
       // eslint-disable-next-line security/detect-non-literal-fs-filename
