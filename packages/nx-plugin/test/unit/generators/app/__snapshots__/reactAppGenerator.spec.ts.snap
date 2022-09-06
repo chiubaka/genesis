@@ -47,31 +47,10 @@ Object {
 exports[`reactAppGenerator E2E project .eslintrc.json matches snapshot 1`] = `
 Object {
   "extends": Array [
-    "plugin:cypress/recommended",
     "../../.eslintrc.json",
   ],
   "ignorePatterns": Array [
     "node_modules",
-  ],
-  "overrides": Array [
-    Object {
-      "files": Array [
-        "*.ts",
-        "*.tsx",
-        "*.js",
-        "*.jsx",
-      ],
-      "rules": Object {},
-    },
-    Object {
-      "files": Array [
-        "src/plugins/index.js",
-      ],
-      "rules": Object {
-        "@typescript-eslint/no-var-requires": "off",
-        "no-undef": "off",
-      },
-    },
   ],
 }
 `;
@@ -148,13 +127,13 @@ exports[`reactAppGenerator jest.config.ts matches snapshot 1`] = `
 "export default {
   displayName: \\"react-app\\",
   preset: \\"../../jest.preset.js\\",
-  testEnvironment: \\"jsdom\\",
-  transform: {
-    "^(?!.*\\.(js|jsx|ts|tsx|css|json)$)": "@nrwl/react/plugins/jest",
-    "^.+\\.[tj]sx?$": "babel-jest",
-  },
-  moduleFileExtensions: [\\"ts\\", \\"tsx\\", \\"js\\", \\"jsx\\"],
-  coverageDirectory: \\"../../reports/coverage/packages/react-app\\",
+      testEnvironment: \\"jsdom\\",
+    transform: {
+        \\"^(?!.*\\\\\\\\.(js|jsx|ts|tsx|css|json)$)\\": \\"@nrwl/react/plugins/jest\\",
+    \\"^.+\\\\\\\\.[tj]sx?$\\": \\"babel-jest\\",
+      },
+    moduleFileExtensions: [\\"ts\\", \\"tsx\\", \\"js\\", \\"jsx\\", \\"html\\"],
+    coverageDirectory: \\"../../reports/coverage/packages/react-app\\",
   reporters: [
     \\"default\\",
     [

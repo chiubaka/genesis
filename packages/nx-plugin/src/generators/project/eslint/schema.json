@@ -14,6 +14,10 @@
       "type": "string",
       "description": "The type of project to generate configuration for",
       "enum": ["application", "library"]
+    },
+    "enableReact": {
+      "type": "boolean",
+      "description": "Whether or not to include React-specific linting rules and configurations"
     }
   },
   "required": ["projectName", "projectType"]

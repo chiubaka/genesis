@@ -8,5 +8,29 @@ Object {
   "ignorePatterns": Array [
     "node_modules",
   ],
+  "overrides": Array [
+    Object {
+      "files": Array [
+        "jest.config.ts",
+        "*.spec.ts",
+        "*.test.ts",
+      ],
+      "parserOptions": Object {
+        "project": Array [
+          "packages/eslint-project/tsconfig.spec.json",
+        ],
+      },
+    },
+    Object {
+      "files": Array [
+        "*.ts",
+      ],
+      "parserOptions": Object {
+        "project": Array [
+          "packages/eslint-project/tsconfig.lib.json",
+        ],
+      },
+    },
+  ],
 }
 `;

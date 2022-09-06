@@ -26,17 +26,17 @@ exports[`tsLibGenerator E2E project jest.config.ts matches snapshot 1`] = `
 "export default {
   displayName: \\"ts-lib-e2e\\",
   preset: \\"../../jest.preset.js\\",
-  globals: {
+    globals: {
     \\"ts-jest\\": {
       tsconfig: \\"<rootDir>/tsconfig.spec.json\\",
     },
   },
-    testEnvironment: \\"node\\",
+      testEnvironment: \\"node\\",
     transform: {
-    \\"^.+\\\\\\\\.[tj]s$\\": \\"ts-jest\\",
-  },
-  moduleFileExtensions: [\\"ts\\", \\"js\\", \\"html\\"],
-  coverageDirectory: \\"../../reports/coverage/packages/ts-lib-e2e\\",
+        \\"^.+\\\\\\\\.[tj]s$\\": \\"ts-jest\\",
+      },
+    moduleFileExtensions: [\\"ts\\", \\"js\\", \\"html\\"],
+    coverageDirectory: \\"../../reports/coverage/packages/ts-lib-e2e\\",
   reporters: [
     \\"default\\",
     [
@@ -207,17 +207,17 @@ exports[`tsLibGenerator jest.config.ts matches snapshot 1`] = `
 "export default {
   displayName: \\"ts-lib\\",
   preset: \\"../../jest.preset.js\\",
-  globals: {
+    globals: {
     \\"ts-jest\\": {
       tsconfig: \\"<rootDir>/tsconfig.spec.json\\",
     },
   },
-    testEnvironment: \\"node\\",
+      testEnvironment: \\"node\\",
     transform: {
-    \\"^.+\\\\\\\\.[tj]s$\\": \\"ts-jest\\",
-  },
-  moduleFileExtensions: [\\"ts\\", \\"js\\", \\"html\\"],
-  coverageDirectory: \\"../../reports/coverage/packages/ts-lib\\",
+        \\"^.+\\\\\\\\.[tj]s$\\": \\"ts-jest\\",
+      },
+    moduleFileExtensions: [\\"ts\\", \\"js\\", \\"html\\"],
+    coverageDirectory: \\"../../reports/coverage/packages/ts-lib\\",
   reporters: [
     \\"default\\",
     [

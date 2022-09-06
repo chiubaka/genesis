@@ -1,18 +1,29 @@
 export default {
   displayName: "<%= projectName %>",
   preset: "../../jest.preset.js",
+  <% if (!locals.enableReact) { -%>
   globals: {
     "ts-jest": {
       tsconfig: "<rootDir>/tsconfig.spec.json",
     },
   },
-  <% if (testEnvironment) { -%>
+  <% } -%>
+  <% if (locals.testEnvironment) { -%>
   testEnvironment: "<%= testEnvironment %>",
   <% } -%>
   transform: {
+    <% if (locals.enableReact) { -%>
+    "^(?!.*\\.(js|jsx|ts|tsx|css|json)$)": "@nrwl/react/plugins/jest",
+    "^.+\\.[tj]sx?$": "babel-jest",
+    <% } else { -%>
     "^.+\\.[tj]s$": "ts-jest",
+    <% } -%>
   },
+  <% if (locals.enableReact) { -%>
+  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "html"],
+  <% } else { -%>
   moduleFileExtensions: ["ts", "js", "html"],
+  <% } -%>
   coverageDirectory: "../../reports/coverage/packages/<%= projectName %>",
   reporters: [
     "default",

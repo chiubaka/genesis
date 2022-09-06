@@ -2,13 +2,16 @@ import { generateFiles, Tree } from "@nrwl/devkit";
 import path from "node:path";
 
 import { addDependenciesToPackageJson, Project } from "../../../utils";
-import { JestProjectGeneratorSchema } from "./jestProjectGenerator.schema";
+import {
+  JestProjectGeneratorOwnOptions,
+  JestProjectGeneratorSchema,
+} from "./jestProjectGenerator.schema";
 
 export async function jestProjectGenerator(
   tree: Tree,
   options: JestProjectGeneratorSchema,
 ) {
-  const { projectName, projectType, testEnvironment } = options;
+  const { projectName, projectType } = options;
   const project = new Project(tree, projectName, projectType);
 
   const installDependenciesTask = await addDependenciesToPackageJson(
@@ -18,7 +21,7 @@ export async function jestProjectGenerator(
     project.path("package.json"),
   );
 
-  copyConfigTemplate(project, testEnvironment);
+  copyConfigTemplate(project, options);
 
   return async () => {
     await installDependenciesTask();
@@ -27,7 +30,7 @@ export async function jestProjectGenerator(
 
 function copyConfigTemplate(
   project: Project,
-  testEnvironment?: "node" | "jsdom",
+  options: JestProjectGeneratorOwnOptions,
 ) {
   const tree = project.getTree();
   const projectName = project.getName();
@@ -38,6 +41,6 @@ function copyConfigTemplate(
     projectName,
     projectType,
     template: "",
-    testEnvironment,
+    ...options,
   });
 }

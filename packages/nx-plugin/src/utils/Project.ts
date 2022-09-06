@@ -72,6 +72,12 @@ export class Project {
     return this.path("jest.config.ts");
   }
 
+  public getPrimaryTsConfigName() {
+    return this.getType() === "application"
+      ? "tsconfig.app.json"
+      : "tsconfig.lib.json";
+  }
+
   public getTree() {
     return this.tree;
   }

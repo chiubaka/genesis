@@ -7,6 +7,7 @@ import {
 } from "@nrwl/react";
 
 import { lintFix, Project } from "../../../utils";
+import { eslintProjectGenerator } from "../eslint";
 import { projectGenerator, ProjectGeneratorSchema } from "../project";
 import { TsConfigGeneratorPresets } from "../tsconfig";
 
@@ -20,6 +21,8 @@ export async function reactProjectGenerator(
 
   const projectGeneratorTask = await projectGenerator(tree, {
     ...options,
+    skipEslint: true,
+    enableReact: true,
     jest: {
       testEnvironment: "jsdom",
     },
@@ -33,6 +36,13 @@ export async function reactProjectGenerator(
     generateStories: true,
     standaloneConfig: true,
     tsConfiguration: true,
+  });
+
+  // Storybook modifies the .eslintrc.json file in a bad way, so we have to
+  // run this generator after storybook generation.
+  eslintProjectGenerator(tree, {
+    ...options,
+    enableReact: true,
   });
 
   return async () => {

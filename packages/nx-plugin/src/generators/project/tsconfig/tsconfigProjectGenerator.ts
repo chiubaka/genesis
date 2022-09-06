@@ -26,7 +26,7 @@ function writeBaseConfig(
   reactEnabled: boolean,
 ) {
   const tree = project.getTree();
-  const primaryConfigName = getPrimaryConfigName(project);
+  const primaryConfigName = project.getPrimaryTsConfigName();
 
   const exclude = reactEnabled
     ? [
@@ -65,7 +65,7 @@ function writePrimaryConfig(
   reactEnabled: boolean,
 ) {
   const tree = project.getTree();
-  const primaryConfigName = getPrimaryConfigName(project);
+  const primaryConfigName = project.getPrimaryTsConfigName();
 
   const include = [...(primaryConfig.include || []), "**/*.ts"];
   if (reactEnabled) {
@@ -122,10 +122,4 @@ function writeTestConfig(
     },
     include,
   });
-}
-
-function getPrimaryConfigName(project: Project) {
-  return project.getType() === "application"
-    ? "tsconfig.app.json"
-    : "tsconfig.lib.json";
 }

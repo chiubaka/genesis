@@ -32,6 +32,7 @@ export async function projectGenerator(
     jest: jestOptions,
     pruneSrcSubdirectories,
     tsconfig: tsconfigOptions,
+    skipEslint,
   } = options;
   const project = Project.createFromOptions(tree, options);
 
@@ -52,7 +53,9 @@ export async function projectGenerator(
     ...options,
     ...jestOptions,
   });
-  eslintProjectGenerator(tree, options);
+  if (!skipEslint) {
+    eslintProjectGenerator(tree, options);
+  }
   readmeProjectGenerator(tree, options);
 
   const updateYarnWorkspaceTask = updateYarnWorkspace(project);
