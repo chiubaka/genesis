@@ -3,6 +3,7 @@ import { Tree } from "@nrwl/devkit";
 
 import { Project, reactAppGenerator } from "../../../../src";
 import {
+  fileMatchesSnapshot,
   reactE2eProjectTestCases,
   reactProjectTestCases,
 } from "../../../cases";
@@ -35,43 +36,89 @@ describe("reactAppGenerator", () => {
   });
 
   describe("sample code", () => {
-    it("creates an app directory", () => {
+    it("generates an app directory", () => {
       // eslint-disable-next-line security/detect-non-literal-fs-filename
       expect(tree.exists(project.srcPath("app"))).toBe(true);
     });
 
-    describe("creates a sample component", () => {
-      it("creates an app/App.tsx file", () => {
-        // eslint-disable-next-line security/detect-non-literal-fs-filename
-        expect(tree.exists(project.srcPath("app/App.tsx"))).toBe(true);
-      });
+    it("generates an assets directory", () => {
+      // eslint-disable-next-line security/detect-non-literal-fs-filename
+      expect(tree.exists(project.srcPath("assets"))).toBe(true);
+    });
 
-      it("creates an app/App.module.scss file", () => {
-        // eslint-disable-next-line security/detect-non-literal-fs-filename
-        expect(tree.exists(project.srcPath("app/App.module.scss"))).toBe(true);
-      });
+    it("generates an environments directory", () => {
+      // eslint-disable-next-line security/detect-non-literal-fs-filename
+      expect(tree.exists(project.srcPath("environments"))).toBe(true);
+    });
 
-      it("creates an app/App.stories.tsx file", () => {
-        // eslint-disable-next-line security/detect-non-literal-fs-filename
-        expect(tree.exists(project.srcPath("app/App.stories.tsx"))).toBe(true);
-      });
+    it("generates a favicon", () => {
+      // eslint-disable-next-line security/detect-non-literal-fs-filename
+      expect(tree.exists(project.srcPath("favicon.ico"))).toBe(true);
+    });
 
-      it("creates an app/NxWelcome.tsx file", () => {
-        // eslint-disable-next-line security/detect-non-literal-fs-filename
-        expect(tree.exists(project.srcPath("app/NxWelcome.tsx"))).toBe(true);
-      });
+    fileMatchesSnapshot("index.html", getProject, (project: Project) =>
+      project.srcPath("index.html"),
+    );
 
-      it("creates an app/NxWelcome.stories.tsx file", () => {
-        // eslint-disable-next-line security/detect-non-literal-fs-filename
-        expect(tree.exists(project.srcPath("app/NxWelcome.stories.tsx"))).toBe(
-          true,
-        );
-      });
+    fileMatchesSnapshot("main.tsx", getProject, (project: Project) =>
+      project.srcPath("main.tsx"),
+    );
 
-      it("creates a sample unit test", () => {
-        // eslint-disable-next-line security/detect-non-literal-fs-filename
-        expect(tree.exists(project.testPath("unit/App.spec.tsx"))).toBe(true);
-      });
+    fileMatchesSnapshot("polyfills.ts", getProject, (project: Project) =>
+      project.srcPath("polyfills.ts"),
+    );
+
+    fileMatchesSnapshot("styles.scss", getProject, (project: Project) =>
+      project.srcPath("styles.scss"),
+    );
+
+    describe("generates a sample component", () => {
+      fileMatchesSnapshot("app/App.tsx", getProject, (project: Project) =>
+        project.srcPath("app/App.tsx"),
+      );
+
+      fileMatchesSnapshot(
+        "app/App.module.scss",
+        getProject,
+        (project: Project) => project.srcPath("app/App.module.scss"),
+      );
+
+      fileMatchesSnapshot(
+        "app/App.stories.tsx",
+        getProject,
+        (project: Project) => project.srcPath("app/App.stories.tsx"),
+      );
+
+      fileMatchesSnapshot("app/NxWelcome.tsx", getProject, (project: Project) =>
+        project.srcPath("app/NxWelcome.tsx"),
+      );
+
+      fileMatchesSnapshot(
+        "app/NxWelcome.stories.tsx",
+        getProject,
+        (project: Project) => project.srcPath("app/NxWelcome.stories.tsx"),
+      );
+    });
+
+    describe("generates a sample unit test", () => {
+      fileMatchesSnapshot("unit/App.spec.tsx", getProject, (project: Project) =>
+        project.testPath("unit/App.spec.tsx"),
+      );
+    });
+
+    describe("environments", () => {
+      fileMatchesSnapshot(
+        "environments/environment.ts",
+        getProject,
+        (project: Project) => project.srcPath("environments/environment.ts"),
+      );
+
+      fileMatchesSnapshot(
+        "environments/environment.prod.ts",
+        getProject,
+        (project: Project) =>
+          project.srcPath("environments/environment.prod.ts"),
+      );
     });
   });
 
