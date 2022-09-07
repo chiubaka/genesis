@@ -37,7 +37,8 @@ export const TsConfigGeneratorPresets: Record<
       },
       files: [
         "../../node_modules/@nrwl/react/typings/cssmodule.d.ts",
-        "../../node_modules/@nrwl/react/typings/image.d.ts",
+        // https://github.com/chiubaka/genesis/issues/130
+        // "../../node_modules/@nrwl/react/typings/image.d.ts",
       ],
     },
     testConfig: {

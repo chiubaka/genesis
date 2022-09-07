@@ -103,6 +103,45 @@ Object {
 }
 `;
 
+exports[`reactAppGenerator E2E project sample tests e2e/App.cy.ts matches snapshot 1`] = `
+"import { getGreeting } from '../support/app.po';
+
+describe('react-app', () => {
+  beforeEach(() => cy.visit('/'));
+
+  it('should display welcome message', () => {
+    // Custom command example, see \`../support/commands.ts\` file
+    cy.login('my-email@something.com', 'myPassword');
+
+    // Function helper example, see \`../support/app.po.ts\` file
+    getGreeting().contains('Welcome react-app');
+  });
+});
+"
+`;
+
+exports[`reactAppGenerator E2E project sample tests e2e/App/App.cy.ts matches snapshot 1`] = `
+"describe('react-app: App component', () => {
+  beforeEach(() => cy.visit('/iframe.html?id=app--primary'));
+    
+    it('should render the component', () => {
+      cy.get('h1').should('contain', 'Welcome react-app');
+    });
+});
+"
+`;
+
+exports[`reactAppGenerator E2E project sample tests e2e/NxWelcome/NxWelcome.cy.ts matches snapshot 1`] = `
+"describe('react-app: NxWelcome component', () => {
+  beforeEach(() => cy.visit('/iframe.html?id=nxwelcome--primary'));
+    
+    it('should render the component', () => {
+      cy.get('h1').should('contain', 'Welcome react-app');
+    });
+});
+"
+`;
+
 exports[`reactAppGenerator E2E project tsconfig.json matches snapshot 1`] = `
 Object {
   "compilerOptions": Object {

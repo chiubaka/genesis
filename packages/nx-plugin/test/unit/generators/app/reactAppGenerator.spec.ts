@@ -124,5 +124,23 @@ describe("reactAppGenerator", () => {
 
   describe("E2E project", () => {
     reactE2eProjectTestCases(getE2eProject);
+
+    describe("sample tests", () => {
+      fileMatchesSnapshot("e2e/App.cy.ts", getE2eProject, (project: Project) =>
+        project.srcPath("e2e/App.cy.ts"),
+      );
+
+      fileMatchesSnapshot(
+        "e2e/App/App.cy.ts",
+        getE2eProject,
+        (project: Project) => project.srcPath("e2e/App/App.cy.ts"),
+      );
+
+      fileMatchesSnapshot(
+        "e2e/NxWelcome/NxWelcome.cy.ts",
+        getE2eProject,
+        (project: Project) => project.srcPath("e2e/NxWelcome/NxWelcome.cy.ts"),
+      );
+    });
   });
 });

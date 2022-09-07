@@ -1,6 +1,6 @@
-import { generateFiles, Tree } from "@nrwl/devkit";
+import { generateFiles, moveFilesToNewDirectory, Tree } from "@nrwl/devkit";
 import path from "path";
-import { Project } from "../../../../utils";
+import { Project, replaceInFile } from "../../../../utils";
 import { eslintProjectGenerator } from "../../../project";
 import { E2eGeneratorBaseSchema } from "../../../e2eGeneratorBase.schema";
 
@@ -17,4 +17,33 @@ export function reactAppE2eGenerator(
   });
 
   eslintProjectGenerator(tree, project.getMeta());
+
+  replaceInFile(
+    tree,
+    project.srcPath("e2e/App/App.cy.ts"),
+    "Welcome to App!",
+    `Welcome ${appProject.getName()}`,
+  );
+  replaceInFile(
+    tree,
+    project.srcPath("e2e/nx-welcome/nx-welcome.cy.ts"),
+    "Welcome to NxWelcome!",
+    `Welcome ${appProject.getName()}`,
+  );
+
+  tree.rename(
+    project.srcPath("e2e/app.cy.ts"),
+    project.srcPath("e2e/App.cy.ts"),
+  );
+
+  moveFilesToNewDirectory(
+    tree,
+    project.srcPath("e2e/nx-welcome"),
+    project.srcPath("e2e/NxWelcome"),
+  );
+  tree.delete(project.srcPath("e2e/nx-welcome"));
+  tree.rename(
+    project.srcPath("e2e/NxWelcome/nx-welcome.cy.ts"),
+    project.srcPath("e2e/NxWelcome/NxWelcome.cy.ts"),
+  );
 }

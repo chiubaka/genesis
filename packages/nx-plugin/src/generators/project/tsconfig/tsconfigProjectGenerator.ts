@@ -15,27 +15,14 @@ export function tsconfigProjectGenerator(
 
   const reactEnabled = baseConfig?.compilerOptions?.jsx !== undefined;
 
-  writeBaseConfig(project, baseConfig, reactEnabled);
+  writeBaseConfig(project, baseConfig);
   writePrimaryConfig(project, primaryConfig, reactEnabled);
   writeTestConfig(project, testConfig, reactEnabled);
 }
 
-function writeBaseConfig(
-  project: Project,
-  baseConfig: TsConfig = {},
-  reactEnabled: boolean,
-) {
+function writeBaseConfig(project: Project, baseConfig: TsConfig = {}) {
   const tree = project.getTree();
   const primaryConfigName = project.getPrimaryTsConfigName();
-
-  const exclude = reactEnabled
-    ? [
-        "**/*.stories.ts",
-        "**/*.stories.js",
-        "**/*.stories.jsx",
-        "**/*.stories.tsx",
-      ]
-    : undefined;
 
   writeJson<TsConfig>(tree, project.path("tsconfig.json"), {
     extends: "../../tsconfig.base.json",
@@ -45,7 +32,6 @@ function writeBaseConfig(
       ...baseConfig.compilerOptions,
     },
     files: baseConfig.files || [],
-    exclude,
     include: baseConfig.include || [],
     references: [
       {
