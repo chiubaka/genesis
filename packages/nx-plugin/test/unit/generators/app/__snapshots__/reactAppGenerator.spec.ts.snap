@@ -41,6 +41,51 @@ Object {
   "ignorePatterns": Array [
     "node_modules",
   ],
+  "overrides": Array [
+    Object {
+      "files": Array [
+        "jest.config.ts",
+        "*.spec.ts",
+        "*.test.ts",
+        "*.spec.tsx",
+        "*.test.tsx",
+      ],
+      "parserOptions": Object {
+        "project": Array [
+          "packages/react-app/tsconfig.spec.json",
+        ],
+      },
+    },
+    Object {
+      "files": Array [
+        "*.stories.tsx",
+      ],
+      "parserOptions": Object {
+        "project": Array [
+          "packages/react-app/.storybook/tsconfig.json",
+        ],
+      },
+    },
+    Object {
+      "excludedFiles": Array [
+        "jest.config.ts",
+        "*.spec.ts",
+        "*.test.ts",
+        "*.stories.tsx",
+        "*.spec.tsx",
+        "*.test.tsx",
+      ],
+      "files": Array [
+        "*.ts",
+        "*.tsx",
+      ],
+      "parserOptions": Object {
+        "project": Array [
+          "packages/react-app/tsconfig.app.json",
+        ],
+      },
+    },
+  ],
 }
 `;
 
@@ -51,6 +96,19 @@ Object {
   ],
   "ignorePatterns": Array [
     "node_modules",
+  ],
+  "overrides": Array [
+    Object {
+      "excludedFiles": Array [],
+      "files": Array [
+        "*.ts",
+      ],
+      "parserOptions": Object {
+        "project": Array [
+          "e2e/react-app-e2e/tsconfig.json",
+        ],
+      },
+    },
   ],
 }
 `;
@@ -1429,16 +1487,9 @@ Object {
     "outDir": "../../dist/out-tsc",
     "target": "es5",
   },
-  "exclude": Array [
-    "**/*.stories.ts",
-    "**/*.stories.js",
-    "**/*.stories.jsx",
-    "**/*.stories.tsx",
-  ],
   "extends": "../../tsconfig.base.json",
   "files": Array [
     "../../node_modules/@nrwl/react/typings/cssmodule.d.ts",
-    "../../node_modules/@nrwl/react/typings/image.d.ts",
   ],
   "include": Array [],
   "references": Array [

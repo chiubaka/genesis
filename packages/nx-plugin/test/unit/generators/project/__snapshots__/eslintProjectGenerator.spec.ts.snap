@@ -22,6 +22,11 @@ Object {
       },
     },
     Object {
+      "excludedFiles": Array [
+        "jest.config.ts",
+        "*.spec.ts",
+        "*.test.ts",
+      ],
       "files": Array [
         "*.ts",
       ],

@@ -8,6 +8,35 @@ Object {
   "ignorePatterns": Array [
     "node_modules",
   ],
+  "overrides": Array [
+    Object {
+      "files": Array [
+        "jest.config.ts",
+        "*.spec.ts",
+        "*.test.ts",
+      ],
+      "parserOptions": Object {
+        "project": Array [
+          "packages/node-app/tsconfig.spec.json",
+        ],
+      },
+    },
+    Object {
+      "excludedFiles": Array [
+        "jest.config.ts",
+        "*.spec.ts",
+        "*.test.ts",
+      ],
+      "files": Array [
+        "*.ts",
+      ],
+      "parserOptions": Object {
+        "project": Array [
+          "packages/node-app/tsconfig.app.json",
+        ],
+      },
+    },
+  ],
 }
 `;
 

@@ -8,6 +8,35 @@ Object {
   "ignorePatterns": Array [
     "node_modules",
   ],
+  "overrides": Array [
+    Object {
+      "files": Array [
+        "jest.config.ts",
+        "*.spec.ts",
+        "*.test.ts",
+      ],
+      "parserOptions": Object {
+        "project": Array [
+          "packages/ts-lib/tsconfig.spec.json",
+        ],
+      },
+    },
+    Object {
+      "excludedFiles": Array [
+        "jest.config.ts",
+        "*.spec.ts",
+        "*.test.ts",
+      ],
+      "files": Array [
+        "*.ts",
+      ],
+      "parserOptions": Object {
+        "project": Array [
+          "packages/ts-lib/tsconfig.lib.json",
+        ],
+      },
+    },
+  ],
 }
 `;
 
@@ -18,6 +47,35 @@ Object {
   ],
   "ignorePatterns": Array [
     "node_modules",
+  ],
+  "overrides": Array [
+    Object {
+      "files": Array [
+        "jest.config.ts",
+        "*.spec.ts",
+        "*.test.ts",
+      ],
+      "parserOptions": Object {
+        "project": Array [
+          "e2e/ts-lib-e2e/tsconfig.spec.json",
+        ],
+      },
+    },
+    Object {
+      "excludedFiles": Array [
+        "jest.config.ts",
+        "*.spec.ts",
+        "*.test.ts",
+      ],
+      "files": Array [
+        "*.ts",
+      ],
+      "parserOptions": Object {
+        "project": Array [
+          "e2e/ts-lib-e2e/tsconfig.lib.json",
+        ],
+      },
+    },
   ],
 }
 `;
