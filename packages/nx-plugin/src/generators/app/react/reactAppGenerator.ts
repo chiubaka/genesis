@@ -19,6 +19,7 @@ export async function reactAppGenerator(
   });
 
   updateCodeSample(project);
+  updateStorybookConfiguration(project);
 
   reactAppE2eGenerator(tree, {
     appOrLibName: name,
@@ -83,3 +84,19 @@ function updateCodeSample(project: Project) {
   });
 }
 /* eslint-enable security/detect-non-literal-fs-filename */
+
+function updateStorybookConfiguration(project: Project) {
+  const tree = project.getTree();
+  replaceInFile(
+    tree,
+    project.path(".storybook/main.ts"),
+    "\\.\\./src/app/\\*\\*/\\*\\.stories\\.mdx",
+    "../src/**/*.stories.mdx",
+  );
+  replaceInFile(
+    tree,
+    project.path(".storybook/main.ts"),
+    "\\.\\./src/app/\\*\\*/\\*\\.stories\\.@\\(js\\|jsx\\|ts\\|tsx\\)",
+    "../src/**/*.stories.@(js|jsx|ts|tsx)",
+  );
+}
