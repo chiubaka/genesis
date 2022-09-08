@@ -11,6 +11,7 @@
     "**/*.spec.ts",
     "**/*.d.ts",
     "test",
-    "src/types/nx.ts"
+    "src/types/nx.ts",
+    "src/types/tsconfig.ts"
   ]
 }

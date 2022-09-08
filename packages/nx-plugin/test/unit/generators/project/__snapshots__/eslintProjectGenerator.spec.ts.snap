@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`eslintProjectGenerator .eslintrc.json matches snapshot 1`] = `
+Object {
+  "extends": Array [
+    "../../.eslintrc.json",
+  ],
+  "ignorePatterns": Array [
+    "node_modules",
+  ],
+  "overrides": Array [
+    Object {
+      "files": Array [
+        "jest.config.ts",
+        "*.spec.ts",
+        "*.test.ts",
+      ],
+      "parserOptions": Object {
+        "project": Array [
+          "packages/eslint-project/tsconfig.spec.json",
+        ],
+      },
+    },
+    Object {
+      "excludedFiles": Array [
+        "jest.config.ts",
+        "*.spec.ts",
+        "*.test.ts",
+      ],
+      "files": Array [
+        "*.ts",
+      ],
+      "parserOptions": Object {
+        "project": Array [
+          "packages/eslint-project/tsconfig.lib.json",
+        ],
+      },
+    },
+  ],
+}
+`;

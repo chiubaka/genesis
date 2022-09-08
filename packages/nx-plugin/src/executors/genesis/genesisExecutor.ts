@@ -13,6 +13,7 @@ export async function genesisExecutor(options: GenesisExecutorSchema) {
   // Generate inside of a temporary directory, then move to the destination afterward to avoid git repo inside
   // of git repo errors in E2E testing situations
   const tmpDir = path.join(os.tmpdir(), uniq(workspaceName));
+  removeSync(tmpDir);
   ensureDirSync(tmpDir);
 
   let command = `genesis --workspace-scope=${workspaceScope} --workspace-name=${workspaceName} --description="${description} --disable-immutable-installs"`;

@@ -5,5 +5,6 @@ export interface JestProjectGeneratorSchema
     ProjectGeneratorBaseSchema {}
 
 export interface JestProjectGeneratorOwnOptions {
+  enableReact?: boolean;
   testEnvironment?: "node" | "jsdom";
 }

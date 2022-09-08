@@ -36,18 +36,11 @@ describe("tsconfigProjectGenerator", () => {
       tsconfigProjectGenerator(tree, {
         projectName,
         projectType,
-        ...TsConfigGeneratorPresets.node18,
+        ...TsConfigGeneratorPresets.NODE18,
       });
       project = new Project(tree, projectName, projectType);
     });
 
-    tsconfigTestCases(getProject, {
-      appLibTypes: ["node"],
-      compilerOptions: {
-        lib: ["es2022"],
-        module: "commonjs",
-        target: "es2022",
-      },
-    });
+    tsconfigTestCases(getProject);
   });
 });

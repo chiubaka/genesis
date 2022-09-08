@@ -8,26 +8,13 @@ import {
 import { PackageJson, Project } from "../../../src";
 import { TsConfig } from "../../types/tsconfig";
 import { eslintProjectTestCases } from "./eslintProjectTestCases";
-import {
-  jestProjectTestCases,
-  JestTestCasesOptions,
-} from "./jestProjectTestCases";
-import {
-  projectJsonTestCases,
-  ProjectJsonTestCasesOptions,
-} from "./projectJsonTestCases";
+import { jestProjectTestCases } from "./jestProjectTestCases";
+import { projectJsonTestCases } from "./projectJsonTestCases";
 import { readmeProjectTestCases } from "./readmeProjectTestCases";
-import {
-  tsconfigTestCases,
-  TsConfigTestCasesOptions,
-} from "./tsconfigTestCases";
+import { tsconfigTestCases } from "./tsconfigTestCases";
 
 export interface ProjectTestCasesOptions {
   repoName?: string;
-
-  jest?: JestTestCasesOptions;
-  projectJson: ProjectJsonTestCasesOptions;
-  tsconfig?: TsConfigTestCasesOptions;
 }
 
 /**
@@ -36,7 +23,7 @@ export interface ProjectTestCasesOptions {
  */
 export const projectTestCases = (
   getProject: () => Project,
-  options: ProjectTestCasesOptions,
+  options: ProjectTestCasesOptions = {},
 ) => {
   let project: Project;
   let tree: Tree;
@@ -161,9 +148,9 @@ export const projectTestCases = (
     });
   });
 
-  projectJsonTestCases(getProject, options.projectJson);
-  jestProjectTestCases(getProject, options.jest);
-  tsconfigTestCases(getProject, options.tsconfig);
+  projectJsonTestCases(getProject);
+  jestProjectTestCases(getProject);
+  tsconfigTestCases(getProject);
   eslintProjectTestCases(getProject);
   readmeProjectTestCases(getProject, options.repoName);
 };

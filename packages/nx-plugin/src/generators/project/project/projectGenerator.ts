@@ -28,14 +28,22 @@ export async function projectGenerator(
   tree: Tree,
   options: ProjectGeneratorSchema,
 ) {
-  const { jest: jestOptions, tsconfig: tsconfigOptions } = options;
+  const {
+    jest: jestOptions,
+    pruneSrcSubdirectories,
+    tsconfig: tsconfigOptions,
+    skipEslint,
+  } = options;
   const project = Project.createFromOptions(tree, options);
 
   relocateProject(project);
   copyPackageJsonTemplate(project);
   standardizePackageJson(project);
   standardizeProjectJson(project);
-  pruneSrcDirectories(project);
+
+  if (pruneSrcSubdirectories) {
+    pruneSrcDirectories(project);
+  }
 
   tsconfigProjectGenerator(tree, {
     ...options,
@@ -45,7 +53,9 @@ export async function projectGenerator(
     ...options,
     ...jestOptions,
   });
-  eslintProjectGenerator(tree, options);
+  if (!skipEslint) {
+    eslintProjectGenerator(tree, options);
+  }
   readmeProjectGenerator(tree, options);
 
   const updateYarnWorkspaceTask = updateYarnWorkspace(project);

@@ -1,0 +1,207 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`nodeAppGenerator .eslintrc.json matches snapshot 1`] = `
+Object {
+  "extends": Array [
+    "../../.eslintrc.json",
+  ],
+  "ignorePatterns": Array [
+    "node_modules",
+  ],
+  "overrides": Array [
+    Object {
+      "files": Array [
+        "jest.config.ts",
+        "*.spec.ts",
+        "*.test.ts",
+      ],
+      "parserOptions": Object {
+        "project": Array [
+          "packages/node-app/tsconfig.spec.json",
+        ],
+      },
+    },
+    Object {
+      "excludedFiles": Array [
+        "jest.config.ts",
+        "*.spec.ts",
+        "*.test.ts",
+      ],
+      "files": Array [
+        "*.ts",
+      ],
+      "parserOptions": Object {
+        "project": Array [
+          "packages/node-app/tsconfig.app.json",
+        ],
+      },
+    },
+  ],
+}
+`;
+
+exports[`nodeAppGenerator jest.config.ts matches snapshot 1`] = `
+"export default {
+  displayName: \\"node-app\\",
+  preset: \\"../../jest.preset.js\\",
+    globals: {
+    \\"ts-jest\\": {
+      tsconfig: \\"<rootDir>/tsconfig.spec.json\\",
+    },
+  },
+      testEnvironment: \\"node\\",
+    transform: {
+        \\"^.+\\\\\\\\.[tj]s$\\": \\"ts-jest\\",
+      },
+    moduleFileExtensions: [\\"ts\\", \\"js\\", \\"html\\"],
+    coverageDirectory: \\"../../reports/coverage/packages/node-app\\",
+  reporters: [
+    \\"default\\",
+    [
+      \\"jest-junit\\",
+      {
+        addFileAttribute: \\"true\\",
+        classNameTemplate: \\"{suitename}\\",
+        outputDirectory: \\"reports/junit\\",
+        outputName: \\"node-app.xml\\",
+      },
+    ],
+  ],
+};
+"
+`;
+
+exports[`nodeAppGenerator project.json matches snapshot 1`] = `
+Object {
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "packages/node-app/src",
+  "tags": Array [],
+  "targets": Object {
+    "build": Object {
+      "configurations": Object {
+        "production": Object {
+          "extractLicenses": true,
+          "fileReplacements": Array [
+            Object {
+              "replace": "packages/node-app/src/environments/environment.ts",
+              "with": "packages/node-app/src/environments/environment.prod.ts",
+            },
+          ],
+          "inspect": false,
+          "optimization": true,
+        },
+      },
+      "executor": "@nrwl/node:webpack",
+      "options": Object {
+        "assets": Array [
+          "packages/node-app/src/assets",
+        ],
+        "main": "packages/node-app/src/main.ts",
+        "outputPath": "dist/packages/node-app",
+        "tsConfig": "packages/node-app/tsconfig.app.json",
+      },
+      "outputs": Array [
+        "{options.outputPath}",
+      ],
+    },
+    "lint": Object {
+      "executor": "@nrwl/linter:eslint",
+      "options": Object {
+        "lintFilePatterns": Array [
+          "packages/node-app",
+        ],
+      },
+      "outputs": Array [
+        "{options.outputFile}",
+      ],
+    },
+    "serve": Object {
+      "configurations": Object {
+        "production": Object {
+          "buildTarget": "node-app:build:production",
+        },
+      },
+      "executor": "@nrwl/node:node",
+      "options": Object {
+        "buildTarget": "node-app:build",
+      },
+    },
+    "test": Object {
+      "executor": "@nrwl/jest:jest",
+      "options": Object {
+        "jestConfig": "packages/node-app/jest.config.ts",
+        "passWithNoTests": true,
+      },
+      "outputs": Array [
+        "reports/coverage/packages/node-app",
+        "reports/junit/node-app.xml",
+      ],
+    },
+  },
+}
+`;
+
+exports[`nodeAppGenerator tsconfig.app.json or tsconfig.lib.json matches snapshot 1`] = `
+Object {
+  "compilerOptions": Object {
+    "declaration": true,
+    "types": Array [
+      "node",
+    ],
+  },
+  "exclude": Array [
+    "jest.config.ts",
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "test",
+  ],
+  "extends": "./tsconfig.json",
+  "include": Array [
+    "**/*.ts",
+  ],
+}
+`;
+
+exports[`nodeAppGenerator tsconfig.json matches snapshot 1`] = `
+Object {
+  "compilerOptions": Object {
+    "lib": Array [
+      "es2022",
+    ],
+    "module": "commonjs",
+    "outDir": "../../dist/out-tsc",
+    "target": "es2022",
+  },
+  "extends": "../../tsconfig.base.json",
+  "files": Array [],
+  "include": Array [],
+  "references": Array [
+    Object {
+      "path": "./tsconfig.app.json",
+    },
+    Object {
+      "path": "./tsconfig.spec.json",
+    },
+  ],
+}
+`;
+
+exports[`nodeAppGenerator tsconfig.spec.json matches snapshot 1`] = `
+Object {
+  "compilerOptions": Object {
+    "types": Array [
+      "jest",
+      "node",
+    ],
+  },
+  "extends": "./tsconfig.json",
+  "include": Array [
+    "jest.config.ts",
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "**/*.d.ts",
+    "test",
+  ],
+}
+`;

@@ -1,7 +1,13 @@
 import { e2eTmpPath, TestingWorkspace } from "@chiubaka/nx-plugin-testing";
 
+import { projectTestCases } from "../utils";
+
 describe("nodeLibGenerator", () => {
   let workspace: TestingWorkspace;
+
+  const getWorkspace = () => {
+    return workspace;
+  };
 
   beforeAll(async () => {
     const destination = e2eTmpPath("genesis-lib-e2e");
@@ -28,6 +34,8 @@ describe("nodeLibGenerator", () => {
     workspace.assert.fs.notExists("libs/node-lib/test/hello.spec.d.ts");
     workspace.assert.fs.notExists("libs/node-lib/test/hello.spec.d.ts.map");
   });
+
+  projectTestCases("node-lib", getWorkspace);
 
   it("generates a project with a working testing setup", async () => {
     await expect(workspace.execNx("test node-lib")).resolves.not.toThrow();

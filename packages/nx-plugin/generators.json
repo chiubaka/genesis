@@ -8,6 +8,11 @@
       "schema": "./src/generators/app/node/schema.json",
       "description": "Generates a simple Node application"
     },
+    "app.react": {
+      "factory": "./src/generators/app/react",
+      "schema": "./src/generators/app/react/schema.json",
+      "description": "Generates a simple React application"
+    },
     "ci": {
       "factory": "./src/generators/workspace/ci",
       "schema": "./src/generators/workspace/ci/schema.json",

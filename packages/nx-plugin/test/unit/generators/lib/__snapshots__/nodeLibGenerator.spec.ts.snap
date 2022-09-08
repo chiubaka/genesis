@@ -1,0 +1,405 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`nodeLibGenerator .eslintrc.json matches snapshot 1`] = `
+Object {
+  "extends": Array [
+    "../../.eslintrc.json",
+  ],
+  "ignorePatterns": Array [
+    "node_modules",
+  ],
+  "overrides": Array [
+    Object {
+      "files": Array [
+        "jest.config.ts",
+        "*.spec.ts",
+        "*.test.ts",
+      ],
+      "parserOptions": Object {
+        "project": Array [
+          "packages/node-lib/tsconfig.spec.json",
+        ],
+      },
+    },
+    Object {
+      "excludedFiles": Array [
+        "jest.config.ts",
+        "*.spec.ts",
+        "*.test.ts",
+      ],
+      "files": Array [
+        "*.ts",
+      ],
+      "parserOptions": Object {
+        "project": Array [
+          "packages/node-lib/tsconfig.lib.json",
+        ],
+      },
+    },
+  ],
+}
+`;
+
+exports[`nodeLibGenerator E2E project .eslintrc.json matches snapshot 1`] = `
+Object {
+  "extends": Array [
+    "../../.eslintrc.json",
+  ],
+  "ignorePatterns": Array [
+    "node_modules",
+  ],
+  "overrides": Array [
+    Object {
+      "files": Array [
+        "jest.config.ts",
+        "*.spec.ts",
+        "*.test.ts",
+      ],
+      "parserOptions": Object {
+        "project": Array [
+          "e2e/node-lib-e2e/tsconfig.spec.json",
+        ],
+      },
+    },
+    Object {
+      "excludedFiles": Array [
+        "jest.config.ts",
+        "*.spec.ts",
+        "*.test.ts",
+      ],
+      "files": Array [
+        "*.ts",
+      ],
+      "parserOptions": Object {
+        "project": Array [
+          "e2e/node-lib-e2e/tsconfig.lib.json",
+        ],
+      },
+    },
+  ],
+}
+`;
+
+exports[`nodeLibGenerator E2E project jest.config.ts matches snapshot 1`] = `
+"export default {
+  displayName: \\"node-lib-e2e\\",
+  preset: \\"../../jest.preset.js\\",
+    globals: {
+    \\"ts-jest\\": {
+      tsconfig: \\"<rootDir>/tsconfig.spec.json\\",
+    },
+  },
+      testEnvironment: \\"node\\",
+    transform: {
+        \\"^.+\\\\\\\\.[tj]s$\\": \\"ts-jest\\",
+      },
+    moduleFileExtensions: [\\"ts\\", \\"js\\", \\"html\\"],
+    coverageDirectory: \\"../../reports/coverage/packages/node-lib-e2e\\",
+  reporters: [
+    \\"default\\",
+    [
+      \\"jest-junit\\",
+      {
+        addFileAttribute: \\"true\\",
+        classNameTemplate: \\"{suitename}\\",
+        outputDirectory: \\"reports/junit\\",
+        outputName: \\"node-lib-e2e.xml\\",
+      },
+    ],
+  ],
+};
+"
+`;
+
+exports[`nodeLibGenerator E2E project project.json matches snapshot 1`] = `
+Object {
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "implicitDependencies": Array [
+    "node-lib",
+  ],
+  "projectType": "application",
+  "sourceRoot": "e2e/node-lib-e2e/src",
+  "tags": Array [],
+  "targets": Object {
+    "build": Object {
+      "configurations": Object {
+        "production": Object {
+          "extractLicenses": true,
+          "fileReplacements": Array [
+            Object {
+              "replace": "e2e/node-lib-e2e/src/environments/environment.ts",
+              "with": "e2e/node-lib-e2e/src/environments/environment.prod.ts",
+            },
+          ],
+          "inspect": false,
+          "optimization": true,
+        },
+      },
+      "executor": "@nrwl/node:webpack",
+      "options": Object {
+        "assets": Array [
+          "e2e/node-lib-e2e/src/assets",
+        ],
+        "main": "e2e/node-lib-e2e/src/main.ts",
+        "outputPath": "dist/e2e/node-lib-e2e",
+        "tsConfig": "e2e/node-lib-e2e/tsconfig.app.json",
+      },
+      "outputs": Array [
+        "{options.outputPath}",
+      ],
+    },
+    "e2e": Object {
+      "dependsOn": Array [
+        Object {
+          "projects": "self",
+          "target": "install",
+        },
+      ],
+      "executor": "@nrwl/jest:jest",
+      "options": Object {
+        "jestConfig": "e2e/node-lib-e2e/jest.config.ts",
+        "passWithNoTests": true,
+      },
+      "outputs": Array [
+        "reports/coverage/e2e/node-lib-e2e",
+        "reports/junit/node-lib-e2e.xml",
+      ],
+    },
+    "install": Object {
+      "dependsOn": Array [
+        Object {
+          "projects": "dependencies",
+          "target": "build",
+        },
+      ],
+      "executor": "@nrwl/workspace:run-commands",
+      "options": Object {
+        "commands": Array [
+          "yarn cache clean --all",
+          "yarn install",
+        ],
+        "cwd": "e2e/node-lib-e2e",
+        "parallel": false,
+      },
+    },
+    "lint": Object {
+      "executor": "@nrwl/linter:eslint",
+      "options": Object {
+        "lintFilePatterns": Array [
+          "e2e/node-lib-e2e",
+        ],
+      },
+      "outputs": Array [
+        "{options.outputFile}",
+      ],
+    },
+  },
+}
+`;
+
+exports[`nodeLibGenerator E2E project tsconfig.app.json or tsconfig.lib.json matches snapshot 1`] = `
+Object {
+  "compilerOptions": Object {
+    "declaration": true,
+    "types": Array [
+      "node",
+    ],
+  },
+  "exclude": Array [
+    "jest.config.ts",
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "test",
+  ],
+  "extends": "./tsconfig.json",
+  "include": Array [
+    "**/*.ts",
+  ],
+}
+`;
+
+exports[`nodeLibGenerator E2E project tsconfig.json matches snapshot 1`] = `
+Object {
+  "compilerOptions": Object {
+    "lib": Array [
+      "es2022",
+    ],
+    "module": "commonjs",
+    "outDir": "../../dist/out-tsc",
+    "target": "es2022",
+  },
+  "extends": "../../tsconfig.base.json",
+  "files": Array [],
+  "include": Array [],
+  "references": Array [
+    Object {
+      "path": "./tsconfig.lib.json",
+    },
+    Object {
+      "path": "./tsconfig.spec.json",
+    },
+  ],
+}
+`;
+
+exports[`nodeLibGenerator E2E project tsconfig.spec.json matches snapshot 1`] = `
+Object {
+  "compilerOptions": Object {
+    "types": Array [
+      "jest",
+      "node",
+    ],
+  },
+  "extends": "./tsconfig.json",
+  "include": Array [
+    "jest.config.ts",
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "**/*.d.ts",
+    "test",
+  ],
+}
+`;
+
+exports[`nodeLibGenerator jest.config.ts matches snapshot 1`] = `
+"export default {
+  displayName: \\"node-lib\\",
+  preset: \\"../../jest.preset.js\\",
+    globals: {
+    \\"ts-jest\\": {
+      tsconfig: \\"<rootDir>/tsconfig.spec.json\\",
+    },
+  },
+      testEnvironment: \\"node\\",
+    transform: {
+        \\"^.+\\\\\\\\.[tj]s$\\": \\"ts-jest\\",
+      },
+    moduleFileExtensions: [\\"ts\\", \\"js\\", \\"html\\"],
+    coverageDirectory: \\"../../reports/coverage/packages/node-lib\\",
+  reporters: [
+    \\"default\\",
+    [
+      \\"jest-junit\\",
+      {
+        addFileAttribute: \\"true\\",
+        classNameTemplate: \\"{suitename}\\",
+        outputDirectory: \\"reports/junit\\",
+        outputName: \\"node-lib.xml\\",
+      },
+    ],
+  ],
+};
+"
+`;
+
+exports[`nodeLibGenerator project.json matches snapshot 1`] = `
+Object {
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "packages/node-lib/src",
+  "tags": Array [],
+  "targets": Object {
+    "build": Object {
+      "executor": "@nrwl/js:tsc",
+      "options": Object {
+        "assets": Array [
+          "packages/node-lib/*.md",
+        ],
+        "main": "packages/node-lib/src/index.ts",
+        "outputPath": "dist/packages/node-lib",
+        "packageJson": "packages/node-lib/package.json",
+        "tsConfig": "packages/node-lib/tsconfig.lib.json",
+      },
+      "outputs": Array [
+        "{options.outputPath}",
+      ],
+    },
+    "lint": Object {
+      "executor": "@nrwl/linter:eslint",
+      "options": Object {
+        "lintFilePatterns": Array [
+          "packages/node-lib",
+        ],
+      },
+      "outputs": Array [
+        "{options.outputFile}",
+      ],
+    },
+    "test": Object {
+      "executor": "@nrwl/jest:jest",
+      "options": Object {
+        "jestConfig": "packages/node-lib/jest.config.ts",
+        "passWithNoTests": true,
+      },
+      "outputs": Array [
+        "reports/coverage/packages/node-lib",
+        "reports/junit/node-lib.xml",
+      ],
+    },
+  },
+}
+`;
+
+exports[`nodeLibGenerator tsconfig.app.json or tsconfig.lib.json matches snapshot 1`] = `
+Object {
+  "compilerOptions": Object {
+    "declaration": true,
+    "types": Array [
+      "node",
+    ],
+  },
+  "exclude": Array [
+    "jest.config.ts",
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "test",
+  ],
+  "extends": "./tsconfig.json",
+  "include": Array [
+    "**/*.ts",
+  ],
+}
+`;
+
+exports[`nodeLibGenerator tsconfig.json matches snapshot 1`] = `
+Object {
+  "compilerOptions": Object {
+    "lib": Array [
+      "es2022",
+    ],
+    "module": "commonjs",
+    "outDir": "../../dist/out-tsc",
+    "target": "es2022",
+  },
+  "extends": "../../tsconfig.base.json",
+  "files": Array [],
+  "include": Array [],
+  "references": Array [
+    Object {
+      "path": "./tsconfig.lib.json",
+    },
+    Object {
+      "path": "./tsconfig.spec.json",
+    },
+  ],
+}
+`;
+
+exports[`nodeLibGenerator tsconfig.spec.json matches snapshot 1`] = `
+Object {
+  "compilerOptions": Object {
+    "types": Array [
+      "jest",
+      "node",
+    ],
+  },
+  "extends": "./tsconfig.json",
+  "include": Array [
+    "jest.config.ts",
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "**/*.d.ts",
+    "test",
+  ],
+}
+`;

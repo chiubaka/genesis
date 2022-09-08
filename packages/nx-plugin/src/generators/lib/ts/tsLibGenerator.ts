@@ -6,6 +6,7 @@ import {
   addNpmPublishDeployScriptsToPackageJson,
   copyTsLibSample,
   projectGenerator,
+  TsConfigGeneratorPresets,
 } from "../../project";
 import { LibGeneratorSchema } from "../libGenerator.schema";
 import { tsLibE2eGenerator } from "./e2e";
@@ -32,12 +33,8 @@ export async function tsLibGenerator(tree: Tree, options: LibGeneratorSchema) {
     jest: {
       testEnvironment: "node",
     },
-    tsconfig: {
-      appLibTypes: [],
-      lib: ["es2015"],
-      module: "commonjs",
-      target: "es2015",
-    },
+    pruneSrcSubdirectories: true,
+    tsconfig: TsConfigGeneratorPresets.LIB,
   });
 
   addNpmPublishDeployScriptsToPackageJson(project);
@@ -63,7 +60,7 @@ function generateE2eProject(project: Project, options: LibGeneratorSchema) {
 
   return tsLibE2eGenerator(tree, {
     name: `${projectName}-e2e`,
-    libName: projectName,
+    appOrLibName: projectName,
     rootProjectGeneratorName: "lib.ts",
   });
 }

@@ -9,7 +9,7 @@ import { projectTestCases, ProjectTestCasesOptions } from "./projectTestCases";
  */
 export const nodeProjectTestCases = (
   getProject: () => Project,
-  options: ProjectTestCasesOptions,
+  options: ProjectTestCasesOptions = {},
 ) => {
   let project: Project;
   let tree: Tree;
@@ -60,18 +60,5 @@ export const nodeProjectTestCases = (
     });
   });
 
-  projectTestCases(getProject, {
-    ...options,
-    jest: {
-      testEnvironment: "node",
-    },
-    tsconfig: {
-      appLibTypes: ["node"],
-      compilerOptions: {
-        lib: ["es2022"],
-        module: "commonjs",
-        target: "es2022",
-      },
-    },
-  });
+  projectTestCases(getProject, options);
 };

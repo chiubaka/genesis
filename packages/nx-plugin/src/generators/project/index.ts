@@ -5,6 +5,7 @@ export * from "./packageJson";
 export * from "./project";
 export * from "./projectGeneratorBase.schema";
 export * from "./projectJson";
+export * from "./react";
 export * from "./readme";
 export * from "./samples";
 export * from "./tsconfig";

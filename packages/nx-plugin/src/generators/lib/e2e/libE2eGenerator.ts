@@ -11,9 +11,9 @@ export async function libE2eGenerator(
   tree: Tree,
   options: LibE2eGeneratorSchema,
 ) {
-  const { libName, name, codeSamplePath } = options;
+  const { appOrLibName, name, codeSamplePath } = options;
   const project = new Project(tree, name, "e2e");
-  const libProject = new Project(tree, libName, "library");
+  const libProject = new Project(tree, appOrLibName, "library");
 
   const installTask = await addDependenciesToPackageJson(
     tree,
@@ -23,7 +23,7 @@ export async function libE2eGenerator(
   );
 
   copyTemplates(codeSamplePath, project, libProject);
-  updateProjectJson(project, libName);
+  updateProjectJson(project, appOrLibName);
 
   return async () => {
     await installTask();

@@ -31,11 +31,7 @@ describe("tsLibGenerator", () => {
   });
 
   libTestCases(getProject);
-  tsProjectTestCases(getProject, {
-    projectJson: {
-      targetNames: ["lint", "build", "test"],
-    },
-  });
+  tsProjectTestCases(getProject);
 
   beforeAll(async () => {
     await tsLibGenerator(tree, {
@@ -63,9 +59,6 @@ describe("tsLibGenerator", () => {
 
   describe("E2E project", () => {
     nodeProjectTestCases(getE2eProject, {
-      projectJson: {
-        targetNames: ["lint", "build", "e2e"],
-      },
       repoName: "ts-lib",
     });
   });

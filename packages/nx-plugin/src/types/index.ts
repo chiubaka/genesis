@@ -4,5 +4,6 @@ export * from "./dockerCompose";
 export * from "./lintstaged";
 export * from "./npm";
 export * from "./nx";
+export * from "./tsconfig";
 export * from "./verdaccio";
 export * from "./yarn";

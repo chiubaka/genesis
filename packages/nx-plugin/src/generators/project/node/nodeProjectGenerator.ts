@@ -3,13 +3,12 @@ import { applicationGenerator, libraryGenerator } from "@nrwl/node";
 
 import { PackageJson } from "../../../types";
 import { Project } from "../../../utils";
-import { projectGenerator } from "../project";
+import { projectGenerator, ProjectGeneratorSchema } from "../project";
 import { TsConfigGeneratorPresets } from "../tsconfig";
-import { NodeProjectGeneratorSchema } from "./nodeProjectGenerator.schema";
 
 export async function nodeProjectGenerator(
   tree: Tree,
-  options: NodeProjectGeneratorSchema,
+  options: ProjectGeneratorSchema,
 ) {
   const project = Project.createFromOptions(tree, options);
 
@@ -19,7 +18,8 @@ export async function nodeProjectGenerator(
     jest: {
       testEnvironment: "node",
     },
-    tsconfig: TsConfigGeneratorPresets.node18,
+    pruneSrcSubdirectories: true,
+    tsconfig: TsConfigGeneratorPresets.NODE18,
   });
   enforceNodeVersion(project);
 
@@ -29,18 +29,16 @@ export async function nodeProjectGenerator(
   };
 }
 
-function baseGenerator(project: Project, options: NodeProjectGeneratorSchema) {
+function baseGenerator(project: Project, options: ProjectGeneratorSchema) {
   const { tags } = options;
   const tree = project.getTree();
-  const projectScope = project.getScope();
-  const projectName = project.getName();
 
   return getBaseGenerator(project)(tree, {
     name: project.getName(),
 
     buildable: true,
     compiler: "tsc",
-    importPath: `@${projectScope}/${projectName}`,
+    importPath: project.getImportPath(),
     publishable: true,
     skipPackageJson: false,
     standaloneConfig: true,
