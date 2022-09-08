@@ -63,7 +63,12 @@ function updateCodeSample(project: Project) {
     '// eslint-disable-next-line @typescript-eslint/no-unused-vars\nimport styles from "./App.module.scss";\n',
     "",
   );
-  replaceInFile(tree, project.srcPath("main.tsx"), "./app/App", "./App/App");
+  replaceInFile(
+    tree,
+    project.srcPath("main.tsx"),
+    'import App from "./app/App";\n',
+    'import { App } from "./App/App";\n',
+  );
 
   tree.rename(
     project.srcPath("app/App.spec.tsx"),
