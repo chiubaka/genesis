@@ -210,6 +210,19 @@ export class GitHubApiAdapter {
       return;
     }
 
+    const encodedRepoOwner = encodeURIComponent(repoOwner);
+    const encodedRepoName = encodeURIComponent(repoName);
+    const encodedLabelName = encodeURIComponent(name);
+
+    return this.octokit.request(
+      `DELETE /repos/${encodedRepoOwner}/${encodedRepoName}/labels/${encodedLabelName}`,
+      {
+        owner: repoOwner,
+        repo: repoName,
+        name,
+      },
+    );
+
     return this.octokit.rest.issues.deleteLabel({
       owner: repoOwner,
       repo: repoName,
