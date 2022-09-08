@@ -5,7 +5,7 @@ import { Project } from "../../src";
 export function fileMatchesSnapshot(
   fileName: string,
   getProject: () => Project,
-  getFilePath: (project: Project) => string,
+  getFilePath?: (project: Project) => string,
 ) {
   let tree: Tree;
   let filePath: string;
@@ -14,7 +14,7 @@ export function fileMatchesSnapshot(
     const project = getProject();
     tree = project.getTree();
 
-    filePath = getFilePath(project);
+    filePath = getFilePath !== undefined ? getFilePath(project) : fileName;
   });
 
   it(`generates ${fileName}`, () => {

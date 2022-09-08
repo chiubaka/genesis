@@ -1,4 +1,5 @@
-import { Tree } from "@nrwl/devkit";
+import { generateFiles, moveFilesToNewDirectory, Tree } from "@nrwl/devkit";
+import path from "node:path";
 
 import { Project, replaceInFile } from "../../../utils";
 import { reactProjectGenerator } from "../../project";
@@ -58,9 +59,10 @@ function updateCodeSample(project: Project) {
   replaceInFile(
     tree,
     project.srcPath("app/App.tsx"),
-    'import styles from "./App.module.scss";\n',
+    '// eslint-disable-next-line @typescript-eslint/no-unused-vars\nimport styles from "./App.module.scss";\n',
     "",
   );
+  replaceInFile(tree, project.srcPath("main.tsx"), "./app/App", "./App/App");
 
   tree.rename(
     project.srcPath("app/App.spec.tsx"),
@@ -70,7 +72,14 @@ function updateCodeSample(project: Project) {
     tree,
     project.testPath("unit/App.spec.tsx"),
     "./App",
-    "../../src/app/App",
+    "../../src/App",
   );
+
+  moveFilesToNewDirectory(tree, project.srcPath("app"), project.srcPath("App"));
+  tree.delete(project.srcPath("app"));
+
+  generateFiles(tree, path.join(__dirname, "files"), project.path(), {
+    template: "",
+  });
 }
 /* eslint-enable security/detect-non-literal-fs-filename */

@@ -85,6 +85,14 @@ Object {
         ],
       },
     },
+    Object {
+      "files": Array [
+        "*.tsx",
+      ],
+      "rules": Object {
+        "react/react-in-jsx-scope": "off",
+      },
+    },
   ],
 }
 `;
@@ -394,28 +402,36 @@ export const environment = {
 "
 `;
 
-exports[`reactAppGenerator sample code generates a sample component app/App.module.scss matches snapshot 1`] = `
+exports[`reactAppGenerator sample code generates a sample component App/App.module.scss matches snapshot 1`] = `
 "/* Your styles goes here. */
 "
 `;
 
-exports[`reactAppGenerator sample code generates a sample component app/App.stories.tsx matches snapshot 1`] = `
-"import { ComponentStory, ComponentMeta } from '@storybook/react';
-import {  App  }  from './App';
+exports[`reactAppGenerator sample code generates a sample component App/App.stories.tsx matches snapshot 1`] = `
+"import { ComponentMeta, ComponentStory } from \\"@storybook/react\\";
+import { BrowserRouter } from \\"react-router-dom\\";
+
+import { App } from \\"./app\\";
 
 export default {
   component: App,
-  title: 'App', 
-} as ComponentMeta<typeof App> ;
+  title: \\"App\\",
+} as ComponentMeta<typeof App>;
 
-const Template: ComponentStory< typeof App > = (args) => <App {...args} />;
+const Template: ComponentStory<typeof App> = (args) => {
+  return (
+    <BrowserRouter>
+      <App {...args} />
+    </BrowserRouter>
+  );
+};
 
-export const Primary = Template.bind({})
-Primary.args = {
-}"
+export const Primary = Template.bind({});
+Primary.args = {};
+"
 `;
 
-exports[`reactAppGenerator sample code generates a sample component app/App.tsx matches snapshot 1`] = `
+exports[`reactAppGenerator sample code generates a sample component App/App.tsx matches snapshot 1`] = `
 "
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import styles from './App.module.scss';
@@ -467,7 +483,7 @@ export default App;
 "
 `;
 
-exports[`reactAppGenerator sample code generates a sample component app/NxWelcome.stories.tsx matches snapshot 1`] = `
+exports[`reactAppGenerator sample code generates a sample component App/NxWelcome.stories.tsx matches snapshot 1`] = `
 "import { ComponentStory, ComponentMeta } from '@storybook/react';
 import {  NxWelcome  }  from './NxWelcome';
 
@@ -483,7 +499,7 @@ Primary.args = {
 }"
 `;
 
-exports[`reactAppGenerator sample code generates a sample component app/NxWelcome.tsx matches snapshot 1`] = `
+exports[`reactAppGenerator sample code generates a sample component App/NxWelcome.tsx matches snapshot 1`] = `
 "/*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  This is a starter component and can be deleted.
@@ -1307,13 +1323,18 @@ export default NxWelcome;
 "
 `;
 
+exports[`reactAppGenerator sample code generates a sample component App/index.ts matches snapshot 1`] = `
+"export * from \\"./App\\";
+"
+`;
+
 exports[`reactAppGenerator sample code generates a sample unit test unit/App.spec.tsx matches snapshot 1`] = `
 "import { render } from '@testing-library/react';
 
 import { BrowserRouter } from 'react-router-dom';
 
 
-import App from '../../src/app/App';
+import App from '../../src/App';
 
 describe('App', () => {
   it('should render successfully', () => {
@@ -1356,7 +1377,7 @@ exports[`reactAppGenerator sample code main.tsx matches snapshot 1`] = `
 import * as ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
-import App from './app/App';
+import App from './App/App';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
@@ -1526,4 +1547,38 @@ Object {
     "test",
   ],
 }
+`;
+
+exports[`reactAppGenerator workspace storybook .storybook/main.ts matches snapshot 1`] = `
+"import type { StorybookConfig } from '@storybook/core-common';
+
+export const rootMain: StorybookConfig = {
+  stories: [],
+  addons: ['@storybook/addon-essentials'],
+  // webpackFinal: async (config, { configType }) => {
+  //   // Make whatever fine-grained changes you need that should apply to all storybook configs
+
+  //   // Return the altered config
+  //   return config;
+  // },
+};
+"
+`;
+
+exports[`reactAppGenerator workspace storybook .storybook/tsconfig.json matches snapshot 1`] = `
+"{
+  \\"extends\\": \\"../tsconfig.base.json\\",
+  \\"exclude\\": [
+    \\"../**/*.spec.js\\",
+    \\"../**/*.test.js\\",
+    \\"../**/*.spec.ts\\",
+    \\"../**/*.test.ts\\",
+    \\"../**/*.spec.tsx\\",
+    \\"../**/*.test.tsx\\",
+    \\"../**/*.spec.jsx\\",
+    \\"../**/*.test.jsx\\"
+  ],
+  \\"include\\": [\\"../**/*\\"]
+}
+"
 `;

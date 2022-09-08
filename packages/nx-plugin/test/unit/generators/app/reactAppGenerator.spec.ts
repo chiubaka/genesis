@@ -35,10 +35,18 @@ describe("reactAppGenerator", () => {
     });
   });
 
+  describe("workspace", () => {
+    describe("storybook", () => {
+      fileMatchesSnapshot(".storybook/main.ts", getProject);
+
+      fileMatchesSnapshot(".storybook/tsconfig.json", getProject);
+    });
+  });
+
   describe("sample code", () => {
-    it("generates an app directory", () => {
+    it("generates an App directory", () => {
       // eslint-disable-next-line security/detect-non-literal-fs-filename
-      expect(tree.exists(project.srcPath("app"))).toBe(true);
+      expect(tree.exists(project.srcPath("App"))).toBe(true);
     });
 
     it("generates an assets directory", () => {
@@ -73,30 +81,34 @@ describe("reactAppGenerator", () => {
     );
 
     describe("generates a sample component", () => {
-      fileMatchesSnapshot("app/App.tsx", getProject, (project: Project) =>
-        project.srcPath("app/App.tsx"),
+      fileMatchesSnapshot("App/index.ts", getProject, (project: Project) =>
+        project.srcPath("App/index.ts"),
+      );
+
+      fileMatchesSnapshot("App/App.tsx", getProject, (project: Project) =>
+        project.srcPath("App/App.tsx"),
       );
 
       fileMatchesSnapshot(
-        "app/App.module.scss",
+        "App/App.module.scss",
         getProject,
-        (project: Project) => project.srcPath("app/App.module.scss"),
+        (project: Project) => project.srcPath("App/App.module.scss"),
       );
 
       fileMatchesSnapshot(
-        "app/App.stories.tsx",
+        "App/App.stories.tsx",
         getProject,
-        (project: Project) => project.srcPath("app/App.stories.tsx"),
+        (project: Project) => project.srcPath("App/App.stories.tsx"),
       );
 
-      fileMatchesSnapshot("app/NxWelcome.tsx", getProject, (project: Project) =>
-        project.srcPath("app/NxWelcome.tsx"),
+      fileMatchesSnapshot("App/NxWelcome.tsx", getProject, (project: Project) =>
+        project.srcPath("App/NxWelcome.tsx"),
       );
 
       fileMatchesSnapshot(
-        "app/NxWelcome.stories.tsx",
+        "App/NxWelcome.stories.tsx",
         getProject,
-        (project: Project) => project.srcPath("app/NxWelcome.stories.tsx"),
+        (project: Project) => project.srcPath("App/NxWelcome.stories.tsx"),
       );
     });
 

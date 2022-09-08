@@ -83,6 +83,17 @@ export function eslintProjectGenerator(
       };
       eslintConfig.overrides.push(typescriptOverrides);
 
+      if (enableReact) {
+        // react/react-in-jsx-scope is not required since build tools appear to be
+        // adding this automagically.
+        eslintConfig.overrides.push({
+          files: ["*.tsx"],
+          rules: {
+            "react/react-in-jsx-scope": "off",
+          },
+        });
+      }
+
       return eslintConfig;
     },
   );
