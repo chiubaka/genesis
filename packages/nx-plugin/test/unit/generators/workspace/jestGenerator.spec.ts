@@ -35,6 +35,13 @@ describe("jestGenerator", () => {
           DEFAULT_MOCK_INSTALLED_PACKAGE_VERSION,
         );
       });
+
+      it("adds ts-jest as a devDependency", () => {
+        expect(tree).toHaveDevDependency(
+          "ts-jest",
+          compatiblePackageVersions["ts-jest"],
+        );
+      });
     });
   });
 

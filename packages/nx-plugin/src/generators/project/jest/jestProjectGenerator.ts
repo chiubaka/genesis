@@ -17,7 +17,7 @@ export async function jestProjectGenerator(
   const installDependenciesTask = await addDependenciesToPackageJson(
     tree,
     [],
-    ["jest", "jest-junit"],
+    ["jest", "jest-junit", "ts-jest"],
     project.path("package.json"),
   );
 
