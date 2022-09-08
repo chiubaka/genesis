@@ -11,13 +11,18 @@ export async function jestProjectGenerator(
   tree: Tree,
   options: JestProjectGeneratorSchema,
 ) {
-  const { projectName, projectType } = options;
+  const { projectName, projectType, testEnvironment } = options;
   const project = new Project(tree, projectName, projectType);
+
+  const devDependencies = ["jest", "jest-junit", "ts-jest"];
+  if (testEnvironment === "jsdom") {
+    devDependencies.push("jest-environment-jsdom");
+  }
 
   const installDependenciesTask = await addDependenciesToPackageJson(
     tree,
     [],
-    ["jest", "jest-junit", "ts-jest"],
+    devDependencies,
     project.path("package.json"),
   );
 
