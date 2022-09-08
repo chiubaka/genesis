@@ -72,8 +72,8 @@ function updateCodeSample(project: Project) {
   replaceInFile(
     tree,
     project.testPath("unit/App.spec.tsx"),
-    "./App",
-    "../../src/App",
+    'import App from "./App";\n',
+    'import { App } from "../../src/App";\n',
   );
 
   moveFilesToNewDirectory(tree, project.srcPath("app"), project.srcPath("App"));
