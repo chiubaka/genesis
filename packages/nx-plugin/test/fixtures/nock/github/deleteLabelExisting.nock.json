@@ -22,7 +22,7 @@
     "scope": "https://api.github.com:443",
     "method": "DELETE",
     "path": "/repos/chiubaka/generated-typescript-package/labels/foobar",
-    "body": "",
+    "body": "{\"owner\":\"chiubaka\",\"repo\":\"generated-typescript-package\",\"name\":\"foobar\"}",
     "status": 204,
     "response": "",
     "responseIsBinary": false
