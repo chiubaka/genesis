@@ -1458,14 +1458,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chiubaka/eslint-config@npm:^0.3.8":
-  version: 0.3.8
-  resolution: "@chiubaka/eslint-config@npm:0.3.8"
+"@chiubaka/eslint-config@npm:^0.4.0":
+  version: 0.4.0
+  resolution: "@chiubaka/eslint-config@npm:0.4.0"
   dependencies:
     "@rushstack/eslint-patch": ^1.1.4
     "@typescript-eslint/eslint-plugin": 5.30.6
     "@typescript-eslint/parser": 5.30.6
     eslint-config-prettier: 8.5.0
+    eslint-plugin-cypress: ^2.12.1
     eslint-plugin-eslint-comments: 3.2.0
     eslint-plugin-jest: 26.5.3
     eslint-plugin-jest-formatting: 3.1.0
@@ -1473,6 +1474,9 @@ __metadata:
     eslint-plugin-package-json: 0.1.4
     eslint-plugin-prettier: 4.2.1
     eslint-plugin-promise: 6.0.0
+    eslint-plugin-react: ^7.31.7
+    eslint-plugin-react-hooks: ^4.6.0
+    eslint-plugin-react-redux: ^4.0.0
     eslint-plugin-security: 1.5.0
     eslint-plugin-simple-import-sort: 7.0.0
     eslint-plugin-unicorn: 43.0.1
@@ -1482,7 +1486,7 @@ __metadata:
   peerDependencies:
     eslint: ">= 3"
     typescript: ">= 4"
-  checksum: 8e743415e0eeef9b326f3b40905a7297295254930fe5f35b6b046530cc16885f0cf6b16c11eb87a33c11a1ac9c3c44c5effe390fe72877815ba472a89fa48d0e
+  checksum: ce934895b433f5f049eaa2986466bfcda5066ed089cc1741911ecabeea176c2834ee6a3cb72c6d1b97c7c9a60d74bdf677616801d78cc4789df1ba7897cb3868
   languageName: node
   linkType: hard
 
@@ -6790,6 +6794,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eslint-plugin-cypress@npm:^2.12.1":
+  version: 2.12.1
+  resolution: "eslint-plugin-cypress@npm:2.12.1"
+  dependencies:
+    globals: ^11.12.0
+  peerDependencies:
+    eslint: ">= 3.2.1"
+  checksum: 1f1c36e149304e9a6f58e2292a761abad58274da33b3a48b24ad55ad20cbce3ac7467321f2b6fcb052f9563c89f67004de4766eba2e2bdbcb010a6a0666989cf
+  languageName: node
+  linkType: hard
+
 "eslint-plugin-eslint-comments@npm:3.2.0":
   version: 3.2.0
   resolution: "eslint-plugin-eslint-comments@npm:3.2.0"
@@ -6941,12 +6956,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-react-hooks@npm:^4.3.0":
+"eslint-plugin-react-hooks@npm:^4.3.0, eslint-plugin-react-hooks@npm:^4.6.0":
   version: 4.6.0
   resolution: "eslint-plugin-react-hooks@npm:4.6.0"
   peerDependencies:
     eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0
   checksum: 23001801f14c1d16bf0a837ca7970d9dd94e7b560384b41db378b49b6e32dc43d6e2790de1bd737a652a86f81a08d6a91f402525061b47719328f586a57e86c3
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-react-redux@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "eslint-plugin-react-redux@npm:4.0.0"
+  dependencies:
+    eslint-plugin-react: ^7.28.0
+    eslint-rule-composer: ^0.3.0
+  peerDependencies:
+    eslint: ^7 || ^8
+    eslint-plugin-react: ^7.28.0
+  checksum: 98ae9a6dd08917a821a878a1751061acf5f020e5272ba6036220466fc0b00e51b7c7b333f5643cc959108999264df0bcecc47b8e4f7eaef641999873cff8978f
   languageName: node
   linkType: hard
 
@@ -6971,6 +6999,30 @@ __metadata:
   peerDependencies:
     eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8
   checksum: 729b7682a0fe6eab068171c159503ac57120ecc7b20067e76300b08879745c16a687e2033378ab45d9a3182da8844d06197a89081be83e1eb21fcceb76e79214
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-react@npm:^7.28.0, eslint-plugin-react@npm:^7.31.7":
+  version: 7.31.7
+  resolution: "eslint-plugin-react@npm:7.31.7"
+  dependencies:
+    array-includes: ^3.1.5
+    array.prototype.flatmap: ^1.3.0
+    doctrine: ^2.1.0
+    estraverse: ^5.3.0
+    jsx-ast-utils: ^2.4.1 || ^3.0.0
+    minimatch: ^3.1.2
+    object.entries: ^1.1.5
+    object.fromentries: ^2.0.5
+    object.hasown: ^1.1.1
+    object.values: ^1.1.5
+    prop-types: ^15.8.1
+    resolve: ^2.0.0-next.3
+    semver: ^6.3.0
+    string.prototype.matchall: ^4.0.7
+  peerDependencies:
+    eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8
+  checksum: 582d422f531d7d3894fc09ac941ef8b6ad595782cfca5e1d52af5895ce117def7a0ff8afeea0166bff7b6ceae8baec2313614b1571754f539575cfa9351cd2da
   languageName: node
   linkType: hard
 
@@ -7027,6 +7079,13 @@ __metadata:
   peerDependencies:
     eslint: ">=6.0.0"
   checksum: b345604d1ebbe0b61887c22d998d0217ae0b662072ecbc5f532513b61bcae2df1dc8bf5459c23f63cc38d223b8bebdf6382eefcbe30a46dec8adbc07e693d54e
+  languageName: node
+  linkType: hard
+
+"eslint-rule-composer@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "eslint-rule-composer@npm:0.3.0"
+  checksum: c2f57cded8d1c8f82483e0ce28861214347e24fd79fd4144667974cd334d718f4ba05080aaef2399e3bbe36f7d6632865110227e6b176ed6daa2d676df9281b1
   languageName: node
   linkType: hard
 
@@ -7957,7 +8016,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"globals@npm:^11.1.0":
+"globals@npm:^11.1.0, globals@npm:^11.12.0":
   version: 11.12.0
   resolution: "globals@npm:11.12.0"
   checksum: 67051a45eca3db904aee189dfc7cd53c20c7d881679c93f6146ddd4c9f4ab2268e68a919df740d39c71f4445d2b38ee360fc234428baea1dbdfe68bbcb46979e
@@ -10865,7 +10924,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "nx-plugin@workspace:."
   dependencies:
-    "@chiubaka/eslint-config": ^0.3.8
+    "@chiubaka/eslint-config": ^0.4.0
     "@chiubaka/tsconfig": ^0.1.0
     "@nrwl/cli": 14.5.6
     "@nrwl/devkit": 14.5.6
