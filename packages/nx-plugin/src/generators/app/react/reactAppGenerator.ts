@@ -66,8 +66,8 @@ function updateCodeSample(project: Project) {
   replaceInFile(
     tree,
     project.srcPath("main.tsx"),
-    'import App from "./app/App";\n',
-    'import { App } from "./App/App";\n',
+    "import App from './app/App';\n",
+    "import { App } from './App';\n",
   );
 
   tree.rename(
@@ -77,8 +77,8 @@ function updateCodeSample(project: Project) {
   replaceInFile(
     tree,
     project.testPath("unit/App.spec.tsx"),
-    'import App from "./App";\n',
-    'import { App } from "../../src/App";\n',
+    "import App from './App';\n",
+    "import { App } from '../../src/App';\n",
   );
 
   moveFilesToNewDirectory(tree, project.srcPath("app"), project.srcPath("App"));

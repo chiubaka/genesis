@@ -1334,7 +1334,7 @@ exports[`reactAppGenerator sample code generates a sample unit test unit/App.spe
 import { BrowserRouter } from 'react-router-dom';
 
 
-import App from '../../src/App';
+import { App } from '../../src/App';
 
 describe('App', () => {
   it('should render successfully', () => {
@@ -1377,7 +1377,7 @@ exports[`reactAppGenerator sample code main.tsx matches snapshot 1`] = `
 import * as ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
-import App from './App/App';
+import { App } from './App';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
