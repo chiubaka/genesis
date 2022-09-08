@@ -222,12 +222,6 @@ export class GitHubApiAdapter {
         name,
       },
     );
-
-    return this.octokit.rest.issues.deleteLabel({
-      owner: repoOwner,
-      repo: repoName,
-      name,
-    });
   }
 
   public async labelExists(
