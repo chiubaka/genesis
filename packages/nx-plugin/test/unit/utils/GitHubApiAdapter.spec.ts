@@ -125,7 +125,10 @@ describe("GitHubApiAdapter", () => {
 
         expect(response).toBeDefined();
 
-        const { status, data } = response as { status: number; data: never };
+        const { status, data } = response as unknown as {
+          status: number;
+          data: never;
+        };
 
         expect(status).toBe(204);
         expect(data).toBeUndefined();
