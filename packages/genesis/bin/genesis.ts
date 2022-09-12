@@ -1,5 +1,3 @@
-declare module "package-name-regex";
-
 import { getPackageManagerCommand } from "@nrwl/devkit";
 import { program } from "commander";
 import { spawn } from "node:child_process";
