@@ -1,6 +1,10 @@
-import { e2eTmpPath, TestingWorkspace } from "@chiubaka/nx-plugin-testing";
+import { TestingWorkspace } from "@chiubaka/nx-plugin-testing";
 
-import { e2eProjectTestCases, projectTestCases } from "../utils";
+import {
+  copyWorkspaceTemplate,
+  e2eProjectTestCases,
+  projectTestCases,
+} from "../utils";
 
 describe("reactAppGenerator", () => {
   let workspace: TestingWorkspace;
@@ -10,8 +14,7 @@ describe("reactAppGenerator", () => {
   };
 
   beforeAll(async () => {
-    const destination = e2eTmpPath("genesis-lib-e2e");
-    workspace = new TestingWorkspace(destination);
+    workspace = await copyWorkspaceTemplate("app.react");
 
     await workspace.execNx(
       "generate @chiubaka/nx-plugin:app.react --name=react-app",
@@ -19,5 +22,8 @@ describe("reactAppGenerator", () => {
   });
 
   projectTestCases("react-app", getWorkspace);
-  e2eProjectTestCases("react-app-e2e", getWorkspace, { buildable: false });
+
+  describe("e2e project", () => {
+    e2eProjectTestCases("react-app-e2e", getWorkspace, { skipBuild: true });
+  });
 });
