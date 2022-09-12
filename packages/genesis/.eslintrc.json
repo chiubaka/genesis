@@ -1,4 +1,16 @@
 {
   "extends": ["../../.eslintrc.json"],
-  "ignorePatterns": ["node_modules"]
+  "ignorePatterns": ["node_modules"],
+  "rules": {
+    "unicorn/filename-case": [
+      "error",
+      {
+        "cases": {
+          "camelCase": true,
+          "pascalCase": true
+        },
+        "ignore": ["package-name-regex.d.ts"]
+      }
+    ]
+  }
 }
