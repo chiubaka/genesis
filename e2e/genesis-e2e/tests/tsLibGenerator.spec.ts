@@ -1,6 +1,10 @@
-import { e2eTmpPath, TestingWorkspace } from "@chiubaka/nx-plugin-testing";
+import { TestingWorkspace } from "@chiubaka/nx-plugin-testing";
 
-import { projectTestCases } from "../utils";
+import {
+  copyWorkspaceTemplate,
+  e2eProjectTestCases,
+  projectTestCases,
+} from "../utils";
 
 describe("tsLibGenerator", () => {
   let workspace: TestingWorkspace;
@@ -10,8 +14,7 @@ describe("tsLibGenerator", () => {
   };
 
   beforeAll(async () => {
-    const destination = e2eTmpPath("genesis-lib-e2e");
-    workspace = new TestingWorkspace(destination);
+    workspace = await copyWorkspaceTemplate("lib.ts");
 
     await workspace.execNx("generate @chiubaka/nx-plugin:lib.ts --name=ts-lib");
   });
@@ -23,14 +26,6 @@ describe("tsLibGenerator", () => {
   });
 
   describe("e2e project", () => {
-    it("generates a project with a working linting setup", async () => {
-      await expect(
-        workspace.execNx("lint ts-lib-e2e --max-warnings 0"),
-      ).resolves.not.toThrow();
-    });
-
-    it("generates a project with a working build setup", async () => {
-      await expect(workspace.execNx("build ts-lib-e2e")).resolves.not.toThrow();
-    });
+    e2eProjectTestCases("ts-lib-e2e", getWorkspace);
   });
 });

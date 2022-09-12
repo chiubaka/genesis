@@ -4,15 +4,11 @@
   "sourceRoot": "e2e/genesis-e2e/tests",
   "targets": {
     "e2e": {
-      "dependsOn": [
-        { "target": "setup-e2e", "projects": "self" },
-        { "target": "setup-lib-e2e", "projects": "self" }
-      ],
+      "dependsOn": [{ "target": "setup-e2e", "projects": "self" }],
       "executor": "@nrwl/jest:jest",
       "options": {
         "jestConfig": "e2e/genesis-e2e/jest.config.ts",
-        "passWithNoTests": true,
-        "runInBand": true
+        "passWithNoTests": true
       },
       "outputs": [
         "reports/coverage/e2e/genesis-e2e",
@@ -39,19 +35,6 @@
         "disableImmutableInstalls": true
       },
       "outputs": ["tmp/nx-e2e/genesis-e2e"]
-    },
-    "setup-lib-e2e": {
-      "executor": "@nrwl/workspace:run-commands",
-      "dependsOn": [{ "target": "setup-e2e", "projects": "self" }],
-      "options": {
-        "commands": [
-          "rm -rf tmp/nx-e2e/genesis-lib-e2e",
-          "cp -r tmp/nx-e2e/genesis-e2e tmp/nx-e2e/genesis-lib-e2e",
-          "cd tmp/nx-e2e/genesis-lib-e2e && yarn install"
-        ],
-        "parallel": false
-      },
-      "outputs": ["tmp/nx-e2e/genesis-lib-e2e"]
     },
     "yarn-cache-clean": {
       "executor": "@nrwl/workspace:run-commands",

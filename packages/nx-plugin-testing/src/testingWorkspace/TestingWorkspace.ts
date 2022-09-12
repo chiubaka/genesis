@@ -23,6 +23,7 @@ export class TestingWorkspace extends AbstractTestingWorkspace {
   public exec(command: string) {
     return exec(command, {
       cwd: this.rootPath,
+      maxBuffer: 1024 * 10_000,
     });
   }
 

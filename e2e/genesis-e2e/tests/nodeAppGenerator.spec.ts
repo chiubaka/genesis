@@ -1,6 +1,6 @@
-import { e2eTmpPath, TestingWorkspace } from "@chiubaka/nx-plugin-testing";
+import { TestingWorkspace } from "@chiubaka/nx-plugin-testing";
 
-import { projectTestCases } from "../utils";
+import { copyWorkspaceTemplate, projectTestCases } from "../utils";
 
 describe("nodeAppGenerator", () => {
   let workspace: TestingWorkspace;
@@ -10,8 +10,7 @@ describe("nodeAppGenerator", () => {
   };
 
   beforeAll(async () => {
-    const destination = e2eTmpPath("genesis-lib-e2e");
-    workspace = new TestingWorkspace(destination);
+    workspace = await copyWorkspaceTemplate("app.node");
 
     await workspace.execNx(
       "generate @chiubaka/nx-plugin:app.node --name=node-app",
