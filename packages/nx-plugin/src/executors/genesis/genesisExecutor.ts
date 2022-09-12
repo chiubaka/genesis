@@ -7,8 +7,14 @@ import { exec } from "../../utils";
 import { GenesisExecutorSchema } from "./genesisExecutor.schema";
 
 export async function genesisExecutor(options: GenesisExecutorSchema) {
-  const { workspaceScope, workspaceName, description, skipGitHub, registry } =
-    options;
+  const {
+    workspaceScope,
+    workspaceName,
+    description,
+    disableImmutableInstalls,
+    skipGitHub,
+    registry,
+  } = options;
 
   // Generate inside of a temporary directory, then move to the destination afterward to avoid git repo inside
   // of git repo errors in E2E testing situations
@@ -16,7 +22,11 @@ export async function genesisExecutor(options: GenesisExecutorSchema) {
   removeSync(tmpDir);
   ensureDirSync(tmpDir);
 
-  let command = `genesis @${workspaceScope}/${workspaceName} --description="${description} --disable-immutable-installs"`;
+  let command = `genesis @${workspaceScope}/${workspaceName} --description="${description}"`;
+
+  if (disableImmutableInstalls) {
+    command = `${command} --disable-immutable-installs`;
+  }
 
   if (skipGitHub) {
     command = `${command} --skip-github`;
