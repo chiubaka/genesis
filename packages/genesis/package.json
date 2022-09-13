@@ -4,7 +4,8 @@
   "description": "Workspace generation CLI that serves as the start point for scaffolding all Chiubaka Technologies TypeScript projects",
   "bin": "./bin/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "deploy": "npm publish --access public",
+    "deploy:ci": "yarn deploy"
   },
   "repository": {
     "type": "git",
