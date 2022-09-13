@@ -1,6 +1,6 @@
 {
   "name": "@chiubaka/nx-plugin-testing",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Utilities for testing Nx plugins",
   "main": "index.js",
   "scripts": {

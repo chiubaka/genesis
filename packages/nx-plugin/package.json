@@ -1,6 +1,6 @@
 {
   "name": "@chiubaka/nx-plugin",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "main": "src/index.js",
   "scripts": {
     "deploy": "npm publish --access public",
@@ -16,7 +16,7 @@
     "winston-transport": "^4.5.0"
   },
   "devDependencies": {
-    "@chiubaka/nx-plugin-testing": "0.0.1",
+    "@chiubaka/nx-plugin-testing": "0.1.0",
     "@types/js-yaml": "^4.0.5",
     "@types/nock": "^11.1.0",
     "@verdaccio/types": "^10.5.2",
