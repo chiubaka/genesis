@@ -54,18 +54,26 @@
         "passWithNoTests": true
       }
     },
-    "publish:local": {
-      "executor": "@chiubaka/nx-plugin:publish-local",
+    "deploy": {
+      "executor": "@chiubaka/nx-plugin:npm-publish",
+      "defaultConfiguration": "development",
       "dependsOn": [
         { "target": "build", "projects": "self" },
-        { "target": "publish:local:remove-yarn-module", "projects": "self" }
+        { "target": "deploy:remove-yarn-module", "projects": "self" }
       ],
       "options": {
-        "registryUrl": "http://localhost:4873",
         "packagePath": "dist/packages/genesis"
+      },
+      "configurations": {
+        "production": {},
+        "development": {
+          "registryUrl": "http://localhost:4873",
+          "skipLogin": false,
+          "skipUnpublish": false
+        }
       }
     },
-    "publish:local:remove-yarn-module": {
+    "deploy:remove-yarn-module": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "command": "rm -rf node_modules/@chiubaka/nx-plugin"
