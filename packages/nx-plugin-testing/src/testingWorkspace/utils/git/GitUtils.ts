@@ -7,6 +7,10 @@ export class GitUtils {
     this.workspace = workspace;
   }
 
+  public init() {
+    return this.execGitCommand("init");
+  }
+
   public async commitAllFiles(message: string) {
     await this.stageAllFiles();
     return this.execGitCommand(`commit -m "${message}"`);
