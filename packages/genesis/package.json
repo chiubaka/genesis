@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "description": "Workspace generation CLI that serves as the start point for scaffolding all Chiubaka Technologies TypeScript projects",
   "bin": "./bin/index.js",
-  "scripts": {},
   "repository": {
     "type": "git",
     "url": "https://github.com/chiubaka/nx-plugin.git",

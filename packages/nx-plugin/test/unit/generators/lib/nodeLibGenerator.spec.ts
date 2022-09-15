@@ -7,7 +7,7 @@ import {
 } from "@nrwl/devkit";
 
 import { nodeLibGenerator, Project, RunCommandsOptions } from "../../../../src";
-import { libTestCases, nodeProjectTestCases } from "../../../cases";
+import { nodeProjectTestCases } from "../../../cases";
 
 describe("nodeLibGenerator", () => {
   let tree: Tree;
@@ -35,7 +35,6 @@ describe("nodeLibGenerator", () => {
     importPath = `@${projectScope}/${projectName}`;
   });
 
-  libTestCases(getProject);
   nodeProjectTestCases(getProject);
 
   beforeAll(async () => {

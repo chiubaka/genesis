@@ -1,11 +1,8 @@
 import { Tree } from "@nrwl/devkit";
 
 import { noOpTask, Project } from "../../../utils";
-import {
-  addNpmPublishDeployScriptsToPackageJson,
-  copyNodeLibSample,
-  nodeProjectGenerator,
-} from "../../project";
+import { copyNodeLibSample, nodeProjectGenerator } from "../../project";
+import { libGenerator } from "../libGenerator";
 import { LibGeneratorSchema } from "../libGenerator.schema";
 import { nodeLibE2eGenerator } from "./e2e";
 
@@ -21,7 +18,7 @@ export async function nodeLibGenerator(
     rootProjectGeneratorName: "lib.node",
   });
 
-  addNpmPublishDeployScriptsToPackageJson(project);
+  libGenerator(tree, options);
   copyNodeLibSample(project);
 
   const e2eProjectTask = await generateE2eProject(project, options);

@@ -26,11 +26,63 @@ describe("presetGenerator", () => {
   });
 
   describe("package.json", () => {
+    let packageJson: PackageJson;
+
+    beforeAll(() => {
+      packageJson = readJson<PackageJson>(tree, "package.json");
+    });
+
     it("sets up yarn workspaces to pick up packages in the packages dir", () => {
-      const packageJson = readJson<PackageJson>(tree, "package.json");
+      packageJson = readJson<PackageJson>(tree, "package.json");
 
       expect(packageJson.workspaces).toEqual({
         packages: ["packages/*"],
+      });
+    });
+
+    describe("scripts", () => {
+      let scripts: Record<string, string> | undefined;
+
+      beforeAll(() => {
+        scripts = packageJson.scripts;
+      });
+
+      it("includes a build:affected script", () => {
+        expect(scripts?.["build:affected"]).toBe("nx affected --target=build");
+      });
+
+      it("includes a build:ci script", () => {
+        expect(scripts?.["build:ci"]).toBe(
+          "yarn build:affected --base=$NX_BASE --head=$NX_HEAD",
+        );
+      });
+
+      it("includes a test:affected script", () => {
+        expect(scripts?.["test:affected"]).toBe("nx affected --target=test");
+      });
+
+      it("includes a test:ci script", () => {
+        expect(scripts?.["test:ci"]).toBe(
+          "yarn test:affected --ci --coverage --base=$NX_BASE --head=$NX_HEAD && yarn test:e2e:affected --base=$NX_BASE --head=$NX_HEAD",
+        );
+      });
+
+      it("includes a test:e2e script", () => {
+        expect(scripts?.["test:e2e"]).toBe("nx run-many --target=e2e --all");
+      });
+
+      it("includes a test:e2e:affected script", () => {
+        expect(scripts?.["test:e2e:affected"]).toBe("nx affected --target=e2e");
+      });
+
+      it("includes a deploy script", () => {
+        expect(scripts?.["deploy"]).toBe(
+          "nx deploy $@ --configuration=production",
+        );
+      });
+
+      it("includes a deploy:ci script", () => {
+        expect(scripts?.["deploy:ci"]).toBe("yarn deploy");
       });
     });
   });

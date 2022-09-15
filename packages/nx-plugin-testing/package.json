@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "description": "Utilities for testing Nx plugins",
   "main": "index.js",
-  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/chiubaka/nx-plugin.git"

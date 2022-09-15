@@ -2,11 +2,7 @@ import { createTreeWithEmptyWorkspace } from "@chiubaka/nx-plugin-testing";
 import { Tree } from "@nrwl/devkit";
 
 import { Project, tsLibGenerator } from "../../../../src";
-import {
-  libTestCases,
-  nodeProjectTestCases,
-  tsProjectTestCases,
-} from "../../../cases";
+import { nodeProjectTestCases, tsProjectTestCases } from "../../../cases";
 
 describe("tsLibGenerator", () => {
   let tree: Tree;
@@ -30,7 +26,6 @@ describe("tsLibGenerator", () => {
     projectName = project.getName();
   });
 
-  libTestCases(getProject);
   tsProjectTestCases(getProject);
 
   beforeAll(async () => {

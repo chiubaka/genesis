@@ -3,11 +3,11 @@ import { libraryGenerator } from "@nrwl/js";
 
 import { noOpTask, Project } from "../../../utils";
 import {
-  addNpmPublishDeployScriptsToPackageJson,
   copyTsLibSample,
   projectGenerator,
   TsConfigGeneratorPresets,
 } from "../../project";
+import { libGenerator } from "../libGenerator";
 import { LibGeneratorSchema } from "../libGenerator.schema";
 import { tsLibE2eGenerator } from "./e2e";
 
@@ -37,7 +37,7 @@ export async function tsLibGenerator(tree: Tree, options: LibGeneratorSchema) {
     tsconfig: TsConfigGeneratorPresets.LIB,
   });
 
-  addNpmPublishDeployScriptsToPackageJson(project);
+  libGenerator(tree, options);
   copyTsLibSample(project);
 
   const e2eProjectTask = await generateE2eProject(project, options);
