@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "title": "NPM Publish",
+  "type": "object",
+  "cli": "nx",
+  "properties": {
+    "access": {
+      "type": "string",
+      "description": "Access type for the published package",
+      "enum": ["restricted", "public"],
+      "default": "public"
+    },
+    "dryRun": {
+      "type": "boolean",
+      "description": "Whether or not to run all mutative operations as dry runs",
+      "default": false
+    },
+    "registryCredentials": {
+      "type": "object",
+      "description": "Login credentials for the local registry",
+      "properties": {
+        "username": {
+          "type": "string",
+          "description": "Username for logging into the local registry",
+          "default": "test"
+        },
+        "password": {
+          "type": "string",
+          "description": "Password for logging into the local registry",
+          "default": "test"
+        },
+        "email": {
+          "type": "string",
+          "description": "Email for logging into the local registry",
+          "default": "test@chiubaka.com"
+        }
+      }
+    },
+    "registryUrl": {
+      "type": "string",
+      "description": "Full URL of the local registry to publish packages to",
+      "default": "https://registry.npmjs.org"
+    },
+
+    "packagePath": {
+      "type": "string",
+      "description": "Path to the built package to publish"
+    },
+
+    "skipLogin": {
+      "type": "boolean",
+      "description": "Whether or not to skip logging into the registry",
+      "default": true
+    },
+    "skipUnpublish": {
+      "type": "boolean",
+      "description": "Whether or not to skip unpublishing from the registry before publishing",
+      "default": true
+    }
+  },
+  "required": ["packagePath"]
+}

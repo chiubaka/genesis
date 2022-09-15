@@ -34,7 +34,9 @@ export async function presetGenerator(
       2,
     )}`,
   );
+
   modifyWorkspaceLayout(tree);
+  addPackageJsonScripts(tree);
 
   const installTask = reinstallPackagesWithYarn(tree, options);
   const tsconfigTask = await tsconfigGenerator(tree);
@@ -85,6 +87,28 @@ function modifyWorkspaceLayout(tree: Tree) {
 
   tree.write("e2e/.gitkeep", "");
   tree.write("packages/.gitkeep", "");
+}
+
+function addPackageJsonScripts(tree: Tree) {
+  logger.info("Adding standard scripts to package.json");
+
+  updateJson(tree, "package.json", (packageJson: PackageJsonType) => {
+    const scripts = packageJson.scripts ?? {};
+
+    scripts["build:affected"] = "nx affected --target=build";
+    scripts["build:ci"] = "yarn build:affected --base=$NX_BASE --head=$NX_HEAD";
+    scripts["test:affected"] = "nx affected --target=test";
+    scripts["test:ci"] =
+      "yarn test:affected --ci --coverage --base=$NX_BASE --head=$NX_HEAD && yarn test:e2e:affected --base=$NX_BASE --head=$NX_HEAD";
+    scripts["test:e2e"] = "nx run-many --target=e2e --all";
+    scripts["test:e2e:affected"] = "nx affected --target=e2e";
+    scripts["deploy"] = "nx deploy $@ --configuration=production";
+    scripts["deploy:ci"] = "yarn deploy";
+
+    packageJson.scripts = scripts;
+
+    return packageJson;
+  });
 }
 
 function reinstallPackagesWithYarn(tree: Tree, options: PresetGeneratorSchema) {

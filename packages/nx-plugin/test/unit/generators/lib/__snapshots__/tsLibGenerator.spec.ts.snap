@@ -313,6 +313,27 @@ Object {
         "{options.outputPath}",
       ],
     },
+    "deploy": Object {
+      "configurations": Object {
+        "development": Object {
+          "dryRun": true,
+        },
+        "production": Object {
+          "dryRun": false,
+        },
+      },
+      "defaultConfiguration": "development",
+      "dependsOn": Array [
+        Object {
+          "projects": "self",
+          "target": "build",
+        },
+      ],
+      "executor": "@chiubaka/nx-plugin:npm-publish",
+      "options": Object {
+        "packagePath": "dist/packages/ts-lib",
+      },
+    },
     "lint": Object {
       "executor": "@nrwl/linter:eslint",
       "options": Object {

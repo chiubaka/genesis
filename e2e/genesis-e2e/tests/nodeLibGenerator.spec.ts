@@ -42,13 +42,9 @@ describe("nodeLibGenerator", () => {
 
   it("generates a project with a working publish setup", async () => {
     await expect(
-      workspace.execNx("deploy node-lib --dry-run"),
-    ).resolves.not.toThrow();
-  });
-
-  it("generates a project with a working CI publish setup", async () => {
-    await expect(
-      workspace.execNx("deploy:ci node-lib --dry-run"),
+      workspace.execNx(
+        "deploy node-lib --configuration=production --dry-run=true",
+      ),
     ).resolves.not.toThrow();
   });
 

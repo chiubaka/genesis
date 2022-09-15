@@ -6,6 +6,11 @@
       "schema": "./src/executors/genesis/schema.json",
       "description": "Runs the genesis CLI"
     },
+    "npm-publish": {
+      "implementation": "./src/executors/npmPublish",
+      "schema": "./src/executors/npmPublish/schema.json",
+      "description": "Publishes built packages to an NPM registry"
+    },
     "publish-local": {
       "implementation": "./src/executors/publishLocal",
       "schema": "./src/executors/publishLocal/schema.json",
