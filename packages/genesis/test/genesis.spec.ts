@@ -31,6 +31,7 @@ describe("genesis", () => {
         "--directory=genesis",
         "--workspaceName=genesis",
         "--workspaceScope=chiubaka",
+        "--skipGit",
         "--skipGitHub",
         "--registry=http://localhost:4873",
         "--disableImmutableInstalls=true",
