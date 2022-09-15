@@ -1,6 +1,6 @@
 {
   "name": "@chiubaka/genesis",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Workspace generation CLI that serves as the start point for scaffolding all Chiubaka Technologies TypeScript projects",
   "bin": "./bin/index.js",
   "repository": {
