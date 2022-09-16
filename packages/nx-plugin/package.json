@@ -4,6 +4,7 @@
   "main": "src/index.js",
   "dependencies": {
     "@nrwl/node": "14.7.5",
+    "@nrwl/nx-plugin": "14.7.5",
     "@nrwl/react": "14.7.5",
     "js-yaml": "^4.1.0",
     "octokit": "^2.0.7",
