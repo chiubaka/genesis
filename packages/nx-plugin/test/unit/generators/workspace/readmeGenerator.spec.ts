@@ -40,5 +40,11 @@ describe("readmeGenerator", () => {
     it("includes manual setup instructions", () => {
       expect(tree).toHaveFileWithContent("README.md", "## Manual Setup");
     });
+
+    // Regression test for https://github.com/chiubaka/genesis/issues/149
+    it("includes properly formatted actions", () => {
+      expect(tree).not.toHaveFileWithContent("README.md", "- []");
+      expect(tree).toHaveFileWithContent("README.md", "- [ ]");
+    });
   });
 });
