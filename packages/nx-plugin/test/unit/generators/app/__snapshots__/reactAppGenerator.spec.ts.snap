@@ -440,6 +440,9 @@ import NxWelcome from \\"./NxWelcome\\";
 import { Route, Routes, Link } from 'react-router-dom';
 
 
+/**
+ * @returns {Function} the main App component
+ */
 export function App() {
 
   return (
@@ -506,6 +509,11 @@ exports[`reactAppGenerator sample code generates a sample component App/NxWelcom
  * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  Delete this file and get started with your project!
  * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ */
+/**
+ * @param {object} props component properties
+ * @param {string} props.title the title of the component
+ * @returns {Function} a start component with Nx info
  */
 export function NxWelcome({ title }: { title: string }) {
   return (

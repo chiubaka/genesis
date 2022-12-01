@@ -1,4 +1,5 @@
 import { Tree } from "@nrwl/devkit";
+import escapeRegExpString from "escape-string-regexp";
 
 export function replaceInFile(
   tree: Tree,
@@ -13,7 +14,7 @@ export function replaceInFile(
   }
 
   // eslint-disable-next-line security/detect-non-literal-regexp
-  const pattern = new RegExp(searchValue, "g");
+  const pattern = new RegExp(escapeRegExpString(searchValue), "g");
   contents = contents.replace(pattern, replaceValue);
 
   tree.write(filePath, contents);

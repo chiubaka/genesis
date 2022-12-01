@@ -6,6 +6,7 @@
     "@nrwl/node": "14.7.5",
     "@nrwl/nx-plugin": "14.7.5",
     "@nrwl/react": "14.7.5",
+    "escape-string-regexp": "^4.0.0",
     "js-yaml": "^4.1.0",
     "octokit": "^2.0.7",
     "tslib": "^2.3.0",
@@ -14,6 +15,7 @@
   },
   "devDependencies": {
     "@chiubaka/nx-plugin-testing": "0.1.1",
+    "@types/escape-string-regexp": "^2.0.1",
     "@types/js-yaml": "^4.0.5",
     "@types/nock": "^11.1.0",
     "@verdaccio/types": "^10.5.2",

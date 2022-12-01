@@ -40,6 +40,13 @@ function updateCodeSample(project: Project) {
     project.srcPath("app/NxWelcome.tsx"),
   );
 
+  replaceInFile(
+    tree,
+    project.srcPath("app/NxWelcome.tsx"),
+    "export function NxWelcome({ title }: { title: string }) {",
+    "/**\n * @param {object} props component properties\n * @param {string} props.title the title of the component\n * @returns {Function} a start component with Nx info\n */\nexport function NxWelcome({ title }: { title: string }) {",
+  );
+
   tree.rename(
     project.srcPath("app/nx-welcome.stories.tsx"),
     project.srcPath("app/NxWelcome.stories.tsx"),
@@ -63,7 +70,13 @@ function updateCodeSample(project: Project) {
     '// eslint-disable-next-line @typescript-eslint/no-unused-vars\nimport styles from "./App.module.scss";\n',
     "",
   );
-  replaceInFile(tree, project.srcPath("main.tsx"), "\\./app/App", "./App");
+  replaceInFile(
+    tree,
+    project.srcPath("app/App.tsx"),
+    "export function App() {",
+    "/**\n * @returns {Function} the main App component\n */\nexport function App() {",
+  );
+  replaceInFile(tree, project.srcPath("main.tsx"), "./app/App", "./App");
   replaceInFile(
     tree,
     project.srcPath("main.tsx"),
@@ -84,7 +97,7 @@ function updateCodeSample(project: Project) {
   replaceInFile(
     tree,
     project.testPath("unit/App.spec.tsx"),
-    "\\./App",
+    "./App",
     "../../src/App",
   );
 
@@ -102,13 +115,13 @@ function updateStorybookConfiguration(project: Project) {
   replaceInFile(
     tree,
     project.path(".storybook/main.ts"),
-    "\\.\\./src/app/\\*\\*/\\*\\.stories\\.mdx",
+    "../src/app/**/*.stories.mdx",
     "../src/**/*.stories.mdx",
   );
   replaceInFile(
     tree,
     project.path(".storybook/main.ts"),
-    "\\.\\./src/app/\\*\\*/\\*\\.stories\\.@\\(js\\|jsx\\|ts\\|tsx\\)",
+    "../src/app/**/*.stories.@(js|jsx|ts|tsx)",
     "../src/**/*.stories.@(js|jsx|ts|tsx)",
   );
 }

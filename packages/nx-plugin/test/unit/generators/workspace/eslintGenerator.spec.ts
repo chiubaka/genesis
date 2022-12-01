@@ -3,6 +3,7 @@ import { createTreeWithEmptyWorkspace } from "@nrwl/devkit/testing";
 import { Linter } from "eslint";
 import { PackageJson } from "nx/src/utils/package-json";
 
+import { NX_VERSION } from "../../../../src";
 import { eslintGenerator } from "../../../../src/generators";
 import { DEFAULT_MOCK_INSTALLED_PACKAGE_VERSION } from "../../../mocks";
 
@@ -31,10 +32,7 @@ describe("eslintGenerator", () => {
       });
 
       it("adds @nrwl/eslint-plugin-nx as a devDependency", () => {
-        expect(tree).toHaveDevDependency(
-          "@nrwl/eslint-plugin-nx",
-          DEFAULT_MOCK_INSTALLED_PACKAGE_VERSION,
-        );
+        expect(tree).toHaveDevDependency("@nrwl/eslint-plugin-nx", NX_VERSION);
       });
     });
 
