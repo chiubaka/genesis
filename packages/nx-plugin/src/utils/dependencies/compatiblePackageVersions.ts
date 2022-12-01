@@ -1,4 +1,4 @@
-import PackageJson from "../../../../../package.json";
+import PackageJson from "../../../package.json";
 
 export const NX_VERSION = PackageJson["devDependencies"]["nx"];
 

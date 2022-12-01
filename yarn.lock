@@ -1602,6 +1602,7 @@ __metadata:
     escape-string-regexp: ^4.0.0
     js-yaml: ^4.1.0
     nock: ^13.2.9
+    nx: 14.7.5
     octokit: ^2.0.7
     tslib: ^2.3.0
     winston: ^3.8.1
