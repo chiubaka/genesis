@@ -3,6 +3,9 @@ import fs from "node:fs";
 
 export const helloEnhanced = `${hello} ${hello}`;
 
+/**
+ * @returns {string} the contents of the hello world file
+ */
 export function helloFromFile() {
   const filePath = writeHelloWorld();
   // eslint-disable-next-line security/detect-non-literal-fs-filename

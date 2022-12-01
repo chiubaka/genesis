@@ -2,6 +2,9 @@ import { getGreeting, Greeter, hello } from "@<%= libScope %>/<%= libName %>";
 
 export const helloEnhanced = `${hello} ${hello}`;
 
+/**
+ * @returns {string} an enhanced version of a familiar phrase
+ */
 export function getEnhancedGreeting() {
   return `${getGreeting()} ${getGreeting()}`;
 }

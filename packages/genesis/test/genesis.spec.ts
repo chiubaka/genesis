@@ -1,5 +1,6 @@
 jest.mock("node:child_process");
 
+import { NX_VERSION } from "@chiubaka/nx-plugin";
 import { spawn } from "node:child_process";
 
 import { genesis, parseImportPath } from "../bin/genesis";
@@ -24,7 +25,7 @@ describe("genesis", () => {
     expect(spawn).toHaveBeenCalledWith(
       "npx",
       [
-        "create-nx-workspace",
+        `create-nx-workspace@${NX_VERSION}`,
         "chiubaka",
         "--preset=@chiubaka/nx-plugin",
         "--nxCloud=false",

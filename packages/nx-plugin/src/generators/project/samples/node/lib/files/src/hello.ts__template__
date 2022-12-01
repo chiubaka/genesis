@@ -5,6 +5,9 @@ import path from "node:path";
 
 export const hello = "Hello, world!";
 
+/**
+ * @returns {string} path to the file that was written to
+ */
 export function writeHelloWorld() {
   const randomSuffix = crypto.randomBytes(48).toString("base64url");
   const fileName = `hello-${randomSuffix}.txt`;
