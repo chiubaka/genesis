@@ -20,20 +20,24 @@ export class TestingWorkspace extends AbstractTestingWorkspace {
     super(rootPath);
   }
 
-  public exec(command: string) {
+  public exec(command: string, env?: NodeJS.ProcessEnv) {
     return exec(command, {
       cwd: this.rootPath,
       maxBuffer: 1024 * 10_000,
+      env,
     });
   }
 
   public execNx(command: string) {
-    return this.execPmc(`NX_DAEMON=false nx ${command}`);
+    return this.execPmc(`nx ${command}`, {
+      ...process.env,
+      NX_DAEMON: "false",
+    });
   }
 
-  public execPmc(command: string) {
+  public execPmc(command: string, env?: NodeJS.ProcessEnv) {
     const pmc = this.getPackageManagerCommand();
-    return this.exec(`${pmc.exec} ${command}`);
+    return this.exec(`${pmc.exec} ${command}`, env);
   }
 
   public execPmcScript(script: string, args = "") {
