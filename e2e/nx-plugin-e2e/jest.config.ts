@@ -10,6 +10,6 @@ export default {
   transform: {
     "^.+\\.[tj]s$": "ts-jest",
   },
-  moduleFileExtensions: ["ts", "js", "html"],
+  moduleFileExtensions: ["ts", "js", "html", "json"],
   coverageDirectory: "../../reports/coverage/e2e/nx-plugin-e2e",
 };

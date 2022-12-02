@@ -93,7 +93,7 @@ exports[`nodeLibGenerator E2E project jest.config.ts matches snapshot 1`] = `
     transform: {
         \\"^.+\\\\\\\\.[tj]s$\\": \\"ts-jest\\",
       },
-    moduleFileExtensions: [\\"ts\\", \\"js\\", \\"html\\"],
+    moduleFileExtensions: [\\"ts\\", \\"js\\", \\"html\\", \\"json\\"],
     coverageDirectory: \\"../../reports/coverage/packages/node-lib-e2e\\",
   reporters: [
     \\"default\\",
@@ -135,13 +135,15 @@ Object {
           "optimization": true,
         },
       },
-      "executor": "@nrwl/node:webpack",
+      "executor": "@nrwl/webpack:webpack",
       "options": Object {
         "assets": Array [
           "e2e/node-lib-e2e/src/assets",
         ],
+        "compiler": "tsc",
         "main": "e2e/node-lib-e2e/src/main.ts",
         "outputPath": "dist/e2e/node-lib-e2e",
+        "target": "node",
         "tsConfig": "e2e/node-lib-e2e/tsconfig.app.json",
       },
       "outputs": Array [
@@ -274,7 +276,7 @@ exports[`nodeLibGenerator jest.config.ts matches snapshot 1`] = `
     transform: {
         \\"^.+\\\\\\\\.[tj]s$\\": \\"ts-jest\\",
       },
-    moduleFileExtensions: [\\"ts\\", \\"js\\", \\"html\\"],
+    moduleFileExtensions: [\\"ts\\", \\"js\\", \\"html\\", \\"json\\"],
     coverageDirectory: \\"../../reports/coverage/packages/node-lib\\",
   reporters: [
     \\"default\\",

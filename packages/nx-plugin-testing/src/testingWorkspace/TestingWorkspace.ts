@@ -28,7 +28,7 @@ export class TestingWorkspace extends AbstractTestingWorkspace {
   }
 
   public execNx(command: string) {
-    return this.execPmc(`nx ${command}`);
+    return this.execPmc(`NX_DAEMON=false nx ${command}`);
   }
 
   public execPmc(command: string) {

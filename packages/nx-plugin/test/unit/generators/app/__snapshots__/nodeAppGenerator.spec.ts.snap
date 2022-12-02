@@ -53,7 +53,7 @@ exports[`nodeAppGenerator jest.config.ts matches snapshot 1`] = `
     transform: {
         \\"^.+\\\\\\\\.[tj]s$\\": \\"ts-jest\\",
       },
-    moduleFileExtensions: [\\"ts\\", \\"js\\", \\"html\\"],
+    moduleFileExtensions: [\\"ts\\", \\"js\\", \\"html\\", \\"json\\"],
     coverageDirectory: \\"../../reports/coverage/packages/node-app\\",
   reporters: [
     \\"default\\",
@@ -92,13 +92,15 @@ Object {
           "optimization": true,
         },
       },
-      "executor": "@nrwl/node:webpack",
+      "executor": "@nrwl/webpack:webpack",
       "options": Object {
         "assets": Array [
           "packages/node-app/src/assets",
         ],
+        "compiler": "tsc",
         "main": "packages/node-app/src/main.ts",
         "outputPath": "dist/packages/node-app",
+        "target": "node",
         "tsConfig": "packages/node-app/tsconfig.app.json",
       },
       "outputs": Array [
@@ -122,7 +124,7 @@ Object {
           "buildTarget": "node-app:build:production",
         },
       },
-      "executor": "@nrwl/node:node",
+      "executor": "@nrwl/js:node",
       "options": Object {
         "buildTarget": "node-app:build",
       },

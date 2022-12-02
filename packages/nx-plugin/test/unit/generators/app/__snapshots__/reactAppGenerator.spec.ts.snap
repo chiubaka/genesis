@@ -237,7 +237,7 @@ exports[`reactAppGenerator jest.config.ts matches snapshot 1`] = `
         \\"^(?!.*\\\\\\\\.(js|jsx|ts|tsx|css|json)$)\\": \\"@nrwl/react/plugins/jest\\",
     \\"^.+\\\\\\\\.[tj]sx?$\\": \\"babel-jest\\",
       },
-    moduleFileExtensions: [\\"ts\\", \\"tsx\\", \\"js\\", \\"jsx\\", \\"html\\"],
+    moduleFileExtensions: [\\"ts\\", \\"tsx\\", \\"js\\", \\"jsx\\", \\"html\\", \\"json\\"],
     coverageDirectory: \\"../../reports/coverage/packages/react-app\\",
   reporters: [
     \\"default\\",
@@ -286,7 +286,7 @@ Object {
         },
       },
       "defaultConfiguration": "production",
-      "executor": "@nrwl/web:webpack",
+      "executor": "@nrwl/webpack:webpack",
       "options": Object {
         "assets": Array [
           "packages/react-app/src/favicon.ico",
@@ -349,7 +349,7 @@ Object {
         },
       },
       "defaultConfiguration": "development",
-      "executor": "@nrwl/web:dev-server",
+      "executor": "@nrwl/webpack:dev-server",
       "options": Object {
         "buildTarget": "react-app:build",
         "hmr": true,

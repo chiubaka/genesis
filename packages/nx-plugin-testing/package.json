@@ -20,8 +20,8 @@
   },
   "homepage": "https://github.com/chiubaka/nx-plugin#readme",
   "dependencies": {
-    "@nrwl/devkit": "14.7.5",
-    "@nrwl/node": "14.7.5",
-    "nx": "14.7.5"
+    "@nrwl/devkit": "14.7.6",
+    "@nrwl/node": "14.7.6",
+    "nx": "14.7.6"
   }
 }

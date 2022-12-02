@@ -58,6 +58,7 @@ export function genesis(argv = process.argv) {
 
   const env: NodeJS.ProcessEnv = {
     ...process.env,
+    NX_DAEMON: "false",
     NX_VERBOSE_LOGGING: "true",
   };
 
