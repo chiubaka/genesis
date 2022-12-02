@@ -93,7 +93,7 @@ exports[`tsLibGenerator E2E project jest.config.ts matches snapshot 1`] = `
     transform: {
         \\"^.+\\\\\\\\.[tj]s$\\": \\"ts-jest\\",
       },
-    moduleFileExtensions: [\\"ts\\", \\"js\\", \\"html\\"],
+    moduleFileExtensions: [\\"ts\\", \\"js\\", \\"html\\", \\"json\\"],
     coverageDirectory: \\"../../reports/coverage/packages/ts-lib-e2e\\",
   reporters: [
     \\"default\\",
@@ -117,6 +117,7 @@ Object {
   "implicitDependencies": Array [
     "ts-lib",
   ],
+  "name": "ts-lib-e2e",
   "projectType": "application",
   "sourceRoot": "e2e/ts-lib-e2e/src",
   "tags": Array [],
@@ -135,13 +136,15 @@ Object {
           "optimization": true,
         },
       },
-      "executor": "@nrwl/node:webpack",
+      "executor": "@nrwl/webpack:webpack",
       "options": Object {
         "assets": Array [
           "e2e/ts-lib-e2e/src/assets",
         ],
+        "compiler": "tsc",
         "main": "e2e/ts-lib-e2e/src/main.ts",
         "outputPath": "dist/e2e/ts-lib-e2e",
+        "target": "node",
         "tsConfig": "e2e/ts-lib-e2e/tsconfig.app.json",
       },
       "outputs": Array [
@@ -172,7 +175,7 @@ Object {
           "target": "build",
         },
       ],
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": Object {
         "commands": Array [
           "yarn cache clean --all",
@@ -274,7 +277,7 @@ exports[`tsLibGenerator jest.config.ts matches snapshot 1`] = `
     transform: {
         \\"^.+\\\\\\\\.[tj]s$\\": \\"ts-jest\\",
       },
-    moduleFileExtensions: [\\"ts\\", \\"js\\", \\"html\\"],
+    moduleFileExtensions: [\\"ts\\", \\"js\\", \\"html\\", \\"json\\"],
     coverageDirectory: \\"../../reports/coverage/packages/ts-lib\\",
   reporters: [
     \\"default\\",
@@ -295,6 +298,7 @@ exports[`tsLibGenerator jest.config.ts matches snapshot 1`] = `
 exports[`tsLibGenerator project.json matches snapshot 1`] = `
 Object {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "ts-lib",
   "projectType": "library",
   "sourceRoot": "packages/ts-lib/src",
   "tags": Array [],
@@ -347,12 +351,9 @@ Object {
     },
     "publish": Object {
       "dependsOn": Array [
-        Object {
-          "projects": "self",
-          "target": "build",
-        },
+        "build",
       ],
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": Object {
         "command": "node tools/scripts/publish.mjs ts-lib {args.ver} {args.tag}",
       },

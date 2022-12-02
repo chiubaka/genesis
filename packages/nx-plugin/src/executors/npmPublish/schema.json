@@ -1,4 +1,6 @@
 {
+  "version": 2,
+  "outputCapture": "direct-nodejs",
   "$schema": "http://json-schema.org/schema",
   "title": "NPM Publish",
   "type": "object",
@@ -41,12 +43,10 @@
       "description": "Full URL of the local registry to publish packages to",
       "default": "https://registry.npmjs.org"
     },
-
     "packagePath": {
       "type": "string",
       "description": "Path to the built package to publish"
     },
-
     "skipLogin": {
       "type": "boolean",
       "description": "Whether or not to skip logging into the registry",

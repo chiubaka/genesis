@@ -1,9 +1,4 @@
-import {
-  ProjectsConfigurations,
-  readJson,
-  Tree,
-  updateJson,
-} from "@nrwl/devkit";
+import { readJson, Tree, updateJson } from "@nrwl/devkit";
 
 import { PackageJson, Project } from "../../../src";
 import { TsConfig } from "../../types/tsconfig";
@@ -66,18 +61,6 @@ export const projectTestCases = (
   });
 
   describe("workspace configurations", () => {
-    describe("workspace.json", () => {
-      it("updates projects to include a path to the newly generated project", () => {
-        const workspaceJson = readJson<ProjectsConfigurations>(
-          tree,
-          "workspace.json",
-        );
-
-        // eslint-disable-next-line security/detect-object-injection
-        expect(workspaceJson.projects[projectName]).toBe(project.path());
-      });
-    });
-
     describe("tsconfig.base.json", () => {
       it("updates paths to point to the newly generated project", () => {
         // Application-level code doesn't typically get shared around and reference by other projects

@@ -1,24 +1,30 @@
 {
+  "name": "nx-plugin-e2e",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "sourceRoot": "e2e/nx-plugin-e2e/tests",
   "targets": {
     "e2e": {
-      "dependsOn": [{ "target": "deploy", "projects": "dependencies" }],
+      "dependsOn": [
+        {
+          "target": "deploy",
+          "projects": "dependencies"
+        }
+      ],
       "executor": "@nrwl/jest:jest",
       "options": {
         "jestConfig": "e2e/nx-plugin-e2e/jest.config.ts",
         "passWithNoTests": true
       },
       "outputs": [
-        "tmp/nx-e2e/git",
-        "tmp/nx-e2e/git-hooks",
-        "tmp/nx-e2e/github",
-        "tmp/nx-e2e/linting",
-        "tmp/nx-e2e/testing",
-        "tmp/nx-e2e/tsconfig",
-        "reports/coverage/e2e/nx-plugin-e2e",
-        "reports/junit/nx-plugin-e2e.xml"
+        "{workspaceRoot}/tmp/nx-e2e/git",
+        "{workspaceRoot}/tmp/nx-e2e/git-hooks",
+        "{workspaceRoot}/tmp/nx-e2e/github",
+        "{workspaceRoot}/tmp/nx-e2e/linting",
+        "{workspaceRoot}/tmp/nx-e2e/testing",
+        "{workspaceRoot}/tmp/nx-e2e/tsconfig",
+        "{workspaceRoot}/reports/coverage/e2e/nx-plugin-e2e",
+        "{workspaceRoot}/reports/junit/nx-plugin-e2e.xml"
       ]
     },
     "lint": {

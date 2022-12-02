@@ -137,6 +137,7 @@ Object {
   "implicitDependencies": Array [
     "react-app",
   ],
+  "name": "react-app-e2e",
   "projectType": "application",
   "sourceRoot": "e2e/react-app-e2e/src",
   "tags": Array [],
@@ -237,7 +238,7 @@ exports[`reactAppGenerator jest.config.ts matches snapshot 1`] = `
         \\"^(?!.*\\\\\\\\.(js|jsx|ts|tsx|css|json)$)\\": \\"@nrwl/react/plugins/jest\\",
     \\"^.+\\\\\\\\.[tj]sx?$\\": \\"babel-jest\\",
       },
-    moduleFileExtensions: [\\"ts\\", \\"tsx\\", \\"js\\", \\"jsx\\", \\"html\\"],
+    moduleFileExtensions: [\\"ts\\", \\"tsx\\", \\"js\\", \\"jsx\\", \\"html\\", \\"json\\"],
     coverageDirectory: \\"../../reports/coverage/packages/react-app\\",
   reporters: [
     \\"default\\",
@@ -258,6 +259,7 @@ exports[`reactAppGenerator jest.config.ts matches snapshot 1`] = `
 exports[`reactAppGenerator project.json matches snapshot 1`] = `
 Object {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "react-app",
   "projectType": "application",
   "sourceRoot": "packages/react-app/src",
   "tags": Array [],
@@ -286,7 +288,7 @@ Object {
         },
       },
       "defaultConfiguration": "production",
-      "executor": "@nrwl/web:webpack",
+      "executor": "@nrwl/webpack:webpack",
       "options": Object {
         "assets": Array [
           "packages/react-app/src/favicon.ico",
@@ -349,7 +351,7 @@ Object {
         },
       },
       "defaultConfiguration": "development",
-      "executor": "@nrwl/web:dev-server",
+      "executor": "@nrwl/webpack:dev-server",
       "options": Object {
         "buildTarget": "react-app:build",
         "hmr": true,
@@ -487,13 +489,19 @@ export default App;
 `;
 
 exports[`reactAppGenerator sample code generates a sample component App/NxWelcome.stories.tsx matches snapshot 1`] = `
-"import { ComponentStory, ComponentMeta } from '@storybook/react';
+"import type { ComponentStory, ComponentMeta } from '@storybook/react';
 import {  NxWelcome  }  from './NxWelcome';
 
-export default {
+
+
+
+
+const Story: ComponentMeta<typeof NxWelcome> = {
   component: NxWelcome,
   title: 'NxWelcome', 
-} as ComponentMeta<typeof NxWelcome> ;
+};
+export default Story;
+
 
 const Template: ComponentStory< typeof NxWelcome > = (args) => <NxWelcome {...args} />;
 
@@ -1075,7 +1083,7 @@ export function NxWelcome({ title }: { title: string }) {
                 </svg>
               </a>
               <a
-                href=\\"https://nx.dev/react-tutorial/01-create-application?utm_source=nx-project\\"
+                href=\\"https://nx.dev/react-tutorial/1-code-generation?utm_source=nx-project\\"
                 target=\\"_blank\\"
                 rel=\\"noreferrer\\"
                 className=\\"list-item-link\\"

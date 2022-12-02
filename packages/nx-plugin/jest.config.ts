@@ -10,7 +10,7 @@ export default {
   transform: {
     "^.+\\.[tj]s$": "ts-jest",
   },
-  moduleFileExtensions: ["ts", "js", "html"],
+  moduleFileExtensions: ["ts", "js", "html", "json"],
   coverageDirectory: "../../reports/coverage/packages/nx-plugin",
   reporters: [
     "default",

@@ -12,7 +12,7 @@ exports[`jestProjectGenerator jest.config.ts matches snapshot 1`] = `
       transform: {
         \\"^.+\\\\\\\\.[tj]s$\\": \\"ts-jest\\",
       },
-    moduleFileExtensions: [\\"ts\\", \\"js\\", \\"html\\"],
+    moduleFileExtensions: [\\"ts\\", \\"js\\", \\"html\\", \\"json\\"],
     coverageDirectory: \\"../../reports/coverage/packages/jest-project\\",
   reporters: [
     \\"default\\",

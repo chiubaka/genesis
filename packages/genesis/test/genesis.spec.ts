@@ -44,6 +44,7 @@ describe("genesis", () => {
         env: {
           ...process.env,
           npm_config_registry: "http://localhost:4873",
+          NX_DAEMON: "false",
           NX_VERBOSE_LOGGING: "true",
         },
         stdio: "inherit",

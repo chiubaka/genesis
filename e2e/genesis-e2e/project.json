@@ -1,18 +1,24 @@
 {
+  "name": "genesis-e2e",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "sourceRoot": "e2e/genesis-e2e/tests",
   "targets": {
     "e2e": {
-      "dependsOn": [{ "target": "setup-e2e", "projects": "self" }],
+      "dependsOn": [
+        {
+          "target": "setup-e2e",
+          "projects": "self"
+        }
+      ],
       "executor": "@nrwl/jest:jest",
       "options": {
         "jestConfig": "e2e/genesis-e2e/jest.config.ts",
         "passWithNoTests": true
       },
       "outputs": [
-        "reports/coverage/e2e/genesis-e2e",
-        "reports/junit/genesis-e2e.xml"
+        "{workspaceRoot}/reports/coverage/e2e/genesis-e2e",
+        "{workspaceRoot}/reports/junit/genesis-e2e.xml"
       ]
     },
     "lint": {
@@ -24,7 +30,10 @@
     },
     "setup-e2e": {
       "dependsOn": [
-        { "target": "install-local-genesis-cli", "projects": "self" }
+        {
+          "target": "install-local-genesis-cli",
+          "projects": "self"
+        }
       ],
       "executor": "@chiubaka/nx-plugin:genesis",
       "options": {
@@ -34,10 +43,10 @@
         "registry": "http://localhost:4873",
         "disableImmutableInstalls": true
       },
-      "outputs": ["tmp/nx-e2e/genesis-e2e"]
+      "outputs": ["{workspaceRoot}/tmp/nx-e2e/genesis-e2e"]
     },
     "yarn-cache-clean": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "command": "yarn cache clean --all"
       }
@@ -48,9 +57,12 @@
           "target": "deploy",
           "projects": "dependencies"
         },
-        { "target": "yarn-cache-clean", "projects": "self" }
+        {
+          "target": "yarn-cache-clean",
+          "projects": "self"
+        }
       ],
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "command": "npm install @chiubaka/genesis --location=global --registry=http://localhost:4873"
       }

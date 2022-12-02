@@ -20,9 +20,9 @@ export default {
     <% } -%>
   },
   <% if (locals.enableReact) { -%>
-  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "html"],
+  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "html", "json"],
   <% } else { -%>
-  moduleFileExtensions: ["ts", "js", "html"],
+  moduleFileExtensions: ["ts", "js", "html", "json"],
   <% } -%>
   coverageDirectory: "../../reports/coverage/packages/<%= projectName %>",
   reporters: [
