@@ -74,7 +74,7 @@
       }
     },
     "deploy:remove-yarn-module": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "command": "rm -rf node_modules/@chiubaka/nx-plugin"
       }

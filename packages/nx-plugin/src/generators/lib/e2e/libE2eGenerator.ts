@@ -60,7 +60,7 @@ function updateProjectJson(project: Project, libName: string) {
       }
 
       targets.install = {
-        executor: "@nrwl/workspace:run-commands",
+        executor: "nx:run-commands",
 
         dependsOn: [{ target: "build", projects: "dependencies" }],
         options: {

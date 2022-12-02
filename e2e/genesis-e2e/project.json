@@ -37,7 +37,7 @@
       "outputs": ["tmp/nx-e2e/genesis-e2e"]
     },
     "yarn-cache-clean": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "command": "yarn cache clean --all"
       }
@@ -50,7 +50,7 @@
         },
         { "target": "yarn-cache-clean", "projects": "self" }
       ],
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "command": "npm install @chiubaka/genesis --location=global --registry=http://localhost:4873"
       }

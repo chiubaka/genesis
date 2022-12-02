@@ -490,10 +490,16 @@ exports[`reactAppGenerator sample code generates a sample component App/NxWelcom
 "import { ComponentStory, ComponentMeta } from '@storybook/react';
 import {  NxWelcome  }  from './NxWelcome';
 
-export default {
+
+
+
+
+const Story: ComponentMeta<typeof NxWelcome> = {
   component: NxWelcome,
   title: 'NxWelcome', 
-} as ComponentMeta<typeof NxWelcome> ;
+};
+export default Story;
+
 
 const Template: ComponentStory< typeof NxWelcome > = (args) => <NxWelcome {...args} />;
 

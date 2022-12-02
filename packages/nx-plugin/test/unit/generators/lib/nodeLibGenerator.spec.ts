@@ -106,8 +106,8 @@ describe("nodeLibGenerator", () => {
             ?.install as TargetConfiguration<RunCommandsOptions>;
         });
 
-        it("users the @nrwl/workspace:run-commands executor", () => {
-          expect(installTarget.executor).toBe("@nrwl/workspace:run-commands");
+        it("users the nx:run-commands executor", () => {
+          expect(installTarget.executor).toBe("nx:run-commands");
         });
 
         it("runs commands in the e2e project", () => {
