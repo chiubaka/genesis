@@ -1491,7 +1491,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chiubaka/genesis@workspace:packages/genesis"
   dependencies:
-    "@chiubaka/nx-plugin": ^0.1.2
+    "@chiubaka/nx-plugin": ^0.2.0
     "@nrwl/devkit": 15.2.4
     "@types/package-name-regex": ^2.0.0
     commander: ^9.4.0
@@ -1502,7 +1502,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chiubaka/nx-plugin-testing@0.1.1, @chiubaka/nx-plugin-testing@workspace:packages/nx-plugin-testing":
+"@chiubaka/nx-plugin-testing@0.2.0, @chiubaka/nx-plugin-testing@workspace:packages/nx-plugin-testing":
   version: 0.0.0-use.local
   resolution: "@chiubaka/nx-plugin-testing@workspace:packages/nx-plugin-testing"
   dependencies:
@@ -1512,11 +1512,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chiubaka/nx-plugin@^0.1.2, @chiubaka/nx-plugin@workspace:packages/nx-plugin":
+"@chiubaka/nx-plugin@^0.2.0, @chiubaka/nx-plugin@workspace:packages/nx-plugin":
   version: 0.0.0-use.local
   resolution: "@chiubaka/nx-plugin@workspace:packages/nx-plugin"
   dependencies:
-    "@chiubaka/nx-plugin-testing": 0.1.1
+    "@chiubaka/nx-plugin-testing": 0.2.0
     "@nrwl/node": 15.2.4
     "@nrwl/nx-plugin": 15.2.4
     "@nrwl/react": 15.2.4
