@@ -1,4 +1,6 @@
 {
+  "version": 2,
+  "outputCapture": "direct-nodejs",
   "$schema": "http://json-schema.org/schema",
   "title": "Genesis",
   "type": "object",
@@ -22,7 +24,6 @@
       "description": "Whether or not to skip generating a GitHub repository for this workspace",
       "default": false
     },
-
     "registry": {
       "type": "string",
       "description": "URL of the registry to run the CLI against. Will use the registry for grabbing genesis and for genesis to grab dependencies"

@@ -1,4 +1,5 @@
 {
+  "name": "genesis",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/genesis/bin",
   "projectType": "application",
@@ -46,8 +47,8 @@
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": [
-        "reports/coverage/packages/genesis",
-        "reports/junit/genesis.xml"
+        "{workspaceRoot}/reports/coverage/packages/genesis",
+        "{workspaceRoot}/reports/junit/genesis.xml"
       ],
       "options": {
         "jestConfig": "packages/genesis/jest.config.ts",
@@ -58,8 +59,14 @@
       "executor": "@chiubaka/nx-plugin:npm-publish",
       "defaultConfiguration": "development",
       "dependsOn": [
-        { "target": "build", "projects": "self" },
-        { "target": "deploy:remove-yarn-module", "projects": "self" }
+        {
+          "target": "build",
+          "projects": "self"
+        },
+        {
+          "target": "deploy:remove-yarn-module",
+          "projects": "self"
+        }
       ],
       "options": {
         "packagePath": "dist/packages/genesis"

@@ -12,9 +12,9 @@
   "license": "UNLICENSED",
   "dependencies": {
     "@chiubaka/nx-plugin": "^0.1.2",
-    "@nrwl/devkit": "14.8.6",
+    "@nrwl/devkit": "15.0.13",
     "commander": "^9.4.0",
-    "create-nx-workspace": "14.8.6",
+    "create-nx-workspace": "15.0.13",
     "package-name-regex": "^2.0.6"
   },
   "devDependencies": {

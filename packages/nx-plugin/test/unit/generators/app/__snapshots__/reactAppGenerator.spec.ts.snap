@@ -489,7 +489,7 @@ export default App;
 `;
 
 exports[`reactAppGenerator sample code generates a sample component App/NxWelcome.stories.tsx matches snapshot 1`] = `
-"import { ComponentStory, ComponentMeta } from '@storybook/react';
+"import type { ComponentStory, ComponentMeta } from '@storybook/react';
 import {  NxWelcome  }  from './NxWelcome';
 
 
@@ -1083,7 +1083,7 @@ export function NxWelcome({ title }: { title: string }) {
                 </svg>
               </a>
               <a
-                href=\\"https://nx.dev/react-tutorial/01-create-application?utm_source=nx-project\\"
+                href=\\"https://nx.dev/react-tutorial/1-code-generation?utm_source=nx-project\\"
                 target=\\"_blank\\"
                 rel=\\"noreferrer\\"
                 className=\\"list-item-link\\"

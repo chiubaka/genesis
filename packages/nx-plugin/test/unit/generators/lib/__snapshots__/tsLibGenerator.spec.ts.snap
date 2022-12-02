@@ -351,10 +351,7 @@ Object {
     },
     "publish": Object {
       "dependsOn": Array [
-        Object {
-          "projects": "self",
-          "target": "build",
-        },
+        "build",
       ],
       "executor": "nx:run-commands",
       "options": Object {
