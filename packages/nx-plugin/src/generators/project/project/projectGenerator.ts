@@ -4,10 +4,8 @@ import {
   getWorkspaceLayout,
   moveFilesToNewDirectory,
   Tree,
-  updateJson,
 } from "@nrwl/devkit";
 import path from "node:path";
-import { RawProjectsConfigurations } from "nx/src/config/workspace-json-project-json";
 
 import { exec, lintFix, noOpTask, Project } from "../../../utils";
 import eslintProjectGenerator from "../eslint";
@@ -82,16 +80,6 @@ function relocateProject(project: Project) {
   }
 
   moveFilesToNewDirectory(tree, originalProjectDir, newProjectDir);
-
-  updateJson(
-    tree,
-    "workspace.json",
-    (workspaceJson: RawProjectsConfigurations) => {
-      // eslint-disable-next-line security/detect-object-injection
-      workspaceJson.projects[projectName] = project.path();
-      return workspaceJson;
-    },
-  );
   updateProjectJsonReferences(project, originalProjectDir);
 }
 

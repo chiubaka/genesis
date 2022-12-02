@@ -74,6 +74,7 @@ exports[`nodeAppGenerator jest.config.ts matches snapshot 1`] = `
 exports[`nodeAppGenerator project.json matches snapshot 1`] = `
 Object {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "node-app",
   "projectType": "application",
   "sourceRoot": "packages/node-app/src",
   "tags": Array [],

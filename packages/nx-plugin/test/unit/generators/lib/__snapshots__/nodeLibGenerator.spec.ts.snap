@@ -117,6 +117,7 @@ Object {
   "implicitDependencies": Array [
     "node-lib",
   ],
+  "name": "node-lib-e2e",
   "projectType": "application",
   "sourceRoot": "e2e/node-lib-e2e/src",
   "tags": Array [],
@@ -297,6 +298,7 @@ exports[`nodeLibGenerator jest.config.ts matches snapshot 1`] = `
 exports[`nodeLibGenerator project.json matches snapshot 1`] = `
 Object {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "node-lib",
   "projectType": "library",
   "sourceRoot": "packages/node-lib/src",
   "tags": Array [],
