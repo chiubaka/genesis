@@ -13,21 +13,26 @@ export class NxLoggerTransport extends Transport {
     const { level, message } = data;
 
     switch (level) {
-      case LogLevel.Error:
+      case LogLevel.Error: {
         logger.error(message);
         break;
-      case LogLevel.Warn:
+      }
+      case LogLevel.Warn: {
         logger.warn(message);
         break;
-      case LogLevel.Info:
+      }
+      case LogLevel.Info: {
         logger.info(message);
         break;
-      case LogLevel.Verbose:
+      }
+      case LogLevel.Verbose: {
         logger.log(message);
         break;
-      case LogLevel.Debug:
+      }
+      case LogLevel.Debug: {
         logger.debug(message);
         break;
+      }
     }
 
     next();
