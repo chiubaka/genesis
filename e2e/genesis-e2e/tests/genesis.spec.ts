@@ -130,7 +130,7 @@ describe("genesis", () => {
       it("populates the pre-push hook with the correct command", () => {
         workspace.assert.fs.fileContents(
           ".husky/pre-push",
-          "nx affected --target=test",
+          "yarn test:affected",
         );
       });
     });
