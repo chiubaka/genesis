@@ -1511,6 +1511,7 @@ __metadata:
     "@types/package-name-regex": ^2.0.0
     commander: ^9.4.0
     create-nx-workspace: 15.2.4
+    nx: 15.2.4
     package-name-regex: ^2.0.6
   bin:
     genesis: ./bin/index.js
