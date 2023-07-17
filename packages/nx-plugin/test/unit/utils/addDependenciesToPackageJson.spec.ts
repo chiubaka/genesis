@@ -32,9 +32,6 @@ describe("addDependenciesToPackageJson", () => {
       "typescript",
       DEFAULT_MOCK_INSTALLED_PACKAGE_VERSION,
     );
-    expect(tree).toHaveDevDependency(
-      "prettier",
-      DEFAULT_MOCK_INSTALLED_PACKAGE_VERSION,
-    );
+    expect(tree).toHaveDevDependency("prettier", "^2.8.8");
   });
 });
