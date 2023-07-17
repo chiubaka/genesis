@@ -25,6 +25,7 @@
     "start:verdaccio": "docker-compose up -d && npx npm-cli-login -u test -p test -e test@chiubaka.com -r http://localhost:4873",
     "test": "nx test",
     "test:affected": "nx affected --target=test",
+    "test:all": "nx run-many --target=test --all",
     "test:ci": "yarn test:affected --ci --coverage --base=$NX_BASE --head=$NX_HEAD && yarn test:e2e:affected --base=$NX_BASE --head=$NX_HEAD",
     "test:e2e": "nx run-many --target=e2e --all",
     "test:e2e:affected": "nx affected --target=e2e"
@@ -35,7 +36,7 @@
     "tslib": "^2.3.0"
   },
   "devDependencies": {
-    "@chiubaka/eslint-config": "^0.4.1",
+    "@chiubaka/eslint-config": "^0.6.2",
     "@chiubaka/tsconfig": "^0.1.0",
     "@nrwl/cli": "15.2.4",
     "@nrwl/devkit": "15.2.4",
@@ -54,9 +55,7 @@
     "@types/node": "16.11.7",
     "@typescript-eslint/eslint-plugin": "5.45.0",
     "@typescript-eslint/parser": "5.45.0",
-    "eslint": "~8.15.0",
-    "eslint-config-prettier": "8.1.0",
-    "eslint-plugin-jest": "^26.6.0",
+    "eslint": "^8.45.0",
     "fs-extra": "^10.1.0",
     "husky": "^8.0.1",
     "jest": "28.1.3",

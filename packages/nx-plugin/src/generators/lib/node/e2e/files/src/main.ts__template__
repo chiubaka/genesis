@@ -1,5 +1,8 @@
 import { EnhancedGreeter, helloEnhanced, helloFromFile } from "./helloExtended";
 
+/**
+ * Main entry point of the program.
+ */
 function main() {
   const greeter = new EnhancedGreeter();
   /* eslint-disable no-console */

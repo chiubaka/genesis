@@ -16,6 +16,10 @@ interface TestingWorkspaceOptions {
  * current project and then moves it in. This is to ensure that we can get a full workspace
  * complete with features like a working git repo which are needed in order to test some of
  * our generators.
+ * @param workspaceName
+ * @param npmPackageName
+ * @param distPath
+ * @param options
  */
 export const createTestingWorkspace = async (
   workspaceName: string,

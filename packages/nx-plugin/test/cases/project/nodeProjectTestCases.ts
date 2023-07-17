@@ -6,6 +6,8 @@ import { projectTestCases, ProjectTestCasesOptions } from "./projectTestCases";
 /**
  * Configures common test cases that should be included for all node project generators
  * @param projectName name of the project being tested
+ * @param getProject
+ * @param options
  */
 export const nodeProjectTestCases = (
   getProject: () => Project,

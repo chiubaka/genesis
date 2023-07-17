@@ -11,8 +11,8 @@ describe("gitHooksGenerator", () => {
   beforeAll(async () => {
     tree = createTreeWithEmptyWorkspace();
     await gitHooksGenerator(tree, {
-      preCommitCommand: "yarn run lint:staged",
-      prePushCommand: "nx affected --target=test",
+      preCommitCommand: "yarn lint:staged",
+      prePushCommand: "yarn test:affected",
     });
   });
 

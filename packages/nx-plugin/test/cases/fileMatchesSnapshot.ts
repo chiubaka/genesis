@@ -14,7 +14,7 @@ export function fileMatchesSnapshot(
     const project = getProject();
     tree = project.getTree();
 
-    filePath = getFilePath !== undefined ? getFilePath(project) : fileName;
+    filePath = getFilePath === undefined ? fileName : getFilePath(project);
   });
 
   it(`generates ${fileName}`, () => {

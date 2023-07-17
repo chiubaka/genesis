@@ -15,6 +15,8 @@ export interface ProjectTestCasesOptions {
 /**
  * Configures common test cases that should be included for all project generators
  * @param projectName name of the project being tested
+ * @param getProject
+ * @param options
  */
 export const projectTestCases = (
   getProject: () => Project,

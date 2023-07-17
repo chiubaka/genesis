@@ -18,10 +18,7 @@ describe("eslintGenerator", () => {
   describe("package.json", () => {
     describe("adds the appropriate dependencies", () => {
       it("adds @chiubaka/eslint-config as a devDependency", () => {
-        expect(tree).toHaveDevDependency(
-          "@chiubaka/eslint-config",
-          DEFAULT_MOCK_INSTALLED_PACKAGE_VERSION,
-        );
+        expect(tree).toHaveDevDependency("@chiubaka/eslint-config", "^0.6.3");
       });
 
       it("adds eslint as a devDependency", () => {

@@ -17,6 +17,7 @@ import { gitHubGenerator, GitHubGeneratorSchema } from "./github";
  *    sometimes makes it unsuitable for E2E testing where the E2E harness is being generated as a subdirectory of this
  *    repo.
  * @param tree the Nx file tree we are operating on
+ * @param options
  */
 export async function gitGenerator(tree: Tree, options: GitGeneratorSchema) {
   logger.info(
