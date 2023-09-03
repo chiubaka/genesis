@@ -17,7 +17,7 @@ describe("genesis", () => {
       "http://localhost:4873",
       "--disable-immutable-installs",
       "-d",
-      "Test description",
+      "Daniel's test description",
       "--skip-github",
     ]);
 
@@ -37,7 +37,7 @@ describe("genesis", () => {
         "--skipGitHub",
         "--registry=http://localhost:4873",
         "--disableImmutableInstalls=true",
-        '--description="Test description"',
+        '--description="Daniel\\\'s test description"',
       ],
       {
         cwd: process.cwd(),
