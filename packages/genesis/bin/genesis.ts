@@ -66,7 +66,12 @@ export function genesis(argv = process.argv) {
     env.npm_config_registry = registry;
   }
 
-  spawn(command, [...args, `--description="${description}"`], {
+  const escapedDescription = description
+    // eslint-disable-next-line unicorn/prefer-string-replace-all
+    .replace(/["'\\]/g, "\\$&")
+    .replace("\0", "\\0");
+
+  spawn(command, [...args, `--description="${escapedDescription}"`], {
     cwd: process.cwd(),
     env,
     stdio: "inherit",
