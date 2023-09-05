@@ -34,7 +34,8 @@ export class TestingWorkspace extends AbstractTestingWorkspace {
                 console.log(stdout);
               }
               if (stderr !== "") {
-                console.error(stderr);
+                // eslint-disable-next-line no-console
+                console.trace(stderr);
               }
               return reject(error);
             }
