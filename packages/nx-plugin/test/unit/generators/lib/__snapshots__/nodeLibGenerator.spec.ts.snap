@@ -12,6 +12,7 @@ Object {
     Object {
       "files": Array [
         "jest.config.ts",
+        "test/**/*.ts",
         "*.spec.ts",
         "*.test.ts",
       ],
@@ -24,6 +25,7 @@ Object {
     Object {
       "excludedFiles": Array [
         "jest.config.ts",
+        "test/**/*.ts",
         "*.spec.ts",
         "*.test.ts",
       ],
@@ -52,6 +54,7 @@ Object {
     Object {
       "files": Array [
         "jest.config.ts",
+        "test/**/*.ts",
         "*.spec.ts",
         "*.test.ts",
       ],
@@ -64,6 +67,7 @@ Object {
     Object {
       "excludedFiles": Array [
         "jest.config.ts",
+        "test/**/*.ts",
         "*.spec.ts",
         "*.test.ts",
       ],
