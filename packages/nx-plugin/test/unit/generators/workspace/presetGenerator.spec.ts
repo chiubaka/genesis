@@ -40,6 +40,10 @@ describe("presetGenerator", () => {
       });
     });
 
+    it("matches snapshot", () => {
+      expect(packageJson).toMatchSnapshot();
+    });
+
     describe("scripts", () => {
       let scripts: Record<string, string> | undefined;
 
@@ -57,22 +61,40 @@ describe("presetGenerator", () => {
         );
       });
 
+      it("includes a test:all script", () => {
+        expect(scripts?.["test:all"]).toBe("nx run-many --target=test --all");
+      });
+
       it("includes a test:affected script", () => {
         expect(scripts?.["test:affected"]).toBe("nx affected --target=test");
       });
 
       it("includes a test:ci script", () => {
-        expect(scripts?.["test:ci"]).toBe(
-          "yarn test:affected --ci --coverage --base=$NX_BASE --head=$NX_HEAD && yarn test:e2e:affected --base=$NX_BASE --head=$NX_HEAD",
+        expect(scripts?.["test:ci"]).toBe("./scripts/test-ci.sh");
+      });
+
+      it("includes a test:ci:affected script", () => {
+        expect(scripts?.["test:ci:affected"]).toBe(
+          "yarn test:affected --ci --coverage --base=$NX_BASE --head=$NX_HEAD && yarn e2e:affected --ci --coverage --base=$NX_BASE --head=$NX_HEAD",
         );
       });
 
-      it("includes a test:e2e script", () => {
-        expect(scripts?.["test:e2e"]).toBe("nx run-many --target=e2e --all");
+      it("includes a test:ci:all script", () => {
+        expect(scripts?.["test:ci:all"]).toBe(
+          "yarn test:all --ci --coverage && yarn e2e:all --ci --coverage",
+        );
       });
 
-      it("includes a test:e2e:affected script", () => {
-        expect(scripts?.["test:e2e:affected"]).toBe("nx affected --target=e2e");
+      it("includes an e2e script", () => {
+        expect(scripts?.["e2e"]).toBe("nx e2e");
+      });
+
+      it("includes a e2e:all script", () => {
+        expect(scripts?.["e2e:all"]).toBe("nx run-many --target=e2e --all");
+      });
+
+      it("includes a e2e:affected script", () => {
+        expect(scripts?.["e2e:affected"]).toBe("nx affected --target=e2e");
       });
 
       it("includes a deploy script", () => {
@@ -83,6 +105,10 @@ describe("presetGenerator", () => {
 
       it("includes a deploy:ci script", () => {
         expect(scripts?.["deploy:ci"]).toBe("yarn deploy");
+      });
+
+      it("creates a test-ci.sh file in the scripts directory", () => {
+        expect(tree.exists("scripts/test-ci.sh")).toBe(true);
       });
     });
   });
