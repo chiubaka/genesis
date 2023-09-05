@@ -32,7 +32,6 @@ describe("genesis", () => {
         "--directory=genesis",
         "--workspaceName=genesis",
         "--workspaceScope=chiubaka",
-        "--nxCloud=false",
         "--skipGit",
         "--skipGitHub",
         "--registry=http://localhost:4873",
