@@ -20,9 +20,14 @@ export function eslintProjectGenerator(
 
       eslintConfig.overrides = [];
 
-      const testOverrideFiles = ["jest.config.ts", "*.spec.ts", "*.test.ts"];
+      const testOverrideFiles = [
+        "jest.config.ts",
+        "test/**/*.ts",
+        "*.spec.ts",
+        "*.test.ts",
+      ];
       if (enableReact) {
-        testOverrideFiles.push("*.spec.tsx", "*.test.tsx");
+        testOverrideFiles.push("test/**/*.tsx", "*.spec.tsx", "*.test.tsx");
       }
 
       const testOverrides = {
@@ -62,11 +67,13 @@ export function eslintProjectGenerator(
       if (primaryTsConfigPath !== project.path("tsconfig.json")) {
         typescriptOverrideExcludedFiles.push(
           "jest.config.ts",
+          "test/**/*.ts",
           "*.spec.ts",
           "*.test.ts",
         );
         if (enableReact) {
           typescriptOverrideExcludedFiles.push(
+            "test/**/*.tsx",
             "*.stories.tsx",
             "*.spec.tsx",
             "*.test.tsx",
