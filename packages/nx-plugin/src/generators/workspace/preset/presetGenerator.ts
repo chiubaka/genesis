@@ -92,16 +92,23 @@ function modifyWorkspaceLayout(tree: Tree) {
 function addPackageJsonScripts(tree: Tree) {
   logger.info("Adding standard scripts to package.json");
 
+  generateFiles(tree, path.join(__dirname, "./files/scripts"), "scripts", {});
+
   updateJson(tree, "package.json", (packageJson: PackageJsonType) => {
     const scripts = packageJson.scripts ?? {};
 
     scripts["build:affected"] = "nx affected --target=build";
     scripts["build:ci"] = "yarn build:affected --base=$NX_BASE --head=$NX_HEAD";
+    scripts["e2e"] = "nx e2e";
+    scripts["e2e:affected"] = "nx affected --target=e2e";
+    scripts["e2e:all"] = "nx run-many --target=e2e --all";
     scripts["test:affected"] = "nx affected --target=test";
-    scripts["test:ci"] =
-      "yarn test:affected --ci --coverage --base=$NX_BASE --head=$NX_HEAD && yarn test:e2e:affected --base=$NX_BASE --head=$NX_HEAD";
-    scripts["test:e2e"] = "nx run-many --target=e2e --all";
-    scripts["test:e2e:affected"] = "nx affected --target=e2e";
+    scripts["test:all"] = "nx run-many --target=test --all";
+    scripts["test:ci"] = "./scripts/test-ci.sh";
+    scripts["test:ci:affected"] =
+      "yarn test:affected --ci --coverage --base=$NX_BASE --head=$NX_HEAD && yarn e2e:affected --ci --coverage --base=$NX_BASE --head=$NX_HEAD";
+    scripts["test:ci:all"] =
+      "yarn test:all --ci --coverage && yarn e2e:all --ci --coverage";
     scripts["deploy"] = "nx deploy $@ --configuration=production";
     scripts["deploy:ci"] = "yarn deploy";
 
@@ -119,7 +126,7 @@ function reinstallPackagesWithYarn(tree: Tree, options: PresetGeneratorSchema) {
   }
 
   tree.delete("package-lock.json");
-  generateFiles(tree, path.join(__dirname, "./files"), ".", {});
+  generateFiles(tree, path.join(__dirname, "./files/yarn"), ".", {});
 
   const pmc = getPackageManagerCommand("yarn");
 
