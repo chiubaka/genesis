@@ -1,5 +1,3 @@
-import { PromiseWithChild } from "node:child_process";
-
 import { TestingWorkspaceAssert } from "./assert";
 import { FsUtils, GitUtils, LintingUtils } from "./utils";
 
@@ -24,20 +22,20 @@ export abstract class AbstractTestingWorkspace {
 
   public abstract exec(
     command: string,
-  ): PromiseWithChild<{ stdout: string; stderr: string }>;
+  ): Promise<{ stdout: string; stderr: string }>;
 
   public abstract execNx(
     command: string,
-  ): PromiseWithChild<{ stdout: string; stderr: string }>;
+  ): Promise<{ stdout: string; stderr: string }>;
 
   public abstract execPmc(
     command: string,
-  ): PromiseWithChild<{ stdout: string; stderr: string }>;
+  ): Promise<{ stdout: string; stderr: string }>;
 
   public abstract execPmcScript(
     script: string,
     args?: string,
-  ): PromiseWithChild<{ stdout: string; stderr: string }>;
+  ): Promise<{ stdout: string; stderr: string }>;
 
   public abstract path(relativePath: string): string;
 }
