@@ -8,12 +8,9 @@ import {
 import { exec as nodeExec } from "node:child_process";
 import { rmSync } from "node:fs";
 import path from "node:path";
-import { promisify } from "node:util";
 import { PackageJson } from "nx/src/utils/package-json";
 
 import { AbstractTestingWorkspace } from "./AbstractTestingWorkspace";
-
-const exec = promisify(nodeExec);
 
 export class TestingWorkspace extends AbstractTestingWorkspace {
   constructor(rootPath: string) {
@@ -21,11 +18,35 @@ export class TestingWorkspace extends AbstractTestingWorkspace {
   }
 
   public exec(command: string, env?: NodeJS.ProcessEnv) {
-    return exec(command, {
-      cwd: this.rootPath,
-      maxBuffer: 1024 * 10_000,
-      env,
-    });
+    return new Promise<{ stdout: string; stderr: string }>(
+      (resolve, reject) => {
+        nodeExec(
+          command,
+          {
+            cwd: this.rootPath,
+            maxBuffer: 1024 * 10_000,
+            env,
+          },
+          (error, stdout, stderr) => {
+            if (error) {
+              if (stdout !== "") {
+                // eslint-disable-next-line no-console
+                console.log(stdout);
+              }
+              if (stderr !== "") {
+                console.error(stderr);
+              }
+              return reject(error);
+            }
+
+            resolve({
+              stdout,
+              stderr,
+            });
+          },
+        );
+      },
+    );
   }
 
   public execNx(command: string) {
