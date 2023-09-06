@@ -1424,15 +1424,13 @@ exports[`reactAppGenerator sample code styles.scss matches snapshot 1`] = `
 
 exports[`reactAppGenerator storybook .storybook/main.ts matches snapshot 1`] = `
 "import { rootMain } from '../../../.storybook/main';
+
 import type { StorybookConfig, Options } from '@storybook/core-common';
 
 
 const config: StorybookConfig = {
   ...rootMain,
-  
   core: { ...rootMain.core, builder: 'webpack5' },
-  
-
   stories: [
     ...rootMain.stories,
     '../src/**/*.stories.mdx',
@@ -1582,23 +1580,5 @@ export const rootMain: StorybookConfig = {
   //   return config;
   // },
 };
-"
-`;
-
-exports[`reactAppGenerator workspace storybook .storybook/tsconfig.json matches snapshot 1`] = `
-"{
-  \\"extends\\": \\"../tsconfig.base.json\\",
-  \\"exclude\\": [
-    \\"../**/*.spec.js\\",
-    \\"../**/*.test.js\\",
-    \\"../**/*.spec.ts\\",
-    \\"../**/*.test.ts\\",
-    \\"../**/*.spec.tsx\\",
-    \\"../**/*.test.tsx\\",
-    \\"../**/*.spec.jsx\\",
-    \\"../**/*.test.jsx\\"
-  ],
-  \\"include\\": [\\"../**/*\\"]
-}
 "
 `;

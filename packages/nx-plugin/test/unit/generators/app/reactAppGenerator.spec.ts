@@ -38,8 +38,6 @@ describe("reactAppGenerator", () => {
   describe("workspace", () => {
     describe("storybook", () => {
       fileMatchesSnapshot(".storybook/main.ts", getProject);
-
-      fileMatchesSnapshot(".storybook/tsconfig.json", getProject);
     });
   });
 
