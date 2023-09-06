@@ -64,7 +64,7 @@
       ],
       "executor": "nx:run-commands",
       "options": {
-        "command": "npm install @chiubaka/genesis --location=global --registry=http://localhost:4873"
+        "command": "npm uninstall -g @chiubaka/genesis && npm install @chiubaka/genesis --location=global --registry=http://localhost:4873"
       }
     }
   },
