@@ -97,7 +97,7 @@ function lintFix(tree: Tree) {
     logger.info("Running lint fix over all files");
 
     const pmc = getPackageManagerCommand();
-    const command = pmc.run("lint:fix:all", "");
+    const command = pmc.run("lint:fix:root", "");
 
     await exec(command, {
       cwd: tree.root,
