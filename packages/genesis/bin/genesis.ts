@@ -1,8 +1,10 @@
 import { NX_VERSION } from "@chiubaka/nx-plugin";
 import { getPackageManagerCommand } from "@nrwl/devkit";
-import { program } from "commander";
+import { Command } from "commander";
 import { spawn } from "node:child_process";
 import packageNameRegex from "package-name-regex";
+
+import packageInfo from "../package.json";
 
 interface GenesisOptions {
   importPath: string;
@@ -12,8 +14,13 @@ interface GenesisOptions {
   skipGithub?: boolean;
 }
 
+const cliVersion = packageInfo["version"];
+
 export function genesis(argv = process.argv) {
+  const program = new Command();
+
   program
+    .version(cliVersion)
     .argument(
       "<importPath>",
       "full import path (@scope/project) for the primary project you are creating in this workspace",
