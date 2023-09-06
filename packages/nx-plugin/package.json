@@ -1,6 +1,6 @@
 {
   "name": "@chiubaka/nx-plugin",
-  "version": "0.2.1-rc.0",
+  "version": "0.2.1",
   "main": "src/index.js",
   "dependencies": {
     "@nrwl/node": "15.2.4",
@@ -14,7 +14,7 @@
     "winston-transport": "^4.5.0"
   },
   "devDependencies": {
-    "@chiubaka/nx-plugin-testing": "0.2.1-rc.0",
+    "@chiubaka/nx-plugin-testing": "0.2.1",
     "@types/escape-string-regexp": "^2.0.1",
     "@types/js-yaml": "^4.0.5",
     "@types/nock": "^11.1.0",
