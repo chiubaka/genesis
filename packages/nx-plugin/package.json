@@ -1,11 +1,11 @@
 {
   "name": "@chiubaka/nx-plugin",
-  "version": "0.2.1",
+  "version": "0.3.0-rc.0",
   "main": "src/index.js",
   "dependencies": {
-    "@nrwl/node": "15.2.4",
-    "@nrwl/nx-plugin": "15.2.4",
-    "@nrwl/react": "15.2.4",
+    "@nrwl/node": "15.3.3",
+    "@nrwl/nx-plugin": "15.3.3",
+    "@nrwl/react": "15.3.3",
     "escape-string-regexp": "^4.0.0",
     "js-yaml": "^4.1.0",
     "octokit": "^2.0.7",
@@ -14,13 +14,13 @@
     "winston-transport": "^4.5.0"
   },
   "devDependencies": {
-    "@chiubaka/nx-plugin-testing": "0.2.1",
+    "@chiubaka/nx-plugin-testing": "0.3.0-rc.0",
     "@types/escape-string-regexp": "^2.0.1",
     "@types/js-yaml": "^4.0.5",
     "@types/nock": "^11.1.0",
     "@verdaccio/types": "^10.5.2",
     "nock": "^13.2.9",
-    "nx": "15.2.4"
+    "nx": "15.3.3"
   },
   "generators": "./generators.json",
   "executors": "./executors.json"

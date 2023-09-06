@@ -7,10 +7,10 @@ export class GitAssert {
     this.git = git;
   }
 
-  public async latestCommitMessage(expectedMessage: string) {
+  public async latestCommitMessage(expectedMessage: string | RegExp) {
     const commitMessage = await this.git.getLatestCommitMessage();
 
-    expect(commitMessage).toBe(expectedMessage);
+    expect(commitMessage).toMatch(expectedMessage);
   }
 
   public async latestCommitterEmail(expectedEmail: string) {

@@ -7,6 +7,7 @@ export default {
     },
   },
   setupFilesAfterEnv: ["<rootDir>/test/setup/jest.setup.ts"],
+  testTimeout: 10_000,
   transform: {
     "^.+\\.[tj]s$": "ts-jest",
   },

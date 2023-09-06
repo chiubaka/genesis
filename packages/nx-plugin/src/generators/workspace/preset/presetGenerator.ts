@@ -168,6 +168,7 @@ function reinstallPackagesWithYarn(tree: Tree, options: PresetGeneratorSchema) {
     }
 
     await exec(`${pmc.install} --no-immutable`, {
+      env: process.env,
       cwd: tree.root,
     });
   };
