@@ -46,7 +46,7 @@ export function genesis(argv = process.argv) {
   const pmc = getPackageManagerCommand("npm");
   const { workspaceScope, workspaceName } = parseImportPath(importPath);
 
-  let fullCommand = `${pmc.exec} create-nx-workspace@${NX_VERSION} ${workspaceScope} --preset=@chiubaka/nx-plugin --nxCloud=false --directory=${workspaceName} --workspaceName=${workspaceName} --workspaceScope=${workspaceScope} --skipGit`;
+  let fullCommand = `${pmc.exec} create-nx-workspace@${NX_VERSION} ${workspaceName} --preset=@chiubaka/nx-plugin --nxCloud=false --workspaceName=${workspaceName} --workspaceScope=${workspaceScope} --skipGit`;
 
   if (skipGitHub) {
     fullCommand = `${fullCommand} --skipGitHub`;

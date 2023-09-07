@@ -20,6 +20,7 @@ npm publish --registry http://localhost:4873
 
 cd /tmp
 
-npm_config_registry=http://localhost:4873 npx create-nx-workspace@$NX_VERSION $WORKSPACE_SCOPE --preset=@chiubaka/nx-plugin --nxCloud=false --directory=$WORKSPACE_NAME --workspaceName=$WORKSPACE_NAME --workspaceScope=$WORKSPACE_SCOPE --description="Locally deployed preset workspace for testing" --skipGitHub
+chmod a+x $WORKSPACE_ROOT/node_modules/.bin/create-nx-workspace
+npm_config_registry=http://localhost:4873 $WORKSPACE_ROOT/node_modules/.bin/create-nx-workspace $WORKSPACE_NAME --preset=@chiubaka/nx-plugin --nxCloud=false --workspaceName=$WORKSPACE_NAME --workspaceScope=$WORKSPACE_SCOPE --description="Locally deployed preset workspace for testing" --skipGitHub --registry=http://localhost:4873
 
 mv $TMP_WORKSPACE $E2E_WORKSPACE
