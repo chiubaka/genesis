@@ -26,10 +26,9 @@ describe("genesis", () => {
       "npx",
       [
         `create-nx-workspace@${NX_VERSION}`,
-        "chiubaka",
+        "genesis",
         "--preset=@chiubaka/nx-plugin",
         "--nxCloud=false",
-        "--directory=genesis",
         "--workspaceName=genesis",
         "--workspaceScope=chiubaka",
         "--skipGit",
