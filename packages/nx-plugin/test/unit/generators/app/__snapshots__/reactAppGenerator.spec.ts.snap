@@ -1415,6 +1415,8 @@ exports[`reactAppGenerator storybook .storybook/main.ts matches snapshot 1`] = `
 
 
 
+
+
 const config: StorybookConfig = {
   core: { builder: 'webpack5' },
   stories: [
