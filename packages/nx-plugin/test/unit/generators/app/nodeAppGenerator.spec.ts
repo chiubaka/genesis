@@ -2,7 +2,7 @@ import { createTreeWithEmptyWorkspace } from "@chiubaka/nx-plugin-testing";
 import { Tree } from "@nrwl/devkit";
 
 import { nodeAppGenerator, Project } from "../../../../src";
-import { nodeProjectTestCases } from "../../../cases";
+import { fileMatchesSnapshot, nodeProjectTestCases } from "../../../cases";
 
 describe("nodeAppGenerator", () => {
   let tree: Tree;
@@ -35,18 +35,6 @@ describe("nodeAppGenerator", () => {
     expect(tree.exists(project.srcPath("assets"))).toBe(true);
   });
 
-  it("generates an environments dir with environment options", () => {
-    /* eslint-disable security/detect-non-literal-fs-filename */
-    expect(tree.exists(project.srcPath("environments"))).toBe(true);
-    expect(
-      tree.exists(project.srcPath("environments/environment.prod.ts")),
-    ).toBe(true);
-    expect(tree.exists(project.srcPath("environments/environment.ts"))).toBe(
-      true,
-    );
-    /* eslint-enable security/detect-non-literal-fs-filename */
-  });
-
   it("generates a sample file that uses node APIs", () => {
     // eslint-disable-next-line security/detect-non-literal-fs-filename
     expect(tree.exists(project.srcPath("hello.ts"))).toBe(true);
@@ -61,5 +49,15 @@ describe("nodeAppGenerator", () => {
   it("does not generate an app dir", () => {
     // eslint-disable-next-line security/detect-non-literal-fs-filename
     expect(tree.exists(project.srcPath("app"))).toBe(false);
+  });
+
+  describe("webpack.config.js", () => {
+    it("generates a webpack.config.js file", () => {
+      expect(tree.exists(project.path("webpack.config.js"))).toBe(true);
+    });
+
+    fileMatchesSnapshot("webpack.config.js", getProject, (project: Project) => {
+      return project.path("webpack.config.js");
+    });
   });
 });

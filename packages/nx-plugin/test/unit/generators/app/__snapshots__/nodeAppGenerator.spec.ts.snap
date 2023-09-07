@@ -85,12 +85,6 @@ Object {
       "configurations": Object {
         "production": Object {
           "extractLicenses": true,
-          "fileReplacements": Array [
-            Object {
-              "replace": "packages/node-app/src/environments/environment.ts",
-              "with": "packages/node-app/src/environments/environment.prod.ts",
-            },
-          ],
           "inspect": false,
           "optimization": true,
         },
@@ -105,6 +99,7 @@ Object {
         "outputPath": "dist/packages/node-app",
         "target": "node",
         "tsConfig": "packages/node-app/tsconfig.app.json",
+        "webpackConfig": "packages/node-app/webpack.config.js",
       },
       "outputs": Array [
         "{options.outputPath}",
@@ -209,4 +204,16 @@ Object {
     "test",
   ],
 }
+`;
+
+exports[`nodeAppGenerator webpack.config.js webpack.config.js matches snapshot 1`] = `
+"const { composePlugins, withNx} = require('@nrwl/webpack');
+
+// Nx plugins for webpack.
+module.exports = composePlugins(withNx(), (config) => {
+  // Update the webpack config as needed here.
+  // e.g. \`config.plugins.push(new MyPlugin())\`
+  return config;
+});
+"
 `;

@@ -36,6 +36,7 @@ function baseGenerator(project: Project, options: ProjectGeneratorSchema) {
   return getBaseGenerator(project)(tree, {
     name: project.getName(),
 
+    bundler: "webpack",
     buildable: true,
     compiler: "tsc",
     importPath: project.getImportPath(),

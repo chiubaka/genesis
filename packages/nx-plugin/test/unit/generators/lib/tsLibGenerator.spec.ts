@@ -2,7 +2,11 @@ import { createTreeWithEmptyWorkspace } from "@chiubaka/nx-plugin-testing";
 import { Tree } from "@nrwl/devkit";
 
 import { Project, tsLibGenerator } from "../../../../src";
-import { nodeProjectTestCases, tsProjectTestCases } from "../../../cases";
+import {
+  fileMatchesSnapshot,
+  nodeProjectTestCases,
+  tsProjectTestCases,
+} from "../../../cases";
 
 describe("tsLibGenerator", () => {
   let tree: Tree;
@@ -55,6 +59,20 @@ describe("tsLibGenerator", () => {
   describe("E2E project", () => {
     nodeProjectTestCases(getE2eProject, {
       repoName: "ts-lib",
+    });
+
+    describe("webpack.config.js", () => {
+      it("generates a webpack.config.js file", () => {
+        expect(tree.exists(e2eProject.path("webpack.config.js"))).toBe(true);
+      });
+
+      fileMatchesSnapshot(
+        "webpack.config.js",
+        getE2eProject,
+        (e2eProject: Project) => {
+          return e2eProject.path("webpack.config.js");
+        },
+      );
     });
   });
 });
