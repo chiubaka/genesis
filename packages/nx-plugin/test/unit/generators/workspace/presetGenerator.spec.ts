@@ -32,9 +32,11 @@ describe("presetGenerator", () => {
       packageJson = readJson<PackageJson>(tree, "package.json");
     });
 
-    it("sets up yarn workspaces to pick up packages in the packages dir", () => {
-      packageJson = readJson<PackageJson>(tree, "package.json");
+    it("sets the root package name to the workspace name", () => {
+      expect(packageJson["name"]).toBe("preset");
+    });
 
+    it("sets up yarn workspaces to pick up packages in the packages dir", () => {
       expect(packageJson.workspaces).toEqual({
         packages: ["packages/*"],
       });

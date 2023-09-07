@@ -20,7 +20,7 @@ Object {
     "tslib": "^mocked",
   },
   "homepage": "https://github.com/chiubaka/preset#readme",
-  "name": "test-name",
+  "name": "preset",
   "repository": Object {
     "type": "git",
     "url": "git+ssh://git@github.com/chiubaka/preset.git",

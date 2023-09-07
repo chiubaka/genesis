@@ -35,7 +35,7 @@ export async function presetGenerator(
     )}`,
   );
 
-  modifyWorkspaceLayout(tree);
+  modifyWorkspaceLayout(tree, options);
   addPackageJsonScripts(tree);
 
   const installTask = reinstallPackagesWithYarn(tree, options);
@@ -59,7 +59,7 @@ export async function presetGenerator(
   };
 }
 
-function modifyWorkspaceLayout(tree: Tree) {
+function modifyWorkspaceLayout(tree: Tree, options: PresetGeneratorSchema) {
   logger.info("Modifying workspace layout to conform to e2e/ and packages/");
 
   const workspaceConfig = readWorkspaceConfiguration(tree);
@@ -75,6 +75,8 @@ function modifyWorkspaceLayout(tree: Tree) {
   });
 
   updateJson(tree, "package.json", (packageJson: PackageJsonType) => {
+    packageJson.name = options.workspaceName;
+
     packageJson.workspaces = {
       packages: ["packages/*"],
     };
