@@ -352,6 +352,12 @@ Object {
       },
     },
     "test": Object {
+      "configurations": Object {
+        "ci": Object {
+          "ci": true,
+          "codeCoverage": true,
+        },
+      },
       "executor": "@nrwl/jest:jest",
       "options": Object {
         "jestConfig": "packages/react-app/jest.config.ts",
@@ -1550,13 +1556,7 @@ exports[`reactAppGenerator workspace storybook .storybook/main.ts matches snapsh
 
 export const rootMain: StorybookConfig = {
   stories: [],
-  addons: ['@storybook/addon-essentials'],
-  // webpackFinal: async (config, { configType }) => {
-  //   // Make whatever fine-grained changes you need that should apply to all storybook configs
-
-  //   // Return the altered config
-  //   return config;
-  // },
+  addons: ['@storybook/addon-essentials']
 };
 "
 `;
