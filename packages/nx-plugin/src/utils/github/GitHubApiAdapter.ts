@@ -159,7 +159,7 @@ export class GitHubApiAdapter {
     return this.createRepo(options);
   }
 
-  public async createOrUpdateLabel(options: LabelOptions): Promise<any> {
+  public async createOrUpdateLabel(options: LabelOptions) {
     const { repoOwner, repoName, name } = options;
 
     const labelExists = await this.labelExists(repoOwner, repoName, name);
@@ -192,7 +192,7 @@ export class GitHubApiAdapter {
     });
   }
 
-  public async updateLabel(options: UpdateLabelOptions): Promise<any> {
+  public async updateLabel(options: UpdateLabelOptions) {
     return this.octokit.rest.issues.updateLabel({
       owner: options.repoOwner,
       repo: options.repoName,
@@ -252,9 +252,7 @@ export class GitHubApiAdapter {
     return this.gitHubBranchProtectionToBranchProtection(response.data);
   }
 
-  public async updateBranchProtection(
-    options: BranchProtectionOptions,
-  ): Promise<any> {
+  public async updateBranchProtection(options: BranchProtectionOptions) {
     const {
       requiredStatusChecks,
       requiredStatusChecksStrict,
@@ -319,7 +317,7 @@ export class GitHubApiAdapter {
     repoOwner: string,
     repoName: string,
     branch: string,
-  ): Promise<any> {
+  ) {
     return this.octokit.rest.repos.createCommitSignatureProtection({
       owner: repoOwner,
       repo: repoName,
@@ -327,10 +325,7 @@ export class GitHubApiAdapter {
     });
   }
 
-  public async enableVulnerabilityAlerts(
-    repoOwner: string,
-    repoName: string,
-  ): Promise<any> {
+  public async enableVulnerabilityAlerts(repoOwner: string, repoName: string) {
     return this.octokit.rest.repos.enableVulnerabilityAlerts({
       owner: repoOwner,
       repo: repoName,
