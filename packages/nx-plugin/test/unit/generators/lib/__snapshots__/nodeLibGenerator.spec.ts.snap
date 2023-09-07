@@ -140,6 +140,7 @@ Object {
           "e2e/node-lib-e2e/src/assets",
         ],
         "compiler": "tsc",
+        "isolatedConfig": true,
         "main": "e2e/node-lib-e2e/src/main.ts",
         "outputPath": "dist/e2e/node-lib-e2e",
         "target": "node",
