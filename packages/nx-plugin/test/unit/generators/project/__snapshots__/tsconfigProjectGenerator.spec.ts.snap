@@ -1,30 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`tsconfigProjectGenerator with Node 18 preset tsconfig.app.json or tsconfig.lib.json matches snapshot 1`] = `
-Object {
-  "compilerOptions": Object {
+{
+  "compilerOptions": {
     "declaration": true,
-    "types": Array [
+    "types": [
       "node",
     ],
   },
-  "exclude": Array [
+  "exclude": [
     "jest.config.ts",
     "**/*.spec.ts",
     "**/*.test.ts",
     "test",
   ],
   "extends": "./tsconfig.json",
-  "include": Array [
+  "include": [
     "**/*.ts",
   ],
 }
 `;
 
 exports[`tsconfigProjectGenerator with Node 18 preset tsconfig.json matches snapshot 1`] = `
-Object {
-  "compilerOptions": Object {
-    "lib": Array [
+{
+  "compilerOptions": {
+    "lib": [
       "es2022",
     ],
     "module": "commonjs",
@@ -32,13 +32,13 @@ Object {
     "target": "es2022",
   },
   "extends": "../../tsconfig.base.json",
-  "files": Array [],
-  "include": Array [],
-  "references": Array [
-    Object {
+  "files": [],
+  "include": [],
+  "references": [
+    {
       "path": "./tsconfig.lib.json",
     },
-    Object {
+    {
       "path": "./tsconfig.spec.json",
     },
   ],
@@ -46,15 +46,15 @@ Object {
 `;
 
 exports[`tsconfigProjectGenerator with Node 18 preset tsconfig.spec.json matches snapshot 1`] = `
-Object {
-  "compilerOptions": Object {
-    "types": Array [
+{
+  "compilerOptions": {
+    "types": [
       "jest",
       "node",
     ],
   },
   "extends": "./tsconfig.json",
-  "include": Array [
+  "include": [
     "jest.config.ts",
     "**/*.spec.ts",
     "**/*.test.ts",
@@ -65,36 +65,36 @@ Object {
 `;
 
 exports[`tsconfigProjectGenerator without any options tsconfig.app.json or tsconfig.lib.json matches snapshot 1`] = `
-Object {
-  "compilerOptions": Object {
+{
+  "compilerOptions": {
     "declaration": true,
   },
-  "exclude": Array [
+  "exclude": [
     "jest.config.ts",
     "**/*.spec.ts",
     "**/*.test.ts",
     "test",
   ],
   "extends": "./tsconfig.json",
-  "include": Array [
+  "include": [
     "**/*.ts",
   ],
 }
 `;
 
 exports[`tsconfigProjectGenerator without any options tsconfig.json matches snapshot 1`] = `
-Object {
-  "compilerOptions": Object {
+{
+  "compilerOptions": {
     "outDir": "../../dist/out-tsc",
   },
   "extends": "../../tsconfig.base.json",
-  "files": Array [],
-  "include": Array [],
-  "references": Array [
-    Object {
+  "files": [],
+  "include": [],
+  "references": [
+    {
       "path": "./tsconfig.lib.json",
     },
-    Object {
+    {
       "path": "./tsconfig.spec.json",
     },
   ],
@@ -102,15 +102,15 @@ Object {
 `;
 
 exports[`tsconfigProjectGenerator without any options tsconfig.spec.json matches snapshot 1`] = `
-Object {
-  "compilerOptions": Object {
-    "types": Array [
+{
+  "compilerOptions": {
+    "types": [
       "jest",
       "node",
     ],
   },
   "extends": "./tsconfig.json",
-  "include": Array [
+  "include": [
     "jest.config.ts",
     "**/*.spec.ts",
     "**/*.test.ts",

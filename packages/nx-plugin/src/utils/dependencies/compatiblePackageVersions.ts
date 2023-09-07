@@ -15,4 +15,5 @@ export const compatiblePackageVersions: Record<string, string> = {
   nx: NX_VERSION,
   prettier: "^2.8.8",
   "ts-jest": "^28.0.8",
+  typescript: "^5.2.0",
 };

@@ -21,7 +21,7 @@ async function installDependencies(tree: Tree) {
   const installTask = await addDependenciesToPackageJson(
     tree,
     [],
-    ["@chiubaka/tsconfig", "tslib"],
+    ["@chiubaka/tsconfig", "tslib", "typescript"],
   );
 
   return async () => {
