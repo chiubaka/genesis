@@ -151,6 +151,12 @@ Object {
       ],
     },
     "e2e": Object {
+      "configurations": Object {
+        "ci": Object {
+          "ci": true,
+          "codeCoverage": true,
+        },
+      },
       "dependsOn": Array [
         Object {
           "projects": "self",
@@ -362,6 +368,12 @@ Object {
       ],
     },
     "test": Object {
+      "configurations": Object {
+        "ci": Object {
+          "ci": true,
+          "codeCoverage": true,
+        },
+      },
       "executor": "@nrwl/jest:jest",
       "options": Object {
         "jestConfig": "packages/node-lib/jest.config.ts",
