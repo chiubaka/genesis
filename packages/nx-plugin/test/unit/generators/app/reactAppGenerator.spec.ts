@@ -62,16 +62,16 @@ describe("reactAppGenerator", () => {
       expect(tree.exists(project.srcPath("favicon.ico"))).toBe(true);
     });
 
+    fileMatchesSnapshot("webpack.config.js", getProject, (project: Project) =>
+      project.path("webpack.config.js"),
+    );
+
     fileMatchesSnapshot("index.html", getProject, (project: Project) =>
       project.srcPath("index.html"),
     );
 
     fileMatchesSnapshot("main.tsx", getProject, (project: Project) =>
       project.srcPath("main.tsx"),
-    );
-
-    fileMatchesSnapshot("polyfills.ts", getProject, (project: Project) =>
-      project.srcPath("polyfills.ts"),
     );
 
     fileMatchesSnapshot("styles.scss", getProject, (project: Project) =>

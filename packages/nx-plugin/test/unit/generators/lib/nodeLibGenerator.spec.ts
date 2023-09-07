@@ -7,7 +7,7 @@ import {
 } from "@nrwl/devkit";
 
 import { nodeLibGenerator, Project, RunCommandsOptions } from "../../../../src";
-import { nodeProjectTestCases } from "../../../cases";
+import { fileMatchesSnapshot, nodeProjectTestCases } from "../../../cases";
 
 describe("nodeLibGenerator", () => {
   let tree: Tree;
@@ -59,7 +59,7 @@ describe("nodeLibGenerator", () => {
       repoName: "node-lib",
     });
 
-    it("generates a main file", () => {
+    it("generates a main.ts file", () => {
       // eslint-disable-next-line security/detect-non-literal-fs-filename
       expect(tree.exists(e2eProject.srcPath("main.ts"))).toBe(true);
     });
@@ -150,6 +150,20 @@ describe("nodeLibGenerator", () => {
           });
         });
       });
+    });
+
+    describe("webpack.config.js", () => {
+      it("generates a webpack.config.js file", () => {
+        expect(tree.exists(e2eProject.path("webpack.config.js"))).toBe(true);
+      });
+
+      fileMatchesSnapshot(
+        "webpack.config.js",
+        getE2eProject,
+        (e2eProject: Project) => {
+          return e2eProject.path("webpack.config.js");
+        },
+      );
     });
   });
 });

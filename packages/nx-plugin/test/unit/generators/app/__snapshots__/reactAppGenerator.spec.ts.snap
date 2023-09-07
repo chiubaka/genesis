@@ -14,25 +14,6 @@ Object {
 }
 `;
 
-exports[`reactAppGenerator .browserslistrc matches snapshot 1`] = `
-"# This file is used by:
-# 1. autoprefixer to adjust CSS to support the below specified browsers
-# 2. babel preset-env to adjust included polyfills
-#
-# For additional information regarding the format and rule options, please see:
-# https://github.com/browserslist/browserslist#queries
-#
-# If you need to support different browsers in production, you may tweak the list below.
-
-last 1 Chrome version
-last 1 Firefox version
-last 2 Edge major versions
-last 2 Safari major version
-last 2 iOS major versions
-Firefox ESR
-not IE 9-11 # For IE 9-11 support, remove 'not'."
-`;
-
 exports[`reactAppGenerator .eslintrc.json matches snapshot 1`] = `
 Object {
   "extends": Array [
@@ -302,13 +283,12 @@ Object {
         "index": "packages/react-app/src/index.html",
         "main": "packages/react-app/src/main.tsx",
         "outputPath": "dist/packages/react-app",
-        "polyfills": "packages/react-app/src/polyfills.ts",
         "scripts": Array [],
         "styles": Array [
           "packages/react-app/src/styles.scss",
         ],
         "tsConfig": "packages/react-app/tsconfig.app.json",
-        "webpackConfig": "@nrwl/react/plugins/webpack",
+        "webpackConfig": "packages/react-app/webpack.config.js",
       },
       "outputs": Array [
         "{options.outputPath}",
@@ -322,14 +302,12 @@ Object {
       },
       "executor": "@nrwl/storybook:build",
       "options": Object {
-        "config": Object {
-          "configFolder": "packages/react-app/.storybook",
-        },
-        "outputPath": "dist/storybook/react-app",
+        "configDir": "packages/react-app/.storybook",
+        "outputDir": "dist/storybook/react-app",
         "uiFramework": "@storybook/react",
       },
       "outputs": Array [
-        "{options.outputPath}",
+        "{options.outputDir}",
       ],
     },
     "lint": Object {
@@ -368,9 +346,7 @@ Object {
       },
       "executor": "@nrwl/storybook:storybook",
       "options": Object {
-        "config": Object {
-          "configFolder": "packages/react-app/.storybook",
-        },
+        "configDir": "packages/react-app/.storybook",
         "port": 4400,
         "uiFramework": "@storybook/react",
       },
@@ -1404,19 +1380,21 @@ root.render(
 "
 `;
 
-exports[`reactAppGenerator sample code polyfills.ts matches snapshot 1`] = `
-"/**
- * Polyfill stable language features. These imports will be optimized by \`@babel/preset-env\`.
- *
- * See: https://github.com/zloirock/core-js#babel
- */
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
+exports[`reactAppGenerator sample code styles.scss matches snapshot 1`] = `
+"/* You can add global styles to this file, and also import other style files */
 "
 `;
 
-exports[`reactAppGenerator sample code styles.scss matches snapshot 1`] = `
-"/* You can add global styles to this file, and also import other style files */
+exports[`reactAppGenerator sample code webpack.config.js matches snapshot 1`] = `
+"const { composePlugins, withNx } = require('@nrwl/webpack');
+const { withReact } = require('@nrwl/react');
+
+// Nx plugins for webpack.
+module.exports = composePlugins(withNx(), withReact(), (config) => {
+  // Update the webpack config as needed here.
+  // e.g. \`config.plugins.push(new MyPlugin())\`
+  return config;
+});
 "
 `;
 
@@ -1424,6 +1402,8 @@ exports[`reactAppGenerator storybook .storybook/main.ts matches snapshot 1`] = `
 "import { rootMain } from '../../../.storybook/main';
 
 import type { StorybookConfig, Options } from '@storybook/core-common';
+
+
 
 
 const config: StorybookConfig = {
