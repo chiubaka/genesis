@@ -281,6 +281,7 @@ Object {
         "baseHref": "/",
         "compiler": "babel",
         "index": "packages/react-app/src/index.html",
+        "isolatedConfig": true,
         "main": "packages/react-app/src/main.tsx",
         "outputPath": "dist/packages/react-app",
         "scripts": Array [],
@@ -422,9 +423,11 @@ exports[`reactAppGenerator sample code generates a sample component App/App.tsx 
 "
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import styles from './App.module.scss';
+
 import NxWelcome from \\"./NxWelcome\\";
 
 import { Route, Routes, Link } from 'react-router-dom';
+
 
 
 /**
@@ -434,7 +437,9 @@ export function App() {
 
   return (
     <>
+      
       <NxWelcome title=\\"react-app\\"/>
+     
       <div />
     
     {/* START: routes */}
@@ -1036,7 +1041,7 @@ export function NxWelcome({ title }: { title: string }) {
                 </svg>
               </a>
               <a
-                href=\\"https://www.youtube.com/c/Nrwl_io/videos?utm_source=nx-project&sub_confirmation=1\\"
+                href=\\"https://www.youtube.com/@NxDevtools/videos?utm_source=nx-project&sub_confirmation=1\\"
                 target=\\"_blank\\"
                 rel=\\"noreferrer\\"
                 className=\\"list-item-link\\"
@@ -1405,38 +1410,32 @@ module.exports = composePlugins(withNx(), withReact(), (config) => {
 `;
 
 exports[`reactAppGenerator storybook .storybook/main.ts matches snapshot 1`] = `
-"import { rootMain } from '../../../.storybook/main';
-
-import type { StorybookConfig, Options } from '@storybook/core-common';
+"import type { StorybookConfig } from '@storybook/core-common';
 
 
 
 
 const config: StorybookConfig = {
-  ...rootMain,
-  core: { ...rootMain.core, builder: 'webpack5' },
+  core: { builder: 'webpack5' },
   stories: [
-    ...rootMain.stories,
+    
     '../src/**/*.stories.mdx',
     '../src/**/*.stories.@(js|jsx|ts|tsx)'
   ],
-  addons: [...(rootMain.addons || []) , '@nrwl/react/plugins/storybook' 
+  addons: ['@storybook/addon-essentials' , '@nrwl/react/plugins/storybook' 
     
     
-  ],
-  webpackFinal: async (config, { configType }: Options) => {
-    // apply any global webpack configs that might have been specified in .storybook/main.ts
-    if (rootMain.webpackFinal) {
-      config = await rootMain.webpackFinal(config, { configType } as Options);
-    }
-
-    // add your own webpack tweaks if needed
-
-    return config;
-  },
-};
+  ]
+} as StorybookConfig;
 
 module.exports = config;
+
+
+// To customize your webpack configuration you can use the webpackFinal field.
+// Check https://storybook.js.org/docs/react/builders/webpack#extending-storybooks-webpack-config
+// and https://nx.dev/packages/storybook/documents/custom-builder-configs
+
+
 "
 `;
 
@@ -1549,14 +1548,4 @@ Object {
     "test",
   ],
 }
-`;
-
-exports[`reactAppGenerator workspace storybook .storybook/main.ts matches snapshot 1`] = `
-"import type { StorybookConfig } from '@storybook/core-common';
-
-export const rootMain: StorybookConfig = {
-  stories: [],
-  addons: ['@storybook/addon-essentials']
-};
-"
 `;

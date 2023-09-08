@@ -9,8 +9,8 @@ Object {
   "devDependencies": Object {
     "@chiubaka/eslint-config": "^0.6.3",
     "@chiubaka/tsconfig": "^mocked",
-    "@nrwl/eslint-plugin-nx": "15.6.3",
-    "@nrwl/jest": "15.6.3",
+    "@nrwl/eslint-plugin-nx": "15.7.2",
+    "@nrwl/jest": "15.7.2",
     "eslint": "^mocked",
     "husky": "^mocked",
     "jest": "^28.1.3",

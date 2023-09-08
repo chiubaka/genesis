@@ -35,12 +35,6 @@ describe("reactAppGenerator", () => {
     });
   });
 
-  describe("workspace", () => {
-    describe("storybook", () => {
-      fileMatchesSnapshot(".storybook/main.ts", getProject);
-    });
-  });
-
   describe("sample code", () => {
     it("generates an App directory", () => {
       // eslint-disable-next-line security/detect-non-literal-fs-filename

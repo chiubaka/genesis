@@ -95,6 +95,7 @@ Object {
           "packages/node-app/src/assets",
         ],
         "compiler": "tsc",
+        "isolatedConfig": true,
         "main": "packages/node-app/src/main.ts",
         "outputPath": "dist/packages/node-app",
         "target": "node",
