@@ -1,6 +1,7 @@
 import { readJsonFile } from "@nrwl/devkit";
 import { readFile } from "@nrwl/nx-plugin/testing";
 import fs from "node:fs";
+import { writeJsonFile } from "nx/src/utils/fileutils";
 
 import { AbstractTestingWorkspace } from "../../AbstractTestingWorkspace";
 
@@ -28,5 +29,14 @@ export class FsUtils {
     const path = this.workspace.path(relativePath);
 
     return readJsonFile<TJson>(path);
+  }
+
+  public writeJsonFile<TJson extends object>(
+    relativePath: string,
+    data: TJson,
+  ) {
+    const path = this.workspace.path(relativePath);
+
+    writeJsonFile(path, data);
   }
 }

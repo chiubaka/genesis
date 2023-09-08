@@ -18,6 +18,7 @@ exports[`presetGenerator package.json matches snapshot 1`] = `
     "prettier": "^2.8.8",
     "ts-jest": "^28.0.8",
     "tslib": "^mocked",
+    "typescript": "^5.2.0",
   },
   "homepage": "https://github.com/chiubaka/preset#readme",
   "name": "preset",

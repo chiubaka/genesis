@@ -21,6 +21,7 @@ export async function nodeProjectGenerator(
     pruneSrcSubdirectories: true,
     tsconfig: TsConfigGeneratorPresets.NODE18,
   });
+
   enforceNodeVersion(project);
 
   return async () => {
@@ -37,6 +38,7 @@ function baseGenerator(project: Project, options: ProjectGeneratorSchema) {
     name: project.getName(),
 
     bundler: "webpack",
+    e2eTestRunner: "none",
     buildable: true,
     compiler: "tsc",
     importPath: project.getImportPath(),

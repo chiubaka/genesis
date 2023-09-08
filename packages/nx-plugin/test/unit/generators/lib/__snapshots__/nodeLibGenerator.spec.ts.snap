@@ -233,7 +233,7 @@ exports[`nodeLibGenerator E2E project tsconfig.json matches snapshot 1`] = `
     "lib": [
       "es2022",
     ],
-    "module": "commonjs",
+    "module": "nodenext",
     "outDir": "../../dist/out-tsc",
     "target": "es2022",
   },
@@ -416,7 +416,7 @@ exports[`nodeLibGenerator tsconfig.json matches snapshot 1`] = `
     "lib": [
       "es2022",
     ],
-    "module": "commonjs",
+    "module": "nodenext",
     "outDir": "../../dist/out-tsc",
     "target": "es2022",
   },

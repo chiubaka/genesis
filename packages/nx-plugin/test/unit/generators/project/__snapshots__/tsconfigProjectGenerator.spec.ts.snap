@@ -27,7 +27,7 @@ exports[`tsconfigProjectGenerator with Node 18 preset tsconfig.json matches snap
     "lib": [
       "es2022",
     ],
-    "module": "commonjs",
+    "module": "nodenext",
     "outDir": "../../dist/out-tsc",
     "target": "es2022",
   },

@@ -8,7 +8,7 @@ export const TsConfigGeneratorPresets: Record<
     baseConfig: {
       compilerOptions: {
         lib: ["es2015"],
-        module: "commonjs",
+        module: "nodenext",
         target: "es2015",
       },
     },
@@ -17,7 +17,7 @@ export const TsConfigGeneratorPresets: Record<
     baseConfig: {
       compilerOptions: {
         lib: ["es2022"],
-        module: "commonjs",
+        module: "nodenext",
         target: "es2022",
       },
     },

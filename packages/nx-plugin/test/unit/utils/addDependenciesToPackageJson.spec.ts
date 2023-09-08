@@ -12,7 +12,7 @@ describe("addDependenciesToPackageJson", () => {
     await addDependenciesToPackageJson(
       tree,
       { "@chiubaka/nx-plugin": "0.0.2", tslib: undefined },
-      ["typescript", "prettier"],
+      ["typescript", "prettier", "husky"],
     );
   });
 
@@ -29,7 +29,7 @@ describe("addDependenciesToPackageJson", () => {
 
   it("provides versions for dependencies listed in an array", () => {
     expect(tree).toHaveDevDependency(
-      "typescript",
+      "husky",
       DEFAULT_MOCK_INSTALLED_PACKAGE_VERSION,
     );
     expect(tree).toHaveDevDependency("prettier", "^2.8.8");
