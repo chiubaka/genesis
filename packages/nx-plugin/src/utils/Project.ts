@@ -73,7 +73,7 @@ export class Project {
   }
 
   public getPrimaryTsConfigName() {
-    return this.getType() === "application"
+    return this.getType() === "application" || this.getType() === "e2e"
       ? "tsconfig.app.json"
       : "tsconfig.lib.json";
   }

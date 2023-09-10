@@ -39,6 +39,21 @@ describe("tsLibGenerator", () => {
     });
   });
 
+  it("generates a single lib project", () => {
+    const projectNames = tree.children(project.relativePath(".."));
+
+    expect(projectNames).toEqual(["ts-lib"]);
+  });
+
+  it("generates a single E2E project", () => {
+    const e2eProjectNames = tree.children(e2eProject.relativePath(".."));
+
+    // For whatever reason, the Tree directory API doesn't seem 100% correct, so names
+    // don't match here (we get `ts-lib-` instead of `ts-lib-e2e`) while they do
+    // match in E2E tests.
+    expect(e2eProjectNames).toHaveLength(1);
+  });
+
   describe("it generates a code sample", () => {
     it("generates a src/index.ts file", () => {
       // eslint-disable-next-line security/detect-non-literal-fs-filename

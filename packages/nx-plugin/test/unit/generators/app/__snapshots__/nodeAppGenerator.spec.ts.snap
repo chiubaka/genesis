@@ -176,7 +176,7 @@ exports[`nodeAppGenerator tsconfig.json matches snapshot 1`] = `
     "lib": [
       "es2022",
     ],
-    "module": "nodenext",
+    "module": "commonjs",
     "outDir": "../../dist/out-tsc",
     "target": "es2022",
   },

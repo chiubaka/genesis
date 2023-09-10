@@ -76,7 +76,7 @@ exports[`nodeLibGenerator E2E project .eslintrc.json matches snapshot 1`] = `
       ],
       "parserOptions": {
         "project": [
-          "e2e/node-lib-e2e/tsconfig.lib.json",
+          "e2e/node-lib-e2e/tsconfig.app.json",
         ],
       },
     },
@@ -233,7 +233,7 @@ exports[`nodeLibGenerator E2E project tsconfig.json matches snapshot 1`] = `
     "lib": [
       "es2022",
     ],
-    "module": "nodenext",
+    "module": "commonjs",
     "outDir": "../../dist/out-tsc",
     "target": "es2022",
   },
@@ -242,7 +242,7 @@ exports[`nodeLibGenerator E2E project tsconfig.json matches snapshot 1`] = `
   "include": [],
   "references": [
     {
-      "path": "./tsconfig.lib.json",
+      "path": "./tsconfig.app.json",
     },
     {
       "path": "./tsconfig.spec.json",
@@ -416,7 +416,7 @@ exports[`nodeLibGenerator tsconfig.json matches snapshot 1`] = `
     "lib": [
       "es2022",
     ],
-    "module": "nodenext",
+    "module": "commonjs",
     "outDir": "../../dist/out-tsc",
     "target": "es2022",
   },

@@ -19,6 +19,13 @@ export class FsUtils {
     return fs.existsSync(path);
   }
 
+  public children(relativePath: string) {
+    const path = this.workspace.path(relativePath);
+
+    // eslint-disable-next-line security/detect-non-literal-fs-filename
+    return fs.readdirSync(path, { withFileTypes: true });
+  }
+
   public readFile(relativePath: string) {
     const path = this.workspace.path(relativePath);
 

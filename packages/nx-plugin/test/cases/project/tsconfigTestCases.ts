@@ -23,10 +23,7 @@ export const tsconfigTestCases = (
     project = getProject();
     tree = project.getTree();
 
-    primaryTsConfigName =
-      project.getType() === "application"
-        ? "tsconfig.app.json"
-        : "tsconfig.lib.json";
+    primaryTsConfigName = project.getPrimaryTsConfigName();
   });
 
   it("generates a tsconfig.json file", () => {
@@ -50,6 +47,16 @@ export const tsconfigTestCases = (
     it("generates a tsconfig.app.json or tsconfig.lib.json file", () => {
       // eslint-disable-next-line security/detect-non-literal-fs-filename
       expect(tree.exists(project.path(primaryTsConfigName))).toBe(true);
+    });
+
+    it("does not generate both a tsconfig.app.json and a tsconfig.lib.json file", () => {
+      if (primaryTsConfigName === "tsconfig.lib.json") {
+        // eslint-disable-next-line security/detect-non-literal-fs-filename
+        expect(tree.exists(project.path("tsconfig.app.json"))).toBe(false);
+      } else {
+        // eslint-disable-next-line security/detect-non-literal-fs-filename
+        expect(tree.exists(project.path("tsconfig.lib.json"))).toBe(false);
+      }
     });
 
     describe("tsconfig.app.json or tsconfig.lib.json", () => {

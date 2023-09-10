@@ -15,6 +15,11 @@ export function tsconfigProjectGenerator(
 
   const reactEnabled = baseConfig?.compilerOptions?.jsx !== undefined;
 
+  tree.delete(project.path("tsconfig.json"));
+  tree.delete(project.path("tsconfig.app.json"));
+  tree.delete(project.path("tsconfig.lib.json"));
+  tree.delete(project.path("tsconfig.spec.json"));
+
   writeBaseConfig(project, baseConfig);
   writePrimaryConfig(project, primaryConfig, reactEnabled);
   writeTestConfig(project, testConfig, reactEnabled);
