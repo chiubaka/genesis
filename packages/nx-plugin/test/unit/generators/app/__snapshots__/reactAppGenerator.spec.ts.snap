@@ -111,9 +111,8 @@ exports[`reactAppGenerator E2E project cypress.config.ts matches snapshot 1`] = 
 import { nxE2EPreset } from '@nrwl/cypress/plugins/cypress-preset';
 
 export default defineConfig({
-  e2e: nxE2EPreset(__dirname),
-});
-"
+  e2e: nxE2EPreset(__dirname)
+});"
 `;
 
 exports[`reactAppGenerator E2E project project.json matches snapshot 1`] = `
@@ -219,24 +218,24 @@ exports[`reactAppGenerator E2E project tsconfig.json matches snapshot 1`] = `
 
 exports[`reactAppGenerator jest.config.ts matches snapshot 1`] = `
 "export default {
-  displayName: 'react-app',
-  preset: '../../jest.preset.js',
-  testEnvironment: 'jsdom',
-  transform: {
-    '^(?!.*\\\\.(js|jsx|ts|tsx|css|json)$)': '@nrwl/react/plugins/jest',
-    '^.+\\\\.[tj]sx?$': 'babel-jest',
-  },
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'html', 'json'],
-  coverageDirectory: '../../reports/coverage/packages/react-app',
+  displayName: "react-app",
+  preset: "../../jest.preset.js",
+      testEnvironment: "jsdom",
+    transform: {
+        "^(?!.*\\\\.(js|jsx|ts|tsx|css|json)$)": "@nrwl/react/plugins/jest",
+    "^.+\\\\.[tj]sx?$": "babel-jest",
+      },
+    moduleFileExtensions: ["ts", "tsx", "js", "jsx", "html", "json"],
+    coverageDirectory: "../../reports/coverage/packages/react-app",
   reporters: [
-    'default',
+    "default",
     [
-      'jest-junit',
+      "jest-junit",
       {
-        addFileAttribute: 'true',
-        classNameTemplate: '{suitename}',
-        outputDirectory: 'reports/junit',
-        outputName: 'react-app.xml',
+        addFileAttribute: "true",
+        classNameTemplate: "{suitename}",
+        outputDirectory: "reports/junit",
+        outputName: "react-app.xml",
       },
     ],
   ],
@@ -385,7 +384,7 @@ exports[`reactAppGenerator project.json matches snapshot 1`] = `
 
 exports[`reactAppGenerator sample code environments environments/environment.prod.ts matches snapshot 1`] = `
 "export const environment = {
-  production: true,
+  production: true
 };
 "
 `;
@@ -395,7 +394,7 @@ exports[`reactAppGenerator sample code environments environments/environment.ts 
 // When building for production, this file is replaced with \`environment.prod.ts\`.
 
 export const environment = {
-  production: false,
+  production: false
 };
 "
 `;
@@ -430,81 +429,82 @@ Primary.args = {};
 `;
 
 exports[`reactAppGenerator sample code generates a sample component App/App.tsx matches snapshot 1`] = `
-"// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import styles from './App.module.scss';
+"
 
-import NxWelcome from './NxWelcome';
+import NxWelcome from "./NxWelcome";
 
 import { Route, Routes, Link } from 'react-router-dom';
+
+
 
 /**
  * @returns {Function} the main App component
  */
 export function App() {
+
   return (
     <>
-      <NxWelcome title="react-app" />
-
+      
+      <NxWelcome title="react-app"/>
+     
       <div />
+    
+    {/* START: routes */}
+    {/* These routes and navigation have been generated for you */}
+    {/* Feel free to move and update them to fit your needs */}
+    <br/>
+    <hr/>
+    <br/>
+    <div role="navigation">
+      <ul>
+        <li><Link to="/">Home</Link></li>
+        <li><Link to="/page-2">Page 2</Link></li>
+      </ul>
+    </div>
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <div>This is the generated root route. <Link to="/page-2">Click here for page 2.</Link></div>
+        }
+      />
+      <Route
+        path="/page-2"
+        element={
+          <div><Link to="/">Click here to go back to root page.</Link></div>
+        }
+      />
+    </Routes>
+    {/* END: routes */}
+    </>);
 
-      {/* START: routes */}
-      {/* These routes and navigation have been generated for you */}
-      {/* Feel free to move and update them to fit your needs */}
-      <br />
-      <hr />
-      <br />
-      <div role="navigation">
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/page-2">Page 2</Link>
-          </li>
-        </ul>
-      </div>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <div>
-              This is the generated root route.{' '}
-              <Link to="/page-2">Click here for page 2.</Link>
-            </div>
-          }
-        />
-        <Route
-          path="/page-2"
-          element={
-            <div>
-              <Link to="/">Click here to go back to root page.</Link>
-            </div>
-          }
-        />
-      </Routes>
-      {/* END: routes */}
-    </>
-  );
 }
 
+
 export default App;
+
 "
 `;
 
 exports[`reactAppGenerator sample code generates a sample component App/NxWelcome.stories.tsx matches snapshot 1`] = `
 "import type { Meta } from '@storybook/react';
-import { NxWelcome } from './NxWelcome';
+import {  NxWelcome  }  from './NxWelcome';
+
+
+
+
 
 const Story: Meta<typeof NxWelcome> = {
   component: NxWelcome,
-  title: 'NxWelcome',
+  title: 'NxWelcome', 
 };
 export default Story;
 
+
 export const Primary = {
-  args: {},
-};
-"
+  args: {
+  },
+};"
 `;
 
 exports[`reactAppGenerator sample code generates a sample component App/NxWelcome.tsx matches snapshot 1`] = `
@@ -1371,26 +1371,21 @@ exports[`reactAppGenerator sample code generates a sample unit test unit/App.spe
 
 import { BrowserRouter } from 'react-router-dom';
 
+
 import { App } from '../../src/App';
 
 describe('App', () => {
-  it('should render successfully', () => {
-    const { baseElement } = render(
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    );
-    expect(baseElement).toBeTruthy();
-  });
+  
+it('should render successfully', () => {
+  const { baseElement } = render(<BrowserRouter><App /></BrowserRouter>);
+  expect(baseElement).toBeTruthy();
+});
 
-  it('should have a greeting as the title', () => {
-    const { getByText } = render(
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    );
-    expect(getByText(/Welcome react-app/gi)).toBeTruthy();
-  });
+it('should have a greeting as the title', () => {
+  const { getByText } = render(<BrowserRouter><App /></BrowserRouter>);
+  expect(getByText(/Welcome react-app/gi)).toBeTruthy();
+});
+
 });
 "
 `;
@@ -1420,15 +1415,9 @@ import { BrowserRouter } from 'react-router-dom';
 
 import { App } from './App';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
-  <StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </StrictMode>
+<StrictMode><BrowserRouter><App /></BrowserRouter></StrictMode>
 );
 "
 `;
@@ -1454,20 +1443,30 @@ module.exports = composePlugins(withNx(), withReact(), (config) => {
 exports[`reactAppGenerator storybook .storybook/main.ts matches snapshot 1`] = `
 "import type { StorybookConfig } from '@storybook/core-common';
 
+
+
+
 const config: StorybookConfig = {
   core: { builder: 'webpack5' },
   stories: [
+    
     '../src/**/*.stories.mdx',
-    '../src/**/*.stories.@(js|jsx|ts|tsx)',
+    '../src/**/*.stories.@(js|jsx|ts|tsx)'
   ],
-  addons: ['@storybook/addon-essentials', '@nrwl/react/plugins/storybook'],
+  addons: ['@storybook/addon-essentials' , '@nrwl/react/plugins/storybook' 
+    
+    
+  ]
 };
 
 module.exports = config;
 
+
 // To customize your webpack configuration you can use the webpackFinal field.
 // Check https://storybook.js.org/docs/react/builders/webpack#extending-storybooks-webpack-config
 // and https://nx.dev/packages/storybook/documents/custom-builder-configs
+
+
 "
 `;
 
