@@ -67,7 +67,7 @@ function updateCodeSample(project: Project) {
   replaceInFile(
     tree,
     project.srcPath("app/App.tsx"),
-    '// eslint-disable-next-line @typescript-eslint/no-unused-vars\nimport styles from "./App.module.scss";\n',
+    "// eslint-disable-next-line @typescript-eslint/no-unused-vars\nimport styles from './App.module.scss';\n",
     "",
   );
   replaceInFile(
