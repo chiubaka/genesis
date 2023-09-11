@@ -83,12 +83,10 @@ exports[`nodeAppGenerator project.json matches snapshot 1`] = `
   "targets": {
     "build": {
       "configurations": {
-        "production": {
-          "extractLicenses": true,
-          "inspect": false,
-          "optimization": true,
-        },
+        "development": {},
+        "production": {},
       },
+      "defaultConfiguration": "production",
       "executor": "@nrwl/webpack:webpack",
       "options": {
         "assets": [
@@ -119,10 +117,14 @@ exports[`nodeAppGenerator project.json matches snapshot 1`] = `
     },
     "serve": {
       "configurations": {
+        "development": {
+          "buildTarget": "node-app:build:development",
+        },
         "production": {
           "buildTarget": "node-app:build:production",
         },
       },
+      "defaultConfiguration": "development",
       "executor": "@nrwl/js:node",
       "options": {
         "buildTarget": "node-app:build",
@@ -214,7 +216,7 @@ exports[`nodeAppGenerator tsconfig.spec.json matches snapshot 1`] = `
 `;
 
 exports[`nodeAppGenerator webpack.config.js webpack.config.js matches snapshot 1`] = `
-"const { composePlugins, withNx } = require('@nrwl/webpack');
+"const { composePlugins, withNx} = require('@nrwl/webpack');
 
 // Nx plugins for webpack.
 module.exports = composePlugins(withNx(), (config) => {

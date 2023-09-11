@@ -128,12 +128,10 @@ exports[`tsLibGenerator E2E project project.json matches snapshot 1`] = `
   "targets": {
     "build": {
       "configurations": {
-        "production": {
-          "extractLicenses": true,
-          "inspect": false,
-          "optimization": true,
-        },
+        "development": {},
+        "production": {},
       },
+      "defaultConfiguration": "production",
       "executor": "@nrwl/webpack:webpack",
       "options": {
         "assets": [
@@ -271,7 +269,7 @@ exports[`tsLibGenerator E2E project tsconfig.spec.json matches snapshot 1`] = `
 `;
 
 exports[`tsLibGenerator E2E project webpack.config.js webpack.config.js matches snapshot 1`] = `
-"const { composePlugins, withNx } = require('@nrwl/webpack');
+"const { composePlugins, withNx} = require('@nrwl/webpack');
 
 // Nx plugins for webpack.
 module.exports = composePlugins(withNx(), (config) => {
@@ -284,28 +282,28 @@ module.exports = composePlugins(withNx(), (config) => {
 
 exports[`tsLibGenerator jest.config.ts matches snapshot 1`] = `
 "export default {
-  displayName: 'ts-lib',
-  preset: '../../jest.preset.js',
-  globals: {
-    'ts-jest': {
-      tsconfig: '<rootDir>/tsconfig.spec.json',
+  displayName: "ts-lib",
+  preset: "../../jest.preset.js",
+    globals: {
+    "ts-jest": {
+      tsconfig: "<rootDir>/tsconfig.spec.json",
     },
   },
-  testEnvironment: 'node',
-  transform: {
-    '^.+\\\\.[tj]s$': 'ts-jest',
-  },
-  moduleFileExtensions: ['ts', 'js', 'html', 'json'],
-  coverageDirectory: '../../reports/coverage/packages/ts-lib',
+      testEnvironment: "node",
+    transform: {
+        "^.+\\\\.[tj]s$": "ts-jest",
+      },
+    moduleFileExtensions: ["ts", "js", "html", "json"],
+    coverageDirectory: "../../reports/coverage/packages/ts-lib",
   reporters: [
-    'default',
+    "default",
     [
-      'jest-junit',
+      "jest-junit",
       {
-        addFileAttribute: 'true',
-        classNameTemplate: '{suitename}',
-        outputDirectory: 'reports/junit',
-        outputName: 'ts-lib.xml',
+        addFileAttribute: "true",
+        classNameTemplate: "{suitename}",
+        outputDirectory: "reports/junit",
+        outputName: "ts-lib.xml",
       },
     ],
   ],
