@@ -5,7 +5,7 @@ exports[`reactAppGenerator .babelrc matches snapshot 1`] = `
   "plugins": [],
   "presets": [
     [
-      "@nrwl/react/babel",
+      "@nx/react/babel",
       {
         "runtime": "automatic",
       },
@@ -108,11 +108,12 @@ exports[`reactAppGenerator E2E project .eslintrc.json matches snapshot 1`] = `
 
 exports[`reactAppGenerator E2E project cypress.config.ts matches snapshot 1`] = `
 "import { defineConfig } from 'cypress';
-import { nxE2EPreset } from '@nrwl/cypress/plugins/cypress-preset';
+import { nxE2EPreset } from '@nx/cypress/plugins/cypress-preset';
 
 export default defineConfig({
-  e2e: nxE2EPreset(__dirname)
-});"
+  e2e: nxE2EPreset(__dirname),
+});
+"
 `;
 
 exports[`reactAppGenerator E2E project project.json matches snapshot 1`] = `
@@ -135,7 +136,7 @@ exports[`reactAppGenerator E2E project project.json matches snapshot 1`] = `
           "devServerTarget": "react-app:serve:production",
         },
       },
-      "executor": "@nrwl/cypress:cypress",
+      "executor": "@nx/cypress:cypress",
       "options": {
         "cypressConfig": "e2e/react-app-e2e/cypress.config.ts",
         "devServerTarget": "react-app:serve:development",
@@ -143,7 +144,7 @@ exports[`reactAppGenerator E2E project project.json matches snapshot 1`] = `
       },
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "e2e/react-app-e2e/**/*.{js,ts}",
@@ -177,10 +178,10 @@ describe('react-app', () => {
 exports[`reactAppGenerator E2E project sample tests e2e/App/App.cy.ts matches snapshot 1`] = `
 "describe('react-app: App component', () => {
   beforeEach(() => cy.visit('/iframe.html?id=app--primary'));
-    
-    it('should render the component', () => {
-      cy.get('h1').should('contain', 'Welcome react-app');
-    });
+
+  it('should render the component', () => {
+    cy.get('h1').should('contain', 'Welcome react-app');
+  });
 });
 "
 `;
@@ -188,10 +189,10 @@ exports[`reactAppGenerator E2E project sample tests e2e/App/App.cy.ts matches sn
 exports[`reactAppGenerator E2E project sample tests e2e/NxWelcome/NxWelcome.cy.ts matches snapshot 1`] = `
 "describe('react-app: NxWelcome component', () => {
   beforeEach(() => cy.visit('/iframe.html?id=nxwelcome--primary'));
-    
-    it('should render the component', () => {
-      cy.get('h1').should('contain', 'Welcome react-app');
-    });
+
+  it('should render the component', () => {
+    cy.get('h1').should('contain', 'Welcome react-app');
+  });
 });
 "
 `;
@@ -218,24 +219,24 @@ exports[`reactAppGenerator E2E project tsconfig.json matches snapshot 1`] = `
 
 exports[`reactAppGenerator jest.config.ts matches snapshot 1`] = `
 "export default {
-  displayName: "react-app",
-  preset: "../../jest.preset.js",
-      testEnvironment: "jsdom",
-    transform: {
-        "^(?!.*\\\\.(js|jsx|ts|tsx|css|json)$)": "@nrwl/react/plugins/jest",
-    "^.+\\\\.[tj]sx?$": "babel-jest",
-      },
-    moduleFileExtensions: ["ts", "tsx", "js", "jsx", "html", "json"],
-    coverageDirectory: "../../reports/coverage/packages/react-app",
+  displayName: 'react-app',
+  preset: '../../jest.preset.js',
+  testEnvironment: 'jsdom',
+  transform: {
+    '^(?!.*\\\\.(js|jsx|ts|tsx|css|json)$)': '@nrwl/react/plugins/jest',
+    '^.+\\\\.[tj]sx?$': 'babel-jest',
+  },
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'html', 'json'],
+  coverageDirectory: '../../reports/coverage/packages/react-app',
   reporters: [
-    "default",
+    'default',
     [
-      "jest-junit",
+      'jest-junit',
       {
-        addFileAttribute: "true",
-        classNameTemplate: "{suitename}",
-        outputDirectory: "reports/junit",
-        outputName: "react-app.xml",
+        addFileAttribute: 'true',
+        classNameTemplate: '{suitename}',
+        outputDirectory: 'reports/junit',
+        outputName: 'react-app.xml',
       },
     ],
   ],
@@ -275,7 +276,7 @@ exports[`reactAppGenerator project.json matches snapshot 1`] = `
         },
       },
       "defaultConfiguration": "production",
-      "executor": "@nrwl/webpack:webpack",
+      "executor": "@nx/webpack:webpack",
       "options": {
         "assets": [
           "packages/react-app/src/favicon.ico",
@@ -304,7 +305,7 @@ exports[`reactAppGenerator project.json matches snapshot 1`] = `
           "quiet": true,
         },
       },
-      "executor": "@nrwl/storybook:build",
+      "executor": "@nx/storybook:build",
       "options": {
         "configDir": "packages/react-app/.storybook",
         "outputDir": "dist/storybook/react-app",
@@ -315,7 +316,7 @@ exports[`reactAppGenerator project.json matches snapshot 1`] = `
       ],
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "packages/react-app",
@@ -336,14 +337,14 @@ exports[`reactAppGenerator project.json matches snapshot 1`] = `
         },
       },
       "defaultConfiguration": "development",
-      "executor": "@nrwl/webpack:dev-server",
+      "executor": "@nx/webpack:dev-server",
       "options": {
         "buildTarget": "react-app:build",
         "hmr": true,
       },
     },
     "serve-static": {
-      "executor": "@nrwl/web:file-server",
+      "executor": "@nx/web:file-server",
       "options": {
         "buildTarget": "react-app:build",
       },
@@ -354,7 +355,7 @@ exports[`reactAppGenerator project.json matches snapshot 1`] = `
           "quiet": true,
         },
       },
-      "executor": "@nrwl/storybook:storybook",
+      "executor": "@nx/storybook:storybook",
       "options": {
         "configDir": "packages/react-app/.storybook",
         "port": 4400,
@@ -368,7 +369,7 @@ exports[`reactAppGenerator project.json matches snapshot 1`] = `
           "codeCoverage": true,
         },
       },
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "options": {
         "jestConfig": "packages/react-app/jest.config.ts",
         "passWithNoTests": true,
@@ -384,7 +385,7 @@ exports[`reactAppGenerator project.json matches snapshot 1`] = `
 
 exports[`reactAppGenerator sample code environments environments/environment.prod.ts matches snapshot 1`] = `
 "export const environment = {
-  production: true
+  production: true,
 };
 "
 `;
@@ -394,7 +395,7 @@ exports[`reactAppGenerator sample code environments environments/environment.ts 
 // When building for production, this file is replaced with \`environment.prod.ts\`.
 
 export const environment = {
-  production: false
+  production: false,
 };
 "
 `;
@@ -430,81 +431,76 @@ Primary.args = {};
 
 exports[`reactAppGenerator sample code generates a sample component App/App.tsx matches snapshot 1`] = `
 "
-
-import NxWelcome from "./NxWelcome";
+import NxWelcome from './NxWelcome';
 
 import { Route, Routes, Link } from 'react-router-dom';
-
-
 
 /**
  * @returns {Function} the main App component
  */
 export function App() {
-
   return (
-    <>
-      
-      <NxWelcome title="react-app"/>
-     
-      <div />
-    
-    {/* START: routes */}
-    {/* These routes and navigation have been generated for you */}
-    {/* Feel free to move and update them to fit your needs */}
-    <br/>
-    <hr/>
-    <br/>
-    <div role="navigation">
-      <ul>
-        <li><Link to="/">Home</Link></li>
-        <li><Link to="/page-2">Page 2</Link></li>
-      </ul>
-    </div>
-    <Routes>
-      <Route
-        path="/"
-        element={
-          <div>This is the generated root route. <Link to="/page-2">Click here for page 2.</Link></div>
-        }
-      />
-      <Route
-        path="/page-2"
-        element={
-          <div><Link to="/">Click here to go back to root page.</Link></div>
-        }
-      />
-    </Routes>
-    {/* END: routes */}
-    </>);
+    <div>
+      <NxWelcome title="react-app" />
 
+      {/* START: routes */}
+      {/* These routes and navigation have been generated for you */}
+      {/* Feel free to move and update them to fit your needs */}
+      <br />
+      <hr />
+      <br />
+      <div role="navigation">
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/page-2">Page 2</Link>
+          </li>
+        </ul>
+      </div>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <div>
+              This is the generated root route.{' '}
+              <Link to="/page-2">Click here for page 2.</Link>
+            </div>
+          }
+        />
+        <Route
+          path="/page-2"
+          element={
+            <div>
+              <Link to="/">Click here to go back to root page.</Link>
+            </div>
+          }
+        />
+      </Routes>
+      {/* END: routes */}
+    </div>
+  );
 }
 
-
 export default App;
-
 "
 `;
 
 exports[`reactAppGenerator sample code generates a sample component App/NxWelcome.stories.tsx matches snapshot 1`] = `
 "import type { Meta } from '@storybook/react';
-import {  NxWelcome  }  from './NxWelcome';
-
-
-
-
+import { NxWelcome } from './NxWelcome';
 
 const Story: Meta<typeof NxWelcome> = {
   component: NxWelcome,
-  title: 'NxWelcome', 
+  title: 'NxWelcome',
 };
 export default Story;
 
-
 export const Primary = {
-  args: {
-  },
-};"
+  args: {},
+};
+"
 `;
 
 exports[`reactAppGenerator sample code generates a sample component App/NxWelcome.tsx matches snapshot 1`] = `
@@ -1283,9 +1279,9 @@ export function NxWelcome({ title }: { title: string }) {
               </summary>
               <pre>
                 <span># Generate UI lib</span>
-                nx g @nrwl/react:lib ui
+                nx g @nx/react:lib ui
                 <span># Add a component</span>
-                nx g @nrwl/react:component button --project ui
+                nx g @nx/react:component button --project ui
               </pre>
             </details>
             <details>
@@ -1371,21 +1367,26 @@ exports[`reactAppGenerator sample code generates a sample unit test unit/App.spe
 
 import { BrowserRouter } from 'react-router-dom';
 
-
 import { App } from '../../src/App';
 
 describe('App', () => {
-  
-it('should render successfully', () => {
-  const { baseElement } = render(<BrowserRouter><App /></BrowserRouter>);
-  expect(baseElement).toBeTruthy();
-});
+  it('should render successfully', () => {
+    const { baseElement } = render(
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    );
+    expect(baseElement).toBeTruthy();
+  });
 
-it('should have a greeting as the title', () => {
-  const { getByText } = render(<BrowserRouter><App /></BrowserRouter>);
-  expect(getByText(/Welcome react-app/gi)).toBeTruthy();
-});
-
+  it('should have a greeting as the title', () => {
+    const { getByText } = render(
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    );
+    expect(getByText(/Welcome react-app/gi)).toBeTruthy();
+  });
 });
 "
 `;
@@ -1415,9 +1416,15 @@ import { BrowserRouter } from 'react-router-dom';
 
 import { App } from './App';
 
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
 root.render(
-<StrictMode><BrowserRouter><App /></BrowserRouter></StrictMode>
+  <StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </StrictMode>
 );
 "
 `;
@@ -1428,8 +1435,8 @@ exports[`reactAppGenerator sample code styles.scss matches snapshot 1`] = `
 `;
 
 exports[`reactAppGenerator sample code webpack.config.js matches snapshot 1`] = `
-"const { composePlugins, withNx } = require('@nrwl/webpack');
-const { withReact } = require('@nrwl/react');
+"const { composePlugins, withNx } = require('@nx/webpack');
+const { withReact } = require('@nx/react');
 
 // Nx plugins for webpack.
 module.exports = composePlugins(withNx(), withReact(), (config) => {
@@ -1443,30 +1450,20 @@ module.exports = composePlugins(withNx(), withReact(), (config) => {
 exports[`reactAppGenerator storybook .storybook/main.ts matches snapshot 1`] = `
 "import type { StorybookConfig } from '@storybook/core-common';
 
-
-
-
 const config: StorybookConfig = {
   core: { builder: 'webpack5' },
   stories: [
-    
     '../src/**/*.stories.mdx',
-    '../src/**/*.stories.@(js|jsx|ts|tsx)'
+    '../src/**/*.stories.@(js|jsx|ts|tsx)',
   ],
-  addons: ['@storybook/addon-essentials' , '@nrwl/react/plugins/storybook' 
-    
-    
-  ]
+  addons: ['@storybook/addon-essentials', '@nx/react/plugins/storybook'],
 };
 
 module.exports = config;
 
-
 // To customize your webpack configuration you can use the webpackFinal field.
 // Check https://storybook.js.org/docs/react/builders/webpack#extending-storybooks-webpack-config
 // and https://nx.dev/packages/storybook/documents/custom-builder-configs
-
-
 "
 `;
 
@@ -1486,9 +1483,9 @@ exports[`reactAppGenerator storybook .storybook/tsconfig.json matches snapshot 1
   ],
   "extends": "../tsconfig.json",
   "files": [
-    "../../../node_modules/@nrwl/react/typings/styled-jsx.d.ts",
-    "../../../node_modules/@nrwl/react/typings/cssmodule.d.ts",
-    "../../../node_modules/@nrwl/react/typings/image.d.ts",
+    "../../../node_modules/@nx/react/typings/styled-jsx.d.ts",
+    "../../../node_modules/@nx/react/typings/cssmodule.d.ts",
+    "../../../node_modules/@nx/react/typings/image.d.ts",
   ],
   "include": [
     "../src/**/*.stories.ts",

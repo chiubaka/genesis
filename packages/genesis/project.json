@@ -5,7 +5,7 @@
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nrwl/js:tsc",
+      "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/genesis",
@@ -38,14 +38,14 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["packages/genesis"]
       }
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "outputs": [
         "{workspaceRoot}/reports/coverage/packages/genesis",
         "{workspaceRoot}/reports/junit/genesis.xml"
@@ -60,12 +60,10 @@
       "defaultConfiguration": "development",
       "dependsOn": [
         {
-          "target": "build",
-          "projects": "self"
+          "target": "build"
         },
         {
-          "target": "deploy:remove-yarn-module",
-          "projects": "self"
+          "target": "deploy:remove-yarn-module"
         }
       ],
       "options": {

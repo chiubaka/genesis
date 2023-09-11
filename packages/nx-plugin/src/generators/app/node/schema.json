@@ -1,7 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
   "$id": "NodeApp",
-  "cli": "nx",
   "title": "Create a Node application",
   "description": "Create a Node application",
   "type": "object",

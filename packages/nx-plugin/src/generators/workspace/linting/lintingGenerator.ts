@@ -1,5 +1,5 @@
-import { GeneratorCallback, Tree } from "@nrwl/devkit";
-import { runTasksInSerial } from "@nrwl/workspace/src/utilities/run-tasks-in-serial";
+import { GeneratorCallback, Tree } from "@nx/devkit";
+import { runTasksInSerial } from "@nx/workspace/src/utilities/run-tasks-in-serial";
 
 import { generatorLogger as logger } from "../../../logger";
 import { eslintGenerator } from "./eslint";

@@ -1,4 +1,4 @@
-import { readJson, Tree } from "@nrwl/devkit";
+import { readJson, Tree } from "@nx/devkit";
 
 import { PackageJson, Project } from "../../../src";
 import { projectTestCases, ProjectTestCasesOptions } from "./projectTestCases";

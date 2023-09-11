@@ -4,7 +4,7 @@ import {
   readJsonFile,
   workspaceRoot as pluginWorkspaceRoot,
   writeJsonFile,
-} from "@nrwl/devkit";
+} from "@nx/devkit";
 import { exec as nodeExec } from "node:child_process";
 import { rmSync } from "node:fs";
 import path from "node:path";

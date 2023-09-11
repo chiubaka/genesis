@@ -1,5 +1,5 @@
-import { getWorkspaceLayout } from "@nrwl/devkit";
 import { libraryGenerator } from "@nrwl/node";
+import { getWorkspaceLayout } from "@nx/devkit";
 
 import { createTreeWithEmptyWorkspace } from "./createTreeWithEmptyWorkspace";
 

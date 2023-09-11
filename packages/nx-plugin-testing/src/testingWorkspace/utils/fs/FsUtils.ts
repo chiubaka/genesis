@@ -1,5 +1,5 @@
-import { readJsonFile } from "@nrwl/devkit";
-import { readFile } from "@nrwl/nx-plugin/testing";
+import { readJsonFile } from "@nx/devkit";
+import { readFile } from "@nx/plugin/testing";
 import fs from "node:fs";
 import { writeJsonFile } from "nx/src/utils/fileutils";
 

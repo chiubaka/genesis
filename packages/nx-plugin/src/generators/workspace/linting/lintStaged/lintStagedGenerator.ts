@@ -1,4 +1,4 @@
-import { generateFiles, Tree, updateJson } from "@nrwl/devkit";
+import { generateFiles, Tree, updateJson } from "@nx/devkit";
 import path from "node:path";
 import { PackageJson } from "nx/src/utils/package-json";
 

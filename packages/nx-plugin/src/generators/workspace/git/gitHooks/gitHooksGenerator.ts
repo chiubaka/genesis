@@ -1,4 +1,4 @@
-import { getPackageManagerCommand, Tree, updateJson } from "@nrwl/devkit";
+import { getPackageManagerCommand, Tree, updateJson } from "@nx/devkit";
 import { PackageJson } from "nx/src/utils/package-json";
 
 import { generatorLogger as logger } from "../../../../logger";

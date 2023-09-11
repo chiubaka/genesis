@@ -1,4 +1,4 @@
-import { Tree } from "@nrwl/devkit";
+import { Tree } from "@nx/devkit";
 import yaml from "js-yaml";
 
 export function writeYaml(tree: Tree, filePath: string, object: any) {

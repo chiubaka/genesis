@@ -3,7 +3,7 @@ import {
   names,
   ProjectType as NxProjectType,
   Tree,
-} from "@nrwl/devkit";
+} from "@nx/devkit";
 import path from "node:path";
 
 import { ProjectGeneratorSchema } from "../generators/project/project/projectGenerator.schema";

@@ -1,7 +1,7 @@
 jest.mock("../../../src/utils");
 jest.mock("fs-extra");
 
-import { tmpProjPath } from "@nrwl/nx-plugin/testing";
+import { tmpProjPath } from "@nx/plugin/testing";
 import { moveSync } from "fs-extra";
 import path from "node:path";
 

@@ -1,4 +1,4 @@
-import { tmpProjPath, uniq } from "@nrwl/nx-plugin/testing";
+import { tmpProjPath, uniq } from "@nx/plugin/testing";
 import { ensureDirSync, moveSync, removeSync } from "fs-extra";
 import os from "node:os";
 import path from "node:path";

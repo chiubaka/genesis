@@ -2,7 +2,7 @@ import {
   ProjectConfiguration,
   TargetConfiguration,
   updateJson,
-} from "@nrwl/devkit";
+} from "@nx/devkit";
 import path from "node:path";
 
 import { EsLintExecutorOptions, JestExecutorOptions } from "../../../types";

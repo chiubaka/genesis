@@ -1,4 +1,4 @@
-import { generateFiles } from "@nrwl/devkit";
+import { generateFiles } from "@nx/devkit";
 import path from "node:path";
 
 import { Project } from "../../../../../utils";

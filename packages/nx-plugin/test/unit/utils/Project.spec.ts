@@ -1,4 +1,4 @@
-import { createTree } from "@nrwl/devkit/testing";
+import { createTree } from "@nx/devkit/testing";
 
 import { Project, ProjectNames } from "../../../src";
 

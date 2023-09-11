@@ -1,7 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
   "$id": "JestProject",
-  "cli": "nx",
   "title": "Create a Jest configuration for a project",
   "description": "Create a Jest configuration for a project",
   "type": "object",

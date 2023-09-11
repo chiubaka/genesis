@@ -1,4 +1,4 @@
-import { uniq } from "@nrwl/nx-plugin/testing";
+import { uniq } from "@nx/plugin/testing";
 import fs from "node:fs";
 
 import { AbstractTestingWorkspace } from "../../AbstractTestingWorkspace";

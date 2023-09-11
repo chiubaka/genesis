@@ -3,7 +3,7 @@ import {
   TargetConfiguration,
   Tree,
   updateJson,
-} from "@nrwl/devkit";
+} from "@nx/devkit";
 
 import { Project } from "../../utils";
 import { LibGeneratorSchema } from "./libGenerator.schema";

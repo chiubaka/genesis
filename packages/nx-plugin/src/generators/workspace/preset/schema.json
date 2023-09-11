@@ -1,6 +1,5 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "cli": "nx",
   "$id": "Preset",
   "title": "",
   "type": "object",
@@ -13,12 +12,10 @@
       "description": "The scope of the workspace. Usually the org's name. This option should be passed by Nx automatically.",
       "type": "string"
     },
-
     "description": {
       "description": "A description of what this new workspace will accomplish",
       "type": "string"
     },
-
     "skipGitHub": {
       "description": "Whether or not to skip GitHub repository generation",
       "type": "boolean"
@@ -27,7 +24,6 @@
       "description": "Whether or not to skip package manager install",
       "type": "boolean"
     },
-
     "disableImmutableInstalls": {
       "description": "Whether or not to allow mutations to yarn.lock. Useful for E2E testing, especially on CI.",
       "type": "boolean",

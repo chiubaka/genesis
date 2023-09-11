@@ -1,5 +1,5 @@
-import { GeneratorCallback, Tree, updateJson } from "@nrwl/devkit";
 import { applicationGenerator, libraryGenerator } from "@nrwl/node";
+import { GeneratorCallback, Tree, updateJson } from "@nx/devkit";
 
 import { PackageJson } from "../../../types";
 import { Project } from "../../../utils";

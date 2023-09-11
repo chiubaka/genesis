@@ -1,4 +1,4 @@
-import { Tree } from "@nrwl/devkit";
+import { Tree } from "@nx/devkit";
 import yaml from "js-yaml";
 
 export function readYaml<T = any>(tree: Tree, filePath: string): T {

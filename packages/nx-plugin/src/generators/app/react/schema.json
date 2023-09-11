@@ -1,7 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
   "$id": "ReactApp",
-  "cli": "nx",
   "title": "Create a React application",
   "description": "Create a React application",
   "type": "object",

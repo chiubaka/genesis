@@ -5,7 +5,7 @@
     {
       "files": ["./package.json", "./generators.json", "./executors.json"],
       "rules": {
-        "@nrwl/nx/nx-plugin-checks": "error"
+        "@nx/nx-plugin-checks": "error"
       }
     }
   ]

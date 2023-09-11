@@ -1,7 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
   "$id": "NodeProject",
-  "cli": "nx",
   "title": "Create a Node project",
   "description": "Create a Node project",
   "type": "object",
@@ -21,7 +20,6 @@
       "description": "Type of Node project",
       "enum": ["application", "e2e", "library"]
     },
-
     "rootProjectGeneratorName": {
       "type": "string",
       "description": "Name of the project generator invoking this project generator",

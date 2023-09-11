@@ -1,4 +1,4 @@
-import { readJson, Tree } from "@nrwl/devkit";
+import { readJson, Tree } from "@nx/devkit";
 
 import { Project } from "../../../src/index";
 import { TsConfig } from "../../types/tsconfig";

@@ -1,5 +1,5 @@
-import { readJson, Tree } from "@nrwl/devkit";
-import { createTreeWithEmptyWorkspace } from "@nrwl/devkit/testing";
+import { readJson, Tree } from "@nx/devkit";
+import { createTreeWithEmptyWorkspace } from "@nx/devkit/testing";
 import { Linter } from "eslint";
 import { PackageJson } from "nx/src/utils/package-json";
 
@@ -28,8 +28,8 @@ describe("eslintGenerator", () => {
         );
       });
 
-      it("adds @nrwl/eslint-plugin-nx as a devDependency", () => {
-        expect(tree).toHaveDevDependency("@nrwl/eslint-plugin-nx", NX_VERSION);
+      it("adds @nx/eslint-plugin as a devDependency", () => {
+        expect(tree).toHaveDevDependency("@nx/eslint-plugin", NX_VERSION);
       });
     });
 
@@ -115,8 +115,8 @@ describe("eslintGenerator", () => {
       ]);
     });
 
-    it("includes the `@nrwl/nx` plugin", () => {
-      expect(eslintrc.plugins).toContain("@nrwl/nx");
+    it("includes the `@nx` plugin", () => {
+      expect(eslintrc.plugins).toContain("@nx");
     });
   });
 });

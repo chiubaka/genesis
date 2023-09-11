@@ -1,4 +1,4 @@
-import { Tree } from "@nrwl/devkit";
+import { Tree } from "@nx/devkit";
 
 import { noOpTask, Project } from "../../../utils";
 import { copyNodeLibSample, nodeProjectGenerator } from "../../project";

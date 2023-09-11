@@ -1,4 +1,4 @@
-import { ProjectConfiguration, readJson, Tree } from "@nrwl/devkit";
+import { ProjectConfiguration, readJson, Tree } from "@nx/devkit";
 
 import { Project } from "../../../src";
 

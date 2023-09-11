@@ -1,4 +1,4 @@
-import { Tree } from "@nrwl/devkit";
+import { Tree } from "@nx/devkit";
 
 import { toHaveFunctions } from "./toHaveFunctions.matcher";
 import { toHaveProperties } from "./toHaveProperties.matcher";

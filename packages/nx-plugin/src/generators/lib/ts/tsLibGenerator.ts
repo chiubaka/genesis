@@ -1,5 +1,5 @@
-import { Tree } from "@nrwl/devkit";
-import { libraryGenerator } from "@nrwl/js";
+import { Tree } from "@nx/devkit";
+import { libraryGenerator } from "@nx/js";
 
 import { noOpTask, Project } from "../../../utils";
 import {
