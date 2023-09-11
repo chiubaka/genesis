@@ -1,4 +1,4 @@
-import { readJson, updateJson } from "@nrwl/devkit";
+import { readJson, updateJson } from "@nx/devkit";
 
 import { PackageJson } from "../../../types";
 import { Project } from "../../../utils";

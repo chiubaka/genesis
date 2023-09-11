@@ -7,11 +7,10 @@
     "e2e": {
       "dependsOn": [
         {
-          "target": "setup-e2e",
-          "projects": "self"
+          "target": "setup-e2e"
         }
       ],
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "options": {
         "jestConfig": "e2e/genesis-e2e/jest.config.ts",
         "passWithNoTests": true
@@ -22,7 +21,7 @@
       ]
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["e2e/genesis-e2e"]
@@ -31,8 +30,7 @@
     "setup-e2e": {
       "dependsOn": [
         {
-          "target": "install-local-genesis-cli",
-          "projects": "self"
+          "target": "install-local-genesis-cli"
         }
       ],
       "executor": "@chiubaka/nx-plugin:genesis",
@@ -55,11 +53,10 @@
       "dependsOn": [
         {
           "target": "deploy",
-          "projects": "dependencies"
+          "dependencies": true
         },
         {
-          "target": "yarn-cache-clean",
-          "projects": "self"
+          "target": "yarn-cache-clean"
         }
       ],
       "executor": "nx:run-commands",

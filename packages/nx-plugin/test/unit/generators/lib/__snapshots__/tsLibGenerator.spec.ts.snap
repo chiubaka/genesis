@@ -132,7 +132,7 @@ exports[`tsLibGenerator E2E project project.json matches snapshot 1`] = `
         "production": {},
       },
       "defaultConfiguration": "production",
-      "executor": "@nrwl/webpack:webpack",
+      "executor": "@nx/webpack:webpack",
       "options": {
         "assets": [
           "e2e/ts-lib-e2e/src/assets",
@@ -162,7 +162,7 @@ exports[`tsLibGenerator E2E project project.json matches snapshot 1`] = `
           "target": "install",
         },
       ],
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "options": {
         "jestConfig": "e2e/ts-lib-e2e/jest.config.ts",
         "passWithNoTests": true,
@@ -190,7 +190,7 @@ exports[`tsLibGenerator E2E project project.json matches snapshot 1`] = `
       },
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "e2e/ts-lib-e2e",
@@ -269,7 +269,7 @@ exports[`tsLibGenerator E2E project tsconfig.spec.json matches snapshot 1`] = `
 `;
 
 exports[`tsLibGenerator E2E project webpack.config.js webpack.config.js matches snapshot 1`] = `
-"const { composePlugins, withNx } = require('@nrwl/webpack');
+"const { composePlugins, withNx } = require('@nx/webpack');
 
 // Nx plugins for webpack.
 module.exports = composePlugins(withNx(), (config) => {
@@ -320,7 +320,7 @@ exports[`tsLibGenerator project.json matches snapshot 1`] = `
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@nrwl/js:tsc",
+      "executor": "@nx/js:tsc",
       "options": {
         "assets": [
           "packages/ts-lib/*.md",
@@ -355,7 +355,7 @@ exports[`tsLibGenerator project.json matches snapshot 1`] = `
       },
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "packages/ts-lib",
@@ -366,13 +366,10 @@ exports[`tsLibGenerator project.json matches snapshot 1`] = `
       ],
     },
     "publish": {
+      "command": "node tools/scripts/publish.mjs ts-lib {args.ver} {args.tag}",
       "dependsOn": [
         "build",
       ],
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "node tools/scripts/publish.mjs ts-lib {args.ver} {args.tag}",
-      },
     },
     "test": {
       "configurations": {
@@ -381,7 +378,7 @@ exports[`tsLibGenerator project.json matches snapshot 1`] = `
           "codeCoverage": true,
         },
       },
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "options": {
         "jestConfig": "packages/ts-lib/jest.config.ts",
         "passWithNoTests": true,

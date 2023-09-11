@@ -1,4 +1,4 @@
-import { Tree } from "@nrwl/devkit";
+import { Tree } from "@nx/devkit";
 import path from "node:path";
 
 import { nodeProjectGenerator } from "../../../project";

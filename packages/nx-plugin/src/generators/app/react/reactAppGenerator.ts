@@ -1,4 +1,4 @@
-import { generateFiles, moveFilesToNewDirectory, Tree } from "@nrwl/devkit";
+import { generateFiles, moveFilesToNewDirectory, Tree } from "@nx/devkit";
 import path from "node:path";
 
 import { Project, replaceInFile } from "../../../utils";
@@ -68,6 +68,12 @@ function updateCodeSample(project: Project) {
     tree,
     project.srcPath("app/App.tsx"),
     "// eslint-disable-next-line @typescript-eslint/no-unused-vars\nimport styles from './App.module.scss';\n",
+    "",
+  );
+  replaceInFile(
+    tree,
+    project.srcPath("app/App.tsx"),
+    '// eslint-disable-next-line @typescript-eslint/no-unused-vars\nimport styles from "./App.module.scss";\n',
     "",
   );
   replaceInFile(

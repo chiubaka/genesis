@@ -1,5 +1,5 @@
 import { NX_VERSION } from "@chiubaka/nx-plugin";
-import { getPackageManagerCommand } from "@nrwl/devkit";
+import { getPackageManagerCommand } from "@nx/devkit";
 import { Command } from "commander";
 import { spawn } from "node:child_process";
 import packageNameRegex from "package-name-regex";

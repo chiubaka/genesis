@@ -1,7 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
   "$id": "EsLintProject",
-  "cli": "nx",
   "title": "Create an ESLint configuration for a project",
   "description": "Create an ESLint configuration for a project",
   "type": "object",

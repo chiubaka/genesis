@@ -87,7 +87,7 @@ exports[`nodeAppGenerator project.json matches snapshot 1`] = `
         "production": {},
       },
       "defaultConfiguration": "production",
-      "executor": "@nrwl/webpack:webpack",
+      "executor": "@nx/webpack:webpack",
       "options": {
         "assets": [
           "packages/node-app/src/assets",
@@ -105,7 +105,7 @@ exports[`nodeAppGenerator project.json matches snapshot 1`] = `
       ],
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "packages/node-app",
@@ -125,7 +125,7 @@ exports[`nodeAppGenerator project.json matches snapshot 1`] = `
         },
       },
       "defaultConfiguration": "development",
-      "executor": "@nrwl/js:node",
+      "executor": "@nx/js:node",
       "options": {
         "buildTarget": "node-app:build",
       },
@@ -137,7 +137,7 @@ exports[`nodeAppGenerator project.json matches snapshot 1`] = `
           "codeCoverage": true,
         },
       },
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "options": {
         "jestConfig": "packages/node-app/jest.config.ts",
         "passWithNoTests": true,
@@ -216,7 +216,7 @@ exports[`nodeAppGenerator tsconfig.spec.json matches snapshot 1`] = `
 `;
 
 exports[`nodeAppGenerator webpack.config.js webpack.config.js matches snapshot 1`] = `
-"const { composePlugins, withNx } = require('@nrwl/webpack');
+"const { composePlugins, withNx } = require('@nx/webpack');
 
 // Nx plugins for webpack.
 module.exports = composePlugins(withNx(), (config) => {

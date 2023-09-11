@@ -1,4 +1,4 @@
-import { Tree, updateJson } from "@nrwl/devkit";
+import { Tree, updateJson } from "@nx/devkit";
 import { Linter } from "eslint";
 
 import { Project } from "../../../utils";

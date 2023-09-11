@@ -6,7 +6,7 @@ import {
   Tree,
   updateJson,
   updateWorkspaceConfiguration,
-} from "@nrwl/devkit";
+} from "@nx/devkit";
 import { rm } from "fs-extra";
 import path from "node:path";
 import { PackageJson as PackageJsonType } from "nx/src/utils/package-json";

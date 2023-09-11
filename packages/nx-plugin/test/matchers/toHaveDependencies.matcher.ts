@@ -1,4 +1,4 @@
-import { readJson, Tree } from "@nrwl/devkit";
+import { readJson, Tree } from "@nx/devkit";
 import path from "node:path";
 import { PackageJson } from "nx/src/utils/package-json";
 

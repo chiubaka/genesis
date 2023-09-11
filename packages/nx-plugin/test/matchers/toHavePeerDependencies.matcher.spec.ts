@@ -1,5 +1,5 @@
-import { Tree, writeJson } from "@nrwl/devkit";
-import { createTree } from "@nrwl/devkit/testing";
+import { Tree, writeJson } from "@nx/devkit";
+import { createTree } from "@nx/devkit/testing";
 
 describe("toHavePeerDependencies", () => {
   let tree: Tree;

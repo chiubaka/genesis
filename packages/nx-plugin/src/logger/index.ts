@@ -1,4 +1,4 @@
-import { workspaceRoot } from "@nrwl/devkit";
+import { workspaceRoot } from "@nx/devkit";
 import path from "node:path";
 
 import { Logger, LoggerOptions, LogLevel } from "./Logger";

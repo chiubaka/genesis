@@ -1,4 +1,4 @@
-import { Tree } from "@nrwl/devkit";
+import { Tree } from "@nx/devkit";
 
 interface FileWithContentMatcherOptions {
   exact?: boolean;

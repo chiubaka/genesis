@@ -1,5 +1,5 @@
 import { createTreeWithEmptyWorkspace } from "@chiubaka/nx-plugin-testing";
-import { Tree } from "@nrwl/devkit";
+import { Tree } from "@nx/devkit";
 
 import { Project, tsLibGenerator } from "../../../../src";
 import {

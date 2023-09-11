@@ -1,4 +1,4 @@
-import { Tree } from "@nrwl/devkit";
+import { Tree } from "@nx/devkit";
 
 import { readYaml } from "./readYaml";
 import { writeYaml } from "./writeYaml";

@@ -1,5 +1,5 @@
-import { Tree } from "@nrwl/devkit";
-import { createTreeWithEmptyWorkspace } from "@nrwl/devkit/testing";
+import { Tree } from "@nx/devkit";
+import { createTreeWithEmptyWorkspace } from "@nx/devkit/testing";
 
 import { compatiblePackageVersions, NX_VERSION } from "../../../../src";
 import { jestGenerator } from "../../../../src/generators";
@@ -28,8 +28,8 @@ describe("jestGenerator", () => {
         );
       });
 
-      it("adds @nrwl/jest as a devDependency", () => {
-        expect(tree).toHaveDevDependency("@nrwl/jest", NX_VERSION);
+      it("adds @nx/jest as a devDependency", () => {
+        expect(tree).toHaveDevDependency("@nx/jest", NX_VERSION);
       });
 
       it("adds ts-jest as a devDependency", () => {

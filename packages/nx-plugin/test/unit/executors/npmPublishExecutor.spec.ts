@@ -1,6 +1,6 @@
 jest.mock("../../../src/utils");
 
-import { workspaceRoot } from "@nrwl/devkit";
+import { workspaceRoot } from "@nx/devkit";
 import path from "node:path";
 
 import { npmPublishExecutor } from "../../../src";

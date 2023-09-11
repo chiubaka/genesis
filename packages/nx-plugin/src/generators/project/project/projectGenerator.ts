@@ -4,7 +4,7 @@ import {
   getWorkspaceLayout,
   moveFilesToNewDirectory,
   Tree,
-} from "@nrwl/devkit";
+} from "@nx/devkit";
 import path from "node:path";
 
 import { exec, lintFix, noOpTask, Project } from "../../../utils";

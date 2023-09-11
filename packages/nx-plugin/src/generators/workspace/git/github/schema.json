@@ -1,6 +1,5 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "cli": "nx",
   "$id": "GitHub",
   "title": "",
   "type": "object",
@@ -22,7 +21,6 @@
       "description": "Whether or not this GitHub repository should be private",
       "default": false
     },
-
     "enableCircleCiStatusChecks": {
       "type": "boolean",
       "description": "Whether or not to enable CircleCI PR status checks"
@@ -31,7 +29,6 @@
       "type": "boolean",
       "description": "Whether or not to enable Codecov PR status checks"
     },
-
     "forcePush": {
       "type": "boolean",
       "description": "Whether or not to force push when pushing code to the remote",

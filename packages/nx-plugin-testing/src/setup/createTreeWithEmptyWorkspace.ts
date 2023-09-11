@@ -1,5 +1,5 @@
-import { readNxJson, updateNxJson } from "@nrwl/devkit";
-import { createTreeWithEmptyWorkspace as createTreeWithEmptyNxWorkspace } from "@nrwl/devkit/testing";
+import { readNxJson, updateNxJson } from "@nx/devkit";
+import { createTreeWithEmptyWorkspace as createTreeWithEmptyNxWorkspace } from "@nx/devkit/testing";
 
 export const createTreeWithEmptyWorkspace = () => {
   const tree = createTreeWithEmptyNxWorkspace();

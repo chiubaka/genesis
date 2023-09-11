@@ -1,4 +1,4 @@
-import { generateFiles, Tree } from "@nrwl/devkit";
+import { generateFiles, Tree } from "@nx/devkit";
 import path from "node:path";
 
 import { generatorLogger as logger } from "../../../../logger";
@@ -22,7 +22,7 @@ async function installDependencies(tree: Tree) {
   const installTask = await addDependenciesToPackageJson(
     tree,
     [],
-    ["@nrwl/jest", "jest", "ts-jest"],
+    ["@nx/jest", "jest", "ts-jest"],
   );
 
   return async () => {

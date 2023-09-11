@@ -1,10 +1,10 @@
-import { Tree } from "@nrwl/devkit";
-import { Linter } from "@nrwl/linter";
 import {
   applicationGenerator,
   libraryGenerator,
   storybookConfigurationGenerator,
 } from "@nrwl/react";
+import { Tree } from "@nx/devkit";
+import { Linter } from "@nx/linter";
 
 import { lintFix, Project } from "../../../utils";
 import { eslintProjectGenerator } from "../eslint";
@@ -29,14 +29,13 @@ export async function reactProjectGenerator(
     tsconfig: TsConfigGeneratorPresets.REACT,
   });
 
-  const storybookGeneratorTask = (await storybookConfigurationGenerator(tree, {
+  const storybookGeneratorTask = await storybookConfigurationGenerator(tree, {
     name: project.getName(),
     configureCypress: true,
     generateCypressSpecs: true,
     generateStories: true,
-    standaloneConfig: true,
     tsConfiguration: true,
-  })) as () => Promise<void>;
+  });
 
   // Storybook modifies the .eslintrc.json file in a bad way, so we have to
   // run this generator after storybook generation.
@@ -69,7 +68,6 @@ function baseGenerator(project: Project, options: ProjectGeneratorSchema) {
     routing: true,
     skipFormat: true,
     skipTsConfig: false,
-    standaloneConfig: true,
     strict: true,
     style: "scss",
     tags,

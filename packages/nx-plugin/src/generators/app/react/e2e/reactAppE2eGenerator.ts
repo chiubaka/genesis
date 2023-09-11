@@ -1,4 +1,4 @@
-import { generateFiles, moveFilesToNewDirectory, Tree } from "@nrwl/devkit";
+import { generateFiles, moveFilesToNewDirectory, Tree } from "@nx/devkit";
 import path from "path";
 import { Project, replaceInFile } from "../../../../utils";
 import { eslintProjectGenerator } from "../../../project";

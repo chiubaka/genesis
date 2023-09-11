@@ -4,7 +4,6 @@
   "$schema": "http://json-schema.org/schema",
   "title": "NPM Publish",
   "type": "object",
-  "cli": "nx",
   "properties": {
     "access": {
       "type": "string",

@@ -1,4 +1,4 @@
-import { readJsonFile, Tree } from "@nrwl/devkit";
+import { readJsonFile, Tree } from "@nx/devkit";
 import fs from "node:fs";
 import path from "node:path";
 

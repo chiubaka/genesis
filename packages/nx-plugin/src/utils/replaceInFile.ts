@@ -1,4 +1,4 @@
-import { Tree } from "@nrwl/devkit";
+import { Tree } from "@nx/devkit";
 import escapeRegExpString from "escape-string-regexp";
 
 export function replaceInFile(

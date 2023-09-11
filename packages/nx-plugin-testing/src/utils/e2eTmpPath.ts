@@ -1,4 +1,4 @@
-import { tmpProjPath } from "@nrwl/nx-plugin/testing";
+import { tmpProjPath } from "@nx/plugin/testing";
 import path from "node:path";
 
 export const e2eTmpPath = (relativePath = "") => {

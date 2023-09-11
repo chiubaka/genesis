@@ -8,10 +8,10 @@
       "dependsOn": [
         {
           "target": "deploy",
-          "projects": "dependencies"
+          "dependencies": true
         }
       ],
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "options": {
         "jestConfig": "e2e/nx-plugin-e2e/jest.config.ts",
         "passWithNoTests": true
@@ -28,7 +28,7 @@
       ]
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["e2e/nx-plugin-e2e"]

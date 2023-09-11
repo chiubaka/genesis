@@ -2,12 +2,12 @@
   "root": true,
   "extends": "@chiubaka/eslint-config",
   "ignorePatterns": ["e2e", "node_modules", "packages", "tmp"],
-  "plugins": ["@nrwl/nx"],
+  "plugins": ["@nx"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "rules": {
-        "@nrwl/nx/enforce-module-boundaries": [
+        "@nx/enforce-module-boundaries": [
           "error",
           {
             "enforceBuildableLibDependency": true,

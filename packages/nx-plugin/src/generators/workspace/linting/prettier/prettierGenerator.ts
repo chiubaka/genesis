@@ -1,4 +1,4 @@
-import { Tree, updateJson, writeJson } from "@nrwl/devkit";
+import { Tree, updateJson, writeJson } from "@nx/devkit";
 
 import { generatorLogger as logger } from "../../../../logger/index";
 import { addDependenciesToPackageJson } from "../../../../utils/index";

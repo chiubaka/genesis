@@ -1,4 +1,4 @@
-import { generateFiles, Tree } from "@nrwl/devkit";
+import { generateFiles, Tree } from "@nx/devkit";
 import path from "node:path";
 
 import { generatorLogger as logger } from "../../../logger";

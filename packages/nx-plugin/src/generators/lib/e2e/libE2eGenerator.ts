@@ -3,7 +3,7 @@ import {
   ProjectConfiguration,
   Tree,
   updateJson,
-} from "@nrwl/devkit";
+} from "@nx/devkit";
 import { LibE2eGeneratorSchema } from ".";
 import { addDependenciesToPackageJson, Project } from "../../../utils";
 

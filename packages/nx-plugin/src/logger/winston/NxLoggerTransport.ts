@@ -1,4 +1,4 @@
-import { logger } from "@nrwl/devkit";
+import { logger } from "@nx/devkit";
 import Transport from "winston-transport";
 
 import { LogLevel } from "../Logger";

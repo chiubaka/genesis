@@ -1,7 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
   "$id": "ReadmeProject",
-  "cli": "nx",
   "title": "Generate a README for a project",
   "description": "Generate a README for a project",
   "type": "object",

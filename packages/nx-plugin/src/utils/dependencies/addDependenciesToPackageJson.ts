@@ -1,7 +1,7 @@
 import {
   addDependenciesToPackageJson as nxAddDependenciesToPackageJson,
   Tree,
-} from "@nrwl/devkit";
+} from "@nx/devkit";
 
 import { compatiblePackageVersions } from "./compatiblePackageVersions";
 import { getLatestPackageVersion } from "./getLatestPackageVersion";

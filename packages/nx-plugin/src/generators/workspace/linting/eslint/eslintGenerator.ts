@@ -3,7 +3,7 @@ import {
   getPackageManagerCommand,
   Tree,
   updateJson,
-} from "@nrwl/devkit";
+} from "@nx/devkit";
 import path from "node:path";
 import { PackageJson } from "nx/src/utils/package-json";
 
@@ -46,7 +46,7 @@ async function installDependencies(tree: Tree) {
   const installTask = await addDependenciesToPackageJson(
     tree,
     [],
-    ["@chiubaka/eslint-config", "@nrwl/eslint-plugin-nx", "eslint"],
+    ["@chiubaka/eslint-config", "@nx/eslint-plugin", "eslint"],
   );
 
   return async () => {

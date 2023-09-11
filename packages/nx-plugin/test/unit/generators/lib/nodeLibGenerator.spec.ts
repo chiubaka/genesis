@@ -4,7 +4,7 @@ import {
   readJson,
   TargetConfiguration,
   Tree,
-} from "@nrwl/devkit";
+} from "@nx/devkit";
 
 import { nodeLibGenerator, Project, RunCommandsOptions } from "../../../../src";
 import { fileMatchesSnapshot, nodeProjectTestCases } from "../../../cases";
@@ -155,7 +155,7 @@ describe("nodeLibGenerator", () => {
         });
 
         it("uses the jest executor", () => {
-          expect(e2eTarget.executor).toBe("@nrwl/jest:jest");
+          expect(e2eTarget.executor).toBe("@nx/jest:jest");
         });
 
         it("depends on the install target", () => {
