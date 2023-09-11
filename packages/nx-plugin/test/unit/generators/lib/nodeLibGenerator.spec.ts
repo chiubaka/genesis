@@ -44,6 +44,21 @@ describe("nodeLibGenerator", () => {
     });
   });
 
+  it("generates a single lib project", () => {
+    const projectNames = tree.children(project.relativePath(".."));
+
+    expect(projectNames).toEqual(["node-lib"]);
+  });
+
+  it("generates a single E2E project", () => {
+    const e2eProjectNames = tree.children(e2eProject.relativePath(".."));
+
+    // For whatever reason, the Tree directory API doesn't seem 100% correct, so names
+    // don't match here (we get `node-lib-` instead of `node-lib-e2e`) while they do
+    // match in E2E tests.
+    expect(e2eProjectNames).toHaveLength(1);
+  });
+
   it("generates a sample unit test file in pascal case", () => {
     // eslint-disable-next-line security/detect-non-literal-fs-filename
     expect(tree.exists(project.testPath("unit/hello.spec.ts"))).toBe(true);

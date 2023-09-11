@@ -1,14 +1,11 @@
-import {
-  readWorkspaceConfiguration,
-  updateWorkspaceConfiguration,
-} from "@nrwl/devkit";
+import { readNxJson, updateNxJson } from "@nrwl/devkit";
 import { createTreeWithEmptyWorkspace as createTreeWithEmptyNxWorkspace } from "@nrwl/devkit/testing";
 
 export const createTreeWithEmptyWorkspace = () => {
   const tree = createTreeWithEmptyNxWorkspace();
-  const workspaceConfig = readWorkspaceConfiguration(tree);
+  const workspaceConfig = readNxJson(tree);
 
-  updateWorkspaceConfiguration(tree, {
+  updateNxJson(tree, {
     ...workspaceConfig,
     workspaceLayout: {
       appsDir: "e2e",

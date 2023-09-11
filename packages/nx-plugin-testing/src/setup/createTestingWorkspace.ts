@@ -57,7 +57,7 @@ const createEmptyWorkspace = async (
   // that may change without warning. (See https://github.com/chiubaka/genesis/issues/141)
   let command = `node ${require.resolve(
     "nx",
-  )} new ${tmpWorkspaceName} --nx-workspace-root=${workspaceRoot} --no-interactive --collection=@nrwl/workspace --npmScope=proj --preset=empty`;
+  )} new ${tmpWorkspaceName} --nx-workspace-root=${workspaceRoot} --no-interactive --collection=@nrwl/workspace --npmScope=proj --preset=apps`;
 
   if (skipInstall) {
     command = `${command} --skip-install`;

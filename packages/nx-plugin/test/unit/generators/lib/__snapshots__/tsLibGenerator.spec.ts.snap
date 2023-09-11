@@ -1,39 +1,39 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`tsLibGenerator .eslintrc.json matches snapshot 1`] = `
-Object {
-  "extends": Array [
+{
+  "extends": [
     "../../.eslintrc.json",
   ],
-  "ignorePatterns": Array [
+  "ignorePatterns": [
     "node_modules",
   ],
-  "overrides": Array [
-    Object {
-      "files": Array [
+  "overrides": [
+    {
+      "files": [
         "jest.config.ts",
         "test/**/*.ts",
         "*.spec.ts",
         "*.test.ts",
       ],
-      "parserOptions": Object {
-        "project": Array [
+      "parserOptions": {
+        "project": [
           "packages/ts-lib/tsconfig.spec.json",
         ],
       },
     },
-    Object {
-      "excludedFiles": Array [
+    {
+      "excludedFiles": [
         "jest.config.ts",
         "test/**/*.ts",
         "*.spec.ts",
         "*.test.ts",
       ],
-      "files": Array [
+      "files": [
         "*.ts",
       ],
-      "parserOptions": Object {
-        "project": Array [
+      "parserOptions": {
+        "project": [
           "packages/ts-lib/tsconfig.lib.json",
         ],
       },
@@ -43,40 +43,40 @@ Object {
 `;
 
 exports[`tsLibGenerator E2E project .eslintrc.json matches snapshot 1`] = `
-Object {
-  "extends": Array [
+{
+  "extends": [
     "../../.eslintrc.json",
   ],
-  "ignorePatterns": Array [
+  "ignorePatterns": [
     "node_modules",
   ],
-  "overrides": Array [
-    Object {
-      "files": Array [
+  "overrides": [
+    {
+      "files": [
         "jest.config.ts",
         "test/**/*.ts",
         "*.spec.ts",
         "*.test.ts",
       ],
-      "parserOptions": Object {
-        "project": Array [
+      "parserOptions": {
+        "project": [
           "e2e/ts-lib-e2e/tsconfig.spec.json",
         ],
       },
     },
-    Object {
-      "excludedFiles": Array [
+    {
+      "excludedFiles": [
         "jest.config.ts",
         "test/**/*.ts",
         "*.spec.ts",
         "*.test.ts",
       ],
-      "files": Array [
+      "files": [
         "*.ts",
       ],
-      "parserOptions": Object {
-        "project": Array [
-          "e2e/ts-lib-e2e/tsconfig.lib.json",
+      "parserOptions": {
+        "project": [
+          "e2e/ts-lib-e2e/tsconfig.app.json",
         ],
       },
     },
@@ -86,28 +86,28 @@ Object {
 
 exports[`tsLibGenerator E2E project jest.config.ts matches snapshot 1`] = `
 "export default {
-  displayName: \\"ts-lib-e2e\\",
-  preset: \\"../../jest.preset.js\\",
+  displayName: "ts-lib-e2e",
+  preset: "../../jest.preset.js",
     globals: {
-    \\"ts-jest\\": {
-      tsconfig: \\"<rootDir>/tsconfig.spec.json\\",
+    "ts-jest": {
+      tsconfig: "<rootDir>/tsconfig.spec.json",
     },
   },
-      testEnvironment: \\"node\\",
+      testEnvironment: "node",
     transform: {
-        \\"^.+\\\\\\\\.[tj]s$\\": \\"ts-jest\\",
+        "^.+\\\\.[tj]s$": "ts-jest",
       },
-    moduleFileExtensions: [\\"ts\\", \\"js\\", \\"html\\", \\"json\\"],
-    coverageDirectory: \\"../../reports/coverage/packages/ts-lib-e2e\\",
+    moduleFileExtensions: ["ts", "js", "html", "json"],
+    coverageDirectory: "../../reports/coverage/packages/ts-lib-e2e",
   reporters: [
-    \\"default\\",
+    "default",
     [
-      \\"jest-junit\\",
+      "jest-junit",
       {
-        addFileAttribute: \\"true\\",
-        classNameTemplate: \\"{suitename}\\",
-        outputDirectory: \\"reports/junit\\",
-        outputName: \\"ts-lib-e2e.xml\\",
+        addFileAttribute: "true",
+        classNameTemplate: "{suitename}",
+        outputDirectory: "reports/junit",
+        outputName: "ts-lib-e2e.xml",
       },
     ],
   ],
@@ -116,27 +116,25 @@ exports[`tsLibGenerator E2E project jest.config.ts matches snapshot 1`] = `
 `;
 
 exports[`tsLibGenerator E2E project project.json matches snapshot 1`] = `
-Object {
+{
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "implicitDependencies": Array [
+  "implicitDependencies": [
     "ts-lib",
   ],
   "name": "ts-lib-e2e",
   "projectType": "application",
   "sourceRoot": "e2e/ts-lib-e2e/src",
-  "tags": Array [],
-  "targets": Object {
-    "build": Object {
-      "configurations": Object {
-        "production": Object {
-          "extractLicenses": true,
-          "inspect": false,
-          "optimization": true,
-        },
+  "tags": [],
+  "targets": {
+    "build": {
+      "configurations": {
+        "development": {},
+        "production": {},
       },
+      "defaultConfiguration": "production",
       "executor": "@nrwl/webpack:webpack",
-      "options": Object {
-        "assets": Array [
+      "options": {
+        "assets": [
           "e2e/ts-lib-e2e/src/assets",
         ],
         "compiler": "tsc",
@@ -147,43 +145,43 @@ Object {
         "tsConfig": "e2e/ts-lib-e2e/tsconfig.app.json",
         "webpackConfig": "e2e/ts-lib-e2e/webpack.config.js",
       },
-      "outputs": Array [
+      "outputs": [
         "{options.outputPath}",
       ],
     },
-    "e2e": Object {
-      "configurations": Object {
-        "ci": Object {
+    "e2e": {
+      "configurations": {
+        "ci": {
           "ci": true,
           "codeCoverage": true,
         },
       },
-      "dependsOn": Array [
-        Object {
+      "dependsOn": [
+        {
           "projects": "self",
           "target": "install",
         },
       ],
       "executor": "@nrwl/jest:jest",
-      "options": Object {
+      "options": {
         "jestConfig": "e2e/ts-lib-e2e/jest.config.ts",
         "passWithNoTests": true,
       },
-      "outputs": Array [
+      "outputs": [
         "reports/coverage/e2e/ts-lib-e2e",
         "reports/junit/ts-lib-e2e.xml",
       ],
     },
-    "install": Object {
-      "dependsOn": Array [
-        Object {
+    "install": {
+      "dependsOn": [
+        {
           "projects": "dependencies",
           "target": "build",
         },
       ],
       "executor": "nx:run-commands",
-      "options": Object {
-        "commands": Array [
+      "options": {
+        "commands": [
           "yarn cache clean --all",
           "yarn install",
         ],
@@ -191,14 +189,14 @@ Object {
         "parallel": false,
       },
     },
-    "lint": Object {
+    "lint": {
       "executor": "@nrwl/linter:eslint",
-      "options": Object {
-        "lintFilePatterns": Array [
+      "options": {
+        "lintFilePatterns": [
           "e2e/ts-lib-e2e",
         ],
       },
-      "outputs": Array [
+      "outputs": [
         "{options.outputFile}",
       ],
     },
@@ -207,30 +205,30 @@ Object {
 `;
 
 exports[`tsLibGenerator E2E project tsconfig.app.json or tsconfig.lib.json matches snapshot 1`] = `
-Object {
-  "compilerOptions": Object {
+{
+  "compilerOptions": {
     "declaration": true,
-    "types": Array [
+    "types": [
       "node",
     ],
   },
-  "exclude": Array [
+  "exclude": [
     "jest.config.ts",
     "**/*.spec.ts",
     "**/*.test.ts",
     "test",
   ],
   "extends": "./tsconfig.json",
-  "include": Array [
+  "include": [
     "**/*.ts",
   ],
 }
 `;
 
 exports[`tsLibGenerator E2E project tsconfig.json matches snapshot 1`] = `
-Object {
-  "compilerOptions": Object {
-    "lib": Array [
+{
+  "compilerOptions": {
+    "lib": [
       "es2022",
     ],
     "module": "commonjs",
@@ -238,13 +236,13 @@ Object {
     "target": "es2022",
   },
   "extends": "../../tsconfig.base.json",
-  "files": Array [],
-  "include": Array [],
-  "references": Array [
-    Object {
-      "path": "./tsconfig.lib.json",
+  "files": [],
+  "include": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json",
     },
-    Object {
+    {
       "path": "./tsconfig.spec.json",
     },
   ],
@@ -252,15 +250,15 @@ Object {
 `;
 
 exports[`tsLibGenerator E2E project tsconfig.spec.json matches snapshot 1`] = `
-Object {
-  "compilerOptions": Object {
-    "types": Array [
+{
+  "compilerOptions": {
+    "types": [
       "jest",
       "node",
     ],
   },
   "extends": "./tsconfig.json",
-  "include": Array [
+  "include": [
     "jest.config.ts",
     "**/*.spec.ts",
     "**/*.test.ts",
@@ -284,28 +282,28 @@ module.exports = composePlugins(withNx(), (config) => {
 
 exports[`tsLibGenerator jest.config.ts matches snapshot 1`] = `
 "export default {
-  displayName: \\"ts-lib\\",
-  preset: \\"../../jest.preset.js\\",
+  displayName: "ts-lib",
+  preset: "../../jest.preset.js",
     globals: {
-    \\"ts-jest\\": {
-      tsconfig: \\"<rootDir>/tsconfig.spec.json\\",
+    "ts-jest": {
+      tsconfig: "<rootDir>/tsconfig.spec.json",
     },
   },
-      testEnvironment: \\"node\\",
+      testEnvironment: "node",
     transform: {
-        \\"^.+\\\\\\\\.[tj]s$\\": \\"ts-jest\\",
+        "^.+\\\\.[tj]s$": "ts-jest",
       },
-    moduleFileExtensions: [\\"ts\\", \\"js\\", \\"html\\", \\"json\\"],
-    coverageDirectory: \\"../../reports/coverage/packages/ts-lib\\",
+    moduleFileExtensions: ["ts", "js", "html", "json"],
+    coverageDirectory: "../../reports/coverage/packages/ts-lib",
   reporters: [
-    \\"default\\",
+    "default",
     [
-      \\"jest-junit\\",
+      "jest-junit",
       {
-        addFileAttribute: \\"true\\",
-        classNameTemplate: \\"{suitename}\\",
-        outputDirectory: \\"reports/junit\\",
-        outputName: \\"ts-lib.xml\\",
+        addFileAttribute: "true",
+        classNameTemplate: "{suitename}",
+        outputDirectory: "reports/junit",
+        outputName: "ts-lib.xml",
       },
     ],
   ],
@@ -314,81 +312,81 @@ exports[`tsLibGenerator jest.config.ts matches snapshot 1`] = `
 `;
 
 exports[`tsLibGenerator project.json matches snapshot 1`] = `
-Object {
+{
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "ts-lib",
   "projectType": "library",
   "sourceRoot": "packages/ts-lib/src",
-  "tags": Array [],
-  "targets": Object {
-    "build": Object {
+  "tags": [],
+  "targets": {
+    "build": {
       "executor": "@nrwl/js:tsc",
-      "options": Object {
-        "assets": Array [
+      "options": {
+        "assets": [
           "packages/ts-lib/*.md",
         ],
         "main": "packages/ts-lib/src/index.ts",
         "outputPath": "dist/packages/ts-lib",
         "tsConfig": "packages/ts-lib/tsconfig.lib.json",
       },
-      "outputs": Array [
+      "outputs": [
         "{options.outputPath}",
       ],
     },
-    "deploy": Object {
-      "configurations": Object {
-        "development": Object {
+    "deploy": {
+      "configurations": {
+        "development": {
           "dryRun": true,
         },
-        "production": Object {
+        "production": {
           "dryRun": false,
         },
       },
       "defaultConfiguration": "development",
-      "dependsOn": Array [
-        Object {
+      "dependsOn": [
+        {
           "projects": "self",
           "target": "build",
         },
       ],
       "executor": "@chiubaka/nx-plugin:npm-publish",
-      "options": Object {
+      "options": {
         "packagePath": "dist/packages/ts-lib",
       },
     },
-    "lint": Object {
+    "lint": {
       "executor": "@nrwl/linter:eslint",
-      "options": Object {
-        "lintFilePatterns": Array [
+      "options": {
+        "lintFilePatterns": [
           "packages/ts-lib",
         ],
       },
-      "outputs": Array [
+      "outputs": [
         "{options.outputFile}",
       ],
     },
-    "publish": Object {
-      "dependsOn": Array [
+    "publish": {
+      "dependsOn": [
         "build",
       ],
       "executor": "nx:run-commands",
-      "options": Object {
+      "options": {
         "command": "node tools/scripts/publish.mjs ts-lib {args.ver} {args.tag}",
       },
     },
-    "test": Object {
-      "configurations": Object {
-        "ci": Object {
+    "test": {
+      "configurations": {
+        "ci": {
           "ci": true,
           "codeCoverage": true,
         },
       },
       "executor": "@nrwl/jest:jest",
-      "options": Object {
+      "options": {
         "jestConfig": "packages/ts-lib/jest.config.ts",
         "passWithNoTests": true,
       },
-      "outputs": Array [
+      "outputs": [
         "reports/coverage/packages/ts-lib",
         "reports/junit/ts-lib.xml",
       ],
@@ -398,27 +396,27 @@ Object {
 `;
 
 exports[`tsLibGenerator tsconfig.app.json or tsconfig.lib.json matches snapshot 1`] = `
-Object {
-  "compilerOptions": Object {
+{
+  "compilerOptions": {
     "declaration": true,
   },
-  "exclude": Array [
+  "exclude": [
     "jest.config.ts",
     "**/*.spec.ts",
     "**/*.test.ts",
     "test",
   ],
   "extends": "./tsconfig.json",
-  "include": Array [
+  "include": [
     "**/*.ts",
   ],
 }
 `;
 
 exports[`tsLibGenerator tsconfig.json matches snapshot 1`] = `
-Object {
-  "compilerOptions": Object {
-    "lib": Array [
+{
+  "compilerOptions": {
+    "lib": [
       "es2015",
     ],
     "module": "commonjs",
@@ -426,13 +424,13 @@ Object {
     "target": "es2015",
   },
   "extends": "../../tsconfig.base.json",
-  "files": Array [],
-  "include": Array [],
-  "references": Array [
-    Object {
+  "files": [],
+  "include": [],
+  "references": [
+    {
       "path": "./tsconfig.lib.json",
     },
-    Object {
+    {
       "path": "./tsconfig.spec.json",
     },
   ],
@@ -440,15 +438,15 @@ Object {
 `;
 
 exports[`tsLibGenerator tsconfig.spec.json matches snapshot 1`] = `
-Object {
-  "compilerOptions": Object {
-    "types": Array [
+{
+  "compilerOptions": {
+    "types": [
       "jest",
       "node",
     ],
   },
   "extends": "./tsconfig.json",
-  "include": Array [
+  "include": [
     "jest.config.ts",
     "**/*.spec.ts",
     "**/*.test.ts",

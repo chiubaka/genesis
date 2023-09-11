@@ -21,6 +21,14 @@ describe("nodeLibGenerator", () => {
     );
   });
 
+  it("generates a single lib project", () => {
+    workspace.assert.fs.hasChildDirectories("packages", ["node-lib"]);
+  });
+
+  it("generates a single E2E project", () => {
+    workspace.assert.fs.hasChildDirectories("e2e", ["node-lib-e2e"]);
+  });
+
   it("does not compile TS template files to JS", () => {
     workspace.assert.fs.notExists("libs/node-lib/src/index.js");
     workspace.assert.fs.notExists("libs/node-lib/src/index.js.map");

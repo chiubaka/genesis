@@ -21,6 +21,7 @@ export async function nodeProjectGenerator(
     pruneSrcSubdirectories: true,
     tsconfig: TsConfigGeneratorPresets.NODE18,
   });
+
   enforceNodeVersion(project);
 
   return async () => {
@@ -33,29 +34,34 @@ function baseGenerator(project: Project, options: ProjectGeneratorSchema) {
   const { tags } = options;
   const tree = project.getTree();
 
-  return getBaseGenerator(project)(tree, {
+  const projectType = project.getType();
+
+  const baseOptions = {
     name: project.getName(),
 
-    bundler: "webpack",
+    bundler: "webpack" as const,
+    // Don't generate E2E projects for now! We generate our own E2E projects
+    // for libraries, and don't yet properly handle E2E projects for Node apps
+    e2eTestRunner: "none" as const,
     buildable: true,
-    compiler: "tsc",
+    compiler: "tsc" as const,
     importPath: project.getImportPath(),
     publishable: true,
     skipPackageJson: false,
     standaloneConfig: true,
     strict: true,
     tags,
-  });
-}
-
-function getBaseGenerator(project: Project) {
-  const projectType = project.getType();
+  };
 
   if (projectType === "application" || projectType === "e2e") {
-    return applicationGenerator;
+    return applicationGenerator(tree, {
+      ...baseOptions,
+    });
   }
 
-  return libraryGenerator;
+  return libraryGenerator(tree, {
+    ...baseOptions,
+  });
 }
 
 function enforceNodeVersion(project: Project) {

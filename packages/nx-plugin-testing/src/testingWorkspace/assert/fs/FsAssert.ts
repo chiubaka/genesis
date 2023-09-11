@@ -17,6 +17,23 @@ export class FsAssert {
     expect(this.fs.exists(relativePath)).toBe(false);
   }
 
+  public hasChildDirectories(
+    relativePath: string,
+    expectedChildDirectoryNames: string[],
+  ) {
+    const allChildren = this.fs.children(relativePath);
+
+    const childDirectories = allChildren.filter((child) => {
+      return child.isDirectory();
+    });
+
+    const childDirectoryNames = childDirectories.map(
+      (childDirectory) => childDirectory.name,
+    );
+
+    expect(childDirectoryNames).toEqual(expectedChildDirectoryNames);
+  }
+
   public fileContents(
     relativePath: string,
     expectedContents: string,

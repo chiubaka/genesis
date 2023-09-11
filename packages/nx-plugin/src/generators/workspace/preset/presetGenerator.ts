@@ -7,7 +7,7 @@ import {
   updateJson,
   updateWorkspaceConfiguration,
 } from "@nrwl/devkit";
-import { rmSync } from "fs-extra";
+import { rm } from "fs-extra";
 import path from "node:path";
 import { PackageJson as PackageJsonType } from "nx/src/utils/package-json";
 
@@ -135,7 +135,7 @@ function reinstallPackagesWithYarn(tree: Tree, options: PresetGeneratorSchema) {
   return async () => {
     logger.info("Reinstalling packages with yarn");
 
-    rmSync(path.join(tree.root, "node_modules"), {
+    await rm(path.join(tree.root, "node_modules"), {
       force: true,
       recursive: true,
     });

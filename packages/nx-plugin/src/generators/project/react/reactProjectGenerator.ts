@@ -29,14 +29,14 @@ export async function reactProjectGenerator(
     tsconfig: TsConfigGeneratorPresets.REACT,
   });
 
-  const storybookGeneratorTask = await storybookConfigurationGenerator(tree, {
+  const storybookGeneratorTask = (await storybookConfigurationGenerator(tree, {
     name: project.getName(),
     configureCypress: true,
     generateCypressSpecs: true,
     generateStories: true,
     standaloneConfig: true,
     tsConfiguration: true,
-  });
+  })) as () => Promise<void>;
 
   // Storybook modifies the .eslintrc.json file in a bad way, so we have to
   // run this generator after storybook generation.

@@ -7,6 +7,7 @@ import { fileMatchesSnapshot, nodeProjectTestCases } from "../../../cases";
 describe("nodeAppGenerator", () => {
   let tree: Tree;
   let project: Project;
+  let e2eProject: Project;
 
   const getProject = () => {
     return project;
@@ -15,6 +16,7 @@ describe("nodeAppGenerator", () => {
   beforeAll(() => {
     tree = createTreeWithEmptyWorkspace();
     project = new Project(tree, "node-app", "application");
+    e2eProject = new Project(tree, "node-app-e2e", "e2e");
   });
 
   nodeProjectTestCases(getProject);
@@ -23,6 +25,23 @@ describe("nodeAppGenerator", () => {
     await nodeAppGenerator(tree, {
       name: "node-app",
     });
+  });
+
+  it("generates a single app project", () => {
+    const projectNames = tree.children(project.relativePath(".."));
+
+    expect(projectNames).toEqual(["node-app"]);
+  });
+
+  // TODO: Node app generator doesn't yet implement E2E tests
+  // eslint-disable-next-line jest/no-disabled-tests
+  it.skip("generates a single E2E project", () => {
+    const e2eProjectNames = tree.children(e2eProject.relativePath(".."));
+
+    // For whatever reason, the Tree directory API doesn't seem 100% correct, so names
+    // don't match here (we get `node-app-` instead of `node-app-e2e`) while they do
+    // match in E2E tests.
+    expect(e2eProjectNames).toHaveLength(1);
   });
 
   it("generates a main.ts file", () => {
@@ -53,6 +72,7 @@ describe("nodeAppGenerator", () => {
 
   describe("webpack.config.js", () => {
     it("generates a webpack.config.js file", () => {
+      // eslint-disable-next-line security/detect-non-literal-fs-filename
       expect(tree.exists(project.path("webpack.config.js"))).toBe(true);
     });
 
