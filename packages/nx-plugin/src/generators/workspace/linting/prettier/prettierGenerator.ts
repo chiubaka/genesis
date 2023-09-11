@@ -1,4 +1,4 @@
-import { Tree, updateJson } from "@nrwl/devkit";
+import { Tree, updateJson, writeJson } from "@nrwl/devkit";
 
 import { generatorLogger as logger } from "../../../../logger/index";
 import { addDependenciesToPackageJson } from "../../../../utils/index";
@@ -23,13 +23,19 @@ export async function prettierGenerator(tree: Tree) {
 }
 
 function updatePrettierConfig(tree: Tree) {
-  logger.info("Updating .prettierrc");
-
-  updateJson<PrettierConfig>(tree, ".prettierrc", (json) => {
-    json.singleQuote = false;
-    json.trailingComma = "all";
-    return json;
-  });
+  if (tree.exists(".prettierrc")) {
+    logger.info("Updating .prettierrc");
+    updateJson<PrettierConfig>(tree, ".prettierrc", (json) => {
+      json.singleQuote = false;
+      json.trailingComma = "all";
+      return json;
+    });
+  } else {
+    writeJson<PrettierConfig>(tree, ".prettierrc", {
+      singleQuote: false,
+      trailingComma: "all",
+    });
+  }
 }
 
 async function installDependencies(tree: Tree) {
