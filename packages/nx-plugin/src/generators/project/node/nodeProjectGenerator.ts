@@ -1,4 +1,4 @@
-import { Tree, updateJson } from "@nrwl/devkit";
+import { GeneratorCallback, Tree, updateJson } from "@nrwl/devkit";
 import { applicationGenerator, libraryGenerator } from "@nrwl/node";
 
 import { PackageJson } from "../../../types";
@@ -56,7 +56,7 @@ function baseGenerator(project: Project, options: ProjectGeneratorSchema) {
   if (projectType === "application" || projectType === "e2e") {
     return applicationGenerator(tree, {
       ...baseOptions,
-    });
+    }) as Promise<GeneratorCallback>;
   }
 
   return libraryGenerator(tree, {
