@@ -45,7 +45,7 @@ exports[`reactAppGenerator .eslintrc.json matches snapshot 1`] = `
       ],
       "parserOptions": {
         "project": [
-          "packages/react-app/.storybook/tsconfig.json",
+          "packages/react-app/tsconfig.storybook.json",
         ],
       },
     },
@@ -1467,32 +1467,36 @@ export default config;
 
 exports[`reactAppGenerator storybook .storybook/preview.ts matches snapshot 1`] = `""`;
 
-exports[`reactAppGenerator storybook .storybook/tsconfig.json matches snapshot 1`] = `
+exports[`reactAppGenerator storybook tsconfig.storybook.json matches snapshot 1`] = `
 {
   "compilerOptions": {
     "emitDecoratorMetadata": true,
     "outDir": "",
   },
   "exclude": [
-    "../**/*.spec.ts",
-    "../**/*.spec.js",
-    "../**/*.spec.tsx",
-    "../**/*.spec.jsx",
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts",
+    "src/**/*.spec.js",
+    "src/**/*.test.js",
+    "src/**/*.spec.tsx",
+    "src/**/*.test.tsx",
+    "src/**/*.spec.jsx",
+    "src/**/*.test.js",
   ],
-  "extends": "../tsconfig.json",
+  "extends": "./tsconfig.json",
   "files": [
-    "../../../node_modules/@nx/react/typings/styled-jsx.d.ts",
-    "../../../node_modules/@nx/react/typings/cssmodule.d.ts",
-    "../../../node_modules/@nx/react/typings/image.d.ts",
+    "../../node_modules/@nx/react/typings/styled-jsx.d.ts",
+    "../../node_modules/@nx/react/typings/cssmodule.d.ts",
+    "../../node_modules/@nx/react/typings/image.d.ts",
   ],
   "include": [
-    "../src/**/*.stories.ts",
-    "../src/**/*.stories.js",
-    "../src/**/*.stories.jsx",
-    "../src/**/*.stories.tsx",
-    "../src/**/*.stories.mdx",
-    "*.ts",
-    "*.js",
+    "src/**/*.stories.ts",
+    "src/**/*.stories.js",
+    "src/**/*.stories.jsx",
+    "src/**/*.stories.tsx",
+    "src/**/*.stories.mdx",
+    ".storybook/*.js",
+    ".storybook/*.ts",
   ],
 }
 `;
@@ -1548,7 +1552,7 @@ exports[`reactAppGenerator tsconfig.json matches snapshot 1`] = `
       "path": "./tsconfig.spec.json",
     },
     {
-      "path": "./.storybook/tsconfig.json",
+      "path": "./tsconfig.storybook.json",
     },
   ],
 }

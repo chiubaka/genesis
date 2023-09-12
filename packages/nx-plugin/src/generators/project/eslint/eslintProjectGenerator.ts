@@ -44,7 +44,7 @@ export function eslintProjectGenerator(
       const storybookOverrides = {
         files: ["*.stories.tsx"],
         parserOptions: {
-          project: [project.path(".storybook/tsconfig.json")],
+          project: [project.path("tsconfig.storybook.json")],
         },
       };
 

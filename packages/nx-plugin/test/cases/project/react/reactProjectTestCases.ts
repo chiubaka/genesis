@@ -33,16 +33,16 @@ export const reactProjectTestCases = (
   });
 
   describe("storybook", () => {
-    it("generates a .storybook/tsconfig.json file", () => {
+    it("generates a tsconfig.storybook.json file", () => {
       // eslint-disable-next-line security/detect-non-literal-fs-filename
-      expect(tree.exists(project.path(".storybook/tsconfig.json")));
+      expect(tree.exists(project.path("tsconfig.storybook.json")));
     });
 
-    describe(".storybook/tsconfig.json", () => {
+    describe("tsconfig.storybook.json", () => {
       let tsConfig: TsConfig;
 
       beforeAll(() => {
-        tsConfig = readJson(tree, project.path(".storybook/tsconfig.json"));
+        tsConfig = readJson(tree, project.path("tsconfig.storybook.json"));
       });
 
       it("matches snapshot", () => {
