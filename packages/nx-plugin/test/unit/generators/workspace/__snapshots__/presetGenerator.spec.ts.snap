@@ -9,8 +9,8 @@ exports[`presetGenerator package.json matches snapshot 1`] = `
   "devDependencies": {
     "@chiubaka/eslint-config": "^0.6.3",
     "@chiubaka/tsconfig": "^mocked",
-    "@nx/eslint-plugin": "16.2.2",
-    "@nx/jest": "16.2.2",
+    "@nx/eslint-plugin": "16.3.2",
+    "@nx/jest": "16.3.2",
     "eslint": "^mocked",
     "husky": "^mocked",
     "jest": "^29.4.3",
