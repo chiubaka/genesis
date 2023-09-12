@@ -9,8 +9,8 @@ exports[`presetGenerator package.json matches snapshot 1`] = `
   "devDependencies": {
     "@chiubaka/eslint-config": "^0.6.3",
     "@chiubaka/tsconfig": "^mocked",
-    "@nx/eslint-plugin": "16.1.4",
-    "@nx/jest": "16.1.4",
+    "@nx/eslint-plugin": "16.2.2",
+    "@nx/jest": "16.2.2",
     "eslint": "^mocked",
     "husky": "^mocked",
     "jest": "^29.4.3",
@@ -21,7 +21,7 @@ exports[`presetGenerator package.json matches snapshot 1`] = `
     "typescript": "^4.9.5",
   },
   "homepage": "https://github.com/chiubaka/preset#readme",
-  "name": "preset",
+  "name": "@chiubaka/preset",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/chiubaka/preset.git",

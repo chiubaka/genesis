@@ -2,10 +2,10 @@ import {
   formatFiles,
   generateFiles,
   getPackageManagerCommand,
-  readWorkspaceConfiguration,
+  readNxJson,
   Tree,
   updateJson,
-  updateWorkspaceConfiguration,
+  updateNxJson,
 } from "@nx/devkit";
 import { rm } from "fs-extra";
 import path from "node:path";
@@ -62,8 +62,8 @@ export async function presetGenerator(
 function modifyWorkspaceLayout(tree: Tree, options: PresetGeneratorSchema) {
   logger.info("Modifying workspace layout to conform to e2e/ and packages/");
 
-  const workspaceConfig = readWorkspaceConfiguration(tree);
-  updateWorkspaceConfiguration(tree, {
+  const workspaceConfig = readNxJson(tree);
+  updateNxJson(tree, {
     ...workspaceConfig,
     workspaceLayout: {
       appsDir: "e2e",
@@ -75,7 +75,7 @@ function modifyWorkspaceLayout(tree: Tree, options: PresetGeneratorSchema) {
   });
 
   updateJson(tree, "package.json", (packageJson: PackageJsonType) => {
-    packageJson.name = options.workspaceName;
+    packageJson.name = `@${options.workspaceScope}/${options.workspaceName}`;
 
     packageJson.workspaces = {
       packages: ["packages/*"],

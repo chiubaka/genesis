@@ -47,6 +47,7 @@ function baseGenerator(project: Project, options: ProjectGeneratorSchema) {
     compiler: "tsc" as const,
     importPath: project.getImportPath(),
     publishable: true,
+    skipFormat: true,
     skipPackageJson: false,
     standaloneConfig: true,
     strict: true,
