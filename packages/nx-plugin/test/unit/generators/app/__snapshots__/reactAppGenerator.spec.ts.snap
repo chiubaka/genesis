@@ -377,6 +377,12 @@ exports[`reactAppGenerator project.json matches snapshot 1`] = `
         "reports/junit/react-app.xml",
       ],
     },
+    "test-storybook": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "test-storybook -c packages/react-app/.storybook --url=http://localhost:4400",
+      },
+    },
   },
 }
 `;
@@ -486,17 +492,29 @@ export default App;
 `;
 
 exports[`reactAppGenerator sample code generates a sample component App/NxWelcome.stories.tsx matches snapshot 1`] = `
-"import type { Meta } from '@storybook/react';
+"import type { Meta, StoryObj } from '@storybook/react';
 import { NxWelcome } from './NxWelcome';
 
-const Story: Meta<typeof NxWelcome> = {
+import { within } from '@storybook/testing-library';
+import { expect } from '@storybook/jest';
+
+const meta: Meta<typeof NxWelcome> = {
   component: NxWelcome,
   title: 'NxWelcome',
 };
-export default Story;
+export default meta;
+type Story = StoryObj<typeof NxWelcome>;
 
 export const Primary = {
   args: {},
+};
+
+export const Heading: Story = {
+  args: {},
+  play: ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    expect(canvas.getByText(/Welcome to NxWelcome!/gi)).toBeTruthy();
+  },
 };
 "
 `;
@@ -1450,7 +1468,11 @@ exports[`reactAppGenerator storybook .storybook/main.ts matches snapshot 1`] = `
 
 const config: StorybookConfig = {
   stories: ['../src/app/**/*.stories.@(js|jsx|ts|tsx|mdx)'],
-  addons: ['@storybook/addon-essentials', '@nx/react/plugins/storybook'],
+  addons: [
+    '@storybook/addon-essentials',
+    '@storybook/addon-interactions',
+    '@nx/react/plugins/storybook',
+  ],
   framework: {
     name: '@storybook/react-webpack5',
     options: {},

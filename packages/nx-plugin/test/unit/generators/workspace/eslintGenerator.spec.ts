@@ -82,7 +82,7 @@ describe("eslintGenerator", () => {
       });
 
       it("adds a lint:root script", () => {
-        expect(scripts?.["lint:root"]).toBe("yarn exec eslint .");
+        expect(scripts?.["lint:root"]).toBe("yarn eslint .");
       });
     });
   });
