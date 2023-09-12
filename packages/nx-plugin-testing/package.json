@@ -2,7 +2,7 @@
   "name": "@chiubaka/nx-plugin-testing",
   "version": "0.3.0-rc.0",
   "description": "Utilities for testing Nx plugins",
-  "main": "index.js",
+  "main": "src/index.js",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/chiubaka/nx-plugin.git"
@@ -20,8 +20,9 @@
   },
   "homepage": "https://github.com/chiubaka/nx-plugin#readme",
   "dependencies": {
-    "@nrwl/node": "16.6.0",
-    "@nx/devkit": "16.6.0",
-    "nx": "16.6.0"
-  }
+    "@nrwl/node": "16.7.4",
+    "@nx/devkit": "16.7.4",
+    "nx": "16.7.4"
+  },
+  "types": "./src/index.d.ts"
 }

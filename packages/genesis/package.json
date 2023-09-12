@@ -12,13 +12,14 @@
   "license": "UNLICENSED",
   "dependencies": {
     "@chiubaka/nx-plugin": "0.3.0-rc.0",
-    "@nx/devkit": "16.4.3",
+    "@nx/devkit": "16.7.4",
     "commander": "^9.4.0",
-    "create-nx-workspace": "16.4.3",
-    "nx": "16.4.3",
+    "create-nx-workspace": "16.7.4",
+    "nx": "16.7.4",
     "package-name-regex": "^2.0.6"
   },
   "devDependencies": {
     "@types/package-name-regex": "^2.0.0"
-  }
+  },
+  "types": "./bin/index.d.ts"
 }
