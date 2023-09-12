@@ -60,6 +60,12 @@ function updateCodeSample(project: Project) {
   );
   replaceInFile(
     tree,
+    project.srcPath("app/NxWelcome.stories.tsx"),
+    "play: async ({ canvasElement }) => {",
+    "play: ({ canvasElement }) => {",
+  );
+  replaceInFile(
+    tree,
     project.srcPath("app/App.tsx"),
     "./nx-welcome",
     "./NxWelcome",

@@ -3,10 +3,10 @@
   "version": "0.3.0-rc.0",
   "main": "src/index.js",
   "dependencies": {
-    "@nrwl/node": "16.4.3",
-    "@nrwl/react": "16.4.3",
-    "@nx/js": "16.4.3",
-    "@nx/plugin": "16.4.3",
+    "@nrwl/node": "16.6.0",
+    "@nrwl/react": "16.6.0",
+    "@nx/js": "16.6.0",
+    "@nx/plugin": "16.6.0",
     "escape-string-regexp": "^4.0.0",
     "js-yaml": "^4.1.0",
     "octokit": "^2.0.7",
@@ -21,7 +21,7 @@
     "@types/nock": "^11.1.0",
     "@verdaccio/types": "^10.5.2",
     "nock": "^13.2.9",
-    "nx": "16.4.3"
+    "nx": "16.6.0"
   },
   "generators": "./generators.json",
   "executors": "./executors.json"

@@ -45,7 +45,7 @@ exports[`reactAppGenerator .eslintrc.json matches snapshot 1`] = `
       ],
       "parserOptions": {
         "project": [
-          "packages/react-app/.storybook/tsconfig.json",
+          "packages/react-app/tsconfig.storybook.json",
         ],
       },
     },
@@ -377,6 +377,12 @@ exports[`reactAppGenerator project.json matches snapshot 1`] = `
         "reports/junit/react-app.xml",
       ],
     },
+    "test-storybook": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "test-storybook -c packages/react-app/.storybook --url=http://localhost:4400",
+      },
+    },
   },
 }
 `;
@@ -486,17 +492,29 @@ export default App;
 `;
 
 exports[`reactAppGenerator sample code generates a sample component App/NxWelcome.stories.tsx matches snapshot 1`] = `
-"import type { Meta } from '@storybook/react';
+"import type { Meta, StoryObj } from '@storybook/react';
 import { NxWelcome } from './NxWelcome';
 
-const Story: Meta<typeof NxWelcome> = {
+import { within } from '@storybook/testing-library';
+import { expect } from '@storybook/jest';
+
+const meta: Meta<typeof NxWelcome> = {
   component: NxWelcome,
   title: 'NxWelcome',
 };
-export default Story;
+export default meta;
+type Story = StoryObj<typeof NxWelcome>;
 
 export const Primary = {
   args: {},
+};
+
+export const Heading: Story = {
+  args: {},
+  play: ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    expect(canvas.getByText(/Welcome to NxWelcome!/gi)).toBeTruthy();
+  },
 };
 "
 `;
@@ -1450,7 +1468,11 @@ exports[`reactAppGenerator storybook .storybook/main.ts matches snapshot 1`] = `
 
 const config: StorybookConfig = {
   stories: ['../src/app/**/*.stories.@(js|jsx|ts|tsx|mdx)'],
-  addons: ['@storybook/addon-essentials', '@nx/react/plugins/storybook'],
+  addons: [
+    '@storybook/addon-essentials',
+    '@storybook/addon-interactions',
+    '@nx/react/plugins/storybook',
+  ],
   framework: {
     name: '@storybook/react-webpack5',
     options: {},
@@ -1467,32 +1489,36 @@ export default config;
 
 exports[`reactAppGenerator storybook .storybook/preview.ts matches snapshot 1`] = `""`;
 
-exports[`reactAppGenerator storybook .storybook/tsconfig.json matches snapshot 1`] = `
+exports[`reactAppGenerator storybook tsconfig.storybook.json matches snapshot 1`] = `
 {
   "compilerOptions": {
     "emitDecoratorMetadata": true,
     "outDir": "",
   },
   "exclude": [
-    "../**/*.spec.ts",
-    "../**/*.spec.js",
-    "../**/*.spec.tsx",
-    "../**/*.spec.jsx",
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts",
+    "src/**/*.spec.js",
+    "src/**/*.test.js",
+    "src/**/*.spec.tsx",
+    "src/**/*.test.tsx",
+    "src/**/*.spec.jsx",
+    "src/**/*.test.js",
   ],
-  "extends": "../tsconfig.json",
+  "extends": "./tsconfig.json",
   "files": [
-    "../../../node_modules/@nx/react/typings/styled-jsx.d.ts",
-    "../../../node_modules/@nx/react/typings/cssmodule.d.ts",
-    "../../../node_modules/@nx/react/typings/image.d.ts",
+    "../../node_modules/@nx/react/typings/styled-jsx.d.ts",
+    "../../node_modules/@nx/react/typings/cssmodule.d.ts",
+    "../../node_modules/@nx/react/typings/image.d.ts",
   ],
   "include": [
-    "../src/**/*.stories.ts",
-    "../src/**/*.stories.js",
-    "../src/**/*.stories.jsx",
-    "../src/**/*.stories.tsx",
-    "../src/**/*.stories.mdx",
-    "*.ts",
-    "*.js",
+    "src/**/*.stories.ts",
+    "src/**/*.stories.js",
+    "src/**/*.stories.jsx",
+    "src/**/*.stories.tsx",
+    "src/**/*.stories.mdx",
+    ".storybook/*.js",
+    ".storybook/*.ts",
   ],
 }
 `;
@@ -1548,7 +1574,7 @@ exports[`reactAppGenerator tsconfig.json matches snapshot 1`] = `
       "path": "./tsconfig.spec.json",
     },
     {
-      "path": "./.storybook/tsconfig.json",
+      "path": "./tsconfig.storybook.json",
     },
   ],
 }
