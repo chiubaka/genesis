@@ -35,7 +35,7 @@
       ],
       "executor": "@chiubaka/nx-plugin:genesis",
       "options": {
-        "workspaceScope": "chiubaka",
+        "workspaceScope": "genesis",
         "workspaceName": "genesis-e2e",
         "skipGitHub": true,
         "registry": "http://localhost:4873",

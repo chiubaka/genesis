@@ -216,7 +216,7 @@ exports[`nodeAppGenerator tsconfig.spec.json matches snapshot 1`] = `
 `;
 
 exports[`nodeAppGenerator webpack.config.js webpack.config.js matches snapshot 1`] = `
-"const { composePlugins, withNx } = require('@nx/webpack');
+"const { composePlugins, withNx} = require('@nx/webpack');
 
 // Nx plugins for webpack.
 module.exports = composePlugins(withNx(), (config) => {

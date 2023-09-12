@@ -4,6 +4,7 @@ import {
   ProjectType as NxProjectType,
   Tree,
 } from "@nx/devkit";
+import { getNpmScope } from "@nx/js/src/utils/package-json/get-npm-scope";
 import path from "node:path";
 
 import { ProjectGeneratorSchema } from "../generators/project/project/projectGenerator.schema";
@@ -83,8 +84,15 @@ export class Project {
   }
 
   public getScope() {
-    const { npmScope } = getWorkspaceLayout(this.tree);
-    return npmScope;
+    const scope = getNpmScope(this.tree);
+
+    if (!scope) {
+      throw new Error(
+        `Unexpectedly could not determine scope for project ${this.getName()}`,
+      );
+    }
+
+    return scope;
   }
 
   public getName() {

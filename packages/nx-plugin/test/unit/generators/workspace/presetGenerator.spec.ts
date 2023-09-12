@@ -33,7 +33,7 @@ describe("presetGenerator", () => {
     });
 
     it("sets the root package name to the workspace name", () => {
-      expect(packageJson["name"]).toBe("preset");
+      expect(packageJson["name"]).toBe("@chiubaka/preset");
     });
 
     it("sets up yarn workspaces to pick up packages in the packages dir", () => {
