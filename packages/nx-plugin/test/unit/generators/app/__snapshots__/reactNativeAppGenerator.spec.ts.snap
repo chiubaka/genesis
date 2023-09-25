@@ -1,3 +1,281 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`reactNativeAppGenerator .eslintrc.json matches snapshot 1`] = `
+{
+  "extends": [
+    "../../.eslintrc.json",
+  ],
+  "ignorePatterns": [
+    "node_modules",
+  ],
+  "overrides": [
+    {
+      "files": [
+        "jest.config.ts",
+        "test/**/*.ts",
+        "*.spec.ts",
+        "*.test.ts",
+        "test/**/*.tsx",
+        "*.spec.tsx",
+        "*.test.tsx",
+      ],
+      "parserOptions": {
+        "project": [
+          "packages/react-native-app/tsconfig.spec.json",
+        ],
+      },
+    },
+    {
+      "files": [
+        "*.stories.tsx",
+      ],
+      "parserOptions": {
+        "project": [
+          "packages/react-native-app/tsconfig.storybook.json",
+        ],
+      },
+    },
+    {
+      "excludedFiles": [
+        "jest.config.ts",
+        "test/**/*.ts",
+        "*.spec.ts",
+        "*.test.ts",
+        "test/**/*.tsx",
+        "*.stories.tsx",
+        "*.spec.tsx",
+        "*.test.tsx",
+      ],
+      "files": [
+        "*.ts",
+        "*.tsx",
+      ],
+      "parserOptions": {
+        "project": [
+          "packages/react-native-app/tsconfig.app.json",
+        ],
+      },
+    },
+    {
+      "files": [
+        "*.tsx",
+      ],
+      "rules": {
+        "react/react-in-jsx-scope": "off",
+      },
+    },
+  ],
+}
+`;
+
 exports[`reactNativeAppGenerator jest.config.ts matches snapshot 1`] = `undefined`;
+
+exports[`reactNativeAppGenerator project.json matches snapshot 1`] = `
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "react-native-app",
+  "projectType": "application",
+  "sourceRoot": "packages/react-native-app/src",
+  "tags": [],
+  "targets": {
+    "build-android": {
+      "dependsOn": [
+        "ensure-symlink",
+        "sync-deps",
+      ],
+      "executor": "@nx/react-native:build-android",
+      "options": {},
+      "outputs": [
+        "{projectRoot}/android/app/build/outputs/bundle",
+        "{projectRoot}/android/app/build/outputs/apk",
+      ],
+    },
+    "build-ios": {
+      "dependsOn": [
+        "ensure-symlink",
+        "sync-deps",
+        "pod-install",
+      ],
+      "executor": "@nx/react-native:build-ios",
+      "options": {},
+      "outputs": [
+        "{projectRoot}/ios/build/Build",
+      ],
+    },
+    "bundle-android": {
+      "dependsOn": [
+        "ensure-symlink",
+      ],
+      "executor": "@nx/react-native:bundle",
+      "options": {
+        "bundleOutput": "dist/packages/react-native-app/android/main.jsbundle",
+        "entryFile": "src/main.tsx",
+        "platform": "android",
+      },
+      "outputs": [
+        "{options.bundleOutput}",
+      ],
+    },
+    "bundle-ios": {
+      "dependsOn": [
+        "ensure-symlink",
+      ],
+      "executor": "@nx/react-native:bundle",
+      "options": {
+        "bundleOutput": "dist/packages/react-native-app/ios/main.jsbundle",
+        "entryFile": "src/main.tsx",
+        "platform": "ios",
+      },
+      "outputs": [
+        "{options.bundleOutput}",
+      ],
+    },
+    "ensure-symlink": {
+      "executor": "@nx/react-native:ensure-symlink",
+      "options": {},
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "packages/react-native-app",
+        ],
+      },
+      "outputs": [
+        "{options.outputFile}",
+      ],
+    },
+    "pod-install": {
+      "executor": "@nx/react-native:pod-install",
+      "options": {},
+    },
+    "run-android": {
+      "dependsOn": [
+        "ensure-symlink",
+        "sync-deps",
+      ],
+      "executor": "@nx/react-native:run-android",
+      "options": {},
+    },
+    "run-ios": {
+      "dependsOn": [
+        "ensure-symlink",
+        "sync-deps",
+        "pod-install",
+      ],
+      "executor": "@nx/react-native:run-ios",
+      "options": {},
+    },
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "nx start react-native-app",
+      },
+    },
+    "start": {
+      "dependsOn": [
+        "ensure-symlink",
+        "sync-deps",
+        "pod-install",
+      ],
+      "executor": "@nx/react-native:start",
+      "options": {
+        "port": 8081,
+      },
+    },
+    "sync-deps": {
+      "executor": "@nx/react-native:sync-deps",
+      "options": {},
+    },
+    "test": {
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true,
+        },
+      },
+      "executor": "@nx/jest:jest",
+      "options": {
+        "jestConfig": "packages/react-native-app/jest.config.ts",
+        "passWithNoTests": true,
+      },
+      "outputs": [
+        "reports/coverage/packages/react-native-app",
+        "reports/junit/react-native-app.xml",
+      ],
+    },
+  },
+}
+`;
+
+exports[`reactNativeAppGenerator tsconfig.app.json or tsconfig.lib.json matches snapshot 1`] = `
+{
+  "compilerOptions": {
+    "declaration": true,
+  },
+  "exclude": [
+    "jest.config.ts",
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "**/*.spec.tsx",
+    "**/*.test.tsx",
+    "test",
+  ],
+  "extends": "./tsconfig.json",
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+  ],
+}
+`;
+
+exports[`reactNativeAppGenerator tsconfig.json matches snapshot 1`] = `
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext",
+    ],
+    "module": "esnext",
+    "outDir": "../../dist/out-tsc",
+    "target": "es5",
+  },
+  "extends": "../../tsconfig.base.json",
+  "files": [
+    "../../node_modules/@nrwl/react/typings/cssmodule.d.ts",
+  ],
+  "include": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json",
+    },
+    {
+      "path": "./tsconfig.spec.json",
+    },
+  ],
+}
+`;
+
+exports[`reactNativeAppGenerator tsconfig.spec.json matches snapshot 1`] = `
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "types": [
+      "jest",
+      "node",
+    ],
+  },
+  "extends": "./tsconfig.json",
+  "include": [
+    "jest.config.ts",
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "**/*.spec.tsx",
+    "**/*.test.tsx",
+    "**/*.d.ts",
+    "test",
+  ],
+}
+`;

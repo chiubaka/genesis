@@ -75,7 +75,11 @@ function relocateProject(project: Project) {
 
   const newProjectDir = project.relativePath();
 
-  if (originalProjectDir === newProjectDir) {
+  if (
+    // eslint-disable-next-line security/detect-non-literal-fs-filename
+    // !tree.exists(originalProjectDir) ||
+    originalProjectDir === newProjectDir
+  ) {
     return;
   }
 

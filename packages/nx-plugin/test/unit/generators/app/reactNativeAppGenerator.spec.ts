@@ -19,9 +19,11 @@ describe("reactNativeAppGenerator", () => {
 
   beforeAll(() => {
     tree = createTreeWithEmptyWorkspace();
-    project = new Project(tree, "react-app", "application");
-    e2eProject = new Project(tree, "react-app-e2e", "e2e");
+    project = new Project(tree, "react-native-app", "application");
+    e2eProject = new Project(tree, "react-native-app-e2e", "e2e");
   });
+
+  projectTestCases(getProject);
 
   beforeAll(async () => {
     await reactNativeAppGenerator(tree, {
@@ -29,6 +31,4 @@ describe("reactNativeAppGenerator", () => {
       displayName: "React Native App",
     });
   });
-
-  projectTestCases(getProject);
 });
