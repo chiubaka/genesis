@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "ReactNativeApp",
+  "title": "Create a React Native application",
+  "description": "Create a React Native application",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Application name.",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What name would you like to use for the application?",
+      "pattern": "^[a-zA-Z].*$"
+    },
+    "displayName": {
+      "type": "string",
+      "description": "Application name to be displayed inside the app.",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What name would you like to use to be displayed inside the application?",
+      "pattern": "^[a-zA-Z].*$"
+    }
+  },
+  "required": [
+    "name",
+    "displayName"
+  ]
+}
