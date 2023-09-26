@@ -13,6 +13,13 @@ export const toHaveDependencies = (
 ): jest.CustomMatcherResult => {
   expect(tree).toBeNxTree();
 
+  // eslint-disable-next-line security/detect-non-literal-fs-filename
+  packageJsonPath = tree.exists(packageJsonPath)
+    ? packageJsonPath
+    : // Fall back on the workspace root package.json, if no package.json is found
+      // at the supplied path
+      "package.json";
+
   const fullPath = path.join(tree.root, packageJsonPath);
 
   // eslint-disable-next-line security/detect-non-literal-fs-filename

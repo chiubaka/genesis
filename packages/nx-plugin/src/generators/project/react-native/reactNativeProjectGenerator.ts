@@ -20,9 +20,13 @@ export async function reactNativeProjectGenerator(
 
   const projectGeneratorTask = await projectGenerator(tree, {
     ...options,
+    reactNative: true,
     enableReact: true,
     tsconfig: TsConfigGeneratorPresets.REACT,
+    skipRelocation: true,
   });
+
+  updateTestingSetup(project);
 
   return async () => {
     await baseGeneratorTask();
@@ -43,7 +47,7 @@ function baseGenerator(
     // importPath: project.getImportPath(),
     displayName: displayName,
 
-    // directory: project.path(),
+    directory: project.relativePath(".."),
     // projectNameAndRootFormat: "derived",
 
     e2eTestRunner: "detox",
@@ -68,4 +72,14 @@ function getBaseGenerator(project: Project) {
   }
 
   return reactNativeApplicationGenerator;
+}
+
+function updateTestingSetup(project: Project) {
+  const tree = project.getTree();
+
+  // eslint-disable-next-line security/detect-non-literal-fs-filename
+  tree.rename(
+    project.path("test-setup.ts"),
+    project.testPath("setup/setup.ts"),
+  );
 }

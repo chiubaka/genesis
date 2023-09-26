@@ -30,11 +30,14 @@ export async function projectGenerator(
     jest: jestOptions,
     pruneSrcSubdirectories,
     tsconfig: tsconfigOptions,
+    skipRelocation,
     skipEslint,
   } = options;
   const project = Project.createFromOptions(tree, options);
 
-  relocateProject(project);
+  if (!skipRelocation) {
+    relocateProject(project);
+  }
   copyPackageJsonTemplate(project);
   standardizePackageJson(project);
   standardizeProjectJson(project);
@@ -75,11 +78,7 @@ function relocateProject(project: Project) {
 
   const newProjectDir = project.relativePath();
 
-  if (
-    // eslint-disable-next-line security/detect-non-literal-fs-filename
-    // !tree.exists(originalProjectDir) ||
-    originalProjectDir === newProjectDir
-  ) {
+  if (originalProjectDir === newProjectDir) {
     return;
   }
 

@@ -16,5 +16,7 @@ export const createTreeWithEmptyWorkspace = () => {
   tree.rename("apps", "e2e");
   tree.rename("libs", "packages");
 
+  tree.write(".gitignore", "");
+
   return tree;
 };

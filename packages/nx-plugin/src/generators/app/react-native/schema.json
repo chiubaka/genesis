@@ -24,10 +24,15 @@
       },
       "x-prompt": "What name would you like to use to be displayed inside the application?",
       "pattern": "^[a-zA-Z].*$"
+    },
+    "androidEmulatorAvdName": {
+      "type": "string",
+      "description": "Android AVD emulator name to use for the starter Detox configuration"
+    },
+    "iosSimulatorDeviceType": {
+      "type": "string",
+      "description": "iOS simulator device type to use for the starter Detox configuration"
     }
   },
-  "required": [
-    "name",
-    "displayName"
-  ]
+  "required": ["name", "displayName"]
 }

@@ -8,7 +8,7 @@ export function eslintProjectGenerator(
   tree: Tree,
   options: EsLintProjectGeneratorSchema,
 ) {
-  const { enableReact, projectName, projectType } = options;
+  const { enableReact, noPrimaryTsConfig, projectName, projectType } = options;
   const project = new Project(tree, projectName, projectType);
 
   updateJson(
@@ -88,7 +88,10 @@ export function eslintProjectGenerator(
           project: [primaryTsConfigPath],
         },
       };
-      eslintConfig.overrides.push(typescriptOverrides);
+
+      if (!noPrimaryTsConfig) {
+        eslintConfig.overrides.push(typescriptOverrides);
+      }
 
       if (enableReact) {
         // react/react-in-jsx-scope is not required since build tools appear to be

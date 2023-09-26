@@ -87,17 +87,17 @@ exports[`tsLibGenerator E2E project .eslintrc.json matches snapshot 1`] = `
 exports[`tsLibGenerator E2E project jest.config.ts matches snapshot 1`] = `
 "export default {
   displayName: "ts-lib-e2e",
-  preset: "../../jest.preset.js",
-    globals: {
+    preset: "../../jest.preset.js",
+      globals: {
     "ts-jest": {
       tsconfig: "<rootDir>/tsconfig.spec.json",
     },
   },
       testEnvironment: "node",
-    transform: {
+      transform: {
         "^.+\\\\.[tj]s$": "ts-jest",
       },
-    moduleFileExtensions: ["ts", "js", "html", "json"],
+      moduleFileExtensions: ["ts", "js", "html", "json"],
     coverageDirectory: "../../reports/coverage/packages/ts-lib-e2e",
   reporters: [
     "default",
@@ -283,17 +283,17 @@ module.exports = composePlugins(withNx(), (config) => {
 exports[`tsLibGenerator jest.config.ts matches snapshot 1`] = `
 "export default {
   displayName: "ts-lib",
-  preset: "../../jest.preset.js",
-    globals: {
+    preset: "../../jest.preset.js",
+      globals: {
     "ts-jest": {
       tsconfig: "<rootDir>/tsconfig.spec.json",
     },
   },
       testEnvironment: "node",
-    transform: {
+      transform: {
         "^.+\\\\.[tj]s$": "ts-jest",
       },
-    moduleFileExtensions: ["ts", "js", "html", "json"],
+      moduleFileExtensions: ["ts", "js", "html", "json"],
     coverageDirectory: "../../reports/coverage/packages/ts-lib",
   reporters: [
     "default",

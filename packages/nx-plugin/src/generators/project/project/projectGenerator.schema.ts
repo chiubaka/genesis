@@ -7,10 +7,12 @@ export interface ProjectGeneratorSchema
   extends ProjectGeneratorBaseSchema,
     ReadmeProjectGeneratorSchema {
   enableReact?: boolean;
+  reactNative?: boolean;
   jest?: JestProjectGeneratorOwnOptions;
   tags?: string;
   tsconfig?: TsConfigProjectGeneratorOwnOptions;
   pruneSrcSubdirectories?: boolean;
 
+  skipRelocation?: boolean;
   skipEslint?: boolean;
 }

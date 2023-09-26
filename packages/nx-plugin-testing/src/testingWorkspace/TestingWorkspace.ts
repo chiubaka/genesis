@@ -24,7 +24,7 @@ export class TestingWorkspace extends AbstractTestingWorkspace {
           command,
           {
             cwd: this.rootPath,
-            maxBuffer: 1024 * 10_000,
+            maxBuffer: 1024 * 100_000,
             env,
           },
           (error, stdout, stderr) => {

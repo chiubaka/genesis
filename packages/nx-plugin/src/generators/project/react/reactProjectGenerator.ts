@@ -60,7 +60,6 @@ function baseGenerator(project: Project, options: ProjectGeneratorSchema) {
     name: project.getName(),
 
     buildable: true,
-    directory: project.path(),
     e2eTestRunner: "cypress",
     linter: Linter.EsLint,
     importPath: project.getImportPath(),

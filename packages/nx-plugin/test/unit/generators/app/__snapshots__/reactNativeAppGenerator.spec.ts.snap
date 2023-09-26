@@ -68,7 +68,328 @@ exports[`reactNativeAppGenerator .eslintrc.json matches snapshot 1`] = `
 }
 `;
 
-exports[`reactNativeAppGenerator jest.config.ts matches snapshot 1`] = `undefined`;
+exports[`reactNativeAppGenerator e2e .detoxrc.json matches snapshot 1`] = `
+"{
+  "testRunner": {
+    "args": {
+      "$0": "jest",
+      "config": "./jest.config.json"
+    },
+    "jest": {
+      "setupTimeout": 120000
+    }
+  },
+  "apps": {
+    "ios.debug": {
+      "type": "ios.app",
+      "build": "cd ../../packages/react-native-app/ios && xcodebuild -workspace ReactNativeApp.xcworkspace -scheme ReactNativeApp -configuration Debug -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14' -derivedDataPath ./build -quiet",
+      "binaryPath": "../../packages/react-native-app/ios/build/Build/Products/Debug-iphonesimulator/ReactNativeApp.app"
+    },
+    "ios.release": {
+      "type": "ios.app",
+      "build": "cd ../../packages/react-native-app/ios && xcodebuild -workspace ReactNativeApp.xcworkspace -scheme ReactNativeApp -configuration Release -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14' -derivedDataPath ./build -quiet",
+      "binaryPath": "../../packages/react-native-app/ios/build/Build/Products/Release-iphonesimulator/ReactNativeApp.app"
+    },
+    "android.debug": {
+      "type": "android.apk",
+      "build": "cd ../../packages/react-native-app/android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug",
+      "binaryPath": "../../packages/react-native-app/android/app/build/outputs/apk/debug/app-debug.apk"
+    },
+    "android.release": {
+      "type": "android.apk",
+      "build": "cd ../../packages/react-native-app/android && ./gradlew assembleRelease assembleAndroidTest -DtestBuildType=release",
+      "binaryPath": "../../packages/react-native-app/android/app/build/outputs/apk/release/app-release.apk"
+    }
+  },
+  "devices": {
+    "simulator": {
+      "type": "ios.simulator",
+      "device": {
+        "type": "iPhone 14"
+      }
+    },
+    "emulator": {
+      "type": "android.emulator",
+      "device": {
+        "avdName": "Pixel_4a_API_30"
+      }
+    }
+  },
+  "configurations": {
+    "ios.sim.release": {
+      "device": "simulator",
+      "app": "ios.release"
+    },
+    "ios.sim.debug": {
+      "device": "simulator",
+      "app": "ios.debug"
+    },
+    "android.emu.release": {
+      "device": "emulator",
+      "app": "android.release"
+    },
+    "android.emu.debug": {
+      "device": "emulator",
+      "app": "android.debug"
+    }
+  }
+}
+"
+`;
+
+exports[`reactNativeAppGenerator e2e .eslintrc.json matches snapshot 1`] = `
+{
+  "extends": [
+    "../../.eslintrc.json",
+  ],
+  "ignorePatterns": [
+    "node_modules",
+  ],
+  "overrides": [
+    {
+      "files": [
+        "jest.config.ts",
+        "test/**/*.ts",
+        "*.spec.ts",
+        "*.test.ts",
+      ],
+      "parserOptions": {
+        "project": [
+          "e2e/react-native-app-e2e/tsconfig.spec.json",
+        ],
+      },
+    },
+  ],
+}
+`;
+
+exports[`reactNativeAppGenerator e2e jest.config.json matches snapshot 1`] = `
+"{
+  "preset": "../../jest.preset",
+  "rootDir": ".",
+  "testMatch": [
+    "<rootDir>/test/**/*.test.ts?(x)",
+    "<rootDir>/test/**/*.spec.ts?(x)"
+  ],
+  "testTimeout": 120000,
+  "maxWorkers": 1,
+  "globalSetup": "detox/runners/jest/globalSetup",
+  "globalTeardown": "detox/runners/jest/globalTeardown",
+  "reporters": [
+    "detox/runners/jest/reporter"
+  ],
+  "testEnvironment": "detox/runners/jest/testEnvironment",
+  "verbose": true,
+  "setupFilesAfterEnv": [
+    "<rootDir>/test/setup/setup.ts"
+  ]
+}
+"
+`;
+
+exports[`reactNativeAppGenerator e2e project.json matches snapshot 1`] = `
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "implicitDependencies": [
+    "react-native-app",
+  ],
+  "name": "react-native-app-e2e",
+  "projectType": "application",
+  "sourceRoot": "packages/react-native-app-e2e/src",
+  "tags": [],
+  "targets": {
+    "build-android": {
+      "configurations": {
+        "production": {
+          "detoxConfiguration": "android.emu.release",
+        },
+      },
+      "executor": "@nx/detox:build",
+      "options": {
+        "detoxConfiguration": "android.emu.debug",
+      },
+    },
+    "build-ios": {
+      "configurations": {
+        "production": {
+          "detoxConfiguration": "ios.sim.release",
+        },
+      },
+      "executor": "@nx/detox:build",
+      "options": {
+        "detoxConfiguration": "ios.sim.debug",
+      },
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "e2e/react-native-app-e2e/**/*.{ts,tsx,js,jsx}",
+        ],
+      },
+      "outputs": [
+        "{options.outputFile}",
+      ],
+    },
+    "test-android": {
+      "configurations": {
+        "production": {
+          "buildTarget": "react-native-app-e2e:build-android:production",
+          "detoxConfiguration": "android.emu.release",
+        },
+      },
+      "executor": "@nx/detox:test",
+      "options": {
+        "buildTarget": "react-native-app-e2e:build-android",
+        "detoxConfiguration": "android.emu.debug",
+      },
+    },
+    "test-ios": {
+      "configurations": {
+        "production": {
+          "buildTarget": "react-native-app-e2e:build-ios:production",
+          "detoxConfiguration": "ios.sim.release",
+        },
+      },
+      "executor": "@nx/detox:test",
+      "options": {
+        "buildTarget": "react-native-app-e2e:build-ios",
+        "detoxConfiguration": "ios.sim.debug",
+      },
+    },
+  },
+}
+`;
+
+exports[`reactNativeAppGenerator e2e project.json matches snapshot 2`] = `
+"{
+  "name": "react-native-app-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/react-native-app-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "build-ios": {
+      "executor": "@nx/detox:build",
+      "options": {
+        "detoxConfiguration": "ios.sim.debug"
+      },
+      "configurations": {
+        "production": {
+          "detoxConfiguration": "ios.sim.release"
+        }
+      }
+    },
+    "test-ios": {
+      "executor": "@nx/detox:test",
+      "options": {
+        "detoxConfiguration": "ios.sim.debug",
+        "buildTarget": "react-native-app-e2e:build-ios"
+      },
+      "configurations": {
+        "production": {
+          "detoxConfiguration": "ios.sim.release",
+          "buildTarget": "react-native-app-e2e:build-ios:production"
+        }
+      }
+    },
+    "build-android": {
+      "executor": "@nx/detox:build",
+      "options": {
+        "detoxConfiguration": "android.emu.debug"
+      },
+      "configurations": {
+        "production": {
+          "detoxConfiguration": "android.emu.release"
+        }
+      }
+    },
+    "test-android": {
+      "executor": "@nx/detox:test",
+      "options": {
+        "detoxConfiguration": "android.emu.debug",
+        "buildTarget": "react-native-app-e2e:build-android"
+      },
+      "configurations": {
+        "production": {
+          "detoxConfiguration": "android.emu.release",
+          "buildTarget": "react-native-app-e2e:build-android:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "e2e/react-native-app-e2e/**/*.{ts,tsx,js,jsx}"
+        ]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": [
+    "react-native-app"
+  ]
+}
+"
+`;
+
+exports[`reactNativeAppGenerator e2e typescript tsconfig.json tsconfig.json matches snapshot 1`] = `
+"{
+  "extends": "../../tsconfig.base.json",
+  "files": [],
+  "include": [],
+  "references": [
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
+}
+"
+`;
+
+exports[`reactNativeAppGenerator e2e typescript tsconfig.spec.json matches snapshot 1`] = `
+"{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "sourceMap": false,
+    "outDir": "../../dist/out-tsc",
+    "allowJs": true,
+    "types": ["node", "jest", "detox"]
+  },
+  "include": ["test/**/*.ts", "test/**/*.js"]
+}
+"
+`;
+
+exports[`reactNativeAppGenerator jest.config.ts matches snapshot 1`] = `
+"export default {
+  displayName: "react-native-app",
+    preset: "react-native",
+  resolver: "@nx/jest/plugins/resolver",
+  setupFilesAfterEnv: ["<rootDir>/test/setup/setup.ts"],
+  moduleNameMapper: {
+    "\\\\.svg$": "@nx/react-native/plugins/jest/svg-mock",
+  },
+            moduleFileExtensions: ["ts", "tsx", "js", "jsx", "html", "json"],
+    coverageDirectory: "../../reports/coverage/packages/react-native-app",
+  reporters: [
+    "default",
+    [
+      "jest-junit",
+      {
+        addFileAttribute: "true",
+        classNameTemplate: "{suitename}",
+        outputDirectory: "reports/junit",
+        outputName: "react-native-app.xml",
+      },
+    ],
+  ],
+};
+"
+`;
 
 exports[`reactNativeAppGenerator project.json matches snapshot 1`] = `
 {

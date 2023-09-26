@@ -7,7 +7,7 @@
     "@nrwl/react": "16.8.1",
     "@nx/js": "16.8.1",
     "@nx/plugin": "16.8.1",
-    "@nx/react-native": "^16.8.1",
+    "@nx/react-native": "16.8.1",
     "escape-string-regexp": "^4.0.0",
     "js-yaml": "^4.1.0",
     "octokit": "^2.0.7",
@@ -21,6 +21,7 @@
     "@types/js-yaml": "^4.0.5",
     "@types/nock": "^11.1.0",
     "@verdaccio/types": "^10.5.2",
+    "detox": "^20.12.1",
     "nock": "^13.2.9",
     "nx": "16.8.1"
   },
