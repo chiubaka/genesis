@@ -173,7 +173,17 @@ describe("reactNativeAppGenerator", () => {
     });
 
     describe("android", () => {
-      it.todo("updates the package name");
+      it("updates the package name", () => {
+        expect(tree).not.toHaveFileWithContent(
+          project.path("android/app/build.gradle"),
+          "com.reactnativeapp",
+        );
+
+        expect(tree).toHaveFileWithContent(
+          project.path("android/app/build.gradle"),
+          "com.chiubaka.ReactNativeApp",
+        );
+      });
     });
   });
 

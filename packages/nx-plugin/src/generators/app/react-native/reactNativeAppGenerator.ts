@@ -97,7 +97,7 @@ function updateNativeProjects(
   options: ReactNativeAppGeneratorSchema,
 ) {
   updateIosProject(project, options);
-  updateAndroidProject(project);
+  updateAndroidProject(project, options);
 }
 
 function updateIosProject(
@@ -133,7 +133,25 @@ function updateIosProject(
   );
 }
 
-function updateAndroidProject(project: Project) {}
+function updateAndroidProject(
+  project: Project,
+  options: ReactNativeAppGeneratorSchema,
+) {
+  const tree = project.getTree();
+
+  const { packageName } = options;
+
+  const originalPackageName = `com.${project
+    .getNames()
+    .camelCase.toLowerCase()}`;
+
+  replaceInFile(
+    tree,
+    project.path("android/app/build.gradle"),
+    originalPackageName,
+    packageName,
+  );
+}
 
 function updateE2eProject(
   e2eProject: Project,
