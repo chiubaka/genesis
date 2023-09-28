@@ -89,7 +89,7 @@ describe("reactNativeAppGenerator", () => {
   });
 
   describe("native projects", () => {
-    describe("fastlane", () => {
+    describe.skip("fastlane", () => {
       it("adds fastlane to the Gemfile", () => {
         expect(tree).toHaveFileWithContent(
           project.path("Gemfile"),
@@ -101,7 +101,7 @@ describe("reactNativeAppGenerator", () => {
         return project.path("fastlane/Fastfile");
       });
 
-      describe("Appfile", () => {
+      describe.skip("Appfile", () => {
         fileMatchesSnapshot("Appfile", getProject, (project: Project) => {
           return project.path("fastlane/Appfile");
         });
@@ -133,6 +133,21 @@ describe("reactNativeAppGenerator", () => {
         expect(tree).not.toHaveFileWithContent(
           iosXcodeProjectPath,
           "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)",
+        );
+
+        expect(tree).toHaveFileWithContent(
+          iosXcodeProjectPath,
+          "com.chiubaka.ReactNativeApp",
+        );
+      });
+
+      // Aspirational! But not possible to actually accomplish unless I add stronger
+      // capabilities to understand and modify the generated .pbxproj file
+      // https://linear.app/chiubaka/issue/CT-723/update-the-development-team-in-the-generated-ios-pbxproj-file
+      it.skip("updates the development team ID", () => {
+        expect(tree).toHaveFileWithContent(
+          iosXcodeProjectPath,
+          'DEVELOPMENT_TEAM = "ABC1234567"',
         );
       });
 

@@ -18,20 +18,12 @@
     "displayName": {
       "type": "string",
       "description": "Application name to be displayed inside the app.",
-      "$default": {
-        "$source": "argv",
-        "index": 0
-      },
       "x-prompt": "What name would you like to use to be displayed inside the application?",
       "pattern": "^[a-zA-Z].*$"
     },
     "packageName": {
       "type": "string",
       "description": "Package name or bundle identifier to use to refer to the app internally for Google Play and Apple.",
-      "$default": {
-        "$source": "argv",
-        "index": 0
-      },
       "x-prompt": "What package name / bundle identifier would you like to use? (e.g. com.chiubaka.example)",
       "pattern": "^[a-zA-Z].*$"
     },
@@ -46,6 +38,7 @@
   },
   "required": [
     "name",
-    "displayName"
+    "displayName",
+    "packageName"
   ]
 }

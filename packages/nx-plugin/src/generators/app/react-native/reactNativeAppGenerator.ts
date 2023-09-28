@@ -107,6 +107,9 @@ function updateIosProject(
   const tree = project.getTree();
 
   const iosProjectName = project.getNames().pascalCase;
+  const iosXcodeProjectPath = project.path(
+    `ios/${iosProjectName}.xcodeproj/project.pbxproj`,
+  );
 
   const { packageName } = options;
 
@@ -117,9 +120,16 @@ function updateIosProject(
   // Metro terminal that is unable to find the metro config
   replaceInFile(
     tree,
-    project.path(`ios/${iosProjectName}.xcodeproj/project.pbxproj`),
+    iosXcodeProjectPath,
     'export RCT_METRO_PORT=\\"${RCT_METRO_PORT:=8081}\\"\\necho \\"export RCT_METRO_PORT=${RCT_METRO_PORT}\\" >',
     'export RCT_METRO_PORT=\\"${RCT_METRO_PORT:=8081}\\"\\nexport PROJECT_ROOT=${SRCROOT}\\necho \\"export RCT_METRO_PORT=${RCT_METRO_PORT}\\\\nexport PROJECT_ROOT=${PROJECT_ROOT}\\" >',
+  );
+
+  replaceInFile(
+    tree,
+    iosXcodeProjectPath,
+    "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)",
+    packageName,
   );
 }
 
