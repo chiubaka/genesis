@@ -14,16 +14,22 @@ export function readmeProjectGenerator(
   tree: Tree,
   options: ReadmeProjectGeneratorSchema,
 ) {
-  const { projectName, projectType, rootProjectGeneratorName } = options;
+  const {
+    projectName,
+    projectType,
+    rootProjectGeneratorName,
+    additionalSetupSteps,
+  } = options;
 
   const project = new Project(tree, projectName, projectType);
 
-  copyReadmeTemplate(project, rootProjectGeneratorName);
+  copyReadmeTemplate(project, rootProjectGeneratorName, additionalSetupSteps);
 }
 
 function copyReadmeTemplate(
   project: Project,
   rootProjectGeneratorName: string,
+  additionalSetupSteps?: string,
 ) {
   const tree = project.getTree();
   const npmScope = project.getScope();
@@ -37,6 +43,7 @@ function copyReadmeTemplate(
     npmScope,
     projectName: project.getName(),
     rootProjectGeneratorName,
+    additionalSetupSteps,
   });
 }
 

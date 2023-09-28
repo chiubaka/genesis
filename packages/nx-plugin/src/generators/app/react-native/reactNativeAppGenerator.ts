@@ -6,6 +6,7 @@ import {
   updateJson,
 } from "@nx/devkit";
 import * as Detox from "detox";
+import endent from "endent";
 import path from "node:path";
 
 import { EsLintExecutorOptions, PackageJson } from "../../../types";
@@ -24,10 +25,19 @@ export async function reactNativeAppGenerator(
   const project = new Project(tree, name, "application");
   const e2eProject = new Project(tree, `${name}-e2e`, "e2e");
 
+  const additionalSetupSteps = endent`
+    - [] Ensure that you have the Android SDK installed
+    - [] Ensure that you have Xcode, Xcode Command Line Tools, and the iOS SDKs installed
+    - [] Update \`.detoxrc.json\` file in the generated E2E project
+      - Ensure that a valid \`avdName\` is filled in under the \`devices\` section
+    - [] Ensure that you have \`ruby\` (required) and \`rbenv\` (optional but recommended)
+  `;
+
   const reactNativeProjectTask = await reactNativeProjectGenerator(tree, {
     ...project.getMeta(),
     displayName,
     rootProjectGeneratorName: "app.react-native",
+    additionalSetupSteps,
   });
 
   updateYarnWorkspaces(project);

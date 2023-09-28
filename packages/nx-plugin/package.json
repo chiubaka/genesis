@@ -8,6 +8,7 @@
     "@nx/js": "16.8.1",
     "@nx/plugin": "16.8.1",
     "@nx/react-native": "16.8.1",
+    "endent": "^2.1.0",
     "escape-string-regexp": "^4.0.0",
     "js-yaml": "^4.1.0",
     "octokit": "^2.0.7",

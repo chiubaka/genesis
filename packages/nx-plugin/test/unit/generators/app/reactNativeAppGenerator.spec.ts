@@ -64,11 +64,27 @@ describe("reactNativeAppGenerator", () => {
   });
 
   describe("README", () => {
-    it.todo(
-      "adds first-time setup instructions for Android SDK, emulators, and Detox configuration",
-    );
+    it("adds first-time setup instructions for Android SDK", () => {
+      expect(tree).toHaveFileWithContent(
+        project.path("README.md"),
+        "Android SDK",
+      );
+    });
 
-    it.todo("adds first-time setup instructions for iOS and XCode SDK");
+    it("adds first-time setup instructions for iOS and XCode SDK", () => {
+      expect(tree).toHaveFileWithContent(project.path("README.md"), "iOS SDK");
+    });
+
+    it("adds first-time setup instructions for emulators and Detox configuration", () => {
+      expect(tree).toHaveFileWithContent(
+        project.path("README.md"),
+        ".detoxrc.json",
+      );
+    });
+
+    it("adds first-time setup instructions for ruby", () => {
+      expect(tree).toHaveFileWithContent(project.path("README.md"), "ruby");
+    });
 
     // Unless I can accomplish this with the Podfile automatically
     // Should include info about Fastlane and getting Fastlane to generate certificates and profiles for you
