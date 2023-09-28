@@ -13,7 +13,7 @@ describe("reactNativeAppGenerator", () => {
     workspace = await copyWorkspaceTemplate("app.react-native");
 
     await workspace.execNx(
-      'generate @chiubaka/nx-plugin:app.react-native --name=react-native-app --displayName="React Native App" --androidEmulatorAvdName="Pixel_7_API_34"',
+      'generate @chiubaka/nx-plugin:app.react-native --name=react-native-app --displayName="React Native App" --packageName="com.chiubaka.ReactNativeApp" --androidEmulatorAvdName="Pixel_7_API_34"',
     );
   });
 
@@ -43,6 +43,16 @@ describe("reactNativeAppGenerator", () => {
     await expect(
       workspace.execNx("bundle-ios react-native-app"),
     ).resolves.not.toThrow();
+  });
+
+  describe("fastlane", () => {
+    it.todo("generates a project that can build iOS using fastlane");
+
+    it.todo("generates a project that can run native iOS tests using fastlane");
+
+    it.todo("generates a project that can build Android using fastlane");
+
+    it.todo("generates a project that run native Android tests using fastlane");
   });
 
   describe("e2e project", () => {

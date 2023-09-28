@@ -31,7 +31,7 @@ export async function reactNativeAppGenerator(
   });
 
   updateYarnWorkspaces(project);
-
+  updateNativeProjects(project, options);
   updateCodeSample(project);
 
   const originalE2eBaseDir = project.relativePath("..");
@@ -91,6 +91,39 @@ function updateCodeSample(project: Project) {
   );
 }
 /* eslint-enable security/detect-non-literal-fs-filename */
+
+function updateNativeProjects(
+  project: Project,
+  options: ReactNativeAppGeneratorSchema,
+) {
+  updateIosProject(project, options);
+  updateAndroidProject(project);
+}
+
+function updateIosProject(
+  project: Project,
+  options: ReactNativeAppGeneratorSchema,
+) {
+  const tree = project.getTree();
+
+  const iosProjectName = project.getNames().pascalCase;
+
+  const { packageName } = options;
+
+  replaceInFile(tree, project.path("Gemfile"), "'", '"');
+  replaceInFile(tree, project.path("ios/Podfile"), "'", '"');
+
+  // This patches a bug in Nx's generated project where some commands will open a useless
+  // Metro terminal that is unable to find the metro config
+  replaceInFile(
+    tree,
+    project.path(`ios/${iosProjectName}.xcodeproj/project.pbxproj`),
+    'export RCT_METRO_PORT=\\"${RCT_METRO_PORT:=8081}\\"\\necho \\"export RCT_METRO_PORT=${RCT_METRO_PORT}\\" >',
+    'export RCT_METRO_PORT=\\"${RCT_METRO_PORT:=8081}\\"\\nexport PROJECT_ROOT=${SRCROOT}\\necho \\"export RCT_METRO_PORT=${RCT_METRO_PORT}\\\\nexport PROJECT_ROOT=${PROJECT_ROOT}\\" >',
+  );
+}
+
+function updateAndroidProject(project: Project) {}
 
 function updateE2eProject(
   e2eProject: Project,

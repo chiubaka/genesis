@@ -25,6 +25,16 @@
       "x-prompt": "What name would you like to use to be displayed inside the application?",
       "pattern": "^[a-zA-Z].*$"
     },
+    "packageName": {
+      "type": "string",
+      "description": "Package name or bundle identifier to use to refer to the app internally for Google Play and Apple.",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What package name / bundle identifier would you like to use? (e.g. com.chiubaka.example)",
+      "pattern": "^[a-zA-Z].*$"
+    },
     "androidEmulatorAvdName": {
       "type": "string",
       "description": "Android AVD emulator name to use for the starter Detox configuration"
@@ -34,5 +44,8 @@
       "description": "iOS simulator device type to use for the starter Detox configuration"
     }
   },
-  "required": ["name", "displayName"]
+  "required": [
+    "name",
+    "displayName"
+  ]
 }

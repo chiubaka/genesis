@@ -59,6 +59,106 @@ describe("reactNativeAppGenerator", () => {
     await reactNativeAppGenerator(tree, {
       name: "react-native-app",
       displayName: "React Native App",
+      packageName: "com.chiubaka.ReactNativeApp",
+    });
+  });
+
+  describe("README", () => {
+    it.todo(
+      "adds first-time setup instructions for Android SDK, emulators, and Detox configuration",
+    );
+
+    it.todo("adds first-time setup instructions for iOS and XCode SDK");
+
+    // Unless I can accomplish this with the Podfile automatically
+    // Should include info about Fastlane and getting Fastlane to generate certificates and profiles for you
+    it.todo("adds first-time setup instructions for iOS code signing");
+
+    // Google Play first-time setup: https://docs.fastlane.tools/actions/supply/
+    it.todo("adds first-time setup instructions for Fastlane");
+  });
+
+  describe("Gemfile", () => {
+    fileMatchesSnapshot("Gemfile", getProject, (project: Project) => {
+      return project.path("Gemfile");
+    });
+
+    it("replaces single quotes with double quotes", () => {
+      expect(tree).not.toHaveFileWithContent(project.path("Gemfile"), "'");
+    });
+  });
+
+  describe("native projects", () => {
+    describe("fastlane", () => {
+      it("adds fastlane to the Gemfile", () => {
+        expect(tree).toHaveFileWithContent(
+          project.path("Gemfile"),
+          'gem "fastlane"',
+        );
+      });
+
+      fileMatchesSnapshot("Fastfile", getProject, (project: Project) => {
+        return project.path("fastlane/Fastfile");
+      });
+
+      describe("Appfile", () => {
+        fileMatchesSnapshot("Appfile", getProject, (project: Project) => {
+          return project.path("fastlane/Appfile");
+        });
+
+        it.todo("fills in a value for app_identifier");
+
+        it.todo("fills in a value for apple_id");
+
+        it.todo("fills in a value for itc_team_id");
+
+        it.todo("fills in a value for team_id");
+
+        it.todo("fills in a value for json_key_file");
+
+        it.todo("fills in a value for package_name");
+      });
+    });
+
+    describe("ios", () => {
+      let iosXcodeProjectPath: string;
+
+      beforeAll(() => {
+        iosXcodeProjectPath = project.path(
+          "ios/ReactNativeApp.xcodeproj/project.pbxproj",
+        );
+      });
+
+      it("updates the bundle identifier", () => {
+        expect(tree).not.toHaveFileWithContent(
+          iosXcodeProjectPath,
+          "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)",
+        );
+      });
+
+      it("patches the Start Packager build phase to provide the correct PROJECT_ROOT", () => {
+        expect(tree).toHaveFileWithContent(
+          iosXcodeProjectPath,
+          "export PROJECT_ROOT=${SRCROOT}",
+        );
+      });
+
+      describe("Podfile", () => {
+        fileMatchesSnapshot("Podfile", getProject, (project: Project) => {
+          return project.path("ios/Podfile");
+        });
+
+        it("replaces single quotes with double quotes", () => {
+          expect(tree).not.toHaveFileWithContent(
+            project.path("ios/Podfile"),
+            "'",
+          );
+        });
+      });
+    });
+
+    describe("android", () => {
+      it.todo("updates the package name");
     });
   });
 

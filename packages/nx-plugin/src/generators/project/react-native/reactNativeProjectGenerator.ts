@@ -44,11 +44,9 @@ function baseGenerator(
 
   return getBaseGenerator(project)(tree, {
     name: project.getName(),
-    // importPath: project.getImportPath(),
     displayName: displayName,
 
     directory: project.relativePath(".."),
-    // projectNameAndRootFormat: "derived",
 
     e2eTestRunner: "detox",
     install: true,
