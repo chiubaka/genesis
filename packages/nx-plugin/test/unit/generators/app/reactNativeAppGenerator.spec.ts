@@ -99,6 +99,13 @@ describe("reactNativeAppGenerator", () => {
       return project.path("Gemfile");
     });
 
+    it("updates the required ruby version", () => {
+      expect(tree).toHaveFileWithContent(
+        project.path("Gemfile"),
+        'ruby ">= 3.2.2"',
+      );
+    });
+
     it("replaces single quotes with double quotes", () => {
       expect(tree).not.toHaveFileWithContent(project.path("Gemfile"), "'");
     });

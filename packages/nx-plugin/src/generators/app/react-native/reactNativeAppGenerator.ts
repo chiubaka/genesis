@@ -106,6 +106,16 @@ function updateNativeProjects(
   project: Project,
   options: ReactNativeAppGeneratorSchema,
 ) {
+  const tree = project.getTree();
+
+  replaceInFile(tree, project.path("Gemfile"), "'", '"');
+  replaceInFile(
+    tree,
+    project.path("Gemfile"),
+    'ruby ">= 2.6.10"',
+    'ruby ">= 3.2.2"',
+  );
+
   updateIosProject(project, options);
   updateAndroidProject(project, options);
 }
@@ -123,7 +133,6 @@ function updateIosProject(
 
   const { packageName } = options;
 
-  replaceInFile(tree, project.path("Gemfile"), "'", '"');
   replaceInFile(tree, project.path("ios/Podfile"), "'", '"');
 
   // This patches a bug in Nx's generated project where some commands will open a useless
