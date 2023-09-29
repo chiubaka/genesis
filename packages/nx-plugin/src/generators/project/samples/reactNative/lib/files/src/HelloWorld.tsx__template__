@@ -1,0 +1,13 @@
+import { Text, View } from "react-native";
+
+interface Props {
+  testID?: string;
+}
+
+export function HelloWorld({ testID }: Props) {
+  return (
+    <View testID={testID}>
+      <Text>Hello, world!</Text>
+    </View>
+  );
+}

@@ -14,8 +14,8 @@
       "description": "Generates a simple React application"
     },
     "app.react-native": {
-      "factory": "./src/generators/app/react-native",
-      "schema": "./src/generators/app/react-native/schema.json",
+      "factory": "./src/generators/app/reactNative",
+      "schema": "./src/generators/app/reactNative/schema.json",
       "description": "Generates a simple React Native application"
     },
     "ci": {
@@ -84,8 +84,8 @@
       "description": "Generates E2E testing framework for a shareable node library"
     },
     "lib.react-native": {
-      "factory": "./src/generators/lib/react-native",
-      "schema": "./src/generators/lib/react-native/schema.json",
+      "factory": "./src/generators/lib/reactNative",
+      "schema": "./src/generators/lib/reactNative/schema.json",
       "description": "Generates a publishable React Native library"
     },
     "lib.ts": {

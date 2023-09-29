@@ -1,7 +1,10 @@
 import { Tree } from "@nx/devkit";
 
 import { Project } from "../../../utils";
-import { reactNativeProjectGenerator } from "../../project";
+import {
+  copyReactNativeLibSample,
+  reactNativeProjectGenerator,
+} from "../../project";
 import { libGenerator } from "../libGenerator";
 import { LibGeneratorSchema } from "../libGenerator.schema";
 
@@ -18,6 +21,7 @@ export async function reactNativeLibGenerator(
   });
 
   libGenerator(tree, options);
+  copyReactNativeLibSample(project);
 
   return async () => {
     await reactNativeProjectTask();

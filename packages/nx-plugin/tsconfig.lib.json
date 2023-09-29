@@ -5,6 +5,9 @@
     "declaration": true,
     "types": []
   },
-  "include": ["**/*.ts"],
+  "include": [
+    "**/*.ts",
+    "src/generators/project/samples/reactNative/lib/files/src/index.ts__template__"
+  ],
   "exclude": ["jest.config.ts", "**/*.spec.ts", "**/*.test.ts", "test"]
 }
