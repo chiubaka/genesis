@@ -59,7 +59,7 @@ describe("reactNativeAppGenerator", () => {
     await reactNativeAppGenerator(tree, {
       name: "react-native-app",
       displayName: "React Native App",
-      packageName: "com.chiubaka.ReactNativeApp",
+      appId: "com.chiubaka.ReactNativeApp",
     });
   });
 
@@ -189,23 +189,161 @@ describe("reactNativeAppGenerator", () => {
         it("replaces single quotes with double quotes", () => {
           expect(tree).not.toHaveFileWithContent(
             project.path("ios/Podfile"),
-            "'",
+            "target 'ReactNativeApp' do",
           );
         });
       });
     });
 
     describe("android", () => {
-      it("updates the package name", () => {
-        expect(tree).not.toHaveFileWithContent(
-          project.path("android/app/build.gradle"),
-          "com.reactnativeapp",
-        );
+      describe("build.gradle", () => {
+        it("updates the namespace", () => {
+          expect(tree).not.toHaveFileWithContent(
+            project.path("android/app/build.gradle"),
+            'namespace "com.reactnativeapp"',
+          );
 
-        expect(tree).toHaveFileWithContent(
-          project.path("android/app/build.gradle"),
-          "com.chiubaka.ReactNativeApp",
-        );
+          expect(tree).toHaveFileWithContent(
+            project.path("android/app/build.gradle"),
+            'namespace "com.chiubaka.reactnativeapp"',
+          );
+        });
+
+        it("updates the applicationId", () => {
+          expect(tree).not.toHaveFileWithContent(
+            project.path("android/app/build.gradle"),
+            'applicationId "com.reactnativeapp"',
+          );
+
+          expect(tree).toHaveFileWithContent(
+            project.path("android/app/build.gradle"),
+            'applicationId "com.chiubaka.ReactNativeApp"',
+          );
+        });
+      });
+
+      describe("java files", () => {
+        describe("moves java source files to appropriate new package directories", () => {
+          it("androidTest", () => {
+            expect(tree).toHaveRenamedFile(
+              project.path(
+                "android/app/src/androidTest/java/com/reactnativeapp",
+              ),
+              project.path(
+                "android/app/src/androidTest/java/com/chiubaka/reactnativeapp",
+              ),
+            );
+          });
+
+          it("debug", () => {
+            expect(tree).toHaveRenamedFile(
+              project.path("android/app/src/debug/java/com/reactnativeapp"),
+              project.path(
+                "android/app/src/debug/java/com/chiubaka/reactnativeapp",
+              ),
+            );
+          });
+
+          it("main", () => {
+            expect(tree).toHaveRenamedFile(
+              project.path("android/app/src/main/java/com/reactnativeapp"),
+              project.path(
+                "android/app/src/main/java/com/chiubaka/reactnativeapp",
+              ),
+            );
+          });
+
+          it("release", () => {
+            expect(tree).toHaveRenamedFile(
+              project.path("android/app/src/release/java/com/reactnativeapp"),
+              project.path(
+                "android/app/src/release/java/com/chiubaka/reactnativeapp",
+              ),
+            );
+          });
+        });
+
+        describe("updates the package for moved java source files", () => {
+          it("DetoxTest.java", () => {
+            const detoxTestPath = project.path(
+              "android/app/src/androidTest/java/com/chiubaka/reactnativeapp/DetoxTest.java",
+            );
+
+            expect(tree).not.toHaveFileWithContent(
+              detoxTestPath,
+              "package com.reactnativeapp",
+            );
+
+            expect(tree).toHaveFileWithContent(
+              detoxTestPath,
+              "package com.chiubaka.reactnativeapp",
+            );
+          });
+
+          it("debug ReactNativeFlipper.java", () => {
+            const reactNativeFlipperPath = project.path(
+              "android/app/src/debug/java/com/chiubaka/reactnativeapp/ReactNativeFlipper.java",
+            );
+
+            expect(tree).not.toHaveFileWithContent(
+              reactNativeFlipperPath,
+              "package com.reactnativeapp",
+            );
+
+            expect(tree).toHaveFileWithContent(
+              reactNativeFlipperPath,
+              "package com.chiubaka.reactnativeapp",
+            );
+          });
+
+          it("release ReactNativeFlipper.java", () => {
+            const reactNativeFlipperPath = project.path(
+              "android/app/src/release/java/com/chiubaka/reactnativeapp/ReactNativeFlipper.java",
+            );
+
+            expect(tree).not.toHaveFileWithContent(
+              reactNativeFlipperPath,
+              "package com.reactnativeapp",
+            );
+
+            expect(tree).toHaveFileWithContent(
+              reactNativeFlipperPath,
+              "package com.chiubaka.reactnativeapp",
+            );
+          });
+
+          it("MainActivity.java", () => {
+            const mainActivityPath = project.path(
+              "android/app/src/main/java/com/chiubaka/reactnativeapp/MainActivity.java",
+            );
+
+            expect(tree).not.toHaveFileWithContent(
+              mainActivityPath,
+              "package com.reactnativeapp",
+            );
+
+            expect(tree).toHaveFileWithContent(
+              mainActivityPath,
+              "package com.chiubaka.reactnativeapp",
+            );
+          });
+
+          it("MainApplication.java", () => {
+            const mainApplicationPath = project.path(
+              "android/app/src/main/java/com/chiubaka/reactnativeapp/MainApplication.java",
+            );
+
+            expect(tree).not.toHaveFileWithContent(
+              mainApplicationPath,
+              "package com.reactnativeapp",
+            );
+
+            expect(tree).toHaveFileWithContent(
+              mainApplicationPath,
+              "package com.chiubaka.reactnativeapp",
+            );
+          });
+        });
       });
     });
   });

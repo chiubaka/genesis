@@ -47,6 +47,7 @@ function baseGenerator(
     displayName: displayName,
 
     directory: project.relativePath(".."),
+    importPath: project.getImportPath(),
 
     e2eTestRunner: "detox",
     install: true,

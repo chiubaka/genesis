@@ -37,5 +37,9 @@ declare namespace jest {
       packageJsonPath?: string,
     ) => CustomMatcherResult;
     toHaveProperties: (propertyNames: string[]) => CustomMatcherResult;
+    toHaveRenamedFile: (
+      oldPath: string,
+      newPath: string,
+    ) => CustomMatcherResult;
   }
 }

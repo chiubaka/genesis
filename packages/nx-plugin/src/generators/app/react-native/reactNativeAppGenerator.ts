@@ -131,9 +131,22 @@ function updateIosProject(
     `ios/${iosProjectName}.xcodeproj/project.pbxproj`,
   );
 
-  const { packageName } = options;
+  const { appId } = options;
 
   replaceInFile(tree, project.path("ios/Podfile"), "'", '"');
+  // There is one instance of a good single quote in this file that we need to allow
+  replaceInFile(
+    tree,
+    project.path("ios/Podfile"),
+    '"require.resolve(',
+    "'require.resolve(",
+  );
+  replaceInFile(
+    tree,
+    project.path("ios/Podfile"),
+    ')", __dir__]).strip',
+    ")', __dir__]).strip",
+  );
 
   // This patches a bug in Nx's generated project where some commands will open a useless
   // Metro terminal that is unable to find the metro config
@@ -148,7 +161,7 @@ function updateIosProject(
     tree,
     iosXcodeProjectPath,
     "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)",
-    packageName,
+    appId,
   );
 }
 
@@ -158,18 +171,63 @@ function updateAndroidProject(
 ) {
   const tree = project.getTree();
 
-  const { packageName } = options;
+  const { appId } = options;
+  const packageName = appId.toLowerCase();
 
-  const originalPackageName = `com.${project
-    .getNames()
-    .camelCase.toLowerCase()}`;
+  const oldPackageName = `com.${project.getNames().camelCase.toLowerCase()}`;
+
+  const oldPackageDir = oldPackageName.split(".").join("/");
+  const packageDir = packageName.split(".").join("/");
 
   replaceInFile(
     tree,
     project.path("android/app/build.gradle"),
-    originalPackageName,
-    packageName,
+    `namespace "${oldPackageName}"`,
+    `namespace "${packageName}"`,
   );
+
+  replaceInFile(
+    tree,
+    project.path("android/app/build.gradle"),
+    `applicationId "${oldPackageName}"`,
+    `applicationId "${appId}"`,
+  );
+
+  const configurations = ["androidTest", "debug", "main", "release"];
+
+  for (const configuration of configurations) {
+    const javaDir = project.path(`android/app/src/${configuration}/java`);
+    moveJavaPackage(
+      tree,
+      path.join(javaDir, oldPackageDir),
+      path.join(javaDir, packageDir),
+      oldPackageName,
+      packageName,
+    );
+  }
+}
+
+function moveJavaPackage(
+  tree: Tree,
+  oldDir: string,
+  newDir: string,
+  oldPackageName: string,
+  newPackageName: string,
+) {
+  moveFilesToNewDirectory(tree, oldDir, newDir);
+
+  const children = tree.children(newDir);
+
+  for (const child of children) {
+    if (child.endsWith(".java")) {
+      replaceInFile(
+        tree,
+        path.join(newDir, child),
+        `package ${oldPackageName}`,
+        `package ${newPackageName}`,
+      );
+    }
+  }
 }
 
 function updateE2eProject(

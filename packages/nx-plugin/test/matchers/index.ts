@@ -8,6 +8,7 @@ import { toHaveFunctions } from "./toHaveFunctions.matcher";
 import { toHavePeerDependencies } from "./toHavePeerDependencies.matcher";
 import { toHavePeerDependency } from "./toHavePeerDependency.matcher";
 import { toHaveProperties } from "./toHaveProperties.matcher";
+import { toHaveRenamedFile } from "./toHaveRenamedFile.matcher";
 
 export const matchers: jest.ExpectExtendMap = {
   toBeNxTree,
@@ -20,4 +21,5 @@ export const matchers: jest.ExpectExtendMap = {
   toHavePeerDependencies,
   toHavePeerDependency,
   toHaveProperties,
+  toHaveRenamedFile,
 };

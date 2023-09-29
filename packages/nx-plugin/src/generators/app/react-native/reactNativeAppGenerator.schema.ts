@@ -2,7 +2,7 @@ import { AppGeneratorSchema } from "../appGenerator.schema";
 
 export interface ReactNativeAppGeneratorSchema extends AppGeneratorSchema {
   displayName: string;
-  packageName: string;
+  appId: string;
   androidEmulatorAvdName?: string;
   iosSimulatorDeviceType?: string;
 }
