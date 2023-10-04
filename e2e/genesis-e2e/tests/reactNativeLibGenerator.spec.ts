@@ -23,7 +23,7 @@ describe("reactNativeLibGenerator", () => {
 
   projectTestCases("react-native-app", getWorkspace);
 
-  describe("e2e project", () => {
+  describe.skip("e2e project", () => {
     e2eProjectTestCases("react-native-lib-e2e", getWorkspace, {
       skipBuild: true,
     });

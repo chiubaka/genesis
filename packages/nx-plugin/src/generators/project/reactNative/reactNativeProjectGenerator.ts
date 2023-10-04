@@ -5,7 +5,7 @@ import {
   reactNativeLibraryGenerator,
 } from "@nx/react-native";
 
-import { lintFix, Project } from "../../../utils";
+import { addDependenciesToPackageJson, lintFix, Project } from "../../../utils";
 import { projectGenerator } from "../project";
 import { TsConfigGeneratorPresets } from "../tsconfig";
 import { ReactNativeProjectGeneratorSchema } from "./reactNativeProjectGeneratorSchema";
@@ -17,6 +17,8 @@ export async function reactNativeProjectGenerator(
   const project = Project.createFromOptions(tree, options);
 
   const baseGeneratorTask = await baseGenerator(project, options);
+
+  const installDependenciesTask = await installDependencies(tree);
 
   const projectGeneratorTask = await projectGenerator(tree, {
     ...options,
@@ -30,6 +32,7 @@ export async function reactNativeProjectGenerator(
 
   return async () => {
     await baseGeneratorTask();
+    await installDependenciesTask();
     await projectGeneratorTask();
     await lintFix(tree.root);
   };
@@ -71,6 +74,10 @@ function getBaseGenerator(project: Project) {
   }
 
   return reactNativeApplicationGenerator;
+}
+
+function installDependencies(tree: Tree) {
+  return addDependenciesToPackageJson(tree, [], ["@types/react-test-renderer"]);
 }
 
 function updateTestingSetup(project: Project) {
