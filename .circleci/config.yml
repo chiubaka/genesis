@@ -70,7 +70,7 @@ jobs:
     steps:
       - checkout
       - react-native/setup_macos_executor:
-          node_version: "18"
+          node_version: "16"
       - node/install-packages:
           pkg-manager: yarn-berry
       - run:
