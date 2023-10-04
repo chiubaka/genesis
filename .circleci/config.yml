@@ -65,6 +65,7 @@ jobs:
   ios-e2e:
     executor:
       name: react-native/macos
+      resource_class: macos.m1.medium.gen1
       xcode_version: 14.3.1
     steps:
       - checkout
