@@ -20,6 +20,22 @@
         "{workspaceRoot}/reports/junit/genesis-e2e.xml"
       ]
     },
+    "e2e:ios": {
+      "dependsOn": [
+        {
+          "target": "setup-e2e"
+        }
+      ],
+      "executor": "@nx/jest:jest",
+      "options": {
+        "jestConfig": "e2e/genesis-e2e/jest.ios.config.ts",
+        "passWithNoTests": true
+      },
+      "outputs": [
+        "{workspaceRoot}/reports/coverage/e2e/genesis-e2e-ios",
+        "{workspaceRoot}/reports/junit/genesis-e2e-ios.xml"
+      ]
+    },
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],

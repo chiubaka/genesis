@@ -8,6 +8,8 @@ constants:
 
 orbs:
   chiubaka: chiubaka/circleci-orb@0.11.4
+  react-native: react-native-community/react-native@7.1.1
+  node: circleci/node@5.1.0
 
 filters:
   semver-tags: &semver-tags
@@ -42,6 +44,11 @@ workflows:
           yarn-berry: true
           filters:
             <<: *semver-tags
+      - ios-e2e:
+          requires:
+            - lint
+            - build
+            - test
       - chiubaka/deploy:
           name: deploy
           task-name: Publish to NPM
@@ -49,9 +56,29 @@ workflows:
           context:
             - npm-publishing
           requires:
-            - lint
-            - build
-            - test
+            - ios-e2e
           filters:
             <<: *ignore-branches
             <<: *semver-tags
+
+jobs:
+  ios-e2e:
+    executor:
+      name: react-native/macos
+      xcode_version: 14.3.1
+    steps:
+      - checkout
+      - react-native/setup_macos_executor:
+          node_version: "16"
+      - node/install-packages:
+          pkg-manager: yarn-berry
+      - run:
+          name: Start Verdaccio
+          command: npx --yes verdaccio --config ./verdaccio/config.yaml
+          background: true
+      - run:
+          name: Install Xcodes
+          command: brew install xcodesorg/made/xcodes
+      - run:
+          name: Run iOS E2E tests
+          command: yarn run e2e:ios:affected

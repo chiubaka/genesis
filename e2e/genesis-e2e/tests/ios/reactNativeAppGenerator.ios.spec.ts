@@ -1,6 +1,6 @@
 import { TestingWorkspace } from "@chiubaka/nx-plugin-testing";
 
-import { copyWorkspaceTemplate, projectTestCases } from "../utils";
+import { copyWorkspaceTemplate, projectTestCases } from "../../utils";
 
 describe("reactNativeAppGenerator", () => {
   let workspace: TestingWorkspace;
@@ -17,26 +17,22 @@ describe("reactNativeAppGenerator", () => {
     );
   });
 
-  projectTestCases("react-native-app", getWorkspace, {
-    skipBuild: true,
-  });
-
-  it("generates a project with a working Android build setup", async () => {
+  it("generates a project with a working iOS build setup", async () => {
     await expect(
-      workspace.execNx("build-android react-native-app"),
+      workspace.execNx("build-ios react-native-app"),
     ).resolves.not.toThrow();
   });
 
-  it("generates a project with a working Android bundling setup", async () => {
+  it("generates a project with a working iOS bundling setup", async () => {
     await expect(
-      workspace.execNx("bundle-android react-native-app"),
+      workspace.execNx("bundle-ios react-native-app"),
     ).resolves.not.toThrow();
   });
 
   describe("fastlane", () => {
-    it.todo("generates a project that can build Android using fastlane");
+    it.todo("generates a project that can build iOS using fastlane");
 
-    it.todo("generates a project that run native Android tests using fastlane");
+    it.todo("generates a project that can run native iOS tests using fastlane");
   });
 
   describe("e2e project", () => {
@@ -45,10 +41,10 @@ describe("reactNativeAppGenerator", () => {
       skipTest: true,
     });
 
-    it("generates a project with a working android Detox setup", async () => {
+    it("generates a project with a working iOS Detox setup", async () => {
       await expect(
         workspace.execNx(
-          "test-android react-native-app-e2e --configuration=production",
+          "test-ios react-native-app-e2e --configuration=production",
         ),
       ).resolves.not.toThrow();
     });

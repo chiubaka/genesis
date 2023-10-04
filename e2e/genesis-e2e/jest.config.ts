@@ -14,4 +14,5 @@ export default {
   maxWorkers: 1,
   moduleFileExtensions: ["ts", "js", "html", "json"],
   coverageDirectory: "../../reports/coverage/e2e/genesis-e2e",
+  testPathIgnorePatterns: ["/node_modules/", "\\.ios\\.(test|spec)\\.[jt]sx?$"],
 };
