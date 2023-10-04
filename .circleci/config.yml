@@ -75,7 +75,7 @@ jobs:
           pkg-manager: yarn-berry
       - run:
           name: Start Verdaccio
-          command: npx --yes verdaccio --config ./verdaccio/config.yaml
+          command: yarn verdaccio --config ./verdaccio/config/config.local.yaml
           background: true
       - run:
           name: Install Xcodes
