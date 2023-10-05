@@ -45,6 +45,11 @@ workflows:
           setup-steps:
             - attach_workspace:
                 at: .
+            # This is needed because, otherwise, attempts to globally install
+            # npm modules will fail due to permission denied.
+            - run:
+                name: Set NPM Prefix
+                command: echo "export NPM_CONFIG_PREFIX=$HOME/.local" >> $BASH_ENV
             - run:
                 name: Start Verdaccio
                 command: yarn verdaccio --config ./verdaccio/config/config.local.yaml
@@ -57,10 +62,6 @@ workflows:
                   - node_modules/.cache/nx
                   # Save generated Genesis E2E workspace template to speed up downstream tests
                   - tmp/nx-e2e/genesis-e2e
-          environment:
-            # This is needed because, otherwise, attempts to globally install
-            # npm modules will fail due to permission denied.
-            NPM_CONFIG_PREFIX: $HOME/.local
           requires:
             - build
           filters:
