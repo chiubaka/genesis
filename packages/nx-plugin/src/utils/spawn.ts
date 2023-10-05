@@ -1,12 +1,11 @@
 import { spawn as originalSpawn, SpawnOptions } from "node:child_process";
 
-export const spawn = (
-  command: string,
-  args: string[],
-  options: SpawnOptions,
-) => {
+export const spawn = (command: string, options: SpawnOptions) => {
   return new Promise<void>((resolve, reject) => {
-    const child = originalSpawn(command, args, options);
+    const child = originalSpawn(command, {
+      ...options,
+      shell: true,
+    });
 
     const errors: string[] = [];
 

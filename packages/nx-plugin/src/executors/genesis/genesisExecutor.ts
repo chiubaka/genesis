@@ -22,24 +22,21 @@ export async function genesisExecutor(options: GenesisExecutorSchema) {
   removeSync(tmpDir);
   ensureDirSync(tmpDir);
 
-  const args = [
-    `@${workspaceScope}/${workspaceName}`,
-    `--description="${description}"`,
-  ];
+  let command = `genesis @${workspaceScope}/${workspaceName} --description="${description}"`;
 
   if (disableImmutableInstalls) {
-    args.push("--disable-immutable-installs");
+    command = `${command} --disable-immutable-installs`;
   }
 
   if (skipGitHub) {
-    args.push("--skip-github");
+    command = `${command} --skip-github`;
   }
 
   if (registry) {
-    args.push(`--registry=${registry}`);
+    command = `${command} --registry=${registry}`;
   }
 
-  await spawn("genesis", args, {
+  await spawn(command, {
     stdio: "inherit",
     cwd: tmpDir,
     env: {

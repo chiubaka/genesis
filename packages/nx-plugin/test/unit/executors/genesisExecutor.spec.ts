@@ -16,10 +16,7 @@ const DEFAULT_OPTIONS = {
   disableImmutableInstalls: true,
 };
 
-type SpawnMock = jest.Mock<
-  any,
-  [string, string[], { env: Record<string, any> }]
->;
+type ExecMock = jest.Mock<any, [string, { env: Record<string, any> }]>;
 
 describe("genesisExecutor", () => {
   afterAll(() => {
@@ -44,14 +41,10 @@ describe("genesisExecutor", () => {
     it("executes the correct commnad", () => {
       expect(spawn).toHaveBeenCalledTimes(1);
 
-      const calls = (spawn as unknown as SpawnMock).mock.calls;
+      const calls = (spawn as unknown as ExecMock).mock.calls;
 
-      const command = calls[0][0];
-      const args = calls[0][1].join(" ");
-
-      expect(command).toBe("genesis");
-      expect(args).toBe(
-        '@chiubaka/genesis-executor --description="Testing for the genesis executor" --disable-immutable-installs --skip-github',
+      expect(calls[0][0]).toBe(
+        'genesis @chiubaka/genesis-executor --description="Testing for the genesis executor" --disable-immutable-installs --skip-github',
       );
     });
 
@@ -83,14 +76,10 @@ describe("genesisExecutor", () => {
     it("executes the correct command", () => {
       expect(spawn).toHaveBeenCalledTimes(1);
 
-      const calls = (spawn as unknown as SpawnMock).mock.calls;
+      const calls = (spawn as unknown as ExecMock).mock.calls;
 
-      const command = calls[0][0];
-      const args = calls[0][1].join(" ");
-
-      expect(command).toBe("genesis");
-      expect(args).toBe(
-        '@chiubaka/genesis-executor --description="Testing for the genesis executor" --skip-github',
+      expect(calls[0][0]).toBe(
+        'genesis @chiubaka/genesis-executor --description="Testing for the genesis executor" --skip-github',
       );
     });
   });
@@ -116,14 +105,10 @@ describe("genesisExecutor", () => {
     it("executes the correct command", () => {
       expect(spawn).toHaveBeenCalledTimes(1);
 
-      const calls = (spawn as unknown as SpawnMock).mock.calls;
+      const calls = (spawn as unknown as ExecMock).mock.calls;
 
-      const command = calls[0][0];
-      const args = calls[0][1].join(" ");
-
-      expect(command).toBe("genesis");
-      expect(args).toBe(
-        '@chiubaka/genesis-executor --description="Testing for the genesis executor" --disable-immutable-installs',
+      expect(calls[0][0]).toBe(
+        'genesis @chiubaka/genesis-executor --description="Testing for the genesis executor" --disable-immutable-installs',
       );
     });
   });
@@ -149,17 +134,12 @@ describe("genesisExecutor", () => {
     it("executes the correct command", () => {
       expect(spawn).toHaveBeenCalledTimes(1);
 
-      const calls = (spawn as unknown as SpawnMock).mock.calls;
-      const env = calls[0][2].env;
+      const calls = (spawn as unknown as ExecMock).mock.calls;
+      const env = calls[0][1].env;
 
-      const command = calls[0][0];
-      const args = calls[0][1].join(" ");
-
-      expect(command).toBe("genesis");
-      expect(args).toBe(
-        '@chiubaka/genesis-executor --description="Testing for the genesis executor" --disable-immutable-installs --skip-github --registry=http://localhost:4873',
+      expect(calls[0][0]).toBe(
+        'genesis @chiubaka/genesis-executor --description="Testing for the genesis executor" --disable-immutable-installs --skip-github --registry=http://localhost:4873',
       );
-
       expect(env).toMatchObject({
         ...process.env,
         npm_config_registry: "http://localhost:4873",
