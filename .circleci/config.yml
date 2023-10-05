@@ -97,6 +97,13 @@ jobs:
       - attach_workspace:
           at: .
       - run:
+          name: Set NPM Prefix
+          command: echo "export NPM_CONFIG_PREFIX=$HOME/.local" >> $BASH_ENV
+      - run:
+          name: Start Verdaccio
+          command: yarn verdaccio --config ./verdaccio/config/config.local.yaml
+          background: true
+      - run:
           name: Setup Genesis E2E
           command: yarn nx setup-e2e genesis-e2e
       - persist_to_workspace:
