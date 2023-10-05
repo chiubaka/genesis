@@ -38,6 +38,9 @@ workflows:
                   - dist
           filters:
             <<: *semver-tags
+      - setup-e2e:
+          requires:
+            - build
       - chiubaka/test:
           name: test
           configure-git-user: true
@@ -63,7 +66,7 @@ workflows:
                   # Save generated Genesis E2E workspace template to speed up downstream tests
                   - tmp/nx-e2e/genesis-e2e
           requires:
-            - build
+            - setup-e2e
           filters:
             <<: *semver-tags
       - ios-e2e:
@@ -86,6 +89,22 @@ workflows:
             <<: *semver-tags
 
 jobs:
+  setup-e2e:
+    executor: chiubaka/docker-node
+    steps:
+      - chiubaka/setup:
+          yarn-berry: true
+      - attach_workspace:
+          at: .
+      - run:
+          name: Setup Genesis E2E
+          command: yarn nx setup-e2e genesis-e2e
+      - persist_to_workspace:
+          root: .
+          paths:
+            - node_modules/.cache/nx
+            - tmp/nx-e2e/genesis-e2e
+
   ios-e2e:
     executor: chiubaka/macos
     steps:
