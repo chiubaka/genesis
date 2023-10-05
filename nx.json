@@ -15,7 +15,7 @@
           "deploy",
           "yarn-cache-clean",
           "install-local-genesis-cli",
-          "setup-e2e"
+          "setup-e2e:with-dependencies"
         ],
         "cacheDirectory": "tmp/nx-cache"
       }

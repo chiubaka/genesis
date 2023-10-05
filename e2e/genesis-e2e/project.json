@@ -44,6 +44,9 @@
       }
     },
     "setup-e2e": {
+      "command": "./e2e/genesis-e2e/scripts/setupE2e.sh"
+    },
+    "setup-e2e:with-dependencies": {
       "dependsOn": [
         {
           "target": "install-local-genesis-cli"
