@@ -8,6 +8,7 @@ constants:
 
 orbs:
   chiubaka: chiubaka/circleci-orb@dev:031d2b06235f149531a155b10400aeccd17bc913
+  node: circleci/node@5.0.2
 
 filters:
   semver-tags: &semver-tags
@@ -129,6 +130,16 @@ jobs:
           name: Start Verdaccio
           command: yarn verdaccio --config ./verdaccio/config/config.local.yaml
           background: true
+      - reinstall-genesis-e2e-dependencies
       - run:
           name: Run iOS E2E tests
           command: yarn run e2e:ios:affected
+
+commands:
+  reinstall-genesis-e2e-dependencies:
+    steps:
+      - node/install-packages:
+          check-cache: always
+          pkg-manager: yarn-berry
+          with-cache: true
+          app-dir: tmp/nx-e2e/genesis-e2e
