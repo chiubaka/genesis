@@ -110,6 +110,7 @@ jobs:
           root: .
           paths:
             - node_modules/.cache/nx
+            - verdaccio/storage/data/@chiubaka
             - tmp/nx-e2e/genesis-e2e
 
   ios-e2e:
