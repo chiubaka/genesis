@@ -124,6 +124,9 @@ jobs:
       - attach_workspace:
           at: .
       - run:
+          name: Clear Nx Cache
+          command: rm -rf tmp/nx-cache
+      - run:
           name: Set NPM Prefix
           command: echo "export NPM_CONFIG_PREFIX=$HOME/.local" >> $BASH_ENV
       - run:
