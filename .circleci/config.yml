@@ -7,9 +7,7 @@ constants:
   semver-regex: &semver-regex /^(\w+-)+v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/
 
 orbs:
-  chiubaka: chiubaka/circleci-orb@0.11.4
-  react-native: react-native-community/react-native@7.1.1
-  node: circleci/node@5.1.0
+  chiubaka: chiubaka/circleci-orb@dev:d4cec39f345b47a8f40bf2ff38f79596ff8a9758
 
 filters:
   semver-tags: &semver-tags
@@ -27,24 +25,43 @@ workflows:
       #     yarn-berry: true
       #     filters:
       #       <<: *semver-tags
-      # - chiubaka/build:
-      #     name: build
-      #     yarn-berry: true
-      #     filters:
-      #       <<: *semver-tags
-      # - chiubaka/test:
-      #     executor: chiubaka/machine
-      #     name: test
-      #     configure-git-user: true
-      #     docker-compose: true
-      #     wait-for-docker-services:
-      #       - chiubaka/wait-for-docker-service:
-      #           container-name: genesis_registry
-      #           url: http://localhost:4873/healthcheck
-      #     yarn-berry: true
-      #     filters:
-      #       <<: *semver-tags
-      - ios-e2e
+      - chiubaka/build:
+          name: build
+          yarn-berry: true
+          cleanup-steps:
+            - persist_to_workspace:
+                root: .
+                paths:
+                  # Save the NX cache so subsequent jobs can read from cache
+                  - node_modules.cache/nx
+                  # Save built packages so they can be used by downstream jobs
+                  - dist
+          filters:
+            <<: *semver-tags
+      - chiubaka/test:
+          name: test
+          configure-git-user: true
+          yarn-berry: true
+          setup-steps:
+            - attach_workspace:
+                at: .
+            - run:
+                name: Start Verdaccio
+                command: yarn verdaccio --config ./verdaccio/config/config.local.yaml
+                background: true
+          cleanup-steps:
+            - persist_to_workspace:
+                root: .
+                paths:
+                  # Save the NX cache so subsequent jobs can read from cache
+                  - node_modules/.cache/nx
+                  # Save generated Genesis E2E workspace template to speed up downstream tests
+                  - tmp/nx-e2e/genesis-e2e
+          filters:
+            <<: *semver-tags
+      - ios-e2e:
+          requires:
+            - test
         # requires:
         # - lint
         # - build
@@ -63,23 +80,17 @@ workflows:
 
 jobs:
   ios-e2e:
-    executor:
-      name: react-native/macos
-      resource_class: macos.m1.medium.gen1
-      xcode_version: 14.3.1
+    executor: chiubaka/macos
     steps:
       - checkout
-      - react-native/setup_macos_executor:
-          node_version: "16"
-      - node/install-packages:
-          pkg-manager: yarn-berry
+      - chiubaka/setup-macos:
+          yarn-berry: true
+      - attach_workspace:
+          at: .
       - run:
           name: Start Verdaccio
           command: yarn verdaccio --config ./verdaccio/config/config.local.yaml
           background: true
-      - run:
-          name: Install Xcodes
-          command: brew install xcodesorg/made/xcodes
       - run:
           name: Run iOS E2E tests
           command: yarn run e2e:ios:affected

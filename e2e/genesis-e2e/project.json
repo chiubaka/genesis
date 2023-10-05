@@ -57,20 +57,24 @@
         "registry": "http://localhost:4873",
         "disableImmutableInstalls": true
       },
+      "inputs": ["localGenesisPackage"],
       "outputs": ["{workspaceRoot}/tmp/nx-e2e/genesis-e2e"]
     },
     "yarn-cache-clean": {
       "executor": "nx:run-commands",
-      "options": {
-        "command": "yarn cache clean --all"
-      }
-    },
-    "install-local-genesis-cli": {
       "dependsOn": [
         {
           "target": "deploy",
           "dependencies": true
-        },
+        }
+      ],
+      "options": {
+        "command": "yarn cache clean --all"
+      },
+      "inputs": ["localGenesisPackage"]
+    },
+    "install-local-genesis-cli": {
+      "dependsOn": [
         {
           "target": "yarn-cache-clean"
         }
@@ -78,7 +82,8 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "npm uninstall -g @chiubaka/genesis && npm install @chiubaka/genesis --location=global --registry=http://localhost:4873"
-      }
+      },
+      "inputs": ["localGenesisPackage"]
     }
   },
   "tags": [],
