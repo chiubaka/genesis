@@ -34,7 +34,7 @@ workflows:
                 root: .
                 paths:
                   # Save the NX cache so subsequent jobs can read from cache
-                  - node_modules.cache/nx
+                  - tmp/nx-cache
                   # Save built packages so they can be used by downstream jobs
                   - dist
           filters:
@@ -112,7 +112,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - node_modules/.cache/nx
+            - tmp/nx-cache
             - verdaccio/storage/data/@chiubaka
             - tmp/nx-e2e/genesis-e2e
 
@@ -138,6 +138,9 @@ jobs:
 commands:
   reinstall-genesis-e2e-dependencies:
     steps:
+      - run:
+          name: Delete existing Genesis E2E template dependencies
+          command: rm -rf tmp/nx-e2e/genesis-e2e/node_modules
       - node/install-packages:
           check-cache: always
           pkg-manager: yarn-berry
