@@ -3,7 +3,7 @@ import { ensureDirSync, moveSync, removeSync } from "fs-extra";
 import os from "node:os";
 import path from "node:path";
 
-import { exec } from "../../utils";
+import { spawn } from "../../utils";
 import { GenesisExecutorSchema } from "./genesisExecutor.schema";
 
 export async function genesisExecutor(options: GenesisExecutorSchema) {
@@ -22,21 +22,25 @@ export async function genesisExecutor(options: GenesisExecutorSchema) {
   removeSync(tmpDir);
   ensureDirSync(tmpDir);
 
-  let command = `genesis @${workspaceScope}/${workspaceName} --description="${description}"`;
+  const args = [
+    `@${workspaceScope}/${workspaceName}`,
+    `--description="${description}"`,
+  ];
 
   if (disableImmutableInstalls) {
-    command = `${command} --disable-immutable-installs`;
+    args.push("--disable-immutable-installs");
   }
 
   if (skipGitHub) {
-    command = `${command} --skip-github`;
+    args.push("--skip-github");
   }
 
   if (registry) {
-    command = `${command} --registry=${registry}`;
+    args.push(`--registry=${registry}`);
   }
 
-  await exec(command, {
+  await spawn("genesis", args, {
+    stdio: "inherit",
     cwd: tmpDir,
     env: {
       ...process.env,

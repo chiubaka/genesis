@@ -4,5 +4,6 @@ export * from "./git";
 export * from "./github";
 export * from "./Project";
 export * from "./replaceInFile";
+export * from "./spawn";
 export * from "./tasks";
 export * from "./yaml";
