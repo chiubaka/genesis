@@ -57,6 +57,8 @@ workflows:
                   - node_modules/.cache/nx
                   # Save generated Genesis E2E workspace template to speed up downstream tests
                   - tmp/nx-e2e/genesis-e2e
+          requires:
+            - build
           filters:
             <<: *semver-tags
       - ios-e2e:
