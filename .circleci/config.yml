@@ -39,46 +39,46 @@ workflows:
                   - dist
           filters:
             <<: *semver-tags
-      - setup-e2e:
+      # - setup-e2e:
+      #     requires:
+      #       - build
+      - chiubaka/test:
+          name: test
+          configure-git-user: true
+          yarn-berry: true
+          setup-steps:
+            - attach_workspace:
+                at: .
+            # This is needed because, otherwise, attempts to globally install
+            # npm modules will fail due to permission denied.
+            - run:
+                name: Set NPM Prefix
+                command: echo "export NPM_CONFIG_PREFIX=$HOME/.local" >> $BASH_ENV
+            - run:
+                name: Start Verdaccio
+                command: yarn verdaccio --config ./verdaccio/config/config.local.yaml
+                background: true
+          cleanup-steps:
+            - persist_to_workspace:
+                root: .
+                paths:
+                  # Save the NX cache so subsequent jobs can read from cache
+                  - node_modules/.cache/nx
+                  # Save locally deployed npm modules
+                  - verdaccio/storage/data/@chiubaka
+                  # Save generated Genesis E2E workspace template to speed up downstream tests
+                  - tmp/nx-e2e/genesis-e2e
           requires:
             - build
-      # - chiubaka/test:
-      #     name: test
-      #     configure-git-user: true
-      #     yarn-berry: true
-      #     setup-steps:
-      #       - attach_workspace:
-      #           at: .
-      #       # This is needed because, otherwise, attempts to globally install
-      #       # npm modules will fail due to permission denied.
-      #       - run:
-      #           name: Set NPM Prefix
-      #           command: echo "export NPM_CONFIG_PREFIX=$HOME/.local" >> $BASH_ENV
-      #       - run:
-      #           name: Start Verdaccio
-      #           command: yarn verdaccio --config ./verdaccio/config/config.local.yaml
-      #           background: true
-      #     cleanup-steps:
-      #       - persist_to_workspace:
-      #           root: .
-      #           paths:
-      #             # Save the NX cache so subsequent jobs can read from cache
-      #             - node_modules/.cache/nx
-      #             # Save locally deployed npm modules
-      #             - verdaccio/storage/data/@chiubaka
-      #             # Save generated Genesis E2E workspace template to speed up downstream tests
-      #             - tmp/nx-e2e/genesis-e2e
+          filters:
+            <<: *semver-tags
+      # - ios-e2e:
       #     requires:
       #       - setup-e2e
-      #     filters:
-      #       <<: *semver-tags
-      - ios-e2e:
-          requires:
-            - setup-e2e
-        # requires:
-        # - lint
-        # - build
-        # - test
+      # requires:
+      # - lint
+      # - build
+      # - test
       - chiubaka/deploy:
           name: deploy
           task-name: Publish to NPM
