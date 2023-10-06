@@ -7,7 +7,7 @@ WORKSPACE_ROOT=$DIR/../../..
 
 cd $WORKSPACE_ROOT
 
-if [ "$CI" == "true" ] && [ -d "$WORKSPACE_ROOT/tmp/nx-e2e/genesis-e2e" ]; then
+if ([ "$CI" == "true" ] || [ "$SKIP_E2E_SETUP" == "true" ]) && [ -d "$WORKSPACE_ROOT/tmp/nx-e2e/genesis-e2e" ]; then
   echo "Genesis E2E template workspace has already been generated!"
   exit 0
 else
