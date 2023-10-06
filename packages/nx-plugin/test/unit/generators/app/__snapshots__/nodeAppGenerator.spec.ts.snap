@@ -42,7 +42,7 @@ exports[`nodeAppGenerator .eslintrc.json matches snapshot 1`] = `
 }
 `;
 
-exports[`nodeAppGenerator jest.config.ts matches snapshot 1`] = `
+exports[`nodeAppGenerator jest.config.ts jest.config.ts matches snapshot 1`] = `
 "export default {
   displayName: "node-app",
     preset: "../../jest.preset.js",

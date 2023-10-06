@@ -16,7 +16,7 @@ export async function copyWorkspaceTemplate(name: string) {
   const templatePath = e2eTmpPath("genesis-e2e");
   progressIndicator = new ProgressIndicator(
     `Copying template from ${templatePath} to ${destination}`,
-  );
+  ).start();
   await fs.copy(templatePath, destination, {
     filter: skipNodeModules,
     recursive: true,

@@ -3,7 +3,7 @@ import fs from "fs-extra";
 
 import { copyWorkspaceTemplate } from "../../utils";
 
-describe("reactNativeAppGenerator", () => {
+describe("reactNativeAppGenerator android", () => {
   let workspace: TestingWorkspace;
 
   beforeAll(async () => {
@@ -18,7 +18,9 @@ describe("reactNativeAppGenerator", () => {
       workspace = new TestingWorkspace(workspaceDestination);
 
       // eslint-disable-next-line no-console
-      console.info("Skipping workspace setup for reactNativeAppGenerator ios");
+      console.info(
+        "Skipping workspace setup for reactNativeAppGenerator android",
+      );
       return;
     }
 
@@ -29,23 +31,25 @@ describe("reactNativeAppGenerator", () => {
     );
   });
 
-  it("generates a project with a working iOS build setup", async () => {
+  it("generates a project with a working Android build setup", async () => {
     await expect(
-      workspace.execNx("build-ios react-native-app"),
+      workspace.execNx("build-android react-native-app"),
     ).resolves.not.toThrow();
   });
 
   describe("fastlane", () => {
-    it.todo("generates a project that can build iOS using fastlane");
+    it.todo("generates a project that can build Android using fastlane");
 
-    it.todo("generates a project that can run native iOS tests using fastlane");
+    it.todo(
+      "generates a project that can run native Android tests using fastlane",
+    );
   });
 
   describe("e2e project", () => {
-    it("generates a project with a working iOS Detox setup", async () => {
+    it("generates a project with a working android Detox setup", async () => {
       await expect(
         workspace.execNx(
-          "test-ios react-native-app-e2e --configuration=production",
+          "test-android react-native-app-e2e --configuration=production",
         ),
       ).resolves.not.toThrow();
     });

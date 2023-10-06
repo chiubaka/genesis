@@ -9,7 +9,7 @@ import * as Detox from "detox";
 import endent from "endent";
 import path from "node:path";
 
-import { EsLintExecutorOptions, PackageJson } from "../../../types";
+import { EsLintExecutorOptions, JestConfig, PackageJson } from "../../../types";
 import { Project, replaceInFile } from "../../../utils";
 import {
   eslintProjectGenerator,
@@ -330,8 +330,20 @@ function updateE2eTestSetup(
   updateJson(
     tree,
     e2eProject.path("jest.config.json"),
-    (config: { setupFilesAfterEnv?: string[] }) => {
+    (config: JestConfig) => {
       config.setupFilesAfterEnv = ["<rootDir>/test/setup/setup.ts"];
+      config.coverageDirectory = `../../reports/coverage/${e2eProject.relativePath()}`;
+      config.reporters = [
+        [
+          "jest-junit",
+          {
+            addFileAttribute: "true",
+            classNameTemplate: "{suitename}",
+            outputDirectory: "reports/junit",
+            outputName: `${e2eProject.getName()}.xml`,
+          },
+        ],
+      ];
 
       return config;
     },

@@ -84,7 +84,7 @@ exports[`nodeLibGenerator E2E project .eslintrc.json matches snapshot 1`] = `
 }
 `;
 
-exports[`nodeLibGenerator E2E project jest.config.ts matches snapshot 1`] = `
+exports[`nodeLibGenerator E2E project jest.config.ts jest.config.ts matches snapshot 1`] = `
 "export default {
   displayName: "node-lib-e2e",
     preset: "../../jest.preset.js",
@@ -280,7 +280,7 @@ module.exports = composePlugins(withNx(), (config) => {
 "
 `;
 
-exports[`nodeLibGenerator jest.config.ts matches snapshot 1`] = `
+exports[`nodeLibGenerator jest.config.ts jest.config.ts matches snapshot 1`] = `
 "export default {
   displayName: "node-lib",
     preset: "../../jest.preset.js",

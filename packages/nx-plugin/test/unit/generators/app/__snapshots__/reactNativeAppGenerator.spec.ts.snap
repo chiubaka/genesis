@@ -173,7 +173,7 @@ exports[`reactNativeAppGenerator e2e .eslintrc.json matches snapshot 1`] = `
 }
 `;
 
-exports[`reactNativeAppGenerator e2e jest.config.json matches snapshot 1`] = `
+exports[`reactNativeAppGenerator e2e jest.config.json jest.config.json matches snapshot 1`] = `
 "{
   "preset": "../../jest.preset",
   "rootDir": ".",
@@ -186,13 +186,22 @@ exports[`reactNativeAppGenerator e2e jest.config.json matches snapshot 1`] = `
   "globalSetup": "detox/runners/jest/globalSetup",
   "globalTeardown": "detox/runners/jest/globalTeardown",
   "reporters": [
-    "detox/runners/jest/reporter"
+    [
+      "jest-junit",
+      {
+        "addFileAttribute": "true",
+        "classNameTemplate": "{suitename}",
+        "outputDirectory": "reports/junit",
+        "outputName": "react-native-app-e2e.xml"
+      }
+    ]
   ],
   "testEnvironment": "detox/runners/jest/testEnvironment",
   "verbose": true,
   "setupFilesAfterEnv": [
     "<rootDir>/test/setup/setup.ts"
-  ]
+  ],
+  "coverageDirectory": "../../reports/coverage/e2e/react-native-app-e2e"
 }
 "
 `;
@@ -374,7 +383,7 @@ exports[`reactNativeAppGenerator e2e typescript tsconfig.spec.json matches snaps
 "
 `;
 
-exports[`reactNativeAppGenerator jest.config.ts matches snapshot 1`] = `
+exports[`reactNativeAppGenerator jest.config.ts jest.config.ts matches snapshot 1`] = `
 "export default {
   displayName: "react-native-app",
     preset: "react-native",

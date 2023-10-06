@@ -21,9 +21,9 @@ describe("reactNativeAppGenerator", () => {
     skipBuild: true,
   });
 
-  it("generates a project with a working Android build setup", async () => {
+  it("generates a project with a working iOS bundling setup", async () => {
     await expect(
-      workspace.execNx("build-android react-native-app"),
+      workspace.execNx("bundle-ios react-native-app"),
     ).resolves.not.toThrow();
   });
 
@@ -33,24 +33,10 @@ describe("reactNativeAppGenerator", () => {
     ).resolves.not.toThrow();
   });
 
-  describe("fastlane", () => {
-    it.todo("generates a project that can build Android using fastlane");
-
-    it.todo("generates a project that run native Android tests using fastlane");
-  });
-
   describe("e2e project", () => {
     projectTestCases("react-native-app-e2e", getWorkspace, {
       skipBuild: true,
       skipTest: true,
-    });
-
-    it("generates a project with a working android Detox setup", async () => {
-      await expect(
-        workspace.execNx(
-          "test-android react-native-app-e2e --configuration=production",
-        ),
-      ).resolves.not.toThrow();
     });
   });
 });

@@ -42,4 +42,8 @@ declare namespace jest {
       newPath: string,
     ) => CustomMatcherResult;
   }
+
+  interface Config {
+    coverageDirectory?: string;
+  }
 }

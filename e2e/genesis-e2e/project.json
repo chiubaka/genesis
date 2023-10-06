@@ -36,6 +36,22 @@
         "{workspaceRoot}/reports/junit/genesis-e2e-ios.xml"
       ]
     },
+    "e2e:android": {
+      "dependsOn": [
+        {
+          "target": "setup-e2e"
+        }
+      ],
+      "executor": "@nx/jest:jest",
+      "options": {
+        "jestConfig": "e2e/genesis-e2e/jest.android.config.ts",
+        "passWithNoTests": true
+      },
+      "outputs": [
+        "{workspaceRoot}/reports/coverage/e2e/genesis-e2e-android",
+        "{workspaceRoot}/reports/junit/genesis-e2e-android.xml"
+      ]
+    },
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],

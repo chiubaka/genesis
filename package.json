@@ -13,6 +13,8 @@
     "e2e": "nx e2e",
     "e2e:affected": "nx affected --target=e2e",
     "e2e:all": "nx run-many --target=e2e --all",
+    "e2e:android:affected": "nx affected --target=e2e:android",
+    "e2e:android:all": "nx run-many --target=e2e:android --all",
     "e2e:ios:affected": "nx affected --target=e2e:ios",
     "e2e:ios:all": "nx run-many --target=e2e:ios --all",
     "lint": "nx lint",

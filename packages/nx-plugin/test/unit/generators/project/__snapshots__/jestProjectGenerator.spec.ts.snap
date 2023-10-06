@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`jestProjectGenerator jest.config.ts matches snapshot 1`] = `
+exports[`jestProjectGenerator jest.config.ts jest.config.ts matches snapshot 1`] = `
 "export default {
   displayName: "jest-project",
     preset: "../../jest.preset.js",

@@ -444,12 +444,32 @@ describe("reactNativeAppGenerator", () => {
       expect(tree.exists(e2eProject.testPath("setup/setup.ts"))).toBe(true);
     });
 
-    fileMatchesSnapshot(
-      "jest.config.json",
-      getE2eProject,
-      (e2eProject: Project) => {
-        return e2eProject.path("jest.config.json");
-      },
-    );
+    describe("jest.config.json", () => {
+      fileMatchesSnapshot(
+        "jest.config.json",
+        getE2eProject,
+        (e2eProject: Project) => {
+          return e2eProject.path("jest.config.json");
+        },
+      );
+
+      it("changes the coverage directory to monorepo root", () => {
+        const jestConfig = readJson<jest.Config>(
+          tree,
+          e2eProject.path("jest.config.json"),
+        );
+
+        expect(jestConfig.coverageDirectory).toBe(
+          `../../reports/coverage/${e2eProject.relativePath()}`,
+        );
+      });
+
+      it("sets up the jest-junit reporter", () => {
+        expect(tree).toHaveFileWithContent(
+          e2eProject.path("jest.config.json"),
+          "jest-junit",
+        );
+      });
+    });
   });
 });
