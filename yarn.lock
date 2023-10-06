@@ -2099,6 +2099,7 @@ __metadata:
     "@nx/devkit": 16.8.1
     "@nx/node": 16.8.1
     nx: 16.8.1
+    ora: 5.3.0
   languageName: unknown
   linkType: soft
 
