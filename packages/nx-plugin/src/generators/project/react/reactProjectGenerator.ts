@@ -6,7 +6,7 @@ import {
 import { Tree } from "@nx/devkit";
 import { Linter } from "@nx/linter";
 
-import { lintFix, Project } from "../../../utils";
+import { addDependenciesToPackageJson, lintFix, Project } from "../../../utils";
 import { eslintProjectGenerator } from "../eslint";
 import { projectGenerator, ProjectGeneratorSchema } from "../project";
 import { TsConfigGeneratorPresets } from "../tsconfig";
@@ -18,6 +18,8 @@ export async function reactProjectGenerator(
   const project = Project.createFromOptions(tree, options);
 
   const baseGeneratorTask = await baseGenerator(project, options);
+
+  const installDependenciesTask = await installDependencies(tree);
 
   const projectGeneratorTask = await projectGenerator(tree, {
     ...options,
@@ -46,6 +48,7 @@ export async function reactProjectGenerator(
 
   return async () => {
     await baseGeneratorTask();
+    await installDependenciesTask();
     await projectGeneratorTask();
     await storybookGeneratorTask();
     await lintFix(tree.root);
@@ -73,6 +76,16 @@ function baseGenerator(project: Project, options: ProjectGeneratorSchema) {
     tags,
     unitTestRunner: "jest",
   });
+}
+
+function installDependencies(tree: Tree) {
+  return addDependenciesToPackageJson(
+    tree,
+    [],
+    // Ensure that we install the latest @types/react and @types/react-dom, since
+    // the versions pegged by Nx sometimes produce typings conflicts
+    ["@types/react", "@types/react-dom"],
+  );
 }
 
 function getBaseGenerator(project: Project) {

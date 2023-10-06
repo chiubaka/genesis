@@ -77,7 +77,14 @@ function getBaseGenerator(project: Project) {
 }
 
 function installDependencies(tree: Tree) {
-  return addDependenciesToPackageJson(tree, [], ["@types/react-test-renderer"]);
+  return addDependenciesToPackageJson(
+    tree,
+    [],
+    // @types/react and @types/react-native are re-installed because versions
+    // pegged by Nx sometimes produce typings conflicts
+    // @types/react-test-renderer was missing from generated Nx project
+    ["@types/react", "@types/react-test-renderer", "@types/react-native"],
+  );
 }
 
 function updateTestingSetup(project: Project) {

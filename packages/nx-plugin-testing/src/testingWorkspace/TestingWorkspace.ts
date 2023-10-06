@@ -9,8 +9,8 @@ import { exec as nodeExec } from "node:child_process";
 import { rmSync } from "node:fs";
 import path from "node:path";
 import { PackageJson } from "nx/src/utils/package-json";
-import ora from "ora";
 
+import { ProgressIndicator } from "../utils";
 import { AbstractTestingWorkspace } from "./AbstractTestingWorkspace";
 
 export class TestingWorkspace extends AbstractTestingWorkspace {
@@ -21,7 +21,9 @@ export class TestingWorkspace extends AbstractTestingWorkspace {
   public async exec(command: string, env?: NodeJS.ProcessEnv) {
     return new Promise<{ stdout: string; stderr: string }>(
       (resolve, reject) => {
-        const spinner = ora(`Running ${command} in ${this.rootPath}`).start();
+        const progressIndicator = new ProgressIndicator(
+          `Running ${command} in ${this.rootPath}`,
+        ).start();
         nodeExec(
           command,
           {
@@ -31,7 +33,7 @@ export class TestingWorkspace extends AbstractTestingWorkspace {
           },
           (error, stdout, stderr) => {
             if (error) {
-              spinner.fail(error.message);
+              progressIndicator.fail(error.message);
               if (stdout !== "") {
                 // eslint-disable-next-line no-console
                 console.log(stdout);
@@ -42,7 +44,7 @@ export class TestingWorkspace extends AbstractTestingWorkspace {
               return reject(error);
             }
 
-            spinner.succeed(`Ran ${command} in ${this.rootPath}`);
+            progressIndicator.succeed(`Ran ${command} in ${this.rootPath}`);
             resolve({
               stdout,
               stderr,

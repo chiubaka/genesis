@@ -1,9 +1,15 @@
+import React from "react";
 import { Text, View } from "react-native";
 
 interface Props {
   testID?: string;
 }
 
+/**
+ * @param props component properties
+ * @param props.testID testing ID for Detox
+ * @returns A component that displays a familiar phrase
+ */
 export function HelloWorld({ testID }: Props) {
   return (
     <View testID={testID}>

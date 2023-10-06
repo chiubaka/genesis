@@ -5,7 +5,7 @@ import { HelloWorld } from "../../src";
 
 describe("HelloWorld", () => {
   it("displays a familiar phrase", async () => {
-    render(<HelloWorld />);
+    render(<HelloWorld testID="text" />);
 
     const textComponent = await screen.findByTestId("text");
 

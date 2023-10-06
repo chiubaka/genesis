@@ -6,7 +6,7 @@ import {
   projectTestCases,
 } from "../utils";
 
-describe.skip("reactAppGenerator", () => {
+describe("reactAppGenerator", () => {
   let workspace: TestingWorkspace;
 
   const getWorkspace = () => {
