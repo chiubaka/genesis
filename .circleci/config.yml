@@ -79,17 +79,17 @@ workflows:
       # - lint
       # - build
       # - test
-      - chiubaka/deploy:
-          name: deploy
-          task-name: Publish to NPM
-          yarn-berry: true
-          context:
-            - npm-publishing
-          requires:
-            - ios-e2e
-          filters:
-            <<: *ignore-branches
-            <<: *semver-tags
+      # - chiubaka/deploy:
+      #     name: deploy
+      #     task-name: Publish to NPM
+      #     yarn-berry: true
+      #     context:
+      #       - npm-publishing
+      #     requires:
+      #       - ios-e2e
+      #     filters:
+      #       <<: *ignore-branches
+      #       <<: *semver-tags
 
 jobs:
   setup-e2e:
