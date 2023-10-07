@@ -19,4 +19,7 @@ export default {
     "\\.ios\\.(test|spec)\\.[jt]sx?$",
     "\\.android\\.(test|spec)\\.[jt]sx?$",
   ],
+  // watchman appears to degrade test bootstrapping performance
+  // and may even cause tests to hang on macOS CI executors (unconfirmed)
+  watchman: false,
 };
