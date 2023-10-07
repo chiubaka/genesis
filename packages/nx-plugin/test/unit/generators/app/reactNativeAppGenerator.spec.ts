@@ -94,6 +94,42 @@ describe("reactNativeAppGenerator", () => {
     it.todo("adds first-time setup instructions for Fastlane");
   });
 
+  describe("project.json", () => {
+    let projectJson: ProjectConfiguration;
+
+    beforeAll(() => {
+      projectJson = readJson(tree, project.path("project.json"));
+    });
+
+    it("adds sync-deps as a dependency of bundle-android", () => {
+      const bundleAndroidTarget = projectJson.targets?.[
+        "bundle-android"
+      ] as TargetConfiguration<any>;
+
+      expect(bundleAndroidTarget).toBeDefined();
+
+      const dependsOn = bundleAndroidTarget.dependsOn as string[];
+
+      expect(dependsOn).toBeDefined();
+
+      expect(dependsOn).toContain("sync-deps");
+    });
+
+    it("adds sync-deps as a dependency of bundle-ios", () => {
+      const bundleIosTarget = projectJson.targets?.[
+        "bundle-ios"
+      ] as TargetConfiguration<any>;
+
+      expect(bundleIosTarget).toBeDefined();
+
+      const dependsOn = bundleIosTarget.dependsOn as string[];
+
+      expect(dependsOn).toBeDefined();
+
+      expect(dependsOn).toContain("sync-deps");
+    });
+  });
+
   describe("Gemfile", () => {
     fileMatchesSnapshot("Gemfile", getProject, (project: Project) => {
       return project.path("Gemfile");

@@ -515,6 +515,7 @@ exports[`reactNativeAppGenerator project.json matches snapshot 1`] = `
     "bundle-android": {
       "dependsOn": [
         "ensure-symlink",
+        "sync-deps",
       ],
       "executor": "@nx/react-native:bundle",
       "options": {
@@ -529,6 +530,7 @@ exports[`reactNativeAppGenerator project.json matches snapshot 1`] = `
     "bundle-ios": {
       "dependsOn": [
         "ensure-symlink",
+        "sync-deps",
       ],
       "executor": "@nx/react-native:bundle",
       "options": {

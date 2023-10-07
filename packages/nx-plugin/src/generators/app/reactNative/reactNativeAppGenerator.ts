@@ -41,6 +41,7 @@ export async function reactNativeAppGenerator(
   });
 
   updateYarnWorkspaces(project);
+  updateProjectJson(project);
   updateNativeProjects(project, options);
   updateCodeSample(project);
 
@@ -67,6 +68,57 @@ function updateYarnWorkspaces(project: Project) {
     packageJson.workspaces = workspaces;
 
     return packageJson;
+  });
+}
+
+function updateProjectJson(project: Project) {
+  const tree = project.getTree();
+  const projectJsonPath = project.path("project.json");
+
+  // Default project.json doesn't include sync-deps as a dependency for bundling targets,
+  // which causes an error if bundle is ever run without running build first.
+  updateJson(tree, projectJsonPath, (projectJson: ProjectConfiguration) => {
+    const targets = projectJson.targets;
+
+    if (!targets) {
+      throw new Error(
+        `Unexpectedly did not find a targets key in ${projectJsonPath}`,
+      );
+    }
+
+    const bundleAndroidTarget = targets["bundle-android"];
+
+    if (!bundleAndroidTarget) {
+      throw new Error(
+        `Unexpectedly did not find a bundle-android target in ${projectJsonPath}`,
+      );
+    }
+
+    if (!bundleAndroidTarget.dependsOn) {
+      throw new Error(
+        `bundle-android target unexpectedly had no dependsOn key in ${projectJsonPath}`,
+      );
+    }
+
+    bundleAndroidTarget.dependsOn.push("sync-deps");
+
+    const bundleIosTarget = targets["bundle-ios"];
+
+    if (!bundleIosTarget) {
+      throw new Error(
+        `Unexpectedly did not find a bundle-ios target in ${projectJsonPath}`,
+      );
+    }
+
+    if (!bundleIosTarget.dependsOn) {
+      throw new Error(
+        `build-ios target unexpectedly had no dependsOn key in ${projectJsonPath}`,
+      );
+    }
+
+    bundleIosTarget.dependsOn.push("sync-deps");
+
+    return projectJson;
   });
 }
 
