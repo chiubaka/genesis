@@ -7,7 +7,7 @@ constants:
   semver-regex: &semver-regex /^(\w+-)+v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/
 
 orbs:
-  chiubaka: chiubaka/circleci-orb@dev:bb9f7a02411d14231379059294e00ed3c486e7a7
+  chiubaka: chiubaka/circleci-orb@dev:182adfebae8d93ed60fdbd8e7838e68d75cc6072
   node: circleci/node@5.0.2
 
 filters:
@@ -132,7 +132,8 @@ jobs:
   android-e2e:
     executor: chiubaka/android
     steps:
-      - chiubaka/setup-react-native:
+      - chiubaka/setup-android:
+          with-emulator: true
           yarn-berry: true
       - attach_workspace:
           at: .
@@ -151,6 +152,7 @@ jobs:
     executor: chiubaka/macos
     steps:
       - chiubaka/setup-macos:
+          with-simulator: true
           yarn-berry: true
       - attach_workspace:
           at: .
