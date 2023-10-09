@@ -137,9 +137,7 @@ jobs:
           yarn-berry: true
       - attach_workspace:
           at: .
-      - run:
-          name: Set NPM Prefix
-          command: echo "export NPM_CONFIG_PREFIX=$HOME/.local" >> $BASH_ENV
+      # Android is a machine executor, so setting the NPM prefix isn't necessary
       - run:
           name: Start Verdaccio
           command: yarn verdaccio --config ./verdaccio/config/config.local.yaml
