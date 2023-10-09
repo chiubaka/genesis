@@ -144,7 +144,7 @@ jobs:
           background: true
       - run:
           name: Run Android E2E tests
-          command: yarn run e2e:android:affected
+          command: yarn run e2e:android:all
 
   ios-e2e:
     executor: chiubaka/macos
@@ -167,7 +167,8 @@ jobs:
       - reinstall-genesis-e2e-dependencies
       - run:
           name: Run iOS E2E tests
-          command: yarn run e2e:ios:affected
+          command: yarn run e2e:ios:all
+          no_output_timeout: 2m
 
 commands:
   reinstall-genesis-e2e-dependencies:
