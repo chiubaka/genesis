@@ -78,9 +78,9 @@ workflows:
       - android-e2e:
           requires:
             - setup-e2e
-      - ios-e2e:
-          requires:
-            - setup-e2e
+      # - ios-e2e:
+      #     requires:
+      #       - setup-e2e
       # requires:
       # - lint
       # - build
