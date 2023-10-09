@@ -7,7 +7,7 @@ constants:
   semver-regex: &semver-regex /^(\w+-)+v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/
 
 orbs:
-  chiubaka: chiubaka/circleci-orb@dev:182adfebae8d93ed60fdbd8e7838e68d75cc6072
+  chiubaka: chiubaka/circleci-orb@dev:alpha
   node: circleci/node@5.0.2
 
 filters:
