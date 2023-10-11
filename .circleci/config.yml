@@ -41,7 +41,7 @@ workflows:
             <<: *semver-tags
       - chiubaka/test:
           name: test
-          resource-class: xlarge
+          resource-class: large
           configure-git-user: true
           yarn-berry: true
           setup-steps:

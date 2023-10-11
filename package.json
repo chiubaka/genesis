@@ -33,7 +33,7 @@
     "test:all": "nx run-many --target=test --all",
     "test:ci": "./scripts/test-ci.sh",
     "test:ci:affected": "yarn test:affected --ci --coverage --base=$NX_BASE --head=$NX_HEAD && yarn e2e:affected --ci --base=$NX_BASE --head=$NX_HEAD",
-    "test:ci:all": "yarn test:all --ci --coverage && yarn e2e:all --ci"
+    "test:ci:all": "yarn test:all --ci --coverage && yarn e2e:all --ci --verbose"
   },
   "license": "UNLICENSED",
   "dependencies": {
