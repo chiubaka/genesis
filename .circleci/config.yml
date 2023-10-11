@@ -41,6 +41,7 @@ workflows:
             <<: *semver-tags
       - chiubaka/test:
           name: test
+          resource-class: xlarge
           configure-git-user: true
           yarn-berry: true
           setup-steps:
@@ -103,7 +104,6 @@ jobs:
       - run:
           name: Run Android E2E tests
           command: yarn run e2e:android:all
-
   ios-e2e:
     executor: chiubaka/macos
     steps:
