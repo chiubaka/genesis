@@ -11,10 +11,12 @@
     "deploy:genesis:local": "./scripts/deployGenesisLocal.sh",
     "deploy:preset:local": "./scripts/deployPresetLocal.sh",
     "e2e": "nx e2e",
-    "e2e:affected": "nx affected --target=e2e",
-    "e2e:all": "nx run-many --target=e2e --all",
-    "e2e:android:all": "nx e2e:android genesis-e2e",
-    "e2e:ios:all": "nx e2e:ios genesis-e2e",
+    "e2e:affected": "nx affected --target=e2e --output-style=stream --verbose",
+    "e2e:all": "nx run-many --target=e2e --all --output-style=stream --verbose",
+    "e2e:android:affected": "nx affected --target=e2e:android --output-style=stream --verbose",
+    "e2e:android:all": "nx run-many --target=e2e:android --all --output-style=stream --verbose",
+    "e2e:ios:affected": "nx affected --target=e2e:ios --output-style=stream --verbose",
+    "e2e:ios:all": "nx run-many --target=e2e:ios --all --output-style=stream --verbose",
     "lint": "nx lint",
     "lint:affected": "nx affected --target=lint",
     "lint:all": "yarn lint:root && yarn lint:packages",
@@ -33,7 +35,7 @@
     "test:all": "nx run-many --target=test --all",
     "test:ci": "./scripts/test-ci.sh",
     "test:ci:affected": "yarn test:affected --ci --coverage --base=$NX_BASE --head=$NX_HEAD && yarn e2e:affected --ci --base=$NX_BASE --head=$NX_HEAD",
-    "test:ci:all": "yarn test:all --ci --coverage && yarn e2e:all --ci --verbose"
+    "test:ci:all": "yarn test:all --ci --coverage && yarn e2e:all --ci"
   },
   "license": "UNLICENSED",
   "dependencies": {
