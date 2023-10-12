@@ -68,6 +68,11 @@ exports[`reactNativeAppGenerator .eslintrc.json matches snapshot 1`] = `
 }
 `;
 
+exports[`reactNativeAppGenerator .ruby-version matches snapshot 1`] = `
+"3.2.2
+"
+`;
+
 exports[`reactNativeAppGenerator .xcode-version matches snapshot 1`] = `
 "14.3.1
 "

@@ -70,6 +70,7 @@ function copyTemplates(
   const templateDir = path.join(__dirname, "./files");
 
   generateFiles(tree, templateDir, project.path(), {
+    rubyVersion: "3.2.2",
     xcodeVersion: "14.3.1",
     ...options,
   });

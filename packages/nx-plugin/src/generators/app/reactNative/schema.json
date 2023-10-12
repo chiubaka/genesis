@@ -35,10 +35,13 @@
       "type": "string",
       "description": "iOS simulator device type to use for the starter Detox configuration"
     },
+    "rubyVersion": {
+      "type": "string",
+      "description": "The version of Ruby to pin for this project"
+    },
     "xcodeVersion": {
       "type": "string",
-      "description": "The version of Xcode to pin for this project",
-      "default": "14.3.1"
+      "description": "The version of Xcode to pin for this project"
     }
   },
   "required": ["name", "displayName", "appId"]

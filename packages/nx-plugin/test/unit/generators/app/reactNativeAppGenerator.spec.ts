@@ -169,6 +169,10 @@ describe("reactNativeAppGenerator", () => {
     });
   });
 
+  fileMatchesSnapshot(".ruby-version", getProject, (project: Project) => {
+    return project.path(".ruby-version");
+  });
+
   fileMatchesSnapshot(".xcode-version", getProject, (project: Project) => {
     return project.path(".xcode-version");
   });
