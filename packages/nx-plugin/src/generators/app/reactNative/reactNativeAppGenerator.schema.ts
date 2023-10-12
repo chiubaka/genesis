@@ -7,4 +7,5 @@ export interface ReactNativeAppGeneratorSchema
   appId: string;
   androidEmulatorAvdName?: string;
   iosSimulatorDeviceType?: string;
+  xcodeVersion?: string;
 }

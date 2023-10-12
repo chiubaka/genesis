@@ -34,6 +34,11 @@
     "iosSimulatorDeviceType": {
       "type": "string",
       "description": "iOS simulator device type to use for the starter Detox configuration"
+    },
+    "xcodeVersion": {
+      "type": "string",
+      "description": "The version of Xcode to pin for this project",
+      "default": "14.3.1"
     }
   },
   "required": ["name", "displayName", "appId"]

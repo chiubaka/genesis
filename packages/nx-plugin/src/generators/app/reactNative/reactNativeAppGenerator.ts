@@ -1,4 +1,5 @@
 import {
+  generateFiles,
   moveFilesToNewDirectory,
   ProjectConfiguration,
   TargetConfiguration,
@@ -41,6 +42,7 @@ export async function reactNativeAppGenerator(
     additionalSetupSteps,
   });
 
+  copyTemplates(project, options);
   updateYarnWorkspaces(project);
   updateProjectJson(project);
   updateNativeProjects(project, options);
@@ -58,6 +60,19 @@ export async function reactNativeAppGenerator(
     await reactNativeProjectTask();
     await fastlaneTask();
   };
+}
+
+function copyTemplates(
+  project: Project,
+  options: ReactNativeAppGeneratorSchema,
+) {
+  const tree = project.getTree();
+  const templateDir = path.join(__dirname, "./files");
+
+  generateFiles(tree, templateDir, project.path(), {
+    xcodeVersion: "14.3.1",
+    ...options,
+  });
 }
 
 function updateYarnWorkspaces(project: Project) {

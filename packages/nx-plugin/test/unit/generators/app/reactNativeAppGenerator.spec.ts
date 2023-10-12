@@ -169,6 +169,10 @@ describe("reactNativeAppGenerator", () => {
     });
   });
 
+  fileMatchesSnapshot(".xcode-version", getProject, (project: Project) => {
+    return project.path(".xcode-version");
+  });
+
   describe("Gemfile", () => {
     fileMatchesSnapshot("Gemfile", getProject, (project: Project) => {
       return project.path("Gemfile");
