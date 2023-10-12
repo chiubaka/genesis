@@ -220,7 +220,7 @@ exports[`reactNativeAppGenerator e2e project.json matches snapshot 1`] = `
   "sourceRoot": "packages/react-native-app-e2e/src",
   "tags": [],
   "targets": {
-    "build-android": {
+    "build:android": {
       "configurations": {
         "production": {
           "detoxConfiguration": "android.emu.release",
@@ -231,7 +231,7 @@ exports[`reactNativeAppGenerator e2e project.json matches snapshot 1`] = `
         "detoxConfiguration": "android.emu.debug",
       },
     },
-    "build-ios": {
+    "build:ios": {
       "configurations": {
         "production": {
           "detoxConfiguration": "ios.sim.release",
@@ -253,29 +253,29 @@ exports[`reactNativeAppGenerator e2e project.json matches snapshot 1`] = `
         "{options.outputFile}",
       ],
     },
-    "test-android": {
+    "test:android": {
       "configurations": {
         "production": {
-          "buildTarget": "react-native-app-e2e:build-android:production",
+          "buildTarget": "react-native-app-e2e:build:android:production",
           "detoxConfiguration": "android.emu.release",
         },
       },
       "executor": "@nx/detox:test",
       "options": {
-        "buildTarget": "react-native-app-e2e:build-android",
+        "buildTarget": "react-native-app-e2e:build:android",
         "detoxConfiguration": "android.emu.debug",
       },
     },
-    "test-ios": {
+    "test:ios": {
       "configurations": {
         "production": {
-          "buildTarget": "react-native-app-e2e:build-ios:production",
+          "buildTarget": "react-native-app-e2e:build:ios:production",
           "detoxConfiguration": "ios.sim.release",
         },
       },
       "executor": "@nx/detox:test",
       "options": {
-        "buildTarget": "react-native-app-e2e:build-ios",
+        "buildTarget": "react-native-app-e2e:build:ios",
         "detoxConfiguration": "ios.sim.debug",
       },
     },
@@ -283,14 +283,14 @@ exports[`reactNativeAppGenerator e2e project.json matches snapshot 1`] = `
 }
 `;
 
-exports[`reactNativeAppGenerator e2e project.json matches snapshot 2`] = `
+exports[`reactNativeAppGenerator e2e project.json project.json matches snapshot 1`] = `
 "{
   "name": "react-native-app-e2e",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/react-native-app-e2e/src",
   "projectType": "application",
   "targets": {
-    "build-ios": {
+    "build:ios": {
       "executor": "@nx/detox:build",
       "options": {
         "detoxConfiguration": "ios.sim.debug"
@@ -301,20 +301,20 @@ exports[`reactNativeAppGenerator e2e project.json matches snapshot 2`] = `
         }
       }
     },
-    "test-ios": {
+    "test:ios": {
       "executor": "@nx/detox:test",
       "options": {
         "detoxConfiguration": "ios.sim.debug",
-        "buildTarget": "react-native-app-e2e:build-ios"
+        "buildTarget": "react-native-app-e2e:build:ios"
       },
       "configurations": {
         "production": {
           "detoxConfiguration": "ios.sim.release",
-          "buildTarget": "react-native-app-e2e:build-ios:production"
+          "buildTarget": "react-native-app-e2e:build:ios:production"
         }
       }
     },
-    "build-android": {
+    "build:android": {
       "executor": "@nx/detox:build",
       "options": {
         "detoxConfiguration": "android.emu.debug"
@@ -325,16 +325,16 @@ exports[`reactNativeAppGenerator e2e project.json matches snapshot 2`] = `
         }
       }
     },
-    "test-android": {
+    "test:android": {
       "executor": "@nx/detox:test",
       "options": {
         "detoxConfiguration": "android.emu.debug",
-        "buildTarget": "react-native-app-e2e:build-android"
+        "buildTarget": "react-native-app-e2e:build:android"
       },
       "configurations": {
         "production": {
           "detoxConfiguration": "android.emu.release",
-          "buildTarget": "react-native-app-e2e:build-android:production"
+          "buildTarget": "react-native-app-e2e:build:android:production"
         }
       }
     },
@@ -566,31 +566,31 @@ exports[`reactNativeAppGenerator project.json matches snapshot 1`] = `
   "sourceRoot": "packages/react-native-app/src",
   "tags": [],
   "targets": {
-    "build-android": {
+    "build:android": {
       "dependsOn": [
         "ensure-symlink",
         "sync-deps",
       ],
-      "executor": "@nx/react-native:build-android",
+      "executor": "@nx/react-native:build:android",
       "options": {},
       "outputs": [
         "{projectRoot}/android/app/build/outputs/bundle",
         "{projectRoot}/android/app/build/outputs/apk",
       ],
     },
-    "build-ios": {
+    "build:ios": {
       "dependsOn": [
         "ensure-symlink",
         "sync-deps",
         "pod-install",
       ],
-      "executor": "@nx/react-native:build-ios",
+      "executor": "@nx/react-native:build:ios",
       "options": {},
       "outputs": [
         "{projectRoot}/ios/build/Build",
       ],
     },
-    "bundle-android": {
+    "bundle:android": {
       "dependsOn": [
         "ensure-symlink",
         "sync-deps",
@@ -605,7 +605,7 @@ exports[`reactNativeAppGenerator project.json matches snapshot 1`] = `
         "{options.bundleOutput}",
       ],
     },
-    "bundle-ios": {
+    "bundle:ios": {
       "dependsOn": [
         "ensure-symlink",
         "sync-deps",
@@ -639,21 +639,21 @@ exports[`reactNativeAppGenerator project.json matches snapshot 1`] = `
       "executor": "@nx/react-native:pod-install",
       "options": {},
     },
-    "run-android": {
+    "run:android": {
       "dependsOn": [
         "ensure-symlink",
         "sync-deps",
       ],
-      "executor": "@nx/react-native:run-android",
+      "executor": "@nx/react-native:run:android",
       "options": {},
     },
-    "run-ios": {
+    "run:ios": {
       "dependsOn": [
         "ensure-symlink",
         "sync-deps",
         "pod-install",
       ],
-      "executor": "@nx/react-native:run-ios",
+      "executor": "@nx/react-native:run:ios",
       "options": {},
     },
     "serve": {

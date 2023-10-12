@@ -112,6 +112,11 @@ describe("reactNativeAppGenerator", () => {
       expect(projectJson.targets?.["build:android"]).toBeDefined();
     });
 
+    it("renames run-android to run:android", () => {
+      expect(projectJson.targets?.["run-android"]).toBeUndefined();
+      expect(projectJson.targets?.["run:android"]).toBeDefined();
+    });
+
     it("renames bundle-ios to bundle:ios", () => {
       expect(projectJson.targets?.["bundle-ios"]).toBeUndefined();
       expect(projectJson.targets?.["bundle:ios"]).toBeDefined();
@@ -120,6 +125,11 @@ describe("reactNativeAppGenerator", () => {
     it("renames build-ios to build:ios", () => {
       expect(projectJson.targets?.["build-ios"]).toBeUndefined();
       expect(projectJson.targets?.["build:ios"]).toBeDefined();
+    });
+
+    it("renames run-ios to run:ios", () => {
+      expect(projectJson.targets?.["run-ios"]).toBeUndefined();
+      expect(projectJson.targets?.["run:ios"]).toBeDefined();
     });
 
     it("adds sync-deps as a dependency of bundle:android", () => {
@@ -457,13 +467,41 @@ describe("reactNativeAppGenerator", () => {
       },
     );
 
-    fileMatchesSnapshot(
-      "project.json",
-      getE2eProject,
-      (e2eProject: Project) => {
-        return e2eProject.path("project.json");
-      },
-    );
+    describe("project.json", () => {
+      let projectJson: ProjectConfiguration;
+
+      beforeAll(() => {
+        projectJson = readJson(tree, e2eProject.path("project.json"));
+      });
+
+      fileMatchesSnapshot(
+        "project.json",
+        getE2eProject,
+        (e2eProject: Project) => {
+          return e2eProject.path("project.json");
+        },
+      );
+
+      it("renames build-ios to build:ios", () => {
+        expect(projectJson.targets?.["build-ios"]).toBeUndefined();
+        expect(projectJson.targets?.["build:ios"]).toBeDefined();
+      });
+
+      it("renames build-android to build:android", () => {
+        expect(projectJson.targets?.["build-android"]).toBeUndefined();
+        expect(projectJson.targets?.["build:android"]).toBeDefined();
+      });
+
+      it("renames test-ios to test:ios", () => {
+        expect(projectJson.targets?.["test-ios"]).toBeUndefined();
+        expect(projectJson.targets?.["test:ios"]).toBeDefined();
+      });
+
+      it("renames test-android to test:android", () => {
+        expect(projectJson.targets?.["test-android"]).toBeUndefined();
+        expect(projectJson.targets?.["test:android"]).toBeDefined();
+      });
+    });
 
     describe("typescript", () => {
       describe("tsconfig.json", () => {

@@ -132,14 +132,42 @@ function updateProjectJson(project: Project) {
     targets["build:android"] = targets["build-android"];
     delete targets["build-android"];
 
+    targets["run:android"] = targets["run-android"];
+    delete targets["run-android"];
+
     targets["bundle:ios"] = bundleIosTarget;
     delete targets["bundle-ios"];
 
     targets["build:ios"] = targets["build-ios"];
     delete targets["build-ios"];
 
+    targets["run:ios"] = targets["run-ios"];
+    delete targets["run-ios"];
+
     return projectJson;
   });
+
+  replaceInFile(tree, project.path("project.json"), "bundle-ios", "bundle:ios");
+  replaceInFile(
+    tree,
+    project.path("project.json"),
+    "bundle-android",
+    "bundle:android",
+  );
+  replaceInFile(tree, project.path("project.json"), "build-ios", "build:ios");
+  replaceInFile(
+    tree,
+    project.path("project.json"),
+    "build-android",
+    "build:android",
+  );
+  replaceInFile(tree, project.path("project.json"), "run-ios", "run:ios");
+  replaceInFile(
+    tree,
+    project.path("project.json"),
+    "run-android",
+    "run:android",
+  );
 }
 
 /* eslint-disable security/detect-non-literal-fs-filename */
@@ -365,6 +393,29 @@ function updateE2eProjectJson(e2eProject: Project, originalE2eBaseDir: string) {
 
       return projectJson;
     },
+  );
+
+  replaceInFile(
+    tree,
+    e2eProject.path("project.json"),
+    "build-ios",
+    "build:ios",
+  );
+
+  replaceInFile(
+    tree,
+    e2eProject.path("project.json"),
+    "build-android",
+    "build:android",
+  );
+
+  replaceInFile(tree, e2eProject.path("project.json"), "test-ios", "test:ios");
+
+  replaceInFile(
+    tree,
+    e2eProject.path("project.json"),
+    "test-android",
+    "test:android",
   );
 }
 
