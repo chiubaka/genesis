@@ -1,4 +1,5 @@
 export * from "./eslint";
+export * from "./fastlane";
 export * from "./jest";
 export * from "./node";
 export * from "./packageJson";

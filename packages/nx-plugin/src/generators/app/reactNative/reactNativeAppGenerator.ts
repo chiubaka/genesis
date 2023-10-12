@@ -13,6 +13,7 @@ import { EsLintExecutorOptions, JestConfig, PackageJson } from "../../../types";
 import { Project, replaceInFile } from "../../../utils";
 import {
   eslintProjectGenerator,
+  fastlaneProjectGenerator,
   reactNativeProjectGenerator,
 } from "../../project";
 import { ReactNativeAppGeneratorSchema } from "./reactNativeAppGenerator.schema";
@@ -21,7 +22,7 @@ export async function reactNativeAppGenerator(
   tree: Tree,
   options: ReactNativeAppGeneratorSchema,
 ) {
-  const { name, displayName } = options;
+  const { name, appName } = options;
   const project = new Project(tree, name, "application");
   const e2eProject = new Project(tree, `${name}-e2e`, "e2e");
 
@@ -35,7 +36,7 @@ export async function reactNativeAppGenerator(
 
   const reactNativeProjectTask = await reactNativeProjectGenerator(tree, {
     ...project.getMeta(),
-    displayName,
+    displayName: appName,
     rootProjectGeneratorName: "app.react-native",
     additionalSetupSteps,
   });
@@ -45,11 +46,17 @@ export async function reactNativeAppGenerator(
   updateNativeProjects(project, options);
   updateCodeSample(project);
 
+  const fastlaneTask = fastlaneProjectGenerator(tree, {
+    ...project.getMeta(),
+    ...options,
+  });
+
   const originalE2eBaseDir = project.relativePath("..");
   updateE2eProject(e2eProject, originalE2eBaseDir, options);
 
   return async () => {
     await reactNativeProjectTask();
+    await fastlaneTask();
   };
 }
 

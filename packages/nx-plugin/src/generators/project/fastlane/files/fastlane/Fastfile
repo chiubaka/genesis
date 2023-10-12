@@ -1,0 +1,64 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+APP_NAME = "<%= appName %>"
+ANDROID_ROOT = "android"
+IOS_ROOT = "ios"
+
+IS_CI = ENV["CI"] == "true"
+
+before_all do
+  setup_circle_ci
+end
+
+platform :ios do
+  WORKSPACE = "#{IOS_ROOT}/#{APP_NAME}.xcworkspace"
+  SCHEME = APP_NAME
+
+  before_all do
+    xcodes
+  end
+
+  lane :clean do
+    xcclean(workspace: WORKSPACE, scheme: SCHEME)
+  end
+
+  desc "Build the iOS project"
+  lane :build do
+    clean
+    build_app(workspace: WORKSPACE, scheme: SCHEME)
+  end
+
+  desc "Run native iOS tests"
+  lane :test do
+    run_tests(workspace: WORKSPACE, scheme: SCHEME, prelaunch_simulator: true)
+  end
+end
+
+platform :android do
+  lane :clean do
+    gradle(project_dir: ANDROID_ROOT, task: "clean")
+  end
+
+  lane :build do
+    clean
+    gradle(project_dir: ANDROID_ROOT, task: "assembleRelease")
+  end
+
+  desc "Run native Android tests"
+  lane :test do
+    gradle(project_dir: ANDROID_ROOT, task: "test")
+  end
+end

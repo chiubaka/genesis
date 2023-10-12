@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "FastlaneProject",
+  "title": "Setup Fastlane for a project",
+  "description": "Setup Fastlane for a project",
+  "type": "object",
+  "properties": {
+    "projectName": {
+      "type": "string",
+      "description": "The name of the project to generate configuration for"
+    },
+    "projectType": {
+      "type": "string",
+      "description": "The type of project to generate configuration for",
+      "enum": ["application", "library"]
+    },
+    "appId": {
+      "type": "string",
+      "description": "Identifier for the app. E.g. com.chiubaka.Example"
+    },
+    "appName": {
+      "type": "string",
+      "description": "Name of the app (to be displayed publically)"
+    },
+    "appleId": {
+      "type": "string",
+      "description": "Apple ID to use for logging in to Apple services"
+    },
+    "appleDeveloperTeamId": {
+      "type": "string",
+      "description": "ID of the Apple developer team to use. https://developer.apple.com/help/account/manage-your-team/locate-your-team-id/"
+    }
+  },
+  "required": ["projectName", "projectType", "appId", "appleId"]
+}

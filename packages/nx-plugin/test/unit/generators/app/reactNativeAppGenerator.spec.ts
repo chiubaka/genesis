@@ -58,8 +58,9 @@ describe("reactNativeAppGenerator", () => {
   beforeAll(async () => {
     await reactNativeAppGenerator(tree, {
       name: "react-native-app",
-      displayName: "React Native App",
+      appName: "React Native App",
       appId: "com.chiubaka.ReactNativeApp",
+      appleId: "example@chiubaka.com",
     });
   });
 
@@ -148,7 +149,7 @@ describe("reactNativeAppGenerator", () => {
   });
 
   describe("native projects", () => {
-    describe.skip("fastlane", () => {
+    describe("fastlane", () => {
       it("adds fastlane to the Gemfile", () => {
         expect(tree).toHaveFileWithContent(
           project.path("Gemfile"),
@@ -156,18 +157,44 @@ describe("reactNativeAppGenerator", () => {
         );
       });
 
-      fileMatchesSnapshot("Fastfile", getProject, (project: Project) => {
-        return project.path("fastlane/Fastfile");
+      it("adds fastlane plugins to the Gemfile", () => {
+        expect(tree).toHaveFileWithContent(
+          project.path("Gemfile"),
+          "Pluginfile",
+        );
       });
 
-      describe.skip("Appfile", () => {
+      describe("Fastfile", () => {
+        fileMatchesSnapshot("Fastfile", getProject, (project: Project) => {
+          return project.path("fastlane/Fastfile");
+        });
+
+        it("fills in a value for APP_NAME", () => {
+          expect(tree).toHaveFileWithContent(
+            project.path("fastlane/Fastfile"),
+            'APP_NAME = "React Native App',
+          );
+        });
+      });
+
+      describe("Appfile", () => {
         fileMatchesSnapshot("Appfile", getProject, (project: Project) => {
           return project.path("fastlane/Appfile");
         });
 
-        it.todo("fills in a value for app_identifier");
+        it("fills in a value for app_identifier", () => {
+          expect(tree).toHaveFileWithContent(
+            project.path("fastlane/Appfile"),
+            'app_identifier("com.chiubaka.ReactNativeApp")',
+          );
+        });
 
-        it.todo("fills in a value for apple_id");
+        it("fills in a value for apple_id", () => {
+          expect(tree).toHaveFileWithContent(
+            project.path("fastlane/Appfile"),
+            'apple_id("example@chiubaka.com")',
+          );
+        });
 
         it.todo("fills in a value for itc_team_id");
 
@@ -175,7 +202,12 @@ describe("reactNativeAppGenerator", () => {
 
         it.todo("fills in a value for json_key_file");
 
-        it.todo("fills in a value for package_name");
+        it("fills in a value for package_name", () => {
+          expect(tree).toHaveFileWithContent(
+            project.path("fastlane/Appfile"),
+            'package_name("com.chiubaka.ReactNativeApp")',
+          );
+        });
       });
     });
 

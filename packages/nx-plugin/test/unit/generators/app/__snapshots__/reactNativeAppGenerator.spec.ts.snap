@@ -75,7 +75,10 @@ exports[`reactNativeAppGenerator Gemfile Gemfile matches snapshot 1`] = `
 ruby ">= 3.2.2"
 
 gem "cocoapods", "~> 1.12"
-"
+gem "fastlane"
+
+plugins_path = File.join(File.dirname(__FILE__), "fastlane", "Pluginfile")
+eval_gemfile(plugins_path) if File.exist?(plugins_path)"
 `;
 
 exports[`reactNativeAppGenerator e2e .detoxrc.json matches snapshot 1`] = `
@@ -410,9 +413,84 @@ exports[`reactNativeAppGenerator jest.config.ts jest.config.ts matches snapshot 
 "
 `;
 
-exports[`reactNativeAppGenerator native projects fastlane Appfile Appfile matches snapshot 1`] = `undefined`;
+exports[`reactNativeAppGenerator native projects fastlane Appfile Appfile matches snapshot 1`] = `
+"# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile
 
-exports[`reactNativeAppGenerator native projects fastlane Fastfile matches snapshot 1`] = `undefined`;
+app_identifier("com.chiubaka.ReactNativeApp") # The bundle identifier of your app
+package_name("com.chiubaka.ReactNativeApp") # e.g. com.krausefx.app
+
+apple_id("example@chiubaka.com") # Your Apple Developer Portal username
+"
+`;
+
+exports[`reactNativeAppGenerator native projects fastlane Fastfile Fastfile matches snapshot 1`] = `
+"# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+APP_NAME = "React Native App"
+ANDROID_ROOT = "android"
+IOS_ROOT = "ios"
+
+IS_CI = ENV["CI"] == "true"
+
+before_all do
+  setup_circle_ci
+end
+
+platform :ios do
+  WORKSPACE = "#{IOS_ROOT}/#{APP_NAME}.xcworkspace"
+  SCHEME = APP_NAME
+
+  before_all do
+    xcodes
+  end
+
+  lane :clean do
+    xcclean(workspace: WORKSPACE, scheme: SCHEME)
+  end
+
+  desc "Build the iOS project"
+  lane :build do
+    clean
+    build_app(workspace: WORKSPACE, scheme: SCHEME)
+  end
+
+  desc "Run native iOS tests"
+  lane :test do
+    run_tests(workspace: WORKSPACE, scheme: SCHEME, prelaunch_simulator: true)
+  end
+end
+
+platform :android do
+  lane :clean do
+    gradle(project_dir: ANDROID_ROOT, task: "clean")
+  end
+
+  lane :build do
+    clean
+    gradle(project_dir: ANDROID_ROOT, task: "assembleRelease")
+  end
+
+  desc "Run native Android tests"
+  lane :test do
+    gradle(project_dir: ANDROID_ROOT, task: "test")
+  end
+end
+"
+`;
 
 exports[`reactNativeAppGenerator native projects ios Podfile Podfile matches snapshot 1`] = `
 "# Resolve react_native_pods.rb with node to allow for hoisting
