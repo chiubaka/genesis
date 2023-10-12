@@ -125,24 +125,19 @@ function updateProjectJson(project: Project) {
 
     bundleIosTarget.dependsOn.push("sync-deps");
 
-    /* Rename targets for consistency */
-    targets["bundle:android"] = bundleAndroidTarget;
-    delete targets["bundle-android"];
+    targets["test:native:android"] = {
+      command: "bundle exec fastlane android test",
+      options: {
+        cwd: project.path(),
+      },
+    };
 
-    targets["build:android"] = targets["build-android"];
-    delete targets["build-android"];
-
-    targets["run:android"] = targets["run-android"];
-    delete targets["run-android"];
-
-    targets["bundle:ios"] = bundleIosTarget;
-    delete targets["bundle-ios"];
-
-    targets["build:ios"] = targets["build-ios"];
-    delete targets["build-ios"];
-
-    targets["run:ios"] = targets["run-ios"];
-    delete targets["run-ios"];
+    targets["test:native:ios"] = {
+      command: "bundle exec fastlane ios test",
+      options: {
+        cwd: project.path(),
+      },
+    };
 
     return projectJson;
   });
@@ -409,13 +404,13 @@ function updateE2eProjectJson(e2eProject: Project, originalE2eBaseDir: string) {
     "build:android",
   );
 
-  replaceInFile(tree, e2eProject.path("project.json"), "test-ios", "test:ios");
+  replaceInFile(tree, e2eProject.path("project.json"), "test-ios", "e2e:ios");
 
   replaceInFile(
     tree,
     e2eProject.path("project.json"),
     "test-android",
-    "test:android",
+    "e2e:android",
   );
 }
 

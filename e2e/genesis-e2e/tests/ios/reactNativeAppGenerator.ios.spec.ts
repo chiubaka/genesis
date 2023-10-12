@@ -35,17 +35,17 @@ describe("reactNativeAppGenerator", () => {
     ).resolves.not.toThrow();
   });
 
-  describe("fastlane", () => {
-    it.todo("generates a project that can build iOS using fastlane");
-
-    it.todo("generates a project that can run native iOS tests using fastlane");
+  it.skip("generates a project with a working native iOS testing setup", async () => {
+    await expect(
+      workspace.execNx("test:native:ios react-native-app"),
+    ).resolves.not.toThrow();
   });
 
   describe("e2e project", () => {
     it("generates a project with a working iOS Detox setup", async () => {
       await expect(
         workspace.execNx(
-          "test-ios react-native-app-e2e --configuration=production",
+          "e2e:ios react-native-app-e2e --configuration=production",
         ),
       ).resolves.not.toThrow();
     });

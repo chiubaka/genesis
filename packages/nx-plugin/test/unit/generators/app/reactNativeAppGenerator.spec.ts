@@ -132,6 +132,14 @@ describe("reactNativeAppGenerator", () => {
       expect(projectJson.targets?.["run:ios"]).toBeDefined();
     });
 
+    it("creates a test:native:android target", () => {
+      expect(projectJson.targets?.["test:native:android"]).toBeDefined();
+    });
+
+    it("creates a test:native:ios target", () => {
+      expect(projectJson.targets?.["test:native:ios"]).toBeDefined();
+    });
+
     it("adds sync-deps as a dependency of bundle:android", () => {
       const bundleAndroidTarget = projectJson.targets?.[
         "bundle:android"
@@ -492,14 +500,14 @@ describe("reactNativeAppGenerator", () => {
         expect(projectJson.targets?.["build:android"]).toBeDefined();
       });
 
-      it("renames test-ios to test:ios", () => {
+      it("renames test-ios to e2e:ios", () => {
         expect(projectJson.targets?.["test-ios"]).toBeUndefined();
-        expect(projectJson.targets?.["test:ios"]).toBeDefined();
+        expect(projectJson.targets?.["e2e:ios"]).toBeDefined();
       });
 
-      it("renames test-android to test:android", () => {
+      it("renames test-android to e2e:android", () => {
         expect(projectJson.targets?.["test-android"]).toBeUndefined();
-        expect(projectJson.targets?.["test:android"]).toBeDefined();
+        expect(projectJson.targets?.["e2e:android"]).toBeDefined();
       });
     });
 
