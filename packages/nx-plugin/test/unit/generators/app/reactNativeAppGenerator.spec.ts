@@ -102,9 +102,29 @@ describe("reactNativeAppGenerator", () => {
       projectJson = readJson(tree, project.path("project.json"));
     });
 
-    it("adds sync-deps as a dependency of bundle-android", () => {
+    it("renames bundle-android to bundle:android", () => {
+      expect(projectJson.targets?.["bundle-android"]).toBeUndefined();
+      expect(projectJson.targets?.["bundle:android"]).toBeDefined();
+    });
+
+    it("renames build-android to build:android", () => {
+      expect(projectJson.targets?.["build-android"]).toBeUndefined();
+      expect(projectJson.targets?.["build:android"]).toBeDefined();
+    });
+
+    it("renames bundle-ios to bundle:ios", () => {
+      expect(projectJson.targets?.["bundle-ios"]).toBeUndefined();
+      expect(projectJson.targets?.["bundle:ios"]).toBeDefined();
+    });
+
+    it("renames build-ios to build:ios", () => {
+      expect(projectJson.targets?.["build-ios"]).toBeUndefined();
+      expect(projectJson.targets?.["build:ios"]).toBeDefined();
+    });
+
+    it("adds sync-deps as a dependency of bundle:android", () => {
       const bundleAndroidTarget = projectJson.targets?.[
-        "bundle-android"
+        "bundle:android"
       ] as TargetConfiguration<any>;
 
       expect(bundleAndroidTarget).toBeDefined();
@@ -116,9 +136,9 @@ describe("reactNativeAppGenerator", () => {
       expect(dependsOn).toContain("sync-deps");
     });
 
-    it("adds sync-deps as a dependency of bundle-ios", () => {
+    it("adds sync-deps as a dependency of bundle:ios", () => {
       const bundleIosTarget = projectJson.targets?.[
-        "bundle-ios"
+        "bundle:ios"
       ] as TargetConfiguration<any>;
 
       expect(bundleIosTarget).toBeDefined();

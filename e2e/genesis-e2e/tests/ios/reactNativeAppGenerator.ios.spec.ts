@@ -31,7 +31,7 @@ describe("reactNativeAppGenerator", () => {
 
   it("generates a project with a working iOS build setup", async () => {
     await expect(
-      workspace.execNx("build-ios react-native-app"),
+      workspace.execNx("build:ios react-native-app"),
     ).resolves.not.toThrow();
   });
 

@@ -23,13 +23,13 @@ describe("reactNativeAppGenerator", () => {
 
   it("generates a project with a working iOS bundling setup", async () => {
     await expect(
-      workspace.execNx("bundle-ios react-native-app"),
+      workspace.execNx("bundle:ios react-native-app"),
     ).resolves.not.toThrow();
   });
 
   it("generates a project with a working Android bundling setup", async () => {
     await expect(
-      workspace.execNx("bundle-android react-native-app"),
+      workspace.execNx("bundle:android react-native-app"),
     ).resolves.not.toThrow();
   });
 

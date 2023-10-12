@@ -33,7 +33,7 @@ describe("reactNativeAppGenerator android", () => {
 
   it("generates a project with a working Android build setup", async () => {
     await expect(
-      workspace.execNx("build-android react-native-app"),
+      workspace.execNx("build:android react-native-app"),
     ).resolves.not.toThrow();
   });
 

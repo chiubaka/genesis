@@ -125,6 +125,19 @@ function updateProjectJson(project: Project) {
 
     bundleIosTarget.dependsOn.push("sync-deps");
 
+    /* Rename targets for consistency */
+    targets["bundle:android"] = bundleAndroidTarget;
+    delete targets["bundle-android"];
+
+    targets["build:android"] = targets["build-android"];
+    delete targets["build-android"];
+
+    targets["bundle:ios"] = bundleIosTarget;
+    delete targets["bundle-ios"];
+
+    targets["build:ios"] = targets["build-ios"];
+    delete targets["build-ios"];
+
     return projectJson;
   });
 }
