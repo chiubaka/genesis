@@ -84,6 +84,8 @@ exports[`reactNativeAppGenerator Gemfile Gemfile matches snapshot 1`] = `
 # You may use http://rbenv.org/ or https://rvm.io/ to install and use this version
 ruby ">= 3.2.2"
 
+# Temporary patch until cocoapods releases a patch: https://stackoverflow.com/a/77237290/599391
+gem "activesupport", "~> 7.0", "<= 7.0.8"
 gem "cocoapods", "~> 1.12"
 gem "fastlane"
 
@@ -105,12 +107,12 @@ exports[`reactNativeAppGenerator e2e .detoxrc.json matches snapshot 1`] = `
   "apps": {
     "ios.debug": {
       "type": "ios.app",
-      "build": "cd ../../packages/react-native-app/ios && xcodebuild -workspace ReactNativeApp.xcworkspace -scheme ReactNativeApp -configuration Debug -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14' -derivedDataPath ./build -quiet",
+      "build": "yarn nx build:ios react-native-app --configuration=debug-simulator",
       "binaryPath": "../../packages/react-native-app/ios/build/Build/Products/Debug-iphonesimulator/ReactNativeApp.app"
     },
     "ios.release": {
       "type": "ios.app",
-      "build": "cd ../../packages/react-native-app/ios && xcodebuild -workspace ReactNativeApp.xcworkspace -scheme ReactNativeApp -configuration Release -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14' -derivedDataPath ./build -quiet",
+      "build": "yarn nx build:ios react-native-app --configuration=release-simulator",
       "binaryPath": "../../packages/react-native-app/ios/build/Build/Products/Release-iphonesimulator/ReactNativeApp.app"
     },
     "android.debug": {
@@ -259,9 +261,6 @@ exports[`reactNativeAppGenerator e2e project.json matches snapshot 1`] = `
           "detoxConfiguration": "android.emu.release",
         },
       },
-      "dependsOn": [
-        "setup-e2e",
-      ],
       "executor": "@nx/detox:test",
       "options": {
         "buildTarget": "react-native-app-e2e:build:android",
@@ -275,9 +274,6 @@ exports[`reactNativeAppGenerator e2e project.json matches snapshot 1`] = `
           "detoxConfiguration": "ios.sim.release",
         },
       },
-      "dependsOn": [
-        "setup-e2e",
-      ],
       "executor": "@nx/detox:test",
       "options": {
         "buildTarget": "react-native-app-e2e:build:ios",
@@ -294,12 +290,6 @@ exports[`reactNativeAppGenerator e2e project.json matches snapshot 1`] = `
       "outputs": [
         "{options.outputFile}",
       ],
-    },
-    "setup-e2e": {
-      "command": "bundle exec fastlane run setup_circle_ci",
-      "options": {
-        "cwd": "packages/react-native-app",
-      },
     },
   },
 }
@@ -334,10 +324,7 @@ exports[`reactNativeAppGenerator e2e project.json project.json matches snapshot 
           "detoxConfiguration": "ios.sim.release",
           "buildTarget": "react-native-app-e2e:build:ios:production"
         }
-      },
-      "dependsOn": [
-        "setup-e2e"
-      ]
+      }
     },
     "build:android": {
       "executor": "@nx/detox:build",
@@ -361,10 +348,7 @@ exports[`reactNativeAppGenerator e2e project.json project.json matches snapshot 
           "detoxConfiguration": "android.emu.release",
           "buildTarget": "react-native-app-e2e:build:android:production"
         }
-      },
-      "dependsOn": [
-        "setup-e2e"
-      ]
+      }
     },
     "lint": {
       "executor": "@nx/linter:eslint",
@@ -375,12 +359,6 @@ exports[`reactNativeAppGenerator e2e project.json project.json matches snapshot 
         "lintFilePatterns": [
           "e2e/react-native-app-e2e/**/*.{ts,tsx,js,jsx}"
         ]
-      }
-    },
-    "setup-e2e": {
-      "command": "bundle exec fastlane run setup_circle_ci",
-      "options": {
-        "cwd": "packages/react-native-app"
       }
     }
   },
@@ -497,9 +475,21 @@ platform :ios do
   end
 
   desc "Build the iOS project"
-  lane :build do
+  lane :build do |options|
     clean
-    build_app(workspace: WORKSPACE, scheme: SCHEME)
+
+    configuration = options[:configuration] || "Release"
+    destination = options[:simulator] == true ? "generic/platform=iOS Simulator" : nil
+    skip_archive = options[:simulator] == true
+
+    build_app(
+      workspace: WORKSPACE,
+      scheme: SCHEME,
+      configuration: configuration,
+      destination: destination,
+      derived_data_path: "#{IOS_ROOT}/build",
+      skip_archive: skip_archive
+    )
   end
 
   desc "Run native iOS tests"
@@ -605,7 +595,7 @@ exports[`reactNativeAppGenerator project.json matches snapshot 1`] = `
         "ensure-symlink",
         "sync-deps",
       ],
-      "executor": "@nx/react-native:build:android",
+      "executor": "@nx/react-native:build-android",
       "options": {},
       "outputs": [
         "{projectRoot}/android/app/build/outputs/bundle",
@@ -613,13 +603,24 @@ exports[`reactNativeAppGenerator project.json matches snapshot 1`] = `
       ],
     },
     "build:ios": {
+      "configurations": {
+        "debug-simulator": {
+          "command": "bundle exec fastlane ios build configuration:debug simulator:true",
+        },
+        "release-simulator": {
+          "command": "bundle exec fastlane ios build configuration:release simulator:true",
+        },
+      },
       "dependsOn": [
         "ensure-symlink",
         "sync-deps",
         "pod-install",
       ],
-      "executor": "@nx/react-native:build:ios",
-      "options": {},
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "bundle exec fastlane ios build",
+        "cwd": "packages/react-native-app",
+      },
       "outputs": [
         "{projectRoot}/ios/build/Build",
       ],
@@ -670,8 +671,10 @@ exports[`reactNativeAppGenerator project.json matches snapshot 1`] = `
       ],
     },
     "pod-install": {
-      "executor": "@nx/react-native:pod-install",
-      "options": {},
+      "command": "bundle exec pod install --project-directory=./ios",
+      "options": {
+        "cwd": "packages/react-native-app",
+      },
     },
     "run:android": {
       "dependsOn": [
@@ -730,12 +733,22 @@ exports[`reactNativeAppGenerator project.json matches snapshot 1`] = `
     },
     "test:native:android": {
       "command": "bundle exec fastlane android test",
+      "dependsOn": [
+        "ensure-symlink",
+        "sync-deps",
+        "pod-install",
+      ],
       "options": {
         "cwd": "packages/react-native-app",
       },
     },
     "test:native:ios": {
       "command": "bundle exec fastlane ios test",
+      "dependsOn": [
+        "ensure-symlink",
+        "sync-deps",
+        "pod-install",
+      ],
       "options": {
         "cwd": "packages/react-native-app",
       },

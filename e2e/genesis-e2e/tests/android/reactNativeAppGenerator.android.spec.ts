@@ -1,5 +1,4 @@
-import { e2eTmpPath, TestingWorkspace } from "@chiubaka/nx-plugin-testing";
-import fs from "fs-extra";
+import { TestingWorkspace } from "@chiubaka/nx-plugin-testing";
 
 import { copyWorkspaceTemplate } from "../../utils";
 
@@ -7,27 +6,10 @@ describe("reactNativeAppGenerator android", () => {
   let workspace: TestingWorkspace;
 
   beforeAll(async () => {
-    const workspaceDestination = e2eTmpPath("app.react-native");
-
-    const canSkipSetup =
-      process.env.CI === "true" || process.env.SKIP_E2E_SETUP === "true";
-    // eslint-disable-next-line security/detect-non-literal-fs-filename
-    const workspaceAlreadyGenerated = fs.existsSync(workspaceDestination);
-
-    if (canSkipSetup && workspaceAlreadyGenerated) {
-      workspace = new TestingWorkspace(workspaceDestination);
-
-      // eslint-disable-next-line no-console
-      console.info(
-        "Skipping workspace setup for reactNativeAppGenerator android",
-      );
-      return;
-    }
-
-    workspace = await copyWorkspaceTemplate("app.react-native");
+    workspace = await copyWorkspaceTemplate("app.react-native.android");
 
     await workspace.execNx(
-      'generate @chiubaka/nx-plugin:app.react-native --name=react-native-app --displayName="React Native App" --appId="com.chiubaka.ReactNativeApp" --androidEmulatorAvdName="Detox"',
+      'generate @chiubaka/nx-plugin:app.react-native --name=react-native-app --appName="React Native App" --appId="com.chiubaka.ReactNativeApp" --appleId="daniel@chiubaka.com" --androidEmulatorAvdName="Detox"',
     );
   });
 

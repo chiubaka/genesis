@@ -1,7 +1,7 @@
 import { ProjectConfiguration, TargetConfiguration } from "@nx/devkit";
 
 export class ProjectJsonUtils {
-  public static addTarget<T = any>(
+  public static upsertTarget<T = any>(
     projectJson: ProjectConfiguration,
     targetName: string,
     config: TargetConfiguration<T>,

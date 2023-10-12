@@ -120,6 +120,13 @@ function updateProjectJson(project: Project) {
     "run:android",
   );
 
+  replaceInFile(
+    tree,
+    projectJsonPath,
+    "@nx/react-native:build:android",
+    "@nx/react-native:build-android",
+  );
+
   // Default project.json doesn't include sync-deps as a dependency for bundling targets,
   // which causes an error if bundle is ever run without running build first.
   updateJson(tree, projectJsonPath, (projectJson: ProjectConfiguration) => {
@@ -134,17 +141,44 @@ function updateProjectJson(project: Project) {
       "sync-deps",
     );
 
-    ProjectJsonUtils.addTarget(projectJson, "test:native:android", {
-      command: "bundle exec fastlane android test",
+    ProjectJsonUtils.upsertTarget(projectJson, "pod-install", {
+      command: "bundle exec pod install --project-directory=./ios",
       options: {
         cwd: project.path(),
       },
     });
-    ProjectJsonUtils.addTarget(projectJson, "test:native:ios", {
+    ProjectJsonUtils.upsertTarget(projectJson, "build:ios", {
+      executor: "nx:run-commands",
+      options: {
+        command: "bundle exec fastlane ios build",
+        cwd: project.path(),
+      },
+      configurations: {
+        "debug-simulator": {
+          command:
+            "bundle exec fastlane ios build configuration:debug simulator:true",
+        },
+        "release-simulator": {
+          command:
+            "bundle exec fastlane ios build configuration:release simulator:true",
+        },
+      },
+      outputs: ["{projectRoot}/ios/build/Build"],
+      dependsOn: ["ensure-symlink", "sync-deps", "pod-install"],
+    });
+    ProjectJsonUtils.upsertTarget(projectJson, "test:native:android", {
+      command: "bundle exec fastlane android test",
+      options: {
+        cwd: project.path(),
+      },
+      dependsOn: ["ensure-symlink", "sync-deps", "pod-install"],
+    });
+    ProjectJsonUtils.upsertTarget(projectJson, "test:native:ios", {
       command: "bundle exec fastlane ios test",
       options: {
         cwd: project.path(),
       },
+      dependsOn: ["ensure-symlink", "sync-deps", "pod-install"],
     });
 
     return projectJson;
@@ -195,6 +229,16 @@ function updateNativeProjects(
     project.path("Gemfile"),
     'ruby ">= 2.6.10"',
     'ruby ">= 3.2.2"',
+  );
+  replaceInFile(
+    tree,
+    project.path("Gemfile"),
+    'gem "cocoapods", "~> 1.12"\n',
+    endent`
+      # Temporary patch until cocoapods releases a patch: https://stackoverflow.com/a/77237290/599391
+      gem "activesupport", "~> 7.0", "<= 7.0.8"
+      gem "cocoapods", "~> 1.12"
+    `,
   );
 
   updateIosProject(project, options);
@@ -323,7 +367,7 @@ function updateE2eProject(
   );
   updateE2eProjectJson(e2eProject, project, originalE2eBaseDir);
   updateE2eTsConfig(e2eProject);
-  updateE2eTestSetup(e2eProject, options);
+  updateE2eTestSetup(e2eProject, project, options);
 
   eslintProjectGenerator(e2eProject.getTree(), {
     ...e2eProject.getMeta(),
@@ -379,20 +423,6 @@ function updateE2eProjectJson(
 
     lintTarget.options.lintFilePatterns = newLintFilePatterns;
 
-    ProjectJsonUtils.addTarget(projectJson, "setup-e2e", {
-      command: "bundle exec fastlane run setup_circle_ci",
-      options: {
-        cwd: project.path(),
-      },
-    });
-
-    ProjectJsonUtils.addTargetDependency(
-      projectJson,
-      "e2e:android",
-      "setup-e2e",
-    );
-    ProjectJsonUtils.addTargetDependency(projectJson, "e2e:ios", "setup-e2e");
-
     return projectJson;
   });
 }
@@ -418,6 +448,7 @@ function updateE2eTsConfig(e2eProject: Project) {
 
 function updateE2eTestSetup(
   e2eProject: Project,
+  project: Project,
   options: ReactNativeAppGeneratorSchema,
 ) {
   const tree = e2eProject.getTree();
@@ -459,7 +490,7 @@ function updateE2eTestSetup(
       const devices = config.devices;
 
       if (!devices) {
-        return config;
+        throw new Error(`Unexpectedly found no devices key in .detoxrc.json`);
       }
 
       const iosSimulatorConfig =
@@ -486,6 +517,32 @@ function updateE2eTestSetup(
           avdName: options.androidEmulatorAvdName ?? deviceConfig.avdName,
         };
       }
+
+      const apps = config.apps;
+
+      if (!apps) {
+        throw new Error(`Unexpectedly found no apps key in .detoxrc.json`);
+      }
+
+      const iosDebugApp = apps["ios.debug"];
+
+      if (!iosDebugApp) {
+        throw new Error(
+          `Unexpectedly did not find in an ios.debug app in .detoxrc.json`,
+        );
+      }
+
+      iosDebugApp.build = `yarn nx build:ios ${project.getName()} --configuration=debug-simulator`;
+
+      const iosReleaseApp = apps["ios.release"];
+
+      if (!iosReleaseApp) {
+        throw new Error(
+          `Unexpectedly did not find in an ios.release app in .detoxrc.json`,
+        );
+      }
+
+      iosReleaseApp.build = `yarn nx build:ios ${project.getName()} --configuration=release-simulator`;
 
       return config;
     },

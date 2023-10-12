@@ -36,9 +36,21 @@ platform :ios do
   end
 
   desc "Build the iOS project"
-  lane :build do
+  lane :build do |options|
     clean
-    build_app(workspace: WORKSPACE, scheme: SCHEME)
+
+    configuration = options[:configuration] || "Release"
+    destination = options[:simulator] == true ? "generic/platform=iOS Simulator" : nil
+    skip_archive = options[:simulator] == true
+
+    build_app(
+      workspace: WORKSPACE,
+      scheme: SCHEME,
+      configuration: configuration,
+      destination: destination,
+      derived_data_path: "#{IOS_ROOT}/build",
+      skip_archive: skip_archive
+    )
   end
 
   desc "Run native iOS tests"

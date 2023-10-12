@@ -15,7 +15,7 @@
       "x-prompt": "What name would you like to use for the application?",
       "pattern": "^[a-zA-Z].*$"
     },
-    "displayName": {
+    "appName": {
       "type": "string",
       "description": "Application name to be displayed inside the app.",
       "x-prompt": "What name would you like to use to be displayed inside the application?",
@@ -26,6 +26,10 @@
       "description": "Package name or bundle identifier to use to refer to the app internally for Google Play and Apple.",
       "x-prompt": "What package name / bundle identifier would you like to use? (e.g. com.chiubaka.Example)",
       "pattern": "^[a-zA-Z].*$"
+    },
+    "appleId": {
+      "type": "string",
+      "description": "Apple ID to use for logging in to Apple services"
     },
     "androidEmulatorAvdName": {
       "type": "string",
@@ -44,5 +48,5 @@
       "description": "The version of Xcode to pin for this project"
     }
   },
-  "required": ["name", "displayName", "appId"]
+  "required": ["name", "appName", "appId", "appleId"]
 }

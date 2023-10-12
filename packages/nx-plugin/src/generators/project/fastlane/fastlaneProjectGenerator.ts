@@ -18,10 +18,12 @@ export function fastlaneProjectGenerator(
   copyTemplates(project, options);
 
   const bundleInstallTask = bundleInstall(project);
+  const generateFastlaneReadmeTask = generateFastlaneReadme(project);
   const getAppleDeveloperTeamIdTask = getAppleDeveloperTeamId(project);
 
   return async () => {
     await bundleInstallTask();
+    await generateFastlaneReadmeTask();
     await getAppleDeveloperTeamIdTask();
   };
 }
@@ -59,6 +61,7 @@ function copyTemplates(
 
   generateFiles(tree, templateDir, project.path(), {
     template: "",
+    appName: project.getNames().pascalCase,
     ...options,
   });
 }
@@ -71,12 +74,20 @@ function bundleInstall(project: Project) {
   };
 }
 
+function generateFastlaneReadme(project: Project) {
+  return async () => {
+    await spawn("bundle exec fastlane docs", {
+      cwd: project.path(),
+    });
+  };
+}
+
 function getAppleDeveloperTeamId(project: Project) {
   return async () => {
     await spawn("bundle exec ruby fastlane/getAppleDeveloperTeamId.rb", {
       cwd: project.path(),
     });
 
-    rmSync(project.path("fastlane/setAppleDeveloperTeamId.rb"));
+    rmSync(project.path("fastlane/getAppleDeveloperTeamId.rb"));
   };
 }

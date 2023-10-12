@@ -60,9 +60,6 @@
       }
     },
     "setup-e2e": {
-      "command": "./e2e/genesis-e2e/scripts/setupE2e.sh"
-    },
-    "setup-e2e:with-dependencies": {
       "dependsOn": [
         {
           "target": "install-local-genesis-cli"
@@ -76,7 +73,11 @@
         "registry": "http://localhost:4873",
         "disableImmutableInstalls": true
       },
-      "inputs": ["localGenesisPackage"],
+      "inputs": [
+        "localGenesisPackage",
+        { "env": "CI" },
+        { "env": "SKIP_E2E_SETUP" }
+      ],
       "outputs": ["{workspaceRoot}/tmp/nx-e2e/genesis-e2e"]
     },
     "yarn-cache-clean": {
@@ -90,7 +91,8 @@
       "options": {
         "command": "yarn cache clean --all"
       },
-      "inputs": ["localGenesisPackage"]
+      "inputs": ["localGenesisPackage"],
+      "outputs": []
     },
     "install-local-genesis-cli": {
       "dependsOn": [
@@ -102,7 +104,8 @@
       "options": {
         "command": "npm uninstall -g @chiubaka/genesis && npm install @chiubaka/genesis --location=global --registry=http://localhost:4873"
       },
-      "inputs": ["localGenesisPackage"]
+      "inputs": ["localGenesisPackage"],
+      "outputs": []
     }
   },
   "tags": [],

@@ -13,7 +13,7 @@ describe("reactNativeAppGenerator", () => {
     workspace = await copyWorkspaceTemplate("app.react-native");
 
     await workspace.execNx(
-      'generate @chiubaka/nx-plugin:app.react-native --name=react-native-app --displayName="React Native App" --appId="com.chiubaka.ReactNativeApp" --androidEmulatorAvdName="Detox"',
+      'generate @chiubaka/nx-plugin:app.react-native --name=react-native-app --appName="React Native App" --appId="com.chiubaka.ReactNativeApp" --appleId="daniel@chiubaka.com" --androidEmulatorAvdName="Detox"',
     );
   });
 
