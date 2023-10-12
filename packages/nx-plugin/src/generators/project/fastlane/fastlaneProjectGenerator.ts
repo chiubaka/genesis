@@ -1,5 +1,6 @@
 import { generateFiles, Tree } from "@nx/devkit";
 import endent from "endent";
+import { rmSync } from "fs-extra";
 import path from "node:path";
 
 import { Project, spawn } from "../../../utils";
@@ -14,12 +15,14 @@ export function fastlaneProjectGenerator(
   const project = new Project(tree, projectName, projectType);
 
   updateGemfile(project);
-  copyFastlaneFiles(project, options);
+  copyTemplates(project, options);
 
   const bundleInstallTask = bundleInstall(project);
+  const getAppleDeveloperTeamIdTask = getAppleDeveloperTeamId(project);
 
   return async () => {
     await bundleInstallTask();
+    await getAppleDeveloperTeamIdTask();
   };
 }
 
@@ -47,7 +50,7 @@ function updateGemfile(project: Project) {
   tree.write(gemfilePath, gemfileContents);
 }
 
-function copyFastlaneFiles(
+function copyTemplates(
   project: Project,
   options: FastlaneProjectGeneratorSchema,
 ) {
@@ -65,5 +68,15 @@ function bundleInstall(project: Project) {
     await spawn("bundle install", {
       cwd: project.path(),
     });
+  };
+}
+
+function getAppleDeveloperTeamId(project: Project) {
+  return async () => {
+    await spawn("bundle exec ruby fastlane/getAppleDeveloperTeamId.rb", {
+      cwd: project.path(),
+    });
+
+    rmSync(project.path("fastlane/setAppleDeveloperTeamId.rb"));
   };
 }
