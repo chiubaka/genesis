@@ -171,7 +171,7 @@ function updateProjectJson(project: Project) {
       options: {
         cwd: project.path(),
       },
-      dependsOn: ["ensure-symlink", "sync-deps", "pod-install"],
+      dependsOn: ["ensure-symlink", "sync-deps"],
     });
     ProjectJsonUtils.upsertTarget(projectJson, "test:native:ios", {
       command: "bundle exec fastlane ios test",
