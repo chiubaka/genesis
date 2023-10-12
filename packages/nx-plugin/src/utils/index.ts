@@ -3,6 +3,7 @@ export * from "./exec";
 export * from "./git";
 export * from "./github";
 export * from "./Project";
+export * from "./ProjectJsonUtils";
 export * from "./replaceInFile";
 export * from "./spawn";
 export * from "./tasks";

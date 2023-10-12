@@ -10,7 +10,7 @@ import endent from "endent";
 import path from "node:path";
 
 import { EsLintExecutorOptions, JestConfig, PackageJson } from "../../../types";
-import { Project, replaceInFile } from "../../../utils";
+import { Project, ProjectJsonUtils, replaceInFile } from "../../../utils";
 import {
   eslintProjectGenerator,
   fastlaneProjectGenerator,
@@ -52,7 +52,7 @@ export async function reactNativeAppGenerator(
   });
 
   const originalE2eBaseDir = project.relativePath("..");
-  updateE2eProject(e2eProject, originalE2eBaseDir, options);
+  updateE2eProject(e2eProject, project, originalE2eBaseDir, options);
 
   return async () => {
     await reactNativeProjectTask();
@@ -82,87 +82,57 @@ function updateProjectJson(project: Project) {
   const tree = project.getTree();
   const projectJsonPath = project.path("project.json");
 
-  // Default project.json doesn't include sync-deps as a dependency for bundling targets,
-  // which causes an error if bundle is ever run without running build first.
-  updateJson(tree, projectJsonPath, (projectJson: ProjectConfiguration) => {
-    const targets = projectJson.targets;
-
-    if (!targets) {
-      throw new Error(
-        `Unexpectedly did not find a targets key in ${projectJsonPath}`,
-      );
-    }
-
-    const bundleAndroidTarget = targets["bundle-android"];
-
-    if (!bundleAndroidTarget) {
-      throw new Error(
-        `Unexpectedly did not find a bundle-android target in ${projectJsonPath}`,
-      );
-    }
-
-    if (!bundleAndroidTarget.dependsOn) {
-      throw new Error(
-        `bundle-android target unexpectedly had no dependsOn key in ${projectJsonPath}`,
-      );
-    }
-
-    bundleAndroidTarget.dependsOn.push("sync-deps");
-
-    const bundleIosTarget = targets["bundle-ios"];
-
-    if (!bundleIosTarget) {
-      throw new Error(
-        `Unexpectedly did not find a bundle-ios target in ${projectJsonPath}`,
-      );
-    }
-
-    if (!bundleIosTarget.dependsOn) {
-      throw new Error(
-        `build-ios target unexpectedly had no dependsOn key in ${projectJsonPath}`,
-      );
-    }
-
-    bundleIosTarget.dependsOn.push("sync-deps");
-
-    targets["test:native:android"] = {
-      command: "bundle exec fastlane android test",
-      options: {
-        cwd: project.path(),
-      },
-    };
-
-    targets["test:native:ios"] = {
-      command: "bundle exec fastlane ios test",
-      options: {
-        cwd: project.path(),
-      },
-    };
-
-    return projectJson;
-  });
-
-  replaceInFile(tree, project.path("project.json"), "bundle-ios", "bundle:ios");
+  replaceInFile(tree, projectJsonPath, "bundle-ios", "bundle:ios");
   replaceInFile(
     tree,
     project.path("project.json"),
     "bundle-android",
     "bundle:android",
   );
-  replaceInFile(tree, project.path("project.json"), "build-ios", "build:ios");
+  replaceInFile(tree, projectJsonPath, "build-ios", "build:ios");
   replaceInFile(
     tree,
     project.path("project.json"),
     "build-android",
     "build:android",
   );
-  replaceInFile(tree, project.path("project.json"), "run-ios", "run:ios");
+  replaceInFile(tree, projectJsonPath, "run-ios", "run:ios");
   replaceInFile(
     tree,
     project.path("project.json"),
     "run-android",
     "run:android",
   );
+
+  // Default project.json doesn't include sync-deps as a dependency for bundling targets,
+  // which causes an error if bundle is ever run without running build first.
+  updateJson(tree, projectJsonPath, (projectJson: ProjectConfiguration) => {
+    ProjectJsonUtils.addTargetDependency(
+      projectJson,
+      "bundle:android",
+      "sync-deps",
+    );
+    ProjectJsonUtils.addTargetDependency(
+      projectJson,
+      "bundle:ios",
+      "sync-deps",
+    );
+
+    ProjectJsonUtils.addTarget(projectJson, "test:native:android", {
+      command: "bundle exec fastlane android test",
+      options: {
+        cwd: project.path(),
+      },
+    });
+    ProjectJsonUtils.addTarget(projectJson, "test:native:ios", {
+      command: "bundle exec fastlane ios test",
+      options: {
+        cwd: project.path(),
+      },
+    });
+
+    return projectJson;
+  });
 }
 
 /* eslint-disable security/detect-non-literal-fs-filename */
@@ -327,6 +297,7 @@ function moveJavaPackage(
 
 function updateE2eProject(
   e2eProject: Project,
+  project: Project,
   originalE2eBaseDir: string,
   options: ReactNativeAppGeneratorSchema,
 ) {
@@ -334,7 +305,7 @@ function updateE2eProject(
     e2eProject,
     path.join(originalE2eBaseDir, e2eProject.getName()),
   );
-  updateE2eProjectJson(e2eProject, originalE2eBaseDir);
+  updateE2eProjectJson(e2eProject, project, originalE2eBaseDir);
   updateE2eTsConfig(e2eProject);
   updateE2eTestSetup(e2eProject, options);
 
@@ -352,66 +323,62 @@ function moveE2eProject(e2eProject: Project, originalE2eProjectDir: string) {
   moveFilesToNewDirectory(tree, originalE2eProjectDir, e2eProject.path());
 }
 
-function updateE2eProjectJson(e2eProject: Project, originalE2eBaseDir: string) {
+function updateE2eProjectJson(
+  e2eProject: Project,
+  project: Project,
+  originalE2eBaseDir: string,
+) {
   const tree = e2eProject.getTree();
-
+  const e2eProjectJsonPath = e2eProject.path("project.json");
   const newE2eBaseDir = e2eProject.relativePath("..");
 
-  updateJson(
-    tree,
-    e2eProject.path("project.json"),
-    (projectJson: ProjectConfiguration) => {
-      const { targets } = projectJson;
+  replaceInFile(tree, e2eProjectJsonPath, "build-ios", "build:ios");
+  replaceInFile(tree, e2eProjectJsonPath, "build-android", "build:android");
+  replaceInFile(tree, e2eProjectJsonPath, "test-ios", "e2e:ios");
+  replaceInFile(tree, e2eProjectJsonPath, "test-android", "e2e:android");
 
-      if (!targets?.lint) {
-        return projectJson;
-      }
+  updateJson(tree, e2eProjectJsonPath, (projectJson: ProjectConfiguration) => {
+    const { targets } = projectJson;
 
-      const lintTarget =
-        targets.lint as TargetConfiguration<EsLintExecutorOptions>;
-
-      if (!lintTarget.options) {
-        return projectJson;
-      }
-
-      const lintFilePatterns = lintTarget.options.lintFilePatterns;
-
-      if (!lintFilePatterns) {
-        return projectJson;
-      }
-
-      const newLintFilePatterns = lintFilePatterns.map((pattern: string) => {
-        return pattern.replace(originalE2eBaseDir, newE2eBaseDir);
-      });
-
-      lintTarget.options.lintFilePatterns = newLintFilePatterns;
-
+    if (!targets?.lint) {
       return projectJson;
-    },
-  );
+    }
 
-  replaceInFile(
-    tree,
-    e2eProject.path("project.json"),
-    "build-ios",
-    "build:ios",
-  );
+    const lintTarget =
+      targets.lint as TargetConfiguration<EsLintExecutorOptions>;
 
-  replaceInFile(
-    tree,
-    e2eProject.path("project.json"),
-    "build-android",
-    "build:android",
-  );
+    if (!lintTarget.options) {
+      return projectJson;
+    }
 
-  replaceInFile(tree, e2eProject.path("project.json"), "test-ios", "e2e:ios");
+    const lintFilePatterns = lintTarget.options.lintFilePatterns;
 
-  replaceInFile(
-    tree,
-    e2eProject.path("project.json"),
-    "test-android",
-    "e2e:android",
-  );
+    if (!lintFilePatterns) {
+      return projectJson;
+    }
+
+    const newLintFilePatterns = lintFilePatterns.map((pattern: string) => {
+      return pattern.replace(originalE2eBaseDir, newE2eBaseDir);
+    });
+
+    lintTarget.options.lintFilePatterns = newLintFilePatterns;
+
+    ProjectJsonUtils.addTarget(projectJson, "setup-e2e", {
+      command: "bundle exec fastlane run setup_circle_ci",
+      options: {
+        cwd: project.path(),
+      },
+    });
+
+    ProjectJsonUtils.addTargetDependency(
+      projectJson,
+      "e2e:android",
+      "setup-e2e",
+    );
+    ProjectJsonUtils.addTargetDependency(projectJson, "e2e:ios", "setup-e2e");
+
+    return projectJson;
+  });
 }
 
 function updateE2eTsConfig(e2eProject: Project) {

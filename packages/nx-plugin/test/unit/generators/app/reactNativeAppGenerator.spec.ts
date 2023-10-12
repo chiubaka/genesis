@@ -490,6 +490,10 @@ describe("reactNativeAppGenerator", () => {
         },
       );
 
+      it("adds a setup-e2e target", () => {
+        expect(projectJson.targets?.["setup-e2e"]).toBeDefined();
+      });
+
       it("renames build-ios to build:ios", () => {
         expect(projectJson.targets?.["build-ios"]).toBeUndefined();
         expect(projectJson.targets?.["build:ios"]).toBeDefined();
@@ -508,6 +512,32 @@ describe("reactNativeAppGenerator", () => {
       it("renames test-android to e2e:android", () => {
         expect(projectJson.targets?.["test-android"]).toBeUndefined();
         expect(projectJson.targets?.["e2e:android"]).toBeDefined();
+      });
+
+      it("adds setup-e2e as a dependency of e2e:android", () => {
+        const e2eAndroidTarget = projectJson.targets?.[
+          "e2e:android"
+        ] as TargetConfiguration<any>;
+
+        expect(e2eAndroidTarget).toBeDefined();
+
+        const dependsOn = e2eAndroidTarget.dependsOn as string[];
+
+        expect(dependsOn).toBeDefined();
+        expect(dependsOn).toContain("setup-e2e");
+      });
+
+      it("adds setup-e2e as a dependency of e2e:ios", () => {
+        const e2eIosTarget = projectJson.targets?.[
+          "e2e:ios"
+        ] as TargetConfiguration<any>;
+
+        expect(e2eIosTarget).toBeDefined();
+
+        const dependsOn = e2eIosTarget.dependsOn as string[];
+
+        expect(dependsOn).toBeDefined();
+        expect(dependsOn).toContain("setup-e2e");
       });
     });
 

@@ -242,6 +242,38 @@ exports[`reactNativeAppGenerator e2e project.json matches snapshot 1`] = `
         "detoxConfiguration": "ios.sim.debug",
       },
     },
+    "e2e:android": {
+      "configurations": {
+        "production": {
+          "buildTarget": "react-native-app-e2e:build:android:production",
+          "detoxConfiguration": "android.emu.release",
+        },
+      },
+      "dependsOn": [
+        "setup-e2e",
+      ],
+      "executor": "@nx/detox:test",
+      "options": {
+        "buildTarget": "react-native-app-e2e:build:android",
+        "detoxConfiguration": "android.emu.debug",
+      },
+    },
+    "e2e:ios": {
+      "configurations": {
+        "production": {
+          "buildTarget": "react-native-app-e2e:build:ios:production",
+          "detoxConfiguration": "ios.sim.release",
+        },
+      },
+      "dependsOn": [
+        "setup-e2e",
+      ],
+      "executor": "@nx/detox:test",
+      "options": {
+        "buildTarget": "react-native-app-e2e:build:ios",
+        "detoxConfiguration": "ios.sim.debug",
+      },
+    },
     "lint": {
       "executor": "@nx/linter:eslint",
       "options": {
@@ -253,30 +285,10 @@ exports[`reactNativeAppGenerator e2e project.json matches snapshot 1`] = `
         "{options.outputFile}",
       ],
     },
-    "test:android": {
-      "configurations": {
-        "production": {
-          "buildTarget": "react-native-app-e2e:build:android:production",
-          "detoxConfiguration": "android.emu.release",
-        },
-      },
-      "executor": "@nx/detox:test",
+    "setup-e2e": {
+      "command": "bundle exec fastlane run setup_circle_ci",
       "options": {
-        "buildTarget": "react-native-app-e2e:build:android",
-        "detoxConfiguration": "android.emu.debug",
-      },
-    },
-    "test:ios": {
-      "configurations": {
-        "production": {
-          "buildTarget": "react-native-app-e2e:build:ios:production",
-          "detoxConfiguration": "ios.sim.release",
-        },
-      },
-      "executor": "@nx/detox:test",
-      "options": {
-        "buildTarget": "react-native-app-e2e:build:ios",
-        "detoxConfiguration": "ios.sim.debug",
+        "cwd": "packages/react-native-app",
       },
     },
   },
@@ -301,7 +313,7 @@ exports[`reactNativeAppGenerator e2e project.json project.json matches snapshot 
         }
       }
     },
-    "test:ios": {
+    "e2e:ios": {
       "executor": "@nx/detox:test",
       "options": {
         "detoxConfiguration": "ios.sim.debug",
@@ -312,7 +324,10 @@ exports[`reactNativeAppGenerator e2e project.json project.json matches snapshot 
           "detoxConfiguration": "ios.sim.release",
           "buildTarget": "react-native-app-e2e:build:ios:production"
         }
-      }
+      },
+      "dependsOn": [
+        "setup-e2e"
+      ]
     },
     "build:android": {
       "executor": "@nx/detox:build",
@@ -325,7 +340,7 @@ exports[`reactNativeAppGenerator e2e project.json project.json matches snapshot 
         }
       }
     },
-    "test:android": {
+    "e2e:android": {
       "executor": "@nx/detox:test",
       "options": {
         "detoxConfiguration": "android.emu.debug",
@@ -336,7 +351,10 @@ exports[`reactNativeAppGenerator e2e project.json project.json matches snapshot 
           "detoxConfiguration": "android.emu.release",
           "buildTarget": "react-native-app-e2e:build:android:production"
         }
-      }
+      },
+      "dependsOn": [
+        "setup-e2e"
+      ]
     },
     "lint": {
       "executor": "@nx/linter:eslint",
@@ -347,6 +365,12 @@ exports[`reactNativeAppGenerator e2e project.json project.json matches snapshot 
         "lintFilePatterns": [
           "e2e/react-native-app-e2e/**/*.{ts,tsx,js,jsx}"
         ]
+      }
+    },
+    "setup-e2e": {
+      "command": "bundle exec fastlane run setup_circle_ci",
+      "options": {
+        "cwd": "packages/react-native-app"
       }
     }
   },
@@ -693,6 +717,18 @@ exports[`reactNativeAppGenerator project.json matches snapshot 1`] = `
         "reports/coverage/packages/react-native-app",
         "reports/junit/react-native-app.xml",
       ],
+    },
+    "test:native:android": {
+      "command": "bundle exec fastlane android test",
+      "options": {
+        "cwd": "packages/react-native-app",
+      },
+    },
+    "test:native:ios": {
+      "command": "bundle exec fastlane ios test",
+      "options": {
+        "cwd": "packages/react-native-app",
+      },
     },
   },
 }
