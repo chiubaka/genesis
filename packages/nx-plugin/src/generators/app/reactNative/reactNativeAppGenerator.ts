@@ -120,13 +120,6 @@ function updateProjectJson(project: Project) {
     "run:android",
   );
 
-  replaceInFile(
-    tree,
-    projectJsonPath,
-    "@nx/react-native:build:android",
-    "@nx/react-native:build-android",
-  );
-
   // Default project.json doesn't include sync-deps as a dependency for bundling targets,
   // which causes an error if bundle is ever run without running build first.
   updateJson(tree, projectJsonPath, (projectJson: ProjectConfiguration) => {
@@ -147,13 +140,47 @@ function updateProjectJson(project: Project) {
         cwd: project.path(),
       },
     });
+    ProjectJsonUtils.upsertTarget(projectJson, "build:android", {
+      executor: "nx:run-commands",
+      options: {
+        cwd: project.path(),
+      },
+      defaultConfiguration: "release",
+      configurations: {
+        release: {
+          command: "bundle exec fastlane android build",
+        },
+        debug: {
+          command: "bundle exec fastlane android build build_type:debug",
+        },
+        "test-release": {
+          command:
+            "bundle exec fastlane android build build_type:release test:true",
+        },
+        "test-debug": {
+          command:
+            "bundle exec fastlane android build build_type:debug test:true",
+        },
+      },
+      outputs: [
+        "{projectRoot}/android/app/build/outputs/bundle",
+        "{projectRoot}/android/app/build/outputs/apk",
+      ],
+      dependsOn: ["ensure-symlink", "sync-deps"],
+    });
     ProjectJsonUtils.upsertTarget(projectJson, "build:ios", {
       executor: "nx:run-commands",
       options: {
-        command: "bundle exec fastlane ios build",
         cwd: project.path(),
       },
+      defaultConfiguration: "release",
       configurations: {
+        debug: {
+          command: "bundle exec fastlane ios build configuration:debug",
+        },
+        release: {
+          command: "bundle exec fastlane ios build configuration:release",
+        },
         "debug-simulator": {
           command:
             "bundle exec fastlane ios build configuration:debug simulator:true",
@@ -256,7 +283,7 @@ function updateIosProject(
     `ios/${iosProjectName}.xcodeproj/project.pbxproj`,
   );
 
-  const { appId } = options;
+  const { appId, appName } = options;
 
   replaceInFile(tree, project.path("ios/Podfile"), "'", '"');
   // There is one instance of a good single quote in this file that we need to allow
@@ -294,6 +321,13 @@ function updateIosProject(
     project.path(`ios/${iosProjectName}/Info.plist`),
     "\t<key>CFBundleName</key>\n\t<string>$(PRODUCT_NAME)</string>\n",
     "\t<key>CFBundleName</key>\n\t<string>$(PRODUCT_NAME)</string>\n\t<key>CFBundleIconName</key>\n\t<string>AppIcon</string>\n",
+  );
+
+  replaceInFile(
+    tree,
+    project.path(`ios/${iosProjectName}Tests/${iosProjectName}Tests.m`),
+    "Welcome to React",
+    `Welcome ${appName} 👋`,
   );
 
   const templateDir = path.join(__dirname, "./files/ios");
@@ -557,6 +591,26 @@ function updateE2eTestSetup(
       }
 
       iosReleaseApp.build = `yarn nx build:ios ${project.getName()} --configuration=release-simulator`;
+
+      const androidDebugApp = apps["android.debug"];
+
+      if (!androidDebugApp) {
+        throw new Error(
+          `Unexpectedly did not find in an android.debug app in .detoxrc.json`,
+        );
+      }
+
+      androidDebugApp.build = `yarn nx build:android ${project.getName()} --configuration=test-debug`;
+
+      const androidReleaseApp = apps["android.release"];
+
+      if (!androidReleaseApp) {
+        throw new Error(
+          `Unexpectedly did not find in an android.release app in .detoxrc.json`,
+        );
+      }
+
+      androidReleaseApp.build = `yarn nx build:android ${project.getName()} --configuration=test-release`;
 
       return config;
     },

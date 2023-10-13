@@ -9,11 +9,23 @@ describe("reactNativeAppGenerator", () => {
     workspace = await copyWorkspaceTemplate("app.react-native.ios");
 
     await workspace.execNx(
-      'generate @chiubaka/nx-plugin:app.react-native --name=react-native-app --appName="Genesis React Native App" --appId="com.chiubaka.genesis.example.ReactNativeApp" --appleId="daniel@chiubaka.com" --androidEmulatorAvdName="Detox"',
+      'generate @chiubaka/nx-plugin:app.react-native --name=react-native-app --appName="Genesis React Native App" --appId="com.chiubaka.genesis.example.ReactNativeApp" --appleId="daniel@chiubaka.com" --androidEmulatorAvdName="Detox" --codeSigningGitRepositoryUrl="git@github.com:chiubaka/ios-codesigning.git"',
     );
   });
 
   describe("generates a project with a working iOS build setup", () => {
+    it("debug", async () => {
+      await expect(
+        workspace.execNx("build:ios react-native-app --configuration=debug"),
+      ).resolves.not.toThrow();
+    });
+
+    it("release", async () => {
+      await expect(
+        workspace.execNx("build:ios react-native-app"),
+      ).resolves.not.toThrow();
+    });
+
     it("debug-simulator", async () => {
       await expect(
         workspace.execNx(
@@ -29,15 +41,9 @@ describe("reactNativeAppGenerator", () => {
         ),
       ).resolves.not.toThrow();
     });
-
-    it.skip("release-device", async () => {
-      await expect(
-        workspace.execNx("build:ios react-native-app"),
-      ).resolves.not.toThrow();
-    });
   });
 
-  it.skip("generates a project with a working native iOS testing setup", async () => {
+  it("generates a project with a working native iOS testing setup", async () => {
     await expect(
       workspace.execNx("test:native:ios react-native-app"),
     ).resolves.not.toThrow();

@@ -61,6 +61,8 @@ describe("reactNativeAppGenerator", () => {
       appName: "Genesis React Native App",
       appId: "com.chiubaka.genesis.example.ReactNativeApp",
       appleId: "example@chiubaka.com",
+      codeSigningGitRepositoryUrl:
+        "git@github.com:chiubaka/ios-codesigning.git",
     });
   });
 
@@ -130,13 +132,6 @@ describe("reactNativeAppGenerator", () => {
     it("renames run-ios to run:ios", () => {
       expect(projectJson.targets?.["run-ios"]).toBeUndefined();
       expect(projectJson.targets?.["run:ios"]).toBeDefined();
-    });
-
-    it("leaves the @nx/react-native:build-android executor intact", () => {
-      expect(tree).toHaveFileWithContent(
-        project.path("project.json"),
-        "@nx/react-native:build-android",
-      );
     });
 
     it("creates a test:native:android target", () => {
@@ -225,7 +220,7 @@ describe("reactNativeAppGenerator", () => {
         it("fills in a value for APP_NAME", () => {
           expect(tree).toHaveFileWithContent(
             project.path("fastlane/Fastfile"),
-            'APP_NAME = "ReactNativeApp',
+            'PROJECT_NAME = "ReactNativeApp',
           );
         });
       });
@@ -311,20 +306,17 @@ describe("reactNativeAppGenerator", () => {
         });
       });
 
-      // Aspirational! But not possible to actually accomplish unless I add stronger
-      // capabilities to understand and modify the generated .pbxproj file
-      // https://linear.app/chiubaka/issue/CT-723/update-the-development-team-in-the-generated-ios-pbxproj-file
-      it.skip("updates the development team ID", () => {
-        expect(tree).toHaveFileWithContent(
-          iosXcodeProjectPath,
-          'DEVELOPMENT_TEAM = "ABC1234567"',
-        );
-      });
-
       it("patches the Start Packager build phase to provide the correct PROJECT_ROOT", () => {
         expect(tree).toHaveFileWithContent(
           iosXcodeProjectPath,
           "export PROJECT_ROOT=${SRCROOT}",
+        );
+      });
+
+      it("patches the native iOS tests file", () => {
+        expect(tree).toHaveFileWithContent(
+          project.path("ios/ReactNativeAppTests/ReactNativeAppTests.m"),
+          "Welcome Genesis React Native App 👋",
         );
       });
 
@@ -352,7 +344,7 @@ describe("reactNativeAppGenerator", () => {
 
           expect(tree).toHaveFileWithContent(
             project.path("android/app/build.gradle"),
-            'namespace "com.chiubaka.reactnativeapp"',
+            'namespace "com.chiubaka.genesis.example.reactnativeapp"',
           );
         });
 
@@ -377,7 +369,7 @@ describe("reactNativeAppGenerator", () => {
                 "android/app/src/androidTest/java/com/reactnativeapp",
               ),
               project.path(
-                "android/app/src/androidTest/java/com/chiubaka/reactnativeapp",
+                "android/app/src/androidTest/java/com/chiubaka/genesis/example/reactnativeapp",
               ),
             );
           });
@@ -386,7 +378,7 @@ describe("reactNativeAppGenerator", () => {
             expect(tree).toHaveRenamedFile(
               project.path("android/app/src/debug/java/com/reactnativeapp"),
               project.path(
-                "android/app/src/debug/java/com/chiubaka/reactnativeapp",
+                "android/app/src/debug/java/com/chiubaka/genesis/example/reactnativeapp",
               ),
             );
           });
@@ -395,7 +387,7 @@ describe("reactNativeAppGenerator", () => {
             expect(tree).toHaveRenamedFile(
               project.path("android/app/src/main/java/com/reactnativeapp"),
               project.path(
-                "android/app/src/main/java/com/chiubaka/reactnativeapp",
+                "android/app/src/main/java/com/chiubaka/genesis/example/reactnativeapp",
               ),
             );
           });
@@ -404,7 +396,7 @@ describe("reactNativeAppGenerator", () => {
             expect(tree).toHaveRenamedFile(
               project.path("android/app/src/release/java/com/reactnativeapp"),
               project.path(
-                "android/app/src/release/java/com/chiubaka/reactnativeapp",
+                "android/app/src/release/java/com/chiubaka/genesis/example/reactnativeapp",
               ),
             );
           });
@@ -413,7 +405,7 @@ describe("reactNativeAppGenerator", () => {
         describe("updates the package for moved java source files", () => {
           it("DetoxTest.java", () => {
             const detoxTestPath = project.path(
-              "android/app/src/androidTest/java/com/chiubaka/reactnativeapp/DetoxTest.java",
+              "android/app/src/androidTest/java/com/chiubaka/genesis/example/reactnativeapp/DetoxTest.java",
             );
 
             expect(tree).not.toHaveFileWithContent(
@@ -423,13 +415,13 @@ describe("reactNativeAppGenerator", () => {
 
             expect(tree).toHaveFileWithContent(
               detoxTestPath,
-              "package com.chiubaka.reactnativeapp",
+              "package com.chiubaka.genesis.example.reactnativeapp",
             );
           });
 
           it("debug ReactNativeFlipper.java", () => {
             const reactNativeFlipperPath = project.path(
-              "android/app/src/debug/java/com/chiubaka/reactnativeapp/ReactNativeFlipper.java",
+              "android/app/src/debug/java/com/chiubaka/genesis/example/reactnativeapp/ReactNativeFlipper.java",
             );
 
             expect(tree).not.toHaveFileWithContent(
@@ -439,13 +431,13 @@ describe("reactNativeAppGenerator", () => {
 
             expect(tree).toHaveFileWithContent(
               reactNativeFlipperPath,
-              "package com.chiubaka.reactnativeapp",
+              "package com.chiubaka.genesis.example.reactnativeapp",
             );
           });
 
           it("release ReactNativeFlipper.java", () => {
             const reactNativeFlipperPath = project.path(
-              "android/app/src/release/java/com/chiubaka/reactnativeapp/ReactNativeFlipper.java",
+              "android/app/src/release/java/com/chiubaka/genesis/example/reactnativeapp/ReactNativeFlipper.java",
             );
 
             expect(tree).not.toHaveFileWithContent(
@@ -455,13 +447,13 @@ describe("reactNativeAppGenerator", () => {
 
             expect(tree).toHaveFileWithContent(
               reactNativeFlipperPath,
-              "package com.chiubaka.reactnativeapp",
+              "package com.chiubaka.genesis.example.reactnativeapp",
             );
           });
 
           it("MainActivity.java", () => {
             const mainActivityPath = project.path(
-              "android/app/src/main/java/com/chiubaka/reactnativeapp/MainActivity.java",
+              "android/app/src/main/java/com/chiubaka/genesis/example/reactnativeapp/MainActivity.java",
             );
 
             expect(tree).not.toHaveFileWithContent(
@@ -471,13 +463,13 @@ describe("reactNativeAppGenerator", () => {
 
             expect(tree).toHaveFileWithContent(
               mainActivityPath,
-              "package com.chiubaka.reactnativeapp",
+              "package com.chiubaka.genesis.example.reactnativeapp",
             );
           });
 
           it("MainApplication.java", () => {
             const mainApplicationPath = project.path(
-              "android/app/src/main/java/com/chiubaka/reactnativeapp/MainApplication.java",
+              "android/app/src/main/java/com/chiubaka/genesis/example/reactnativeapp/MainApplication.java",
             );
 
             expect(tree).not.toHaveFileWithContent(
@@ -487,7 +479,7 @@ describe("reactNativeAppGenerator", () => {
 
             expect(tree).toHaveFileWithContent(
               mainApplicationPath,
-              "package com.chiubaka.reactnativeapp",
+              "package com.chiubaka.genesis.example.reactnativeapp",
             );
           });
         });

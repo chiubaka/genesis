@@ -1,0 +1,72 @@
+module Fastlane
+  module Actions
+    class SetupIosCodeSigningAction < Action
+      APP_IDENTIFIER = CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier)
+      TEAM_ID = CredentialsManager::AppfileConfig.try_fetch_value(:team_id)
+      
+      IOS_ROOT = 'ios'
+      PROJECT_NAME = <%= projectName %>
+      PROJECT_PATH = '#{IOS_ROOT}/#{PROJECT_NAME}.xcodeproj'
+
+      def self.run(params)        
+        Actions::UpdateCodeSigningSettingsAction.run(
+          use_automatic_signing: false,
+          build_configurations: ['Debug'],
+          code_sign_identity: 'iPhone Developer',
+          path: PROJECT_PATH,
+          profile_name: 'match Development #{APP_IDENTIFIER}',
+          team_id: TEAM_ID
+        )
+        
+        Actions::UpdateCodeSigningSettingsAction.run(
+          use_automatic_signing: false,
+          build_configurations: ['Release'],
+          code_sign_identity: 'iPhone Distribution',
+          path: PROJECT_PATH,
+          profile_name: 'match AppStore #{APP_IDENTIFIER}',
+          team_id: TEAM_ID
+        )
+      end
+
+      #####################################################
+      # @!group Documentation
+      #####################################################
+
+      def self.description
+        'Handles initial set up of iOS code signing using Fastlane Match'
+      end
+
+      def self.available_options
+        # Define all options your action supports.
+        []
+      end
+
+      def self.output
+        # Define the shared values you are going to provide
+        []
+      end
+
+      def self.return_value
+        # If your method provides a return value, you can describe here what it does
+      end
+
+      def self.authors
+        # So no one will ever forget your contribution to fastlane :) You are awesome btw!
+        ['@chiubaka']
+      end
+
+      def self.is_supported?(platform)
+        # you can do things like
+        #
+        #  true
+        #
+        #  platform == :ios
+        #
+        #  [:ios, :mac].include?(platform)
+        #
+
+        platform == :ios
+      end
+    end
+  end
+end

@@ -19,7 +19,8 @@
       "type": "string",
       "description": "Application name to be displayed inside the app.",
       "x-prompt": "What name would you like to use to be displayed inside the application?",
-      "pattern": "^[a-zA-Z].*$"
+      "pattern": "^[a-zA-Z].*$",
+      "maxLength": 30
     },
     "appId": {
       "type": "string",
@@ -35,6 +36,10 @@
       "type": "string",
       "description": "Android AVD emulator name to use for the starter Detox configuration"
     },
+    "codeSigningGitRepositoryUrl": {
+      "type": "string",
+      "description": "Git SSH URL for the repository to use for Fastlane Match codesigning. Learn more here: https://docs.fastlane.tools/actions/match/"
+    },
     "iosSimulatorDeviceType": {
       "type": "string",
       "description": "iOS simulator device type to use for the starter Detox configuration"
@@ -48,5 +53,11 @@
       "description": "The version of Xcode to pin for this project"
     }
   },
-  "required": ["name", "appName", "appId", "appleId"]
+  "required": [
+    "name",
+    "appName",
+    "appId",
+    "appleId",
+    "codeSigningGitRepositoryUrl"
+  ]
 }

@@ -13,7 +13,7 @@
 # Uncomment the line if you want fastlane to automatically update itself
 # update_fastlane
 
-APP_NAME = "<%= appName %>"
+PROJECT_NAME = "<%= projectName %>"
 ANDROID_ROOT = "android"
 IOS_ROOT = "ios"
 
@@ -24,8 +24,8 @@ before_all do
 end
 
 platform :ios do
-  WORKSPACE = "#{IOS_ROOT}/#{APP_NAME}.xcworkspace"
-  SCHEME = APP_NAME
+  WORKSPACE = "#{IOS_ROOT}/#{PROJECT_NAME}.xcworkspace"
+  SCHEME = PROJECT_NAME
 
   before_all do
     xcodes
@@ -64,9 +64,23 @@ platform :android do
     gradle(project_dir: ANDROID_ROOT, task: "clean")
   end
 
-  lane :build do
+  lane :build do |options|
     clean
-    gradle(project_dir: ANDROID_ROOT, task: "assembleRelease")
+
+    assemble_test = options[:test] == true
+    build_type = options[:build_type] || "release"
+
+    primary_task = build_type == "release" ? "assembleRelease" : "assembleDebug"
+    tasks = [primary_task]
+
+    flags = nil
+
+    if assemble_test
+      tasks.append("assembleAndroidTest")
+      flags = "-DtestBuildType=#{build_type}"
+    end
+
+    gradle(project_dir: ANDROID_ROOT, tasks: tasks, flags: flags)
   end
 
   desc "Run native Android tests"

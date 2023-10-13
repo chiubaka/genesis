@@ -6,6 +6,9 @@ export interface FastlaneProjectGeneratorSchema
 
 export interface FastlaneProjectGeneratorOwnOptions {
   appId: string;
+  appName: string;
   appleId: string;
   appleDeveloperTeamId?: string;
+  codeSigningGitRepositoryUrl: string;
+  skipCodeSigning?: boolean;
 }

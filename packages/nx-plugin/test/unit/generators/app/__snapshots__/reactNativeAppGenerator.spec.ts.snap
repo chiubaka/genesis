@@ -117,12 +117,12 @@ exports[`reactNativeAppGenerator e2e .detoxrc.json matches snapshot 1`] = `
     },
     "android.debug": {
       "type": "android.apk",
-      "build": "cd ../../packages/react-native-app/android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug",
+      "build": "yarn nx build:android react-native-app --configuration=test-debug",
       "binaryPath": "../../packages/react-native-app/android/app/build/outputs/apk/debug/app-debug.apk"
     },
     "android.release": {
       "type": "android.apk",
-      "build": "cd ../../packages/react-native-app/android && ./gradlew assembleRelease assembleAndroidTest -DtestBuildType=release",
+      "build": "yarn nx build:android react-native-app --configuration=test-release",
       "binaryPath": "../../packages/react-native-app/android/app/build/outputs/apk/release/app-release.apk"
     }
   },
@@ -429,8 +429,8 @@ exports[`reactNativeAppGenerator native projects fastlane Appfile Appfile matche
 "# For more information about the Appfile, see:
 #     https://docs.fastlane.tools/advanced/#appfile
 
-app_identifier("com.chiubaka.ReactNativeApp") # The bundle identifier of your app
-package_name("com.chiubaka.ReactNativeApp") # e.g. com.krausefx.app
+app_identifier("com.chiubaka.genesis.example.ReactNativeApp") # The bundle identifier of your app
+package_name("com.chiubaka.genesis.example.ReactNativeApp") # e.g. com.krausefx.app
 
 apple_id("example@chiubaka.com") # Your Apple Developer Portal username
 "
@@ -452,7 +452,7 @@ exports[`reactNativeAppGenerator native projects fastlane Fastfile Fastfile matc
 # Uncomment the line if you want fastlane to automatically update itself
 # update_fastlane
 
-APP_NAME = "ReactNativeApp"
+PROJECT_NAME = "ReactNativeApp"
 ANDROID_ROOT = "android"
 IOS_ROOT = "ios"
 
@@ -463,8 +463,8 @@ before_all do
 end
 
 platform :ios do
-  WORKSPACE = "#{IOS_ROOT}/#{APP_NAME}.xcworkspace"
-  SCHEME = APP_NAME
+  WORKSPACE = "#{IOS_ROOT}/#{PROJECT_NAME}.xcworkspace"
+  SCHEME = PROJECT_NAME
 
   before_all do
     xcodes
@@ -503,9 +503,23 @@ platform :android do
     gradle(project_dir: ANDROID_ROOT, task: "clean")
   end
 
-  lane :build do
+  lane :build do |options|
     clean
-    gradle(project_dir: ANDROID_ROOT, task: "assembleRelease")
+
+    assemble_test = options[:test] == true
+    build_type = options[:build_type] || "release"
+
+    primary_task = build_type == "release" ? "assembleRelease" : "assembleDebug"
+    tasks = [primary_task]
+
+    flags = nil
+
+    if assemble_test
+      tasks.append("assembleAndroidTest")
+      flags = "-DtestBuildType=#{build_type}"
+    end
+
+    gradle(project_dir: ANDROID_ROOT, tasks: tasks, flags: flags)
   end
 
   desc "Run native Android tests"
@@ -590,7 +604,7 @@ exports[`reactNativeAppGenerator native projects ios ReactNativeApp/Info.plist m
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>React Native App</string>
+	<string>Genesis React Native App</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -652,12 +666,29 @@ exports[`reactNativeAppGenerator project.json matches snapshot 1`] = `
   "tags": [],
   "targets": {
     "build:android": {
+      "configurations": {
+        "debug": {
+          "command": "bundle exec fastlane android build build_type:debug",
+        },
+        "release": {
+          "command": "bundle exec fastlane android build",
+        },
+        "test-debug": {
+          "command": "bundle exec fastlane android build build_type:debug test:true",
+        },
+        "test-release": {
+          "command": "bundle exec fastlane android build build_type:release test:true",
+        },
+      },
+      "defaultConfiguration": "release",
       "dependsOn": [
         "ensure-symlink",
         "sync-deps",
       ],
-      "executor": "@nx/react-native:build-android",
-      "options": {},
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/react-native-app",
+      },
       "outputs": [
         "{projectRoot}/android/app/build/outputs/bundle",
         "{projectRoot}/android/app/build/outputs/apk",
@@ -665,13 +696,20 @@ exports[`reactNativeAppGenerator project.json matches snapshot 1`] = `
     },
     "build:ios": {
       "configurations": {
+        "debug": {
+          "command": "bundle exec fastlane ios build configuration:debug",
+        },
         "debug-simulator": {
           "command": "bundle exec fastlane ios build configuration:debug simulator:true",
+        },
+        "release": {
+          "command": "bundle exec fastlane ios build configuration:release",
         },
         "release-simulator": {
           "command": "bundle exec fastlane ios build configuration:release simulator:true",
         },
       },
+      "defaultConfiguration": "release",
       "dependsOn": [
         "ensure-symlink",
         "sync-deps",
@@ -679,7 +717,6 @@ exports[`reactNativeAppGenerator project.json matches snapshot 1`] = `
       ],
       "executor": "nx:run-commands",
       "options": {
-        "command": "bundle exec fastlane ios build",
         "cwd": "packages/react-native-app",
       },
       "outputs": [

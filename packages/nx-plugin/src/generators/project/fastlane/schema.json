@@ -25,7 +25,25 @@
     "appleDeveloperTeamId": {
       "type": "string",
       "description": "ID of the Apple developer team to use. https://developer.apple.com/help/account/manage-your-team/locate-your-team-id/"
+    },
+    "appName": {
+      "type": "string",
+      "description": "Application name to be displayed inside the app.",
+      "x-prompt": "What name would you like to use to be displayed inside the application?",
+      "pattern": "^[a-zA-Z].*$",
+      "maxLength": 30
+    },
+    "codeSigningGitRepositoryUrl": {
+      "type": "string",
+      "description": "Git SSH URL for the repository to use for Fastlane Match codesigning. Learn more here: https://docs.fastlane.tools/actions/match/"
     }
   },
-  "required": ["projectName", "projectType", "appId", "appleId"]
+  "required": [
+    "projectName",
+    "projectType",
+    "appId",
+    "appleId",
+    "appName",
+    "codeSigningGitRepositoryUrl"
+  ]
 }
