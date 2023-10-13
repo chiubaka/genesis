@@ -225,7 +225,7 @@ describe("reactNativeAppGenerator", () => {
         it("fills in a value for APP_NAME", () => {
           expect(tree).toHaveFileWithContent(
             project.path("fastlane/Fastfile"),
-            'APP_NAME = "React Native App',
+            'APP_NAME = "ReactNativeApp',
           );
         });
       });

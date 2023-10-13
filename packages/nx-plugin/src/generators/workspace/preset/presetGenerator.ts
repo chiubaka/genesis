@@ -13,7 +13,7 @@ import { PackageJson as PackageJsonType } from "nx/src/utils/package-json";
 
 import PackageJson from "../../../../package.json";
 import { generatorLogger as logger } from "../../../logger";
-import { exec } from "../../../utils";
+import { exec, spawn } from "../../../utils";
 import { noOpTask } from "../../../utils/tasks/index";
 import { ciGenerator } from "../ci";
 import { gitGenerator } from "../git";
@@ -169,7 +169,8 @@ function reinstallPackagesWithYarn(tree: Tree, options: PresetGeneratorSchema) {
       }
     }
 
-    await exec(`${pmc.install} --no-immutable`, {
+    await spawn(`${pmc.install} --no-immutable`, {
+      stdio: "inherit",
       cwd: tree.root,
     });
   };

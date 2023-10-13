@@ -61,8 +61,8 @@ function copyTemplates(
 
   generateFiles(tree, templateDir, project.path(), {
     template: "",
-    appName: project.getNames().pascalCase,
     ...options,
+    appName: project.getNames().pascalCase,
   });
 }
 

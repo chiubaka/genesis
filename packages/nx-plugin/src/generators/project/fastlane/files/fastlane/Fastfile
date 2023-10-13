@@ -39,7 +39,7 @@ platform :ios do
   lane :build do |options|
     clean
 
-    configuration = options[:configuration] || "Release"
+    configuration = (options[:configuration] || "Release").capitalize
     destination = options[:simulator] == true ? "generic/platform=iOS Simulator" : nil
     skip_archive = options[:simulator] == true
 

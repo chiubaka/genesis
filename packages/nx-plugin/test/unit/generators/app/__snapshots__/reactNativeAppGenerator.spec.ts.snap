@@ -452,7 +452,7 @@ exports[`reactNativeAppGenerator native projects fastlane Fastfile Fastfile matc
 # Uncomment the line if you want fastlane to automatically update itself
 # update_fastlane
 
-APP_NAME = "React Native App"
+APP_NAME = "ReactNativeApp"
 ANDROID_ROOT = "android"
 IOS_ROOT = "ios"
 
@@ -736,7 +736,6 @@ exports[`reactNativeAppGenerator project.json matches snapshot 1`] = `
       "dependsOn": [
         "ensure-symlink",
         "sync-deps",
-        "pod-install",
       ],
       "options": {
         "cwd": "packages/react-native-app",
