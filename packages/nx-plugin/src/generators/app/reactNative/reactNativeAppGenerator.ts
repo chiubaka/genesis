@@ -67,7 +67,7 @@ function copyTemplates(
   options: ReactNativeAppGeneratorSchema,
 ) {
   const tree = project.getTree();
-  const templateDir = path.join(__dirname, "./files");
+  const templateDir = path.join(__dirname, "./files/project");
 
   generateFiles(tree, templateDir, project.path(), {
     rubyVersion: "3.2.2",
@@ -288,6 +288,20 @@ function updateIosProject(
     "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)",
     appId,
   );
+
+  replaceInFile(
+    tree,
+    project.path(`ios/${iosProjectName}/Info.plist`),
+    "\t<key>CFBundleName</key>\n\t<string>$(PRODUCT_NAME)</string>\n",
+    "\t<key>CFBundleName</key>\n\t<string>$(PRODUCT_NAME)</string>\n\t<key>CFBundleIconName</key>\n\t<string>AppIcon</string>\n",
+  );
+
+  const templateDir = path.join(__dirname, "./files/ios");
+
+  generateFiles(tree, templateDir, project.path("ios"), {
+    iosProjectName,
+    ...options,
+  });
 }
 
 function updateAndroidProject(

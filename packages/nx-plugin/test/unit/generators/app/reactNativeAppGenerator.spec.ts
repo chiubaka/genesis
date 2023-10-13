@@ -267,6 +267,14 @@ describe("reactNativeAppGenerator", () => {
     describe("ios", () => {
       let iosXcodeProjectPath: string;
 
+      fileMatchesSnapshot(
+        "ReactNativeApp/Info.plist",
+        getProject,
+        (project: Project) => {
+          return project.path("ios/ReactNativeApp/Info.plist");
+        },
+      );
+
       beforeAll(() => {
         iosXcodeProjectPath = project.path(
           "ios/ReactNativeApp.xcodeproj/project.pbxproj",
@@ -283,6 +291,24 @@ describe("reactNativeAppGenerator", () => {
           iosXcodeProjectPath,
           "com.chiubaka.ReactNativeApp",
         );
+      });
+
+      describe("app icon", () => {
+        it("adds CFBundleIconName to Info.plist", () => {
+          expect(tree).toHaveFileWithContent(
+            project.path("ios/ReactNativeApp/Info.plist"),
+            "\t<key>CFBundleIconName</key>\n\t<string>AppIcon</string>",
+          );
+        });
+
+        it("adds a placeholder app icon", () => {
+          expect(tree).toHaveFileWithContent(
+            project.path(
+              "ios/ReactNativeApp/Images.xcassets/AppIcon.appiconset/Contents.json",
+            ),
+            '"filename":',
+          );
+        });
       });
 
       // Aspirational! But not possible to actually accomplish unless I add stronger
