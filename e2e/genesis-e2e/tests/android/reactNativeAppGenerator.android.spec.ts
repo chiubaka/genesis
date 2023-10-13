@@ -9,7 +9,7 @@ describe("reactNativeAppGenerator android", () => {
     workspace = await copyWorkspaceTemplate("app.react-native.android");
 
     await workspace.execNx(
-      'generate @chiubaka/nx-plugin:app.react-native --name=react-native-app --appName="React Native App" --appId="com.chiubaka.ReactNativeApp" --appleId="daniel@chiubaka.com" --androidEmulatorAvdName="Detox"',
+      'generate @chiubaka/nx-plugin:app.react-native --name=react-native-app --appName="React Native App" --appId="com.chiubaka.example.ReactNativeApp" --appleId="daniel@chiubaka.com" --androidEmulatorAvdName="Detox"',
     );
   });
 
@@ -26,12 +26,20 @@ describe("reactNativeAppGenerator android", () => {
   });
 
   describe("e2e project", () => {
-    it("generates a project with a working android Detox setup", async () => {
-      await expect(
-        workspace.execNx(
-          "e2e:android react-native-app-e2e --configuration=production",
-        ),
-      ).resolves.not.toThrow();
+    describe("generates a project with a working android Detox setup", () => {
+      it.skip("development", async () => {
+        await expect(
+          workspace.execNx("e2e:android react-native-app-e2e"),
+        ).resolves.not.toThrow();
+      });
+
+      it("production", async () => {
+        await expect(
+          workspace.execNx(
+            "e2e:android react-native-app-e2e --configuration=production",
+          ),
+        ).resolves.not.toThrow();
+      });
     });
   });
 });
