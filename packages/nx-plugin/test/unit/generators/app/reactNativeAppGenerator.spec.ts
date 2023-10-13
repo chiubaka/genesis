@@ -58,8 +58,8 @@ describe("reactNativeAppGenerator", () => {
   beforeAll(async () => {
     await reactNativeAppGenerator(tree, {
       name: "react-native-app",
-      appName: "React Native App",
-      appId: "com.chiubaka.example.ReactNativeApp",
+      appName: "Genesis React Native App",
+      appId: "com.chiubaka.genesis.example.ReactNativeApp",
       appleId: "example@chiubaka.com",
     });
   });
@@ -238,7 +238,7 @@ describe("reactNativeAppGenerator", () => {
         it("fills in a value for app_identifier", () => {
           expect(tree).toHaveFileWithContent(
             project.path("fastlane/Appfile"),
-            'app_identifier("com.chiubaka.example.ReactNativeApp")',
+            'app_identifier("com.chiubaka.genesis.example.ReactNativeApp")',
           );
         });
 
@@ -258,7 +258,7 @@ describe("reactNativeAppGenerator", () => {
         it("fills in a value for package_name", () => {
           expect(tree).toHaveFileWithContent(
             project.path("fastlane/Appfile"),
-            'package_name("com.chiubaka.example.ReactNativeApp")',
+            'package_name("com.chiubaka.genesis.example.ReactNativeApp")',
           );
         });
       });
@@ -289,7 +289,7 @@ describe("reactNativeAppGenerator", () => {
 
         expect(tree).toHaveFileWithContent(
           iosXcodeProjectPath,
-          "com.chiubaka.example.ReactNativeApp",
+          "com.chiubaka.genesis.example.ReactNativeApp",
         );
       });
 
@@ -364,7 +364,7 @@ describe("reactNativeAppGenerator", () => {
 
           expect(tree).toHaveFileWithContent(
             project.path("android/app/build.gradle"),
-            'applicationId "com.chiubaka.example.ReactNativeApp"',
+            'applicationId "com.chiubaka.genesis.example.ReactNativeApp"',
           );
         });
       });
