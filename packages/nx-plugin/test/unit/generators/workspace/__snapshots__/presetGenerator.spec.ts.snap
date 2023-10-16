@@ -14,7 +14,7 @@ exports[`presetGenerator package.json matches snapshot 1`] = `
     "eslint": "^mocked",
     "husky": "^mocked",
     "jest": "^29.4.3",
-    "lint-staged": "^mocked",
+    "lint-staged": "^14.0.1",
     "prettier": "^2.8.8",
     "ts-jest": "^29.0.5",
     "tslib": "^mocked",

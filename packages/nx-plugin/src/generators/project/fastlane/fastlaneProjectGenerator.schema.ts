@@ -9,6 +9,16 @@ export interface FastlaneProjectGeneratorOwnOptions {
   appName: string;
   appleId: string;
   appleDeveloperTeamId?: string;
-  codeSigningGitRepositoryUrl: string;
   skipCodeSigning?: boolean;
+
+  iosCodeSigningGitRepositoryUrl: string;
+
+  androidUploadKeystoreAlias?: string;
+  androidUploadKeystorePassword?: string;
+  androidUploadKeystoreCommonName: string;
+  androidUploadKeystoreOrganizationalUnit?: string;
+  androidUploadKeystoreOrganization: string;
+  androidUploadKeystoreLocality?: string;
+  androidUploadKeystoreState?: string;
+  androidUploadKeystoreCountry: string;
 }

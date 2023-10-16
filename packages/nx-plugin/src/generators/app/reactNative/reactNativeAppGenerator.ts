@@ -23,17 +23,56 @@ export async function reactNativeAppGenerator(
   tree: Tree,
   options: ReactNativeAppGeneratorSchema,
 ) {
-  const { name, appName } = options;
+  const { name, appName, skipCodeSigning } = options;
   const project = new Project(tree, name, "application");
   const e2eProject = new Project(tree, `${name}-e2e`, "e2e");
 
-  const additionalSetupSteps = endent`
-    - [] Ensure that you have the Android SDK installed
-    - [] Ensure that you have Xcode, Xcode Command Line Tools, and the iOS SDKs installed
-    - [] Update \`.detoxrc.json\` file in the generated E2E project
-      - Ensure that a valid \`avdName\` is filled in under the \`devices\` section
-    - [] Ensure that you have \`ruby\` (required) and \`rbenv\` (optional but recommended)
+  let additionalSetupSteps = endent`
+    - [] Install additional development dependencies for React Native
+      - [] Ensure that you have the Android SDK installed
+      - [] Ensure that you have Xcode, Xcode Command Line Tools, and the iOS SDKs installed
+      - [] Ensure that you have \`ruby\` (required) and \`rbenv\` (optional but recommended)
+    - [] Finish setting up E2E testing with Detox
+      - [] Update \`.detoxrc.json\` file in the generated E2E project
+        - Ensure that a valid \`avdName\` is filled in under the \`devices\` section
   `;
+
+  if (!skipCodeSigning) {
+    additionalSetupSteps += endent`
+      - [] Finish setting up iOS code signing and deployment via TestFlight
+        - [] If you didn't supply a \`codeSigningGitRepositoryUrl\`, you'll need
+             to manually fill in the \`git_url\` value in \`fastlane/Matchfile\`.
+               - If you don't already have a repository, you may need to create new one
+                 for use with Fastlane match. You can read more about this process
+                 [here](https://docs.fastlane.tools/actions/match/).
+        - [] Finish setting up iOS code signing and automated deployment with CircleCI
+          - [] TODO
+      - [] Finish setting up Android code signing and deployment via Google Play Store
+        - [] Create a Google service account with permissions to the Google Play Android Developer API
+             and download a \`.json\` private key for the account into this repository.
+             repo to automate access to Google Play Store publishing
+             - Refer to [Fastlane's documentation](https://docs.fastlane.tools/actions/supply/#setup) and to [Google's](https://developers.google.com/android-publisher/getting_started)
+             - Place your generated \`.json\` service account private key file in this project as \`android/secrets/google-play-key.json\`
+               - This file **SHOULD NOT** be checked into source control. However, you should back
+                 this file up somewhere safe so you don't lose it. The \`android/secrets\` directory
+                 is automatically ignored by \`git\`.
+               - If you choose to place this file elsewhere, you must update the \`json_key_file\` value
+                 in \`fastlane/Appfile\`
+             - Make sure you've granted your Service Account permissions in Google Play [here](https://play.google.com/console/users-and-permissions)!! It is not sufficient to just create the service account in the Google Cloud Console.
+        - [] Create a new app in the [Google Play Console](https://play.google.com/console/u/0/developers/?pli=1)
+          - You must set up an Internal Test Track and manually upload at least one build before
+            deployment automation with \`fastlane\` can do its magic
+          - You can generate a \`.aab\` bundle to manually upload using the command \`yarn nx build:android ${project.getName()} --configuration=bundle-release\`
+            - The bundle will be output to \`android/app/build/outputs/bundle/release/app-release.aab\`
+            - The bundle will be signed using the generated \`android/secrets/upload-keystore.jks\`
+        - [] Finish setting up Android code signing and automated deployment with CircleCI
+          - [] Add the \`BASE64_KEYSTORE\`, \`GOOGLE_PLAY_KEY\`, \`RELEASE_KEY_ALIAS\`,
+               \`RELEASE_KEY_PASSWORD\`, and \`RELEASE_STORE_PASSWORD\` to the CircleCI
+               project's environment variables.
+            - Refer to [CircleCI's documentation](https://circleci.com/docs/deploy-android-applications/)
+            - The keystore details can be found in the generated \`android/secrets/upload-keystore.properties\` file
+    `;
+  }
 
   const reactNativeProjectTask = await reactNativeProjectGenerator(tree, {
     ...project.getMeta(),
@@ -153,6 +192,9 @@ function updateProjectJson(project: Project) {
         debug: {
           command: "bundle exec fastlane android build build_type:debug",
         },
+        "bundle-release": {
+          command: "bundle exec fastlane android build task:bundle",
+        },
         "test-release": {
           command:
             "bundle exec fastlane android build build_type:release test:true",
@@ -204,6 +246,38 @@ function updateProjectJson(project: Project) {
       command: "bundle exec fastlane ios test",
       options: {
         cwd: project.path(),
+      },
+      dependsOn: ["ensure-symlink", "sync-deps", "pod-install"],
+    });
+    ProjectJsonUtils.upsertTarget(projectJson, "deploy:android", {
+      executor: "nx:run-commands",
+      options: {
+        cwd: project.path(),
+      },
+      defaultConfiguration: "beta",
+      configurations: {
+        beta: {
+          command: "bundle exec fastlane android beta",
+        },
+        production: {
+          command: "bundle exec fastlane android deploy",
+        },
+      },
+      dependsOn: ["ensure-symlink", "sync-deps"],
+    });
+    ProjectJsonUtils.upsertTarget(projectJson, "deploy:ios", {
+      executor: "nx:run-commands",
+      options: {
+        cwd: project.path(),
+      },
+      defaultConfiguration: "beta",
+      configurations: {
+        beta: {
+          command: "bundle exec fastlane ios beta",
+        },
+        production: {
+          command: "bundle exec fastlane ios deploy",
+        },
       },
       dependsOn: ["ensure-symlink", "sync-deps", "pod-install"],
     });
@@ -378,6 +452,13 @@ function updateAndroidProject(
       packageName,
     );
   }
+
+  const templateDir = path.join(__dirname, "./files/android");
+
+  generateFiles(tree, templateDir, project.path("android"), {
+    template: "",
+    ...options,
+  });
 }
 
 function moveJavaPackage(
@@ -580,7 +661,7 @@ function updateE2eTestSetup(
         );
       }
 
-      iosDebugApp.build = `yarn nx build:ios ${project.getName()} --configuration=debug-simulator`;
+      iosDebugApp.build = `cd ../.. && yarn nx build:ios ${project.getName()} --configuration=debug-simulator`;
 
       const iosReleaseApp = apps["ios.release"];
 
@@ -590,7 +671,7 @@ function updateE2eTestSetup(
         );
       }
 
-      iosReleaseApp.build = `yarn nx build:ios ${project.getName()} --configuration=release-simulator`;
+      iosReleaseApp.build = `cd ../.. && yarn nx build:ios ${project.getName()} --configuration=release-simulator`;
 
       const androidDebugApp = apps["android.debug"];
 
@@ -600,7 +681,7 @@ function updateE2eTestSetup(
         );
       }
 
-      androidDebugApp.build = `yarn nx build:android ${project.getName()} --configuration=test-debug`;
+      androidDebugApp.build = `cd ../.. && yarn nx build:android ${project.getName()} --configuration=test-debug`;
 
       const androidReleaseApp = apps["android.release"];
 
@@ -610,7 +691,7 @@ function updateE2eTestSetup(
         );
       }
 
-      androidReleaseApp.build = `yarn nx build:android ${project.getName()} --configuration=test-release`;
+      androidReleaseApp.build = `cd ../.. && yarn nx build:android ${project.getName()} --configuration=test-release`;
 
       return config;
     },

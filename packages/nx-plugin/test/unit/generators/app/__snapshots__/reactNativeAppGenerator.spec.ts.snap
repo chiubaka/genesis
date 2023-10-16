@@ -87,6 +87,7 @@ ruby ">= 3.2.2"
 # Temporary patch until cocoapods releases a patch: https://stackoverflow.com/a/77237290/599391
 gem "activesupport", "~> 7.0", "<= 7.0.8"
 gem "cocoapods", "~> 1.12"
+gem "dotenv"
 gem "fastlane"
 
 plugins_path = File.join(File.dirname(__FILE__), "fastlane", "Pluginfile")
@@ -107,22 +108,22 @@ exports[`reactNativeAppGenerator e2e .detoxrc.json matches snapshot 1`] = `
   "apps": {
     "ios.debug": {
       "type": "ios.app",
-      "build": "yarn nx build:ios react-native-app --configuration=debug-simulator",
+      "build": "cd ../.. && yarn nx build:ios react-native-app --configuration=debug-simulator",
       "binaryPath": "../../packages/react-native-app/ios/build/Build/Products/Debug-iphonesimulator/ReactNativeApp.app"
     },
     "ios.release": {
       "type": "ios.app",
-      "build": "yarn nx build:ios react-native-app --configuration=release-simulator",
+      "build": "cd ../.. && yarn nx build:ios react-native-app --configuration=release-simulator",
       "binaryPath": "../../packages/react-native-app/ios/build/Build/Products/Release-iphonesimulator/ReactNativeApp.app"
     },
     "android.debug": {
       "type": "android.apk",
-      "build": "yarn nx build:android react-native-app --configuration=test-debug",
+      "build": "cd ../.. && yarn nx build:android react-native-app --configuration=test-debug",
       "binaryPath": "../../packages/react-native-app/android/app/build/outputs/apk/debug/app-debug.apk"
     },
     "android.release": {
       "type": "android.apk",
-      "build": "yarn nx build:android react-native-app --configuration=test-release",
+      "build": "cd ../.. && yarn nx build:android react-native-app --configuration=test-release",
       "binaryPath": "../../packages/react-native-app/android/app/build/outputs/apk/release/app-release.apk"
     }
   },
@@ -425,12 +426,164 @@ exports[`reactNativeAppGenerator jest.config.ts jest.config.ts matches snapshot 
 "
 `;
 
+exports[`reactNativeAppGenerator native projects android build.gradle android/app/build.gradle matches snapshot 1`] = `
+"apply plugin: "com.android.application"
+apply plugin: "com.facebook.react"
+
+/**
+ * This is the configuration block to customize your React Native Android app.
+ * By default you don't need to apply any configuration, just uncomment the lines you need.
+ */
+react {
+    /* Folders */
+    //   The root of your project, i.e. where "package.json" lives. Default is '..'
+    // root = file("../")
+    //   The folder where the react-native NPM package is. Default is ../node_modules/react-native
+    // reactNativeDir = file("../node_modules/react-native")
+    //   The folder where the react-native Codegen package is. Default is ../node_modules/@react-native/codegen
+    // codegenDir = file("../node_modules/@react-native/codegen")
+    //   The cli.js file which is the React Native CLI entrypoint. Default is ../node_modules/react-native/cli.js
+    // cliFile = file("../node_modules/react-native/cli.js")
+
+    /* Variants */
+    //   The list of variants to that are debuggable. For those we're going to
+    //   skip the bundling of the JS bundle and the assets. By default is just 'debug'.
+    //   If you add flavors like lite, prod, etc. you'll have to list your debuggableVariants.
+    // debuggableVariants = ["liteDebug", "prodDebug"]
+
+    /* Bundling */
+    //   A list containing the node command and its flags. Default is just 'node'.
+    // nodeExecutableAndArgs = ["node"]
+    //
+    //   The command to run when bundling. By default is 'bundle'
+    // bundleCommand = "ram-bundle"
+    //
+    //   The path to the CLI configuration file. Default is empty.
+    // bundleConfig = file(../rn-cli.config.js)
+    //
+    //   The name of the generated asset file containing your JS bundle
+    // bundleAssetName = "MyApplication.android.bundle"
+    //
+    //   The entry file for bundle generation. Default is 'index.android.js' or 'index.js'
+    // entryFile = file("../js/MyApplication.android.js")
+    //
+    //   A list of extra flags to pass to the 'bundle' commands.
+    //   See https://github.com/react-native-community/cli/blob/main/docs/commands.md#bundle
+    // extraPackagerArgs = []
+
+    /* Hermes Commands */
+    //   The hermes compiler command to run. By default it is 'hermesc'
+    // hermesCommand = "$rootDir/my-custom-hermesc/bin/hermesc"
+    //
+    //   The list of flags to pass to the Hermes compiler. By default is "-O", "-output-source-map"
+    // hermesFlags = ["-O", "-output-source-map"]
+    entryFile = file("../../src/main.tsx")
+}
+
+/**
+ * Set this to true to Run Proguard on Release builds to minify the Java bytecode.
+ */
+def enableProguardInReleaseBuilds = false
+
+/**
+ * The preferred build flavor of JavaScriptCore (JSC)
+ *
+ * For example, to use the international variant, you can use:
+ * \`def jscFlavor = 'org.webkit:android-jsc-intl:+'\`
+ *
+ * The international variant includes ICU i18n library and necessary data
+ * allowing to use e.g. \`Date.toLocaleString\` and \`String.localeCompare\` that
+ * give correct results when using with locales other than en-US. Note that
+ * this variant is about 6MiB larger per architecture than default.
+ */
+def jscFlavor = 'org.webkit:android-jsc:+'
+
+/**
+ * Load the signing keystore from a file
+ */
+def keyStorePropertiesFile = rootProject.file('secrets/upload-keystore.properties')
+def keyStoreProperties = new Properties()
+keyStoreProperties.load(new FileInputStream(keyStorePropertiesFile))
+
+android {
+    ndkVersion rootProject.ext.ndkVersion
+
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    namespace "com.chiubaka.genesis.example.reactnativeapp"
+    defaultConfig {
+        applicationId "com.chiubaka.genesis.example.ReactNativeApp"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+        
+        testBuildType System.getProperty('testBuildType', 'debug')
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        
+    }
+    signingConfigs {
+        debug {
+            storeFile file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+        release {
+            keyAlias keyStoreProperties['releaseKeyAlias']
+            keyPassword keyStoreProperties['releaseKeyPassword']
+            storeFile file(rootProject.file('secrets/upload-keystore.jks'))
+            storePassword keyStoreProperties['releaseStorePassword']
+        }
+    }
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled enableProguardInReleaseBuilds
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            
+            proguardFile "\${rootProject.projectDir}/../node_modules/detox/android/detox/proguard-rules-app.pro"
+            
+        }
+    }
+}
+
+dependencies {
+    
+    androidTestImplementation('com.wix:detox:+')
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    
+    // The version of react-native is set by the React Native Gradle Plugin
+    implementation("com.facebook.react:react-android")
+
+    debugImplementation("com.facebook.flipper:flipper:\${FLIPPER_VERSION}")
+    debugImplementation("com.facebook.flipper:flipper-network-plugin:\${FLIPPER_VERSION}") {
+        exclude group:'com.squareup.okhttp3', module:'okhttp'
+    }
+
+    debugImplementation("com.facebook.flipper:flipper-fresco-plugin:\${FLIPPER_VERSION}")
+    if (hermesEnabled.toBoolean()) {
+        implementation("com.facebook.react:hermes-android")
+    } else {
+        implementation jscFlavor
+    }
+}
+
+apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
+"
+`;
+
 exports[`reactNativeAppGenerator native projects fastlane Appfile Appfile matches snapshot 1`] = `
 "# For more information about the Appfile, see:
 #     https://docs.fastlane.tools/advanced/#appfile
 
 app_identifier("com.chiubaka.genesis.example.ReactNativeApp") # The bundle identifier of your app
 package_name("com.chiubaka.genesis.example.ReactNativeApp") # e.g. com.krausefx.app
+
+json_key_file("android/secrets/google-play-key.json") # Path to the json private key for a Google service account with Google Play Android Developer API access. Follow https://docs.fastlane.tools/actions/supply/#setup to get one
 
 apple_id("example@chiubaka.com") # Your Apple Developer Portal username
 "
@@ -452,26 +605,42 @@ exports[`reactNativeAppGenerator native projects fastlane Fastfile Fastfile matc
 # Uncomment the line if you want fastlane to automatically update itself
 # update_fastlane
 
+require "dotenv"
+Dotenv.load("#{__dir__}/Fastlane.env")
+
 PROJECT_NAME = "ReactNativeApp"
 ANDROID_ROOT = "android"
 IOS_ROOT = "ios"
 
 IS_CI = ENV["CI"] == "true"
+IS_TEST = ENV["NODE_ENV"] == "test"
+APP_STORE_CONNECT_APP_ID = ENV["APP_STORE_CONNECT_APP_ID"]
+
+PACKAGE_JSON = load_json(json_path: "./package.json")
+APP_VERSION = PACKAGE_JSON["version"]
 
 before_all do
   setup_circle_ci
 end
 
 platform :ios do
-  WORKSPACE = "#{IOS_ROOT}/#{PROJECT_NAME}.xcworkspace"
+  XCODE_WORKSPACE = "#{IOS_ROOT}/#{PROJECT_NAME}.xcworkspace"
+  XCODE_PROJECT = "#{IOS_ROOT}/#{PROJECT_NAME}.xcodeproj"
   SCHEME = PROJECT_NAME
 
   before_all do
     xcodes
   end
 
+  desc "Clean the iOS project of intermediate build artifacts"
   lane :clean do
-    xcclean(workspace: WORKSPACE, scheme: SCHEME)
+    xcclean(workspace: XCODE_WORKSPACE, scheme: SCHEME)
+  end
+
+  desc "Update the iOS version and build number metadata based on the project"
+  lane :update_version_and_build_number do
+    increment_version_number(version_number: APP_VERSION, xcodeproj: XCODE_PROJECT)
+    increment_build_number(xcodeproj: XCODE_PROJECT)
   end
 
   desc "Build the iOS project"
@@ -479,37 +648,94 @@ platform :ios do
     clean
 
     configuration = (options[:configuration] || "Release").capitalize
-    destination = options[:simulator] == true ? "generic/platform=iOS Simulator" : nil
+    build_for_simulator = options[:simulator] == true
+    destination = build_for_simulator ? "generic/platform=iOS Simulator" : nil
     skip_archive = options[:simulator] == true
+    export_method = configuration == "Release" ? "app-store" : "development"
+
+    unless build_for_simulator
+      match_type = configuration == "Release" ? "appstore" : "development"
+      match(type: match_type, readonly: true)
+    end
 
     build_app(
-      workspace: WORKSPACE,
+      workspace: XCODE_WORKSPACE,
       scheme: SCHEME,
       configuration: configuration,
       destination: destination,
       derived_data_path: "#{IOS_ROOT}/build",
+      export_method: export_method,
       skip_archive: skip_archive
     )
   end
 
   desc "Run native iOS tests"
   lane :test do
-    run_tests(workspace: WORKSPACE, scheme: SCHEME, prelaunch_simulator: true)
+    run_tests(workspace: XCODE_WORKSPACE, scheme: SCHEME, prelaunch_simulator: true)
+  end
+
+  desc "Push a new beta build to TestFlight"
+  lane :beta do
+    unless IS_CI || IS_TEST
+      ensure_git_status_clean
+    end
+
+    update_version_and_build_number
+    build(configuration: "Release")
+    if IS_CI || IS_TEST
+      # skip_waiting_for_building_processing + apple_id options allow this command to use an app-specific password
+      upload_to_testflight(skip_waiting_for_build_processing: true, apple_id: APP_STORE_CONNECT_APP_ID)
+    else
+      reset_git_repo
+      upload_to_testflight
+    end
+  end
+
+  desc "Push a new build to the AppStore"
+  lane :deploy do
+    unless IS_CI || IS_TEST
+      ensure_git_status_clean
+    end
+
+    update_version_and_build_number
+    build(configuration: "Release")
+
+    unless IS_CI || IS_TEST
+      reset_git_repo
+    end
+
+    upload_to_app_store
   end
 end
 
 platform :android do
+  GRADLE_FILE_PATH = "#{ANDROID_ROOT}/app/build.gradle"
+
+  desc "Clean the Android project of intermediate build artifacts"
   lane :clean do
     gradle(project_dir: ANDROID_ROOT, task: "clean")
   end
 
+  desc "Update the Android version and build number metadata based on the project"
+  lane :update_version_and_build_number do
+    increment_version_name(
+      gradle_file_path: GRADLE_FILE_PATH,
+      version_name: APP_VERSION
+    )
+
+    version_code = get_next_google_play_version_code()
+    android_set_version_code(gradle_file: GRADLE_FILE_PATH, version_code: version_code)
+  end
+
+  desc "Build the Android project"
   lane :build do |options|
     clean
 
     assemble_test = options[:test] == true
     build_type = options[:build_type] || "release"
+    task = options[:task] || "assemble"
 
-    primary_task = build_type == "release" ? "assembleRelease" : "assembleDebug"
+    primary_task = build_type == "release" ? "#{task}Release" : "#{task}Debug"
     tasks = [primary_task]
 
     flags = nil
@@ -526,8 +752,48 @@ platform :android do
   lane :test do
     gradle(project_dir: ANDROID_ROOT, task: "test")
   end
+
+  desc "Submit a new internal build to Google Play"
+  lane :beta do
+    unless IS_CI || IS_TEST
+      ensure_git_status_clean
+    end
+
+    update_version_and_build_number
+    build(task: "bundle", build_type: "release")
+
+    unless IS_CI || IS_TEST
+      reset_git_repo
+    end
+
+    upload_to_play_store(
+      track: "internal",
+      release_status: "draft"
+    )
+  end
+
+  desc "Deploy a new production version to Google Play"
+  lane :deploy do
+    build
+    upload_to_play_store
+  end
 end
 "
+`;
+
+exports[`reactNativeAppGenerator native projects fastlane Fastlane.env Fastlane.env matches snapshot 1`] = `
+"# Fastlane saves a lot of useful configuration in Appfile and Matchfile.
+# However, these files are not extensible, and some important values (e.g.
+# the integer ID for an app registered with App Store Connect) don't have
+# a natural slot in these files. We create and load the custom Fastlane.env
+# file to contain values such as these. In some cases saving these values
+# is important in order to avoid complicating authentication for CI at a
+# later point.
+
+# This file should be checked into source control!
+# DO NOT PLACE SECRETS IN THIS FILE
+
+APP_NAME=Genesis React Native App"
 `;
 
 exports[`reactNativeAppGenerator native projects ios Podfile Podfile matches snapshot 1`] = `
@@ -667,6 +933,9 @@ exports[`reactNativeAppGenerator project.json matches snapshot 1`] = `
   "targets": {
     "build:android": {
       "configurations": {
+        "bundle-release": {
+          "command": "bundle exec fastlane android build task:bundle",
+        },
         "debug": {
           "command": "bundle exec fastlane android build build_type:debug",
         },
@@ -752,6 +1021,45 @@ exports[`reactNativeAppGenerator project.json matches snapshot 1`] = `
       "outputs": [
         "{options.bundleOutput}",
       ],
+    },
+    "deploy:android": {
+      "configurations": {
+        "beta": {
+          "command": "bundle exec fastlane android beta",
+        },
+        "production": {
+          "command": "bundle exec fastlane android deploy",
+        },
+      },
+      "defaultConfiguration": "beta",
+      "dependsOn": [
+        "ensure-symlink",
+        "sync-deps",
+      ],
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/react-native-app",
+      },
+    },
+    "deploy:ios": {
+      "configurations": {
+        "beta": {
+          "command": "bundle exec fastlane ios beta",
+        },
+        "production": {
+          "command": "bundle exec fastlane ios deploy",
+        },
+      },
+      "defaultConfiguration": "beta",
+      "dependsOn": [
+        "ensure-symlink",
+        "sync-deps",
+        "pod-install",
+      ],
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/react-native-app",
+      },
     },
     "ensure-symlink": {
       "executor": "@nx/react-native:ensure-symlink",

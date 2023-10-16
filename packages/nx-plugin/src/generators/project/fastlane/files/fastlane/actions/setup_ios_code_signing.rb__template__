@@ -4,26 +4,26 @@ module Fastlane
       APP_IDENTIFIER = CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier)
       TEAM_ID = CredentialsManager::AppfileConfig.try_fetch_value(:team_id)
       
-      IOS_ROOT = 'ios'
-      PROJECT_NAME = <%= projectName %>
-      PROJECT_PATH = '#{IOS_ROOT}/#{PROJECT_NAME}.xcodeproj'
+      IOS_ROOT = "ios"
+      PROJECT_NAME = "<%= projectName %>"
+      PROJECT_PATH = "#{IOS_ROOT}/#{PROJECT_NAME}.xcodeproj"
 
       def self.run(params)        
         Actions::UpdateCodeSigningSettingsAction.run(
           use_automatic_signing: false,
-          build_configurations: ['Debug'],
-          code_sign_identity: 'iPhone Developer',
+          build_configurations: ["Debug"],
+          code_sign_identity: "iPhone Developer",
           path: PROJECT_PATH,
-          profile_name: 'match Development #{APP_IDENTIFIER}',
+          profile_name: "match Development #{APP_IDENTIFIER}",
           team_id: TEAM_ID
         )
         
         Actions::UpdateCodeSigningSettingsAction.run(
           use_automatic_signing: false,
-          build_configurations: ['Release'],
-          code_sign_identity: 'iPhone Distribution',
+          build_configurations: ["Release"],
+          code_sign_identity: "iPhone Distribution",
           path: PROJECT_PATH,
-          profile_name: 'match AppStore #{APP_IDENTIFIER}',
+          profile_name: "match AppStore #{APP_IDENTIFIER}",
           team_id: TEAM_ID
         )
       end
@@ -33,7 +33,7 @@ module Fastlane
       #####################################################
 
       def self.description
-        'Handles initial set up of iOS code signing using Fastlane Match'
+        "Handles initial set up of iOS code signing using Fastlane Match"
       end
 
       def self.available_options
@@ -52,7 +52,7 @@ module Fastlane
 
       def self.authors
         # So no one will ever forget your contribution to fastlane :) You are awesome btw!
-        ['@chiubaka']
+        ["@chiubaka"]
       end
 
       def self.is_supported?(platform)

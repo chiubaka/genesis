@@ -61,8 +61,11 @@ describe("reactNativeAppGenerator", () => {
       appName: "Genesis React Native App",
       appId: "com.chiubaka.genesis.example.ReactNativeApp",
       appleId: "example@chiubaka.com",
-      codeSigningGitRepositoryUrl:
+      iosCodeSigningGitRepositoryUrl:
         "git@github.com:chiubaka/ios-codesigning.git",
+      androidUploadKeystoreCommonName: "Genesis",
+      androidUploadKeystoreOrganization: "Genesis",
+      androidUploadKeystoreCountry: "US",
     });
   });
 
@@ -142,6 +145,14 @@ describe("reactNativeAppGenerator", () => {
       expect(projectJson.targets?.["test:native:ios"]).toBeDefined();
     });
 
+    it("creates a deploy:ios target", () => {
+      expect(projectJson.targets?.["deploy:ios"]).toBeDefined();
+    });
+
+    it("creates a deploy:android target", () => {
+      expect(projectJson.targets?.["deploy:android"]).toBeDefined();
+    });
+
     it("adds sync-deps as a dependency of bundle:android", () => {
       const bundleAndroidTarget = projectJson.targets?.[
         "bundle:android"
@@ -198,6 +209,13 @@ describe("reactNativeAppGenerator", () => {
 
   describe("native projects", () => {
     describe("fastlane", () => {
+      it("adds dotenv to the Gemfile", () => {
+        expect(tree).toHaveFileWithContent(
+          project.path("Gemfile"),
+          'gem "dotenv"',
+        );
+      });
+
       it("adds fastlane to the Gemfile", () => {
         expect(tree).toHaveFileWithContent(
           project.path("Gemfile"),
@@ -212,12 +230,32 @@ describe("reactNativeAppGenerator", () => {
         );
       });
 
+      describe("Fastlane.env", () => {
+        fileMatchesSnapshot("Fastlane.env", getProject, (project: Project) => {
+          return project.path("fastlane/Fastlane.env");
+        });
+
+        it("fills in the APP_NAME", () => {
+          expect(tree).toHaveFileWithContent(
+            project.path("fastlane/Fastlane.env"),
+            "APP_NAME=Genesis React Native App",
+          );
+        });
+      });
+
       describe("Fastfile", () => {
         fileMatchesSnapshot("Fastfile", getProject, (project: Project) => {
           return project.path("fastlane/Fastfile");
         });
 
-        it("fills in a value for APP_NAME", () => {
+        it("loads Fastlane.env", () => {
+          expect(tree).toHaveFileWithContent(
+            project.path("fastlane/Fastfile"),
+            'Dotenv.load("#{__dir__}/Fastlane.env")',
+          );
+        });
+
+        it("fills in a value for PROJECT_NAME", () => {
           expect(tree).toHaveFileWithContent(
             project.path("fastlane/Fastfile"),
             'PROJECT_NAME = "ReactNativeApp',
@@ -336,6 +374,14 @@ describe("reactNativeAppGenerator", () => {
 
     describe("android", () => {
       describe("build.gradle", () => {
+        fileMatchesSnapshot(
+          "android/app/build.gradle",
+          getProject,
+          (project: Project) => {
+            return project.path("android/app/build.gradle");
+          },
+        );
+
         it("updates the namespace", () => {
           expect(tree).not.toHaveFileWithContent(
             project.path("android/app/build.gradle"),
@@ -358,6 +404,45 @@ describe("reactNativeAppGenerator", () => {
             project.path("android/app/build.gradle"),
             'applicationId "com.chiubaka.genesis.example.ReactNativeApp"',
           );
+        });
+      });
+
+      describe("code signing", () => {
+        it("adds android/secrets to .gitignore", () => {
+          expect(tree).toHaveFileWithContent(
+            project.path("android/.gitignore"),
+            "secrets",
+          );
+        });
+
+        describe("android/secrets/upload-keystore.properties", () => {
+          it("creates an android/secrets/upload-keystore.properties file", () => {
+            expect(
+              // eslint-disable-next-line security/detect-non-literal-fs-filename
+              tree.exists(
+                project.path("android/secrets/upload-keystore.properties"),
+              ),
+            ).toBe(true);
+          });
+        });
+
+        describe("build.gradle", () => {
+          it("adds release signing configurations using the keystore", () => {
+            expect(tree).toHaveFileWithContent(
+              project.path("android/app/build.gradle"),
+              "def keyStoreProperties = new Properties()",
+            );
+
+            expect(tree).toHaveFileWithContent(
+              project.path("android/app/build.gradle"),
+              "keyAlias keyStoreProperties['releaseKeyAlias']",
+            );
+
+            expect(tree).toHaveFileWithContent(
+              project.path("android/app/build.gradle"),
+              "signingConfig signingConfigs.release",
+            );
+          });
         });
       });
 

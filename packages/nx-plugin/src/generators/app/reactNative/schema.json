@@ -36,7 +36,7 @@
       "type": "string",
       "description": "Android AVD emulator name to use for the starter Detox configuration"
     },
-    "codeSigningGitRepositoryUrl": {
+    "iosCodeSigningGitRepositoryUrl": {
       "type": "string",
       "description": "Git SSH URL for the repository to use for Fastlane Match codesigning. Learn more here: https://docs.fastlane.tools/actions/match/"
     },
@@ -51,6 +51,42 @@
     "xcodeVersion": {
       "type": "string",
       "description": "The version of Xcode to pin for this project"
+    },
+
+    "androidUploadKeystoreAlias": {
+      "type": "string",
+      "description": "The alias of the key to use in the keystore for uploading to Google Play. When not provided and generating a new keystore, this will default to the appId."
+    },
+    "androidUploadKeystorePassword": {
+      "type": "string",
+      "description": "The password for both the key in the keystore and the keystore as a whole. When not provided, a new password will be generated and output to a file that is ignored by source control."
+    },
+    "androidUploadKeystoreCommonName": {
+      "type": "string",
+      "description": "The Common Name (CN) to use for the Distinguished Name (DN) of the keystore. Typically either your first and last name or the name of the person or thing creating the keystore."
+    },
+    "androidUploadKeystoreOrganizationalUnit": {
+      "type": "string",
+      "description": "The Organizational Unit (OU) to use for the Distinguished Name (DN) of the keystore. Typically your department or team within a company.",
+      "default": "Uknown"
+    },
+    "androidUploadKeystoreOrganization": {
+      "type": "string",
+      "description": "The Organization (O) to use for the Distinguished Name (DN) of the keystore. Typically your company name."
+    },
+    "androidUploadKeystoreLocality": {
+      "type": "string",
+      "description": "The Locality (L) to use for the Distinguished Name (DN) of the keystore. Typically the city where you or the Organization are located.",
+      "default": "Uknown"
+    },
+    "androidUploadKeystoreState": {
+      "type": "string",
+      "description": "The State (S) to use for the Distinguished Name (DN) of the keystore. Typically the state or province where you or the Organization are located.",
+      "default": "Uknown"
+    },
+    "androidUploadKeyStoreCountry": {
+      "type": "string",
+      "description": "The Country (C) to use for the Distinguished Name (DN) of the keystore. Typically the country where you or the Organization are located."
     }
   },
   "required": [
@@ -58,6 +94,9 @@
     "appName",
     "appId",
     "appleId",
-    "codeSigningGitRepositoryUrl"
+    "iosCodeSigningGitRepositoryUrl",
+    "androidUploadKeystoreCommonName",
+    "androidUploadKeystoreOrganization",
+    "androidUploadKeystoreCountry"
   ]
 }

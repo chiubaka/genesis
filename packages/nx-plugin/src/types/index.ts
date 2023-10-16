@@ -1,6 +1,7 @@
 export * from "./circleci";
 export * from "./codecov";
 export * from "./dockerCompose";
+export * from "./generatePassword";
 export * from "./jestConfig";
 export * from "./lintstaged";
 export * from "./npm";

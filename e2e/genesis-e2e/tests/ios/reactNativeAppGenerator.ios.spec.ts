@@ -1,16 +1,12 @@
 import { TestingWorkspace } from "@chiubaka/nx-plugin-testing";
 
-import { copyWorkspaceTemplate } from "../../utils";
+import { createReactNativeAppTemplate } from "../../utils";
 
 describe("reactNativeAppGenerator", () => {
   let workspace: TestingWorkspace;
 
   beforeAll(async () => {
-    workspace = await copyWorkspaceTemplate("app.react-native.ios");
-
-    await workspace.execNx(
-      'generate @chiubaka/nx-plugin:app.react-native --name=react-native-app --appName="Genesis React Native App" --appId="com.chiubaka.genesis.example.ReactNativeApp" --appleId="daniel@chiubaka.com" --androidEmulatorAvdName="Detox" --codeSigningGitRepositoryUrl="git@github.com:chiubaka/ios-codesigning.git"',
-    );
+    workspace = await createReactNativeAppTemplate("app.react-native.ios");
   });
 
   describe("generates a project with a working iOS build setup", () => {
@@ -46,6 +42,12 @@ describe("reactNativeAppGenerator", () => {
   it("generates a project with a working native iOS testing setup", async () => {
     await expect(
       workspace.execNx("test:native:ios react-native-app"),
+    ).resolves.not.toThrow();
+  });
+
+  it("generates a project with a working TestFlight deployment pipeline", async () => {
+    await expect(
+      workspace.execNx("deploy:ios react-native-app"),
     ).resolves.not.toThrow();
   });
 

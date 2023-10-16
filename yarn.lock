@@ -2116,12 +2116,14 @@ __metadata:
     "@nx/plugin": 16.8.1
     "@nx/react-native": 16.8.1
     "@types/escape-string-regexp": ^2.0.1
+    "@types/generate-password": ^1.5.1
     "@types/js-yaml": ^4.0.5
     "@types/nock": ^11.1.0
     "@verdaccio/types": ^10.5.2
     detox: ^20.12.1
     endent: ^2.1.0
     escape-string-regexp: ^4.0.0
+    generate-password: ^1.7.0
     js-yaml: ^4.1.0
     nock: ^13.2.9
     nx: 16.8.1
@@ -4240,6 +4242,15 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: add79e212acd5ac76b97b9045834e03a7996aef60a814185e0459088fd290519a3c1620865d588fa36c4498bf614210d2a703af5cf80aa1dbc125db78f6edac3
+  languageName: node
+  linkType: hard
+
+"@types/generate-password@npm:^1.5.1":
+  version: 1.5.1
+  resolution: "@types/generate-password@npm:1.5.1"
+  dependencies:
+    generate-password: "*"
+  checksum: a3839228d466a154a746978a13b6c582b10df03af548fa6061f46c6d72c58953f97d6dd3ee5e308e05cf4b29837d61609ca44643e12c09de3e75978d56ce78be
   languageName: node
   linkType: hard
 
@@ -9265,6 +9276,13 @@ __metadata:
     strip-ansi: ^3.0.1
     wide-align: ^1.1.0
   checksum: a89b53cee65579b46832e050b5f3a79a832cc422c190de79c6b8e2e15296ab92faddde6ddf2d376875cbba2b043efa99b9e1ed8124e7365f61b04e3cee9d40ee
+  languageName: node
+  linkType: hard
+
+"generate-password@npm:*, generate-password@npm:^1.7.0":
+  version: 1.7.0
+  resolution: "generate-password@npm:1.7.0"
+  checksum: c0d13e9a9c72d84adc4365a0c0dbd28463f2da1975b4ec83f34a126b95122551274755db641418e5aa11c8d94c1d216c8da8314f38e56e05378e1a43792f4614
   languageName: node
   linkType: hard
 

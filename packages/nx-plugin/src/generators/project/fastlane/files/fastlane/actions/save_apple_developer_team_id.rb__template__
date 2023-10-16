@@ -1,17 +1,17 @@
 module Fastlane
   module Actions
-    class SetAppleDeveloperTeamIdAction < Action
+    class SaveAppleDeveloperTeamIdAction < Action
       def self.run(params)
         Spaceship.login
         team_id = CredentialsManager::AppfileConfig.try_fetch_value(:team_id)
         if team_id == nil
           team_id = Spaceship::Portal.client.team_id
-          puts 'Saving team_id #{team_id} to Appfile'
-          open('#{__dir__}/../Appfile', 'a') do |f|
-            f.puts 'team_id(\"#{team_id}\") # Developer Portal Team ID'
+          puts "Saving team_id #{team_id} to Appfile"
+          open("#{__dir__}/../Appfile", "a") do |f|
+            f.puts "team_id(\"#{team_id}\") # Developer Portal Team ID"
           end
         else
-          puts 'team_id is already present in Appfile'
+          puts "team_id is already present in Appfile"
         end
       end
 
@@ -20,7 +20,7 @@ module Fastlane
       #####################################################
 
       def self.description
-        'Grabs the Apple Developer Portal Team ID from the API and saves it to the Appfile'
+        "Grabs the Apple Developer Portal Team ID from the API and saves it to the Appfile"
       end
 
       def self.available_options
@@ -39,7 +39,7 @@ module Fastlane
 
       def self.authors
         # So no one will ever forget your contribution to fastlane :) You are awesome btw!
-        ['@chiubaka']
+        ["@chiubaka"]
       end
 
       def self.is_supported?(platform)

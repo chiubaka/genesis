@@ -1,4 +1,4 @@
-git_url("<%= codeSigningGitRepositoryUrl %>")
+git_url("<%= iosCodeSigningGitRepositoryUrl %>")
 
 storage_mode("git")
 

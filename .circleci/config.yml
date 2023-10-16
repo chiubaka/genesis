@@ -7,6 +7,7 @@ constants:
   semver-regex: &semver-regex /^(\w+-)+v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/
 
 orbs:
+  android: circleci/android@2.3.0
   chiubaka: chiubaka/circleci-orb@dev:alpha
   node: circleci/node@5.0.2
 
@@ -108,9 +109,19 @@ jobs:
           at: .
       # Android is a machine executor, so setting the NPM prefix isn't necessary
       - start-verdaccio
+      - android/decode-keystore:
+          keystore-location: e2e/genesis-e2e/secrets/android/upload-keystore.jks
+      - android/create-keystore-properties:
+          release-keystore: ./upload-keystore.jks
+          working-directory: e2e/genesis-e2e/secrets/android
+      - run:
+          name: "Rename generated keystore properties to upload-keystore.properties"
+          command: mv e2e/genesis-e2e/secrets/android/keystore.properties e2e/genesis-e2e/secrets/android/upload-keystore.properties
+      - android/create-google-play-key:
+          working-directory: e2e/genesis-e2e/secrets/android
       - run:
           name: Run Android E2E tests
-          command: yarn run e2e:android:all
+          command: yarn run e2e:android:affected --ci
   ios-e2e:
     executor: chiubaka/macos
     steps:
@@ -127,7 +138,7 @@ jobs:
       - reinstall-genesis-e2e-dependencies
       - run:
           name: Run iOS E2E tests
-          command: yarn run e2e:ios:all
+          command: yarn run e2e:ios:affected --ci
           no_output_timeout: 2m
 
 commands:

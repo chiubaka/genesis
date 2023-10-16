@@ -2,8 +2,12 @@ import { generateFiles, Tree } from "@nx/devkit";
 import endent from "endent";
 import path from "node:path";
 
-import { noOpTask, Project, spawn } from "../../../utils";
+import { PasswordGenerator } from "../../../types";
+import { noOpTask, Project, replaceInFile, spawn } from "../../../utils";
 import { FastlaneProjectGeneratorSchema } from "./fastlaneProjectGenerator.schema";
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const passwordGenerator = require("generate-password") as PasswordGenerator;
 
 export function fastlaneProjectGenerator(
   tree: Tree,
@@ -18,7 +22,7 @@ export function fastlaneProjectGenerator(
 
   const bundleInstallTask = bundleInstall(project);
   const generateFastlaneReadmeTask = generateFastlaneReadme(project);
-  const getAppleDeveloperTeamIdTask = getAppleDeveloperTeamId(project);
+  const getAppleDeveloperTeamIdTask = saveAppleDeveloperTeamId(project);
 
   const setupCodeSigningTask = setupCodeSigning(project, options);
 
@@ -45,6 +49,7 @@ function updateGemfile(project: Project) {
 
   gemfileContents = endent`
     ${gemfileContents}
+    gem "dotenv"
     gem "fastlane"
 
     plugins_path = File.join(File.dirname(__FILE__), "fastlane", "Pluginfile")
@@ -88,9 +93,9 @@ function generateFastlaneReadme(project: Project) {
   };
 }
 
-function getAppleDeveloperTeamId(project: Project) {
+function saveAppleDeveloperTeamId(project: Project) {
   return async () => {
-    await spawn("bundle exec fastlane run set_apple_developer_team_id", {
+    await spawn("bundle exec fastlane run save_apple_developer_team_id", {
       cwd: project.path(),
     });
   };
@@ -104,7 +109,17 @@ function setupCodeSigning(
     return noOpTask;
   }
 
-  const registerAppWithAppleTask = registerAppWithApple(project, options);
+  const setupIosCodeSigningTask = setupIosCodeSigning(project);
+  const setupAndroidCodeSigningTask = setupAndroidCodeSigning(project, options);
+
+  return async () => {
+    await setupIosCodeSigningTask();
+    await setupAndroidCodeSigningTask();
+  };
+}
+
+function setupIosCodeSigning(project: Project) {
+  const registerAppWithAppleTask = registerAppWithApple(project);
   const generateCertificatesAndProfilesTask =
     generateCertificatesAndProfiles(project);
   const updateSigningSettingsTask = updateSigningSettings(project);
@@ -116,18 +131,30 @@ function setupCodeSigning(
   };
 }
 
-function registerAppWithApple(
+function setupAndroidCodeSigning(
   project: Project,
   options: FastlaneProjectGeneratorSchema,
 ) {
-  const { appName, appId, appleId } = options;
+  updateGradleProject(project);
+  const generateUploadKeystoreTask = generateUploadKeystore(project, options);
 
   return async () => {
-    const command = `bundle exec fastlane produce -u ${appleId} -a ${appId} --app_name "${appName}"`;
+    await generateUploadKeystoreTask();
+  };
+}
+
+function registerAppWithApple(project: Project) {
+  return async () => {
+    const command = `bundle exec fastlane run register_app_with_apple"`;
 
     try {
       await spawn(command, {
         cwd: project.path(),
+        // This command sometimes triggers the need to manually re-auth
+        // and will hang when this occurs. Timeout helps to prevent us
+        // from waiting too long in this case.
+        // https://docs.fastlane.tools/getting-started/ios/authentication/
+        timeout: process.env.NODE_ENV === "test" ? 30_000 : undefined,
       });
     } catch {
       console.error(
@@ -159,4 +186,99 @@ function updateSigningSettings(project: Project) {
       cwd: project.path(),
     });
   };
+}
+
+function updateGradleProject(project: Project) {
+  const tree = project.getTree();
+  const gradlePath = project.path("android/app/build.gradle");
+
+  replaceInFile(
+    tree,
+    gradlePath,
+    "android {",
+    endent`
+      /**
+       * Load the signing keystore from a file
+       */
+      def keyStorePropertiesFile = rootProject.file('secrets/upload-keystore.properties')
+      def keyStoreProperties = new Properties()
+      keyStoreProperties.load(new FileInputStream(keyStorePropertiesFile))
+
+      android {
+    `,
+  );
+
+  replaceInFile(
+    tree,
+    gradlePath,
+    "debug {\n            storeFile file('debug.keystore')\n            storePassword 'android'\n            keyAlias 'androiddebugkey'\n            keyPassword 'android'\n        }\n",
+    "debug {\n            storeFile file('debug.keystore')\n            storePassword 'android'\n            keyAlias 'androiddebugkey'\n            keyPassword 'android'\n        }\n        release {\n            keyAlias keyStoreProperties['releaseKeyAlias']\n            keyPassword keyStoreProperties['releaseKeyPassword']\n            storeFile file(rootProject.file('secrets/upload-keystore.jks'))\n            storePassword keyStoreProperties['releaseStorePassword']\n        }\n",
+  );
+
+  replaceInFile(
+    tree,
+    gradlePath,
+    "release {\n            // Caution! In production, you need to generate your own keystore file.\n            // see https://reactnative.dev/docs/signed-apk-android.\n            signingConfig signingConfigs.debug\n",
+    "release {\n            signingConfig signingConfigs.release\n",
+  );
+}
+
+function generateUploadKeystore(
+  project: Project,
+  options: FastlaneProjectGeneratorSchema,
+) {
+  const {
+    appId,
+
+    androidUploadKeystoreAlias,
+    androidUploadKeystorePassword,
+    androidUploadKeystoreCommonName: commonName,
+    androidUploadKeystoreOrganizationalUnit,
+    androidUploadKeystoreOrganization: organization,
+    androidUploadKeystoreLocality,
+    androidUploadKeystoreState,
+    androidUploadKeystoreCountry: country,
+  } = options;
+
+  const alias = androidUploadKeystoreAlias ?? appId;
+  const password =
+    androidUploadKeystorePassword ??
+    passwordGenerator.generate({
+      length: 50,
+      numbers: true,
+    });
+
+  writeUploadKeystoreProperties(project, alias, password);
+
+  const organizationalUnit =
+    androidUploadKeystoreOrganizationalUnit ?? "Unknown";
+  const locality = androidUploadKeystoreLocality ?? "Unknown";
+  const state = androidUploadKeystoreState ?? "Unknown";
+
+  const distinguishedName = `CN=${commonName}, OU=${organizationalUnit}, O=${organization}, L=${locality}, ST=${state}, C=${country}`;
+
+  return async () => {
+    await spawn(
+      `echo y | keytool -genkey -v -keyalg RSA -keysize 4096 -dname "${distinguishedName}" -alias ${alias} -keypass ${password} -keystore android/secrets/upload-keystore.jks -storepass ${password} -validity 20000`,
+      {
+        cwd: project.path(),
+      },
+    );
+  };
+}
+
+function writeUploadKeystoreProperties(
+  project: Project,
+  alias: string,
+  password: string,
+) {
+  project.write(
+    "android/secrets/upload-keystore.properties",
+    endent`
+      releaseKeyAlias=${alias}
+      releaseKeyPassword=${password}
+      # KeyPassword and StorePassword are intentionally the same (https://developer.android.com/studio/known-issues#ki-key-keystore-warning)
+      releaseStorePassword=${password}
+    `,
+  );
 }
