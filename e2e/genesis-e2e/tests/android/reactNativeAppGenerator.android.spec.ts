@@ -60,7 +60,7 @@ describe("reactNativeAppGenerator android", () => {
 
   it("generates a project with a working native Android testing setup", async () => {
     await expect(
-      workspace.execNx("test:native:android react-native-app"),
+      workspace.execNx("test:android react-native-app"),
     ).resolves.not.toThrow();
   });
 

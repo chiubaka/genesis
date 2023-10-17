@@ -137,12 +137,12 @@ describe("reactNativeAppGenerator", () => {
       expect(projectJson.targets?.["run:ios"]).toBeDefined();
     });
 
-    it("creates a test:native:android target", () => {
-      expect(projectJson.targets?.["test:native:android"]).toBeDefined();
+    it("creates a test:android target", () => {
+      expect(projectJson.targets?.["test:android"]).toBeDefined();
     });
 
-    it("creates a test:native:ios target", () => {
-      expect(projectJson.targets?.["test:native:ios"]).toBeDefined();
+    it("creates a test:ios target", () => {
+      expect(projectJson.targets?.["test:ios"]).toBeDefined();
     });
 
     it("creates a deploy:ios target", () => {

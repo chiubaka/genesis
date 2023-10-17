@@ -41,7 +41,7 @@ describe("reactNativeAppGenerator", () => {
 
   it("generates a project with a working native iOS testing setup", async () => {
     await expect(
-      workspace.execNx("test:native:ios react-native-app"),
+      workspace.execNx("test:ios react-native-app"),
     ).resolves.not.toThrow();
   });
 

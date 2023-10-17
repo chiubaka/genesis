@@ -235,14 +235,14 @@ function updateProjectJson(project: Project) {
       outputs: ["{projectRoot}/ios/build/Build"],
       dependsOn: ["ensure-symlink", "sync-deps", "pod-install"],
     });
-    ProjectJsonUtils.upsertTarget(projectJson, "test:native:android", {
+    ProjectJsonUtils.upsertTarget(projectJson, "test:android", {
       command: "bundle exec fastlane android test",
       options: {
         cwd: project.path(),
       },
       dependsOn: ["ensure-symlink", "sync-deps"],
     });
-    ProjectJsonUtils.upsertTarget(projectJson, "test:native:ios", {
+    ProjectJsonUtils.upsertTarget(projectJson, "test:ios", {
       command: "bundle exec fastlane ios test",
       options: {
         cwd: project.path(),

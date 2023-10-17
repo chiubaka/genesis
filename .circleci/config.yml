@@ -78,7 +78,6 @@ workflows:
       - ios-e2e:
           requires:
             - test
-            - android-e2e
       - chiubaka/deploy:
           name: deploy
           task-name: Publish to NPM
@@ -109,6 +108,9 @@ jobs:
           at: .
       # Android is a machine executor, so setting the NPM prefix isn't necessary
       - start-verdaccio
+      - run:
+          name: "Create Android secrets directory"
+          command: mkdir -p e2e/genesis-e2e/secrets/android
       - android/decode-keystore:
           keystore-location: e2e/genesis-e2e/secrets/android/upload-keystore.jks
       - android/create-keystore-properties:

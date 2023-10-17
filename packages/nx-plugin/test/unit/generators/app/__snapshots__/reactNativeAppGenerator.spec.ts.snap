@@ -1137,7 +1137,7 @@ exports[`reactNativeAppGenerator project.json matches snapshot 1`] = `
         "reports/junit/react-native-app.xml",
       ],
     },
-    "test:native:android": {
+    "test:android": {
       "command": "bundle exec fastlane android test",
       "dependsOn": [
         "ensure-symlink",
@@ -1147,7 +1147,7 @@ exports[`reactNativeAppGenerator project.json matches snapshot 1`] = `
         "cwd": "packages/react-native-app",
       },
     },
-    "test:native:ios": {
+    "test:ios": {
       "command": "bundle exec fastlane ios test",
       "dependsOn": [
         "ensure-symlink",
