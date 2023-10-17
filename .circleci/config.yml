@@ -109,6 +109,9 @@ jobs:
       # Android is a machine executor, so setting the NPM prefix isn't necessary
       - start-verdaccio
       - run:
+          name: Clear Nx Cache
+          command: rm -rf tmp/nx-cache
+      - run:
           name: "Create Android secrets directory"
           command: mkdir -p e2e/genesis-e2e/secrets/android
       - android/decode-keystore:
