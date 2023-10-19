@@ -43,7 +43,7 @@ describe("reactNativeAppGenerator", () => {
       appId: "com.chiubaka.genesis.example.ReactNativeApp",
       appleId: "example@chiubaka.com",
       iosCodeSigningGitRepositoryUrl:
-        "git@github.com:chiubaka/ios-codesigning.git",
+        "git@github.com:chiubaka/ios-code-signing.git",
       androidUploadKeystoreCommonName: "Genesis",
       androidUploadKeystoreOrganization: "Genesis",
       androidUploadKeystoreCountry: "US",
@@ -247,6 +247,20 @@ describe("reactNativeAppGenerator", () => {
   describe(".gitignore", () => {
     fileMatchesSnapshot(".gitignore", getProject, (project) => {
       return project.path(".gitignore");
+    });
+
+    it("adds ios/secrets to .gitignore", () => {
+      expect(tree).toHaveFileWithContent(
+        project.path(".gitignore"),
+        "ios/secrets",
+      );
+    });
+
+    it("adds android/secrets to .gitignore", () => {
+      expect(tree).toHaveFileWithContent(
+        project.path(".gitignore"),
+        "android/secrets",
+      );
     });
 
     it("ignores iOS Pods", () => {
@@ -596,13 +610,6 @@ describe("reactNativeAppGenerator", () => {
       });
 
       describe("code signing", () => {
-        it("adds android/secrets to .gitignore", () => {
-          expect(tree).toHaveFileWithContent(
-            project.path("android/.gitignore"),
-            "secrets",
-          );
-        });
-
         describe("android/secrets/upload-keystore.properties", () => {
           it("creates an android/secrets/upload-keystore.properties file", () => {
             expect(

@@ -127,14 +127,18 @@ yarn-error.log
 *.jsbundle
 
 # Ruby / CocoaPods
-/ios/Pods/
-/vendor/bundle/
+ios/Pods/
+vendor/bundle/
 
 # Temporary files created by Metro to check the health of the file watcher
 .metro-health-check*
 
 # testing
 /coverage
+
+# Secrets for build and deployment automation
+android/secrets
+ios/secrets
 "
 `;
 
@@ -685,6 +689,8 @@ IOS_ROOT = "ios"
 IS_CI = ENV["CI"] == "true"
 IS_TEST = ENV["NODE_ENV"] == "test"
 APP_STORE_CONNECT_APP_ID = ENV["APP_STORE_CONNECT_APP_ID"]
+APP_STORE_CONNECT_KEY_ISSUER_ID = ENV["APP_STORE_CONNECT_KEY_ISSUER_ID"]
+APP_STORE_CONNECT_KEY_ID = ENV["APP_STORE_CONNECT_KEY_ID"]
 
 PACKAGE_JSON = load_json(json_path: "./package.json")
 APP_VERSION = PACKAGE_JSON["version"]
@@ -698,6 +704,8 @@ platform :ios do
   XCODE_PROJECT = "#{IOS_ROOT}/#{PROJECT_NAME}.xcodeproj"
   SCHEME = PROJECT_NAME
 
+  APP_STORE_CONNECT_KEY_PATH = File.join(Dir.pwd, "../#{IOS_ROOT}/secrets/app-store-connect-key.p8")
+
   before_all do
     xcodes
   end
@@ -710,7 +718,21 @@ platform :ios do
   desc "Update the iOS version and build number metadata based on the project"
   lane :update_version_and_build_number do
     increment_version_number(version_number: APP_VERSION, xcodeproj: XCODE_PROJECT)
-    increment_build_number(xcodeproj: XCODE_PROJECT)
+    increment_build_number(build_number: latest_testflight_build_number() + 1, xcodeproj: XCODE_PROJECT)
+  end
+
+  desc "Authenticate with App Store Connect"
+  lane :authenticate_with_app_store_connect do
+    if APP_STORE_CONNECT_KEY_ID != nil and APP_STORE_CONNECT_KEY_ISSUER_ID != nil and File.file?(APP_STORE_CONNECT_KEY_PATH)
+      api_key = app_store_connect_api_key(
+        key_id: APP_STORE_CONNECT_KEY_ID,
+        issuer_id: APP_STORE_CONNECT_KEY_ISSUER_ID,
+        key_filepath: APP_STORE_CONNECT_KEY_PATH,
+        duration: 1200, # optional (maximum 1200)
+      )
+    elsif IS_CI
+      UI.user_error!("APP_STORE_CONNECT_KEY_ID, APP_STORE_CONNECT_KEY_ISSUER_ID, or .p8 key is missing")
+    end
   end
 
   desc "Build the iOS project"
@@ -750,14 +772,15 @@ platform :ios do
       ensure_git_status_clean
     end
 
+    authenticate_with_app_store_connect
+
     update_version_and_build_number
     build(configuration: "Release")
     if IS_CI || IS_TEST
-      # skip_waiting_for_building_processing + apple_id options allow this command to use an app-specific password
-      upload_to_testflight(skip_waiting_for_build_processing: true, apple_id: APP_STORE_CONNECT_APP_ID)
+      upload_to_testflight(skip_waiting_for_build_processing: true)
     else
-      reset_git_repo
       upload_to_testflight
+      reset_git_repo
     end
   end
 
@@ -767,14 +790,16 @@ platform :ios do
       ensure_git_status_clean
     end
 
+    authenticate_with_app_store_connect
+
     update_version_and_build_number
     build(configuration: "Release")
+
+    upload_to_app_store
 
     unless IS_CI || IS_TEST
       reset_git_repo
     end
-
-    upload_to_app_store
   end
 end
 
@@ -1310,14 +1335,14 @@ exports[`reactNativeAppGenerator workspace package scripts matches snapshot 1`] 
   "build:all": "nx run-many --target=build --target=build:android --target=build:ios --output-style=stream --verbose",
   "build:android:affected": "nx affected --target=build:android --output-style=stream --verbose",
   "build:android:all": "nx run-many --target=build:android --all --output-style=stream --verbose",
-  "build:android:ci": "./scripts/ci.sh build:android ",
+  "build:android:ci": "./scripts/ci.sh build:android",
   "build:ci": "yarn build:js:ci",
   "build:ios:affected": "nx affected --target=build:ios --output-style=stream --verbose",
   "build:ios:all": "nx run-many --target=build:ios --all --output-style=stream --verbose",
-  "build:ios:ci": "./scripts/ci.sh build:ios ",
+  "build:ios:ci": "./scripts/ci.sh build:ios",
   "build:js:affected": "nx affected --target=build --output-style=stream --verbose",
   "build:js:all": "nx run-many --target=build --all --output-style=stream --verbose",
-  "build:js:ci": "./scripts/ci.sh build:js ",
+  "build:js:ci": "./scripts/ci.sh build:js",
   "deploy:android": "nx deploy:android $@",
   "deploy:android:ci": "yarn deploy:android",
   "deploy:ios": "nx deploy:ios $@",
@@ -1326,23 +1351,23 @@ exports[`reactNativeAppGenerator workspace package scripts matches snapshot 1`] 
   "e2e:all": "nx run-many --target=e2e --target=e2e:android --target=e2e:ios --output-style=stream --verbose",
   "e2e:android:affected": "nx affected --target=e2e:android --output-style=stream --verbose",
   "e2e:android:all": "nx run-many --target=e2e:android --all --output-style=stream --verbose",
-  "e2e:android:ci": "./scripts/ci.sh e2e:android --ci --coverage",
+  "e2e:android:ci": "./scripts/ci.sh e2e:android --ci --configuration=production",
   "e2e:ci": "yarn e2e:js:ci",
   "e2e:ios:affected": "nx affected --target=e2e:ios --output-style=stream --verbose",
   "e2e:ios:all": "nx run-many --target=e2e:ios --all --output-style=stream --verbose",
-  "e2e:ios:ci": "./scripts/ci.sh e2e:ios --ci --coverage",
+  "e2e:ios:ci": "./scripts/ci.sh e2e:ios --ci --configuration=production",
   "e2e:js:affected": "nx affected --target=e2e --output-style=stream --verbose",
   "e2e:js:all": "nx run-many --target=e2e --all --output-style=stream --verbose",
-  "e2e:js:ci": "./scripts/ci.sh e2e:js --ci --coverage",
+  "e2e:js:ci": "./scripts/ci.sh e2e:js --ci",
   "test:affected": "nx affected --target=test --target=test:android --target=test:ios --output-style=stream --verbose",
   "test:all": "nx run-many --target=test --target=test:android --target=test:ios --output-style=stream --verbose",
   "test:android:affected": "nx affected --target=test:android --output-style=stream --verbose",
   "test:android:all": "nx run-many --target=test:android --all --output-style=stream --verbose",
-  "test:android:ci": "./scripts/ci.sh test:android --ci --coverage",
+  "test:android:ci": "./scripts/ci.sh test:android",
   "test:ci": "yarn test:js:ci",
   "test:ios:affected": "nx affected --target=test:ios --output-style=stream --verbose",
   "test:ios:all": "nx run-many --target=test:ios --all --output-style=stream --verbose",
-  "test:ios:ci": "./scripts/ci.sh test:ios --ci --coverage",
+  "test:ios:ci": "./scripts/ci.sh test:ios",
   "test:js:affected": "nx affected --target=test --output-style=stream --verbose",
   "test:js:all": "nx run-many --target=test --all --output-style=stream --verbose",
   "test:js:ci": "./scripts/ci.sh test:js --ci --coverage",

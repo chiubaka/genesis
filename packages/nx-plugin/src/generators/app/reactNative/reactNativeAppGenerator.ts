@@ -56,6 +56,18 @@ export async function reactNativeAppGenerator(
           - [] Under the CircleCI project's SSH Keys, set the project up with a user key. It is recommended that
                you create a GitHub machine user account and invite it to access your code signing repository and
                your monorepo. Authorize CircleCI to connect to GitHub using this machine user account.
+          - [] Create and download an App Store Connect API key.
+            - [] Place your downloaded \`.p8\` key in the \`ios/secrets\` directory.
+              - This file **SHOULD NOT** be checked into source control. However, you should back this file
+                up somewhere safe so you don't list it. The \`ios/secrets\` directory is automatically
+                ignored by \`git\`.
+            - [] Add a \`APP_STORE_CONNECT_APP_KEY_ISSUER_ID\` variable to \`fastlane/Fastlane.env\`
+              - You can find this value on the screen where you generated and downloaded your key
+            - [] Add a \`APP_STORE_CONNECT_KEY_ID\` variable to \`fastlane/Fastlane.env\`
+              - You can find this value on the screen where you generated and downloaded your key
+            - Refer to [Fastlane's documentation](https://docs.fastlane.tools/getting-started/ios/authentication/#method-1-app-store-connect-api-key-recommended) on this for more info.
+          - [] Add an \`APP_STORE_CONNECT_KEY\` environment variable to the CircleCI project with the base64 encoded contents of your \`p8\` key
+            - \`base64 -i app-store-connect-key.p8\`
       - [] Finish setting up Android code signing and deployment via Google Play Store
         - [] Create a Google service account with permissions to the Google Play Android Developer API
              and download a \`.json\` private key for the account into this repository.
@@ -143,6 +155,16 @@ function updatePackageJsonScripts(project: Project) {
     addScriptsForTarget("test", scripts);
     addScriptsForTarget("e2e", scripts);
 
+    scripts["test:js:ci"] = `${scripts["test:js:ci"]} --ci --coverage`;
+
+    scripts[
+      "e2e:ios:ci"
+    ] = `${scripts["e2e:ios:ci"]} --ci --configuration=production`;
+    scripts[
+      "e2e:android:ci"
+    ] = `${scripts["e2e:android:ci"]} --ci --configuration=production`;
+    scripts["e2e:js:ci"] = `${scripts["e2e:js:ci"]} --ci`;
+
     scripts["deploy:ios"] = "nx deploy:ios $@";
     scripts["deploy:ios:ci"] = "yarn deploy:ios";
 
@@ -157,8 +179,6 @@ function updatePackageJsonScripts(project: Project) {
 
 function addScriptsForTarget(target: string, scripts: Record<string, string>) {
   const outputOptions = "--output-style=stream --verbose";
-  const ciOptions =
-    target === "test" || target === "e2e" ? "--ci --coverage" : "";
   const allTargets = `--target=${target} --target=${target}:android --target=${target}:ios`;
 
   scripts[`${target}:all`] = `nx run-many ${allTargets} ${outputOptions}`;
@@ -174,7 +194,7 @@ function addScriptsForTarget(target: string, scripts: Record<string, string>) {
   scripts[
     `${target}:ios:affected`
   ] = `nx affected --target=${target}:ios ${outputOptions}`;
-  scripts[`${target}:ios:ci`] = `./scripts/ci.sh ${target}:ios ${ciOptions}`;
+  scripts[`${target}:ios:ci`] = `./scripts/ci.sh ${target}:ios`;
 
   scripts[
     `${target}:android:all`
@@ -182,9 +202,7 @@ function addScriptsForTarget(target: string, scripts: Record<string, string>) {
   scripts[
     `${target}:android:affected`
   ] = `nx affected --target=${target}:android ${outputOptions}`;
-  scripts[
-    `${target}:android:ci`
-  ] = `./scripts/ci.sh ${target}:android ${ciOptions}`;
+  scripts[`${target}:android:ci`] = `./scripts/ci.sh ${target}:android`;
 
   scripts[
     `${target}:js:all`
@@ -192,7 +210,7 @@ function addScriptsForTarget(target: string, scripts: Record<string, string>) {
   scripts[
     `${target}:js:affected`
   ] = `nx affected --target=${target} ${outputOptions}`;
-  scripts[`${target}:js:ci`] = `./scripts/ci.sh ${target}:js ${ciOptions}`;
+  scripts[`${target}:js:ci`] = `./scripts/ci.sh ${target}:js`;
 }
 
 function updateYarnWorkspaces(project: Project) {
@@ -542,13 +560,6 @@ function updateAndroidProject(
       packageName,
     );
   }
-
-  const templateDir = path.join(__dirname, "./files/android");
-
-  generateFiles(tree, templateDir, project.path("android"), {
-    template: "",
-    ...options,
-  });
 }
 
 function moveJavaPackage(
