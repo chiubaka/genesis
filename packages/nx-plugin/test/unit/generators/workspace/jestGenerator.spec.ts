@@ -3,6 +3,7 @@ import { createTreeWithEmptyWorkspace } from "@nx/devkit/testing";
 
 import { compatiblePackageVersions, NX_VERSION } from "../../../../src";
 import { jestGenerator } from "../../../../src/generators";
+import { DEFAULT_MOCK_INSTALLED_PACKAGE_VERSION } from "../../../mocks";
 
 describe("jestGenerator", () => {
   let tree: Tree;
@@ -36,6 +37,13 @@ describe("jestGenerator", () => {
         expect(tree).toHaveDevDependency(
           "ts-jest",
           compatiblePackageVersions["ts-jest"],
+        );
+      });
+
+      it("adds jest-junit as a devDependency", () => {
+        expect(tree).toHaveDevDependency(
+          "jest-junit",
+          DEFAULT_MOCK_INSTALLED_PACKAGE_VERSION,
         );
       });
     });

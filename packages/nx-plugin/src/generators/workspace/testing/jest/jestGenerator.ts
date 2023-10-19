@@ -22,7 +22,7 @@ async function installDependencies(tree: Tree) {
   const installTask = await addDependenciesToPackageJson(
     tree,
     [],
-    ["@nx/jest", "jest", "ts-jest"],
+    ["@nx/jest", "jest", "ts-jest", "jest-junit"],
   );
 
   return async () => {
