@@ -145,9 +145,7 @@ function updatePackageJsonScripts(project: Project) {
 function addScriptsForTarget(target: string, scripts: Record<string, string>) {
   const outputOptions = "--output-style=stream --verbose";
   const ciOptions =
-    target === "test" || target === "e2e"
-      ? "--base=$NX_BASE --head=$NX_HEAD --ci"
-      : "--base=$NX_BASE --head=$NX_HEAD";
+    target === "test" || target === "e2e" ? "--ci --coverage" : "";
   const allTargets = `--target=${target} --target=${target}:android --target=${target}:ios`;
 
   scripts[`${target}:all`] = `nx run-many ${allTargets} ${outputOptions}`;
@@ -163,7 +161,7 @@ function addScriptsForTarget(target: string, scripts: Record<string, string>) {
   scripts[
     `${target}:ios:affected`
   ] = `nx affected --target=${target}:ios ${outputOptions}`;
-  scripts[`${target}:ios:ci`] = `yarn ${target}:ios:affected ${ciOptions}`;
+  scripts[`${target}:ios:ci`] = `./scripts/ci.sh ${target}:ios ${ciOptions}`;
 
   scripts[
     `${target}:android:all`
@@ -173,7 +171,7 @@ function addScriptsForTarget(target: string, scripts: Record<string, string>) {
   ] = `nx affected --target=${target}:android ${outputOptions}`;
   scripts[
     `${target}:android:ci`
-  ] = `yarn ${target}:android:affected ${ciOptions}`;
+  ] = `./scripts/ci.sh ${target}:android ${ciOptions}`;
 
   scripts[
     `${target}:js:all`
@@ -181,7 +179,7 @@ function addScriptsForTarget(target: string, scripts: Record<string, string>) {
   scripts[
     `${target}:js:affected`
   ] = `nx affected --target=${target} ${outputOptions}`;
-  scripts[`${target}:js:ci`] = `yarn ${target}:js:affected ${ciOptions}`;
+  scripts[`${target}:js:ci`] = `./scripts/ci.sh ${target}:js ${ciOptions}`;
 }
 
 function updateYarnWorkspaces(project: Project) {

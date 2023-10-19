@@ -57,7 +57,7 @@ describe("eslintGenerator", () => {
 
       it("adds a lint:ci script", () => {
         expect(scripts?.["lint:ci"]).toBe(
-          "yarn lint:root && yarn lint:affected --base=$NX_BASE --head=$NX_HEAD",
+          "yarn lint:root && ./scripts/ci.sh lint",
         );
       });
 

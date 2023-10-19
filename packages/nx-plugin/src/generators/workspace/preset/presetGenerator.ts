@@ -99,18 +99,16 @@ function addPackageJsonScripts(tree: Tree) {
   updateJson(tree, "package.json", (packageJson: PackageJsonType) => {
     const scripts = packageJson.scripts ?? {};
 
+    scripts["build:all"] = "nx run-many --target=build --all";
     scripts["build:affected"] = "nx affected --target=build";
-    scripts["build:ci"] = "yarn build:affected --base=$NX_BASE --head=$NX_HEAD";
+    scripts["build:ci"] = "./scripts/ci.sh build";
     scripts["e2e"] = "nx e2e";
     scripts["e2e:affected"] = "nx affected --target=e2e";
     scripts["e2e:all"] = "nx run-many --target=e2e --all";
+    scripts["e2e:ci"] = "./scripts/ci.sh e2e --ci --coverage";
     scripts["test:affected"] = "nx affected --target=test";
     scripts["test:all"] = "nx run-many --target=test --all";
-    scripts["test:ci"] = "./scripts/test-ci.sh";
-    scripts["test:ci:affected"] =
-      "yarn test:affected --ci --coverage --base=$NX_BASE --head=$NX_HEAD && yarn e2e:affected --ci --coverage --base=$NX_BASE --head=$NX_HEAD";
-    scripts["test:ci:all"] =
-      "yarn test:all --ci --coverage && yarn e2e:all --ci --coverage";
+    scripts["test:ci"] = "./scripts/ci.sh test --ci --coverage";
     scripts["deploy"] = "nx deploy $@ --configuration=production";
     scripts["deploy:ci"] = "yarn deploy";
 
