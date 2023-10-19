@@ -52,7 +52,10 @@ export async function reactNativeAppGenerator(
                  for use with Fastlane match. You can read more about this process
                  [here](https://docs.fastlane.tools/actions/match/).
         - [] Finish setting up iOS code signing and automated deployment with CircleCI
-          - [] TODO
+          - [] Add the \`MATCH_PASSWORD\` environment variable to CircleCI--this is your Fastlane match encryption password
+          - [] Under the CircleCI project's SSH Keys, set the project up with a user key. It is recommended that
+               you create a GitHub machine user account and invite it to access your code signing repository and
+               your monorepo. Authorize CircleCI to connect to GitHub using this machine user account.
       - [] Finish setting up Android code signing and deployment via Google Play Store
         - [] Create a Google service account with permissions to the Google Play Android Developer API
              and download a \`.json\` private key for the account into this repository.
