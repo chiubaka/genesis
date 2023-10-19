@@ -145,7 +145,7 @@ function updatePackageJsonScripts(project: Project) {
 function addScriptsForTarget(target: string, scripts: Record<string, string>) {
   const outputOptions = "--output-style=stream --verbose";
   const ciOptions =
-    target === "test"
+    target === "test" || target === "e2e"
       ? "--base=$NX_BASE --head=$NX_HEAD --ci"
       : "--base=$NX_BASE --head=$NX_HEAD";
   const allTargets = `--target=${target} --target=${target}:android --target=${target}:ios`;
