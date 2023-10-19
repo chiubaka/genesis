@@ -82,7 +82,7 @@ export async function reactNativeAppGenerator(
   });
 
   copyTemplates(project, options);
-  updateYarnWorkspaces(project);
+  updateWorkspace(project);
   updateProjectJson(project);
   updateNativeProjects(project, options);
   updateCodeSample(project);
@@ -113,6 +113,75 @@ function copyTemplates(
     xcodeVersion: "14.3.1",
     ...options,
   });
+}
+
+function updateWorkspace(project: Project) {
+  updatePackageJsonScripts(project);
+  updateYarnWorkspaces(project);
+}
+
+function updatePackageJsonScripts(project: Project) {
+  const tree = project.getTree();
+
+  updateJson(tree, "package.json", (packageJson: PackageJson) => {
+    const scripts = packageJson.scripts || {};
+
+    addScriptsForTarget("build", scripts);
+    addScriptsForTarget("test", scripts);
+    addScriptsForTarget("e2e", scripts);
+
+    scripts["deploy:ios"] = "nx deploy:ios $@";
+    scripts["deploy:ios:ci"] = "yarn deploy:ios";
+
+    scripts["deploy:android"] = "nx deploy:android $@";
+    scripts["deploy:android:ci"] = "yarn deploy:android";
+
+    packageJson.scripts = scripts;
+
+    return packageJson;
+  });
+}
+
+function addScriptsForTarget(target: string, scripts: Record<string, string>) {
+  const outputOptions = "--output-style=stream --verbose";
+  const ciOptions =
+    target === "test"
+      ? "--base=$NX_BASE --head=$NX_HEAD --ci"
+      : "--base=$NX_BASE --head=$NX_HEAD";
+  const allTargets = `--target=${target} --target=${target}:android --target=${target}:ios`;
+
+  scripts[`${target}:all`] = `nx run-many ${allTargets} ${outputOptions}`;
+  scripts[`${target}:affected`] = `nx affected ${allTargets} ${outputOptions}`;
+  // In the context of CI, a different environment is necessary to build each platform.
+  // It therefore doesn't make much sense to run non-JS targets here--we'll just run
+  // JS-only by default.
+  scripts[`${target}:ci`] = `yarn ${target}:js:ci`;
+
+  scripts[
+    `${target}:ios:all`
+  ] = `nx run-many --target=${target}:ios --all ${outputOptions}`;
+  scripts[
+    `${target}:ios:affected`
+  ] = `nx affected --target=${target}:ios ${outputOptions}`;
+  scripts[`${target}:ios:ci`] = `yarn ${target}:ios:affected ${ciOptions}`;
+
+  scripts[
+    `${target}:android:all`
+  ] = `nx run-many --target=${target}:android --all ${outputOptions}`;
+  scripts[
+    `${target}:android:affected`
+  ] = `nx affected --target=${target}:android ${outputOptions}`;
+  scripts[
+    `${target}:android:ci`
+  ] = `yarn ${target}:android:affected ${ciOptions}`;
+
+  scripts[
+    `${target}:js:all`
+  ] = `nx run-many --target=${target} --all ${outputOptions}`;
+  scripts[
+    `${target}:js:affected`
+  ] = `nx affected --target=${target} ${outputOptions}`;
+  scripts[`${target}:js:ci`] = `yarn ${target}:js:affected ${ciOptions}`;
 }
 
 function updateYarnWorkspaces(project: Project) {
@@ -521,8 +590,8 @@ function updateE2eProjectJson(
   const e2eProjectJsonPath = e2eProject.path("project.json");
   const newE2eBaseDir = e2eProject.relativePath("..");
 
-  replaceInFile(tree, e2eProjectJsonPath, "build-ios", "build:ios");
-  replaceInFile(tree, e2eProjectJsonPath, "build-android", "build:android");
+  replaceInFile(tree, e2eProjectJsonPath, "build-ios", "build-e2e:ios");
+  replaceInFile(tree, e2eProjectJsonPath, "build-android", "build-e2e:android");
   replaceInFile(tree, e2eProjectJsonPath, "test-ios", "e2e:ios");
   replaceInFile(tree, e2eProjectJsonPath, "test-android", "e2e:android");
 

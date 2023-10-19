@@ -36,6 +36,20 @@ describe("reactNativeAppGenerator", () => {
 
   projectTestCases(getProject);
 
+  beforeAll(async () => {
+    await reactNativeAppGenerator(tree, {
+      name: "react-native-app",
+      appName: "Genesis React Native App",
+      appId: "com.chiubaka.genesis.example.ReactNativeApp",
+      appleId: "example@chiubaka.com",
+      iosCodeSigningGitRepositoryUrl:
+        "git@github.com:chiubaka/ios-codesigning.git",
+      androidUploadKeystoreCommonName: "Genesis",
+      androidUploadKeystoreOrganization: "Genesis",
+      androidUploadKeystoreCountry: "US",
+    });
+  });
+
   it("removes the React Native app from yarn workspaces", () => {
     const packageJson = readJson<PackageJson>(tree, "package.json");
 
@@ -55,17 +69,178 @@ describe("reactNativeAppGenerator", () => {
     expect(tree.exists(project.testPath("setup/setup.ts"))).toBe(true);
   });
 
-  beforeAll(async () => {
-    await reactNativeAppGenerator(tree, {
-      name: "react-native-app",
-      appName: "Genesis React Native App",
-      appId: "com.chiubaka.genesis.example.ReactNativeApp",
-      appleId: "example@chiubaka.com",
-      iosCodeSigningGitRepositoryUrl:
-        "git@github.com:chiubaka/ios-codesigning.git",
-      androidUploadKeystoreCommonName: "Genesis",
-      androidUploadKeystoreOrganization: "Genesis",
-      androidUploadKeystoreCountry: "US",
+  describe("workspace", () => {
+    describe("package scripts", () => {
+      let scripts: Record<string, string> | undefined;
+
+      beforeAll(() => {
+        const packageJson = readJson<PackageJson>(tree, "package.json");
+        scripts = packageJson.scripts;
+      });
+
+      it("matches snapshot", () => {
+        expect(scripts).toMatchSnapshot();
+      });
+
+      it("adds a deploy:ios script", () => {
+        expect(scripts?.["deploy:ios"]).toBeDefined();
+      });
+
+      it("adds a deploy:ios:ci script", () => {
+        expect(scripts?.["deploy:ios:ci"]).toBeDefined();
+      });
+
+      it("adds a deploy:android script", () => {
+        expect(scripts?.["deploy:android"]).toBeDefined();
+      });
+
+      it("adds a deploy:android:ci script", () => {
+        expect(scripts?.["deploy:android:ci"]).toBeDefined();
+      });
+
+      it("adds a build:all script", () => {
+        expect(scripts?.["build:all"]).toBeDefined();
+      });
+
+      it("adds a build:affected script", () => {
+        expect(scripts?.["build:affected"]).toBeDefined();
+      });
+
+      it("updates the build:ci script", () => {
+        expect(scripts?.["build:ci"]).toBe("yarn build:js:ci");
+      });
+
+      it("adds a build:ios:all script", () => {
+        expect(scripts?.["build:ios:all"]).toBeDefined();
+      });
+
+      it("adds a build:ios:affected script", () => {
+        expect(scripts?.["build:ios:affected"]).toBeDefined();
+      });
+
+      it("adds a build:ios:ci script", () => {
+        expect(scripts?.["build:ios:ci"]).toBeDefined();
+      });
+
+      it("adds a build:android:all script", () => {
+        expect(scripts?.["build:android:all"]).toBeDefined();
+      });
+
+      it("adds a build:android:affected script", () => {
+        expect(scripts?.["build:android:affected"]).toBeDefined();
+      });
+
+      it("adds a build:android:ci script", () => {
+        expect(scripts?.["build:android:ci"]).toBeDefined();
+      });
+
+      it("adds a build:js:all script", () => {
+        expect(scripts?.["build:js:all"]).toBeDefined();
+      });
+
+      it("adds a build:js:affected script", () => {
+        expect(scripts?.["build:js:affected"]).toBeDefined();
+      });
+
+      it("adds a build:js:ci script", () => {
+        expect(scripts?.["build:js:ci"]).toBeDefined();
+      });
+
+      it("adds a test:all script", () => {
+        expect(scripts?.["test:all"]).toBeDefined();
+      });
+
+      it("adds a test:affected script", () => {
+        expect(scripts?.["test:affected"]).toBeDefined();
+      });
+
+      it("updates the test:ci script", () => {
+        expect(scripts?.["test:ci"]).toBe("yarn test:js:ci");
+      });
+
+      it("adds a test:ios:all script", () => {
+        expect(scripts?.["test:ios:all"]).toBeDefined();
+      });
+
+      it("adds a test:ios:affected script", () => {
+        expect(scripts?.["test:ios:affected"]).toBeDefined();
+      });
+
+      it("adds a test:ios:ci script", () => {
+        expect(scripts?.["test:ios:ci"]).toBeDefined();
+      });
+
+      it("adds a test:android:all script", () => {
+        expect(scripts?.["test:android:all"]).toBeDefined();
+      });
+
+      it("adds a test:android:affected script", () => {
+        expect(scripts?.["test:android:affected"]).toBeDefined();
+      });
+
+      it("adds a test:android:ci script", () => {
+        expect(scripts?.["test:android:ci"]).toBeDefined();
+      });
+
+      it("adds a test:js:all script", () => {
+        expect(scripts?.["test:js:all"]).toBeDefined();
+      });
+
+      it("adds a test:js:affected script", () => {
+        expect(scripts?.["test:js:affected"]).toBeDefined();
+      });
+
+      it("adds a test:js:ci script", () => {
+        expect(scripts?.["test:js:ci"]).toBeDefined();
+      });
+
+      it("adds a e2e:all script", () => {
+        expect(scripts?.["e2e:all"]).toBeDefined();
+      });
+
+      it("adds a e2e:affected script", () => {
+        expect(scripts?.["e2e:affected"]).toBeDefined();
+      });
+
+      it("updates the e2e:ci script", () => {
+        expect(scripts?.["e2e:ci"]).toBe("yarn e2e:js:ci");
+      });
+
+      it("adds a e2e:ios:all script", () => {
+        expect(scripts?.["e2e:ios:all"]).toBeDefined();
+      });
+
+      it("adds a e2e:ios:affected script", () => {
+        expect(scripts?.["e2e:ios:affected"]).toBeDefined();
+      });
+
+      it("adds a e2e:ios:ci script", () => {
+        expect(scripts?.["e2e:ios:ci"]).toBeDefined();
+      });
+
+      it("adds a e2e:android:all script", () => {
+        expect(scripts?.["e2e:android:all"]).toBeDefined();
+      });
+
+      it("adds a e2e:android:affected script", () => {
+        expect(scripts?.["e2e:android:affected"]).toBeDefined();
+      });
+
+      it("adds a e2e:android:ci script", () => {
+        expect(scripts?.["e2e:android:ci"]).toBeDefined();
+      });
+
+      it("adds a e2e:js:all script", () => {
+        expect(scripts?.["e2e:js:all"]).toBeDefined();
+      });
+
+      it("adds a e2e:js:affected script", () => {
+        expect(scripts?.["e2e:js:affected"]).toBeDefined();
+      });
+
+      it("adds a e2e:js:ci script", () => {
+        expect(scripts?.["e2e:js:ci"]).toBeDefined();
+      });
     });
   });
 
@@ -608,14 +783,14 @@ describe("reactNativeAppGenerator", () => {
         },
       );
 
-      it("renames build-ios to build:ios", () => {
+      it("renames build-ios to build-e2e:ios", () => {
         expect(projectJson.targets?.["build-ios"]).toBeUndefined();
-        expect(projectJson.targets?.["build:ios"]).toBeDefined();
+        expect(projectJson.targets?.["build-e2e:ios"]).toBeDefined();
       });
 
-      it("renames build-android to build:android", () => {
+      it("renames build-android to build-e2e:android", () => {
         expect(projectJson.targets?.["build-android"]).toBeUndefined();
-        expect(projectJson.targets?.["build:android"]).toBeDefined();
+        expect(projectJson.targets?.["build-e2e:android"]).toBeDefined();
       });
 
       it("renames test-ios to e2e:ios", () => {
