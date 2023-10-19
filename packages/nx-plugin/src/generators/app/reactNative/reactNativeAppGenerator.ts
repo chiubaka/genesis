@@ -68,6 +68,9 @@ export async function reactNativeAppGenerator(
             - Refer to [Fastlane's documentation](https://docs.fastlane.tools/getting-started/ios/authentication/#method-1-app-store-connect-api-key-recommended) on this for more info.
           - [] Add an \`APP_STORE_CONNECT_KEY\` environment variable to the CircleCI project with the base64 encoded contents of your \`p8\` key
             - \`base64 -i app-store-connect-key.p8\`
+          - Consider creating a [context](https://circleci.com/docs/contexts/) for CircleCI environment variables.
+            - This will allow you to share account-level environment variables with other projects in your org.
+            - By default, the generated CI configs reference an \`ios-deployment\` context.
       - [] Finish setting up Android code signing and deployment via Google Play Store
         - [] Create a Google service account with permissions to the Google Play Android Developer API
              and download a \`.json\` private key for the account into this repository.
@@ -142,6 +145,7 @@ function copyTemplates(
 
 function updateWorkspace(project: Project) {
   updatePackageJsonScripts(project);
+  updateHuskyPrePushCommand(project);
   updateYarnWorkspaces(project);
 }
 
@@ -175,6 +179,18 @@ function updatePackageJsonScripts(project: Project) {
 
     return packageJson;
   });
+}
+
+function updateHuskyPrePushCommand(project: Project) {
+  const tree = project.getTree();
+
+  // It's too cumbersome to run native tests pre-push. Run just the JS tests.
+  replaceInFile(
+    tree,
+    ".husky/pre-push",
+    "yarn test:affected",
+    "yarn test:js:affected",
+  );
 }
 
 function addScriptsForTarget(target: string, scripts: Record<string, string>) {

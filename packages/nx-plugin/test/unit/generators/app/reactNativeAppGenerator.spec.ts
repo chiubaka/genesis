@@ -5,6 +5,7 @@ import {
   TargetConfiguration,
   Tree,
 } from "@nx/devkit";
+import endent from "endent";
 
 import {
   EsLintExecutorOptions,
@@ -30,6 +31,15 @@ describe("reactNativeAppGenerator", () => {
 
   beforeAll(() => {
     tree = createTreeWithEmptyWorkspace();
+    tree.write(
+      ".husky/pre-push",
+      endent`
+        #!/usr/bin/env sh
+        . "$(dirname -- "$0")/_/husky.sh"
+
+        yarn test:affected
+      `,
+    );
     project = new Project(tree, "react-native-app", "application");
     e2eProject = new Project(tree, "react-native-app-e2e", "e2e");
   });
@@ -70,6 +80,15 @@ describe("reactNativeAppGenerator", () => {
   });
 
   describe("workspace", () => {
+    describe("husky", () => {
+      it("updates the pre-push command to reference JS tests only", () => {
+        expect(tree).toHaveFileWithContent(
+          ".husky/pre-push",
+          "yarn test:js:affected",
+        );
+      });
+    });
+
     describe("package scripts", () => {
       let scripts: Record<string, string> | undefined;
 
