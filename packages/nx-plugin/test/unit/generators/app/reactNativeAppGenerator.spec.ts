@@ -244,6 +244,19 @@ describe("reactNativeAppGenerator", () => {
     });
   });
 
+  describe(".gitignore", () => {
+    fileMatchesSnapshot(".gitignore", getProject, (project) => {
+      return project.path(".gitignore");
+    });
+
+    it("ignores iOS Pods", () => {
+      expect(tree).toHaveFileWithContent(
+        project.path(".gitignore"),
+        "ios/Pods",
+      );
+    });
+  });
+
   describe("README", () => {
     it("adds first-time setup instructions for Android SDK", () => {
       expect(tree).toHaveFileWithContent(

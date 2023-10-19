@@ -111,6 +111,7 @@ function copyTemplates(
   generateFiles(tree, templateDir, project.path(), {
     rubyVersion: "3.2.2",
     xcodeVersion: "14.3.1",
+    template: "",
     ...options,
   });
 }
