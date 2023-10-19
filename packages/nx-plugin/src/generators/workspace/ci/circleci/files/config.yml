@@ -2,45 +2,23 @@
 ---
 version: 2.1
 
+setup: true
+
+orbs:
+  chiubaka: chiubaka/circleci-orb@dev:alpha
+
 constants:
   # Semantic versioning RegEx modified from https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
   semver-regex: &semver-regex /^(\w+-)+v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/
-
-orbs:
-  chiubaka: chiubaka/circleci-orb@0.11.4
 
 filters:
   semver-tags: &semver-tags
     tags:
       only: *semver-regex
-  ignore-branches: &ignore-branches
-    branches:
-      ignore: /.*/
 
 workflows:
-  lint-build-test-deploy:
+  dynamic-setup:
     jobs:
-      - chiubaka/lint:
-          name: lint
+      - chiubaka/dynamic-setup:
           filters:
-            <<: *semver-tags
-      - chiubaka/build:
-          name: build
-          filters:
-            <<: *semver-tags
-      - chiubaka/test:
-          name: test
-          configure-git-user: true
-          filters:
-            <<: *semver-tags
-      - chiubaka/deploy:
-          name: deploy
-          context:
-            - npm-publishing
-          requires:
-            - lint
-            - build
-            - test
-          filters:
-            <<: *ignore-branches
             <<: *semver-tags
