@@ -21,7 +21,6 @@ export function fastlaneProjectGenerator(
   copyTemplates(project, options);
 
   const bundleInstallTask = bundleInstall(project);
-  const addLinuxCiPlatformTask = addLinuxCiPlatform(project);
   const generateFastlaneReadmeTask = generateFastlaneReadme(project);
   const getAppleDeveloperTeamIdTask = saveAppleDeveloperTeamId(project);
 
@@ -29,7 +28,6 @@ export function fastlaneProjectGenerator(
 
   return async () => {
     await bundleInstallTask();
-    await addLinuxCiPlatformTask();
     await generateFastlaneReadmeTask();
     await getAppleDeveloperTeamIdTask();
     await setupCodeSigningTask();
@@ -82,20 +80,6 @@ function copyTemplates(
 function bundleInstall(project: Project) {
   return async () => {
     await spawn("bundle install", {
-      cwd: project.path(),
-    });
-  };
-}
-
-/**
- * On CI, Android tasks will run on a different architecture.
- * To enable this, this architecture needs to be added to Gemfile.lock
- * @param project the project to generate in
- * @returns a task that installs the x86_64-linux architecture into Gemfile.lock
- */
-function addLinuxCiPlatform(project: Project) {
-  return async () => {
-    await spawn("bundle lock --add-platform x86_64-linux", {
       cwd: project.path(),
     });
   };
