@@ -1,5 +1,6 @@
 import {
   generateFiles,
+  getPackageManagerCommand,
   moveFilesToNewDirectory,
   ProjectConfiguration,
   TargetConfiguration,
@@ -11,7 +12,12 @@ import endent from "endent";
 import path from "node:path";
 
 import { EsLintExecutorOptions, JestConfig, PackageJson } from "../../../types";
-import { Project, ProjectJsonUtils, replaceInFile } from "../../../utils";
+import {
+  Project,
+  ProjectJsonUtils,
+  replaceInFile,
+  spawn,
+} from "../../../utils";
 import {
   eslintProjectGenerator,
   fastlaneProjectGenerator,
@@ -87,6 +93,8 @@ export async function reactNativeAppGenerator(
   updateNativeProjects(project, options);
   updateCodeSample(project);
 
+  const installPodsTask = installPods(project);
+
   const fastlaneTask = fastlaneProjectGenerator(tree, {
     ...project.getMeta(),
     ...options,
@@ -97,6 +105,7 @@ export async function reactNativeAppGenerator(
 
   return async () => {
     await reactNativeProjectTask();
+    await installPodsTask();
     await fastlaneTask();
   };
 }
@@ -385,6 +394,16 @@ function updateCodeSample(project: Project) {
   );
 }
 /* eslint-enable security/detect-non-literal-fs-filename */
+
+function installPods(project: Project) {
+  const pmc = getPackageManagerCommand();
+
+  return async () => {
+    await spawn(`${pmc.exec} nx pod-install ${project.getName()}`, {
+      cwd: project.getTree().root,
+    });
+  };
+}
 
 function updateNativeProjects(
   project: Project,
