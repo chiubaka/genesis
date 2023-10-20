@@ -10,7 +10,7 @@ describe("reactNativeAppGenerator", () => {
   beforeAll(async () => {
     workspace = await createReactNativeAppTemplate("app.react-native.ios");
 
-    const secretsDir = path.join(__dirname, "../../secrets/android");
+    const secretsDir = path.join(__dirname, "../../secrets/ios");
 
     copySync(
       secretsDir,

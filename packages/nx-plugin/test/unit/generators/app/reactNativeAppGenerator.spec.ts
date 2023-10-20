@@ -54,6 +54,8 @@ describe("reactNativeAppGenerator", () => {
       appleId: "example@chiubaka.com",
       iosCodeSigningGitRepositoryUrl:
         "git@github.com:chiubaka/ios-code-signing.git",
+      appStoreConnectKeyIssuerId: "1ced7937-7d1e-4874-9bc9-823c1825148f",
+      appStoreConnectKeyId: "43YKVHYVJQ",
       androidUploadKeystoreCommonName: "Genesis",
       androidUploadKeystoreOrganization: "Genesis",
       androidUploadKeystoreCountry: "US",

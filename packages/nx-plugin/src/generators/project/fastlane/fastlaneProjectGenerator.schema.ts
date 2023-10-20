@@ -12,6 +12,8 @@ export interface FastlaneProjectGeneratorOwnOptions {
   skipCodeSigning?: boolean;
 
   iosCodeSigningGitRepositoryUrl: string;
+  appStoreConnectKeyIssuerId?: string;
+  appStoreConnectKeyId?: string;
 
   androidUploadKeystoreAlias?: string;
   androidUploadKeystorePassword?: string;

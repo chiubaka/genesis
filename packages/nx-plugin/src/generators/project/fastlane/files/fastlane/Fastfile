@@ -36,6 +36,7 @@ end
 platform :ios do
   XCODE_WORKSPACE = "#{IOS_ROOT}/#{PROJECT_NAME}.xcworkspace"
   XCODE_PROJECT = "#{IOS_ROOT}/#{PROJECT_NAME}.xcodeproj"
+  BUILD_DIR = "#{IOS_ROOT}/build"
   SCHEME = PROJECT_NAME
 
   APP_STORE_CONNECT_KEY_PATH = File.join(Dir.pwd, "../#{IOS_ROOT}/secrets/app-store-connect-key.p8")
@@ -64,7 +65,7 @@ platform :ios do
         key_filepath: APP_STORE_CONNECT_KEY_PATH,
         duration: 1200, # optional (maximum 1200)
       )
-    elsif IS_CI
+    elsif IS_CI || IS_TEST
       UI.user_error!("APP_STORE_CONNECT_KEY_ID, APP_STORE_CONNECT_KEY_ISSUER_ID, or .p8 key is missing")
     end
   end
@@ -89,7 +90,8 @@ platform :ios do
       scheme: SCHEME,
       configuration: configuration,
       destination: destination,
-      derived_data_path: "#{IOS_ROOT}/build",
+      derived_data_path: BUILD_DIR,
+      output_directory: BUILD_DIR,
       export_method: export_method,
       skip_archive: skip_archive
     )
