@@ -1,4 +1,6 @@
 import { TestingWorkspace } from "@chiubaka/nx-plugin-testing";
+import { copySync } from "fs-extra";
+import path from "node:path";
 
 import { createReactNativeAppTemplate } from "../../utils";
 
@@ -7,6 +9,13 @@ describe("reactNativeAppGenerator", () => {
 
   beforeAll(async () => {
     workspace = await createReactNativeAppTemplate("app.react-native.ios");
+
+    const secretsDir = path.join(__dirname, "../../secrets/android");
+
+    copySync(
+      secretsDir,
+      workspace.path("packages/react-native-app/ios/secrets"),
+    );
   });
 
   describe("generates a project with a working iOS build setup", () => {
