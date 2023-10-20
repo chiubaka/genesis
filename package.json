@@ -27,7 +27,7 @@
     "lint": "nx lint",
     "lint:affected": "nx affected --target=lint",
     "lint:all": "yarn lint:root && yarn lint:packages",
-    "lint:ci": "yarn lint:root && yarn lint:affected --base=$NX_BASE --head=$NX_HEAD",
+    "lint:ci": "yarn lint:root && ./scripts/ci.sh lint",
     "lint:fix:all": "yarn lint:fix:root; yarn lint:fix:packages",
     "lint:fix:packages": "yarn lint:packages --fix",
     "lint:fix:root": "yarn lint:root --fix",
