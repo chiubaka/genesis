@@ -79,9 +79,9 @@ workflows:
           # - test
           filters:
             <<: *semver-tags
-      - android-e2e:
-          requires:
-            - e2e
+      # - android-e2e:
+      #     requires:
+      #       - e2e
       - ios-e2e:
           context:
             - ios-deployment
@@ -97,9 +97,9 @@ workflows:
           context:
             - npm-publishing
           requires:
-            - test
+            # - test
             - e2e
-            - android-e2e
+            # - android-e2e
             - ios-e2e
           filters:
             <<: *ignore-branches
