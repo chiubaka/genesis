@@ -36,7 +36,7 @@ export async function presetGenerator(
   );
 
   modifyWorkspaceLayout(tree, options);
-  addPackageJsonScripts(tree);
+  const addPackageJsonScriptsTask = addPackageJsonScripts(tree);
 
   const installTask = reinstallPackagesWithYarn(tree, options);
   const tsconfigTask = await tsconfigGenerator(tree);
@@ -51,6 +51,7 @@ export async function presetGenerator(
   return async () => {
     logger.info("Running post-processing tasks for preset generator");
 
+    await addPackageJsonScriptsTask();
     await installTask();
     await tsconfigTask();
     await lintingTask();
@@ -116,6 +117,12 @@ function addPackageJsonScripts(tree: Tree) {
 
     return packageJson;
   });
+
+  return async () => {
+    await exec(`chmod a+x ./scripts/ci.sh`, {
+      cwd: tree.root,
+    });
+  };
 }
 
 function reinstallPackagesWithYarn(tree: Tree, options: PresetGeneratorSchema) {
