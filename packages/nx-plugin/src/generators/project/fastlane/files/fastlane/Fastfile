@@ -25,6 +25,8 @@ IS_TEST = ENV["NODE_ENV"] == "test"
 APP_STORE_CONNECT_APP_ID = ENV["APP_STORE_CONNECT_APP_ID"]
 APP_STORE_CONNECT_KEY_ISSUER_ID = ENV["APP_STORE_CONNECT_KEY_ISSUER_ID"]
 APP_STORE_CONNECT_KEY_ID = ENV["APP_STORE_CONNECT_KEY_ID"]
+IOS_SIMULATOR_DEFAULT_DEVICE = ENV["IOS_SIMULATOR_DEFAULT_DEVICE"]
+IOS_SIMULATOR_DEFAULT_OS = ENV["IOS_SIMULATOR_DEFAULT_OS"]
 
 PACKAGE_JSON = load_json(json_path: "./package.json")
 APP_VERSION = PACKAGE_JSON["version"]
@@ -99,7 +101,13 @@ platform :ios do
 
   desc "Run native iOS tests"
   lane :test do
-    run_tests(workspace: XCODE_WORKSPACE, scheme: SCHEME, prelaunch_simulator: true)
+    run_tests(
+      workspace: XCODE_WORKSPACE,
+      scheme: SCHEME,
+      device: "#{IOS_SIMULATOR_DEFAULT_DEVICE} (#{IOS_SIMULATOR_DEFAULT_OS})",
+      derived_data_path: BUILD_DIR,
+      prelaunch_simulator: true
+    )
   end
 
   desc "Push a new beta build to TestFlight"

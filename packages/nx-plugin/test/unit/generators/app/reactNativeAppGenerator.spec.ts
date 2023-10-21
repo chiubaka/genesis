@@ -82,6 +82,13 @@ describe("reactNativeAppGenerator", () => {
   });
 
   describe("workspace", () => {
+    describe(".gitignore", () => {
+      it("does not add React Native entries to the workspace .gitignore file", () => {
+        expect(tree).not.toHaveFileWithContent(".gitignore", "# React Native");
+        expect(tree).not.toHaveFileWithContent(".gitignore", "fastlane");
+      });
+    });
+
     describe("husky", () => {
       it("updates the pre-push command to reference JS tests only", () => {
         expect(tree).toHaveFileWithContent(
@@ -307,7 +314,7 @@ describe("reactNativeAppGenerator", () => {
     it("adds first-time setup instructions for emulators and Detox configuration", () => {
       expect(tree).toHaveFileWithContent(
         project.path("README.md"),
-        ".detoxrc.json",
+        ".detoxrc.js",
       );
     });
 
@@ -801,13 +808,20 @@ describe("reactNativeAppGenerator", () => {
       skipJest: true,
     });
 
-    fileMatchesSnapshot(
-      ".detoxrc.json",
-      getE2eProject,
-      (e2eProject: Project) => {
-        return e2eProject.path(".detoxrc.json");
-      },
-    );
+    describe("detox", () => {
+      fileMatchesSnapshot(
+        ".detoxrc.js",
+        getE2eProject,
+        (e2eProject: Project) => {
+          return e2eProject.path(".detoxrc.js");
+        },
+      );
+
+      it("removes the original .detoxrc.json file", () => {
+        // eslint-disable-next-line security/detect-non-literal-fs-filename
+        expect(tree.exists(e2eProject.path(".detoxrc.json"))).toBe(false);
+      });
+    });
 
     describe("project.json", () => {
       let projectJson: ProjectConfiguration;

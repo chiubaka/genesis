@@ -7,7 +7,6 @@ import {
   Tree,
   updateJson,
 } from "@nx/devkit";
-import * as Detox from "detox";
 import endent from "endent";
 import path from "node:path";
 
@@ -39,8 +38,9 @@ export async function reactNativeAppGenerator(
       - [] Ensure that you have Xcode, Xcode Command Line Tools, and the iOS SDKs installed
       - [] Ensure that you have \`ruby\` (required) and \`rbenv\` (optional but recommended)
     - [] Finish setting up E2E testing with Detox
-      - [] Update \`.detoxrc.json\` file in the generated E2E project
-        - Ensure that a valid \`avdName\` is filled in under the \`devices\` section
+      - [] Update \`.detoxrc.js\` file in the generated E2E project
+        - Ensure that a valid \`avdName\` is filled in under the \`devices\` section OR create an Android
+          Virtual Device in Android Studio using the default name "Detox"
   `;
 
   if (!skipCodeSigning) {
@@ -144,9 +144,32 @@ function copyTemplates(
 }
 
 function updateWorkspace(project: Project) {
+  revertGitIgnore(project);
   updatePackageJsonScripts(project);
   updateHuskyPrePushCommand(project);
   updateYarnWorkspaces(project);
+}
+
+/**
+ * The base React Native app generator makes the workspace .gitignore file
+ * very messy. We undo those changes in favor of just copying over a .gitignore
+ * file for the project.
+ * @param project the project we are currently generating
+ */
+function revertGitIgnore(project: Project) {
+  const tree = project.getTree();
+
+  const gitIgnoreContents = tree.read(".gitignore")?.toString();
+
+  if (!gitIgnoreContents) {
+    throw new Error(
+      "Unexpectedly received null while reading workspacine .gitignore",
+    );
+  }
+
+  const reactNativeIndex = gitIgnoreContents.indexOf("# React Native");
+
+  tree.write(".gitignore", gitIgnoreContents.slice(0, reactNativeIndex));
 }
 
 function updatePackageJsonScripts(project: Project) {
@@ -729,90 +752,16 @@ function updateE2eTestSetup(
 
   replaceInFile(tree, e2eProject.path("jest.config.json"), "src", "test");
 
-  updateJson(
-    tree,
-    e2eProject.path(".detoxrc.json"),
-    (config: Detox.DetoxConfig) => {
-      const devices = config.devices;
+  tree.delete(e2eProject.path(".detoxrc.json"));
 
-      if (!devices) {
-        throw new Error(`Unexpectedly found no devices key in .detoxrc.json`);
-      }
+  const templateDir = path.join(__dirname, "./files/e2eProject");
 
-      const iosSimulatorConfig =
-        devices.simulator as Detox.DetoxIosSimulatorDriverConfig;
-      const androidEmulatorConfig =
-        devices.emulator as Detox.DetoxAndroidEmulatorDriverConfig;
-
-      if (iosSimulatorConfig) {
-        const deviceConfig =
-          iosSimulatorConfig.device as Partial<Detox.IosSimulatorQuery>;
-
-        iosSimulatorConfig.device = {
-          ...deviceConfig,
-          type: options.iosSimulatorDeviceType ?? deviceConfig.type,
-        };
-      }
-
-      if (androidEmulatorConfig) {
-        const deviceConfig = androidEmulatorConfig.device as {
-          avdName: string;
-        };
-
-        androidEmulatorConfig.device = {
-          avdName: options.androidEmulatorAvdName ?? deviceConfig.avdName,
-        };
-      }
-
-      const apps = config.apps;
-
-      if (!apps) {
-        throw new Error(`Unexpectedly found no apps key in .detoxrc.json`);
-      }
-
-      const iosDebugApp = apps["ios.debug"];
-
-      if (!iosDebugApp) {
-        throw new Error(
-          `Unexpectedly did not find in an ios.debug app in .detoxrc.json`,
-        );
-      }
-
-      iosDebugApp.build = `cd ../.. && yarn nx build:ios ${project.getName()} --configuration=debug-simulator`;
-
-      const iosReleaseApp = apps["ios.release"];
-
-      if (!iosReleaseApp) {
-        throw new Error(
-          `Unexpectedly did not find in an ios.release app in .detoxrc.json`,
-        );
-      }
-
-      iosReleaseApp.build = `cd ../.. && yarn nx build:ios ${project.getName()} --configuration=release-simulator`;
-
-      const androidDebugApp = apps["android.debug"];
-
-      if (!androidDebugApp) {
-        throw new Error(
-          `Unexpectedly did not find in an android.debug app in .detoxrc.json`,
-        );
-      }
-
-      androidDebugApp.build = `cd ../.. && yarn nx build:android ${project.getName()} --configuration=test-debug`;
-
-      const androidReleaseApp = apps["android.release"];
-
-      if (!androidReleaseApp) {
-        throw new Error(
-          `Unexpectedly did not find in an android.release app in .detoxrc.json`,
-        );
-      }
-
-      androidReleaseApp.build = `cd ../.. && yarn nx build:android ${project.getName()} --configuration=test-release`;
-
-      return config;
-    },
-  );
+  generateFiles(tree, templateDir, e2eProject.path(), {
+    ...options,
+    projectName: project.getName(),
+    projectPath: project.path(),
+    iosProjectName: project.getNames().pascalCase,
+  });
 }
 
 function updateE2eCodeSample(e2eProject: Project) {

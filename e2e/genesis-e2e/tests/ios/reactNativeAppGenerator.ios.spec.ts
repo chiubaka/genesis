@@ -62,7 +62,12 @@ describe("reactNativeAppGenerator", () => {
 
   describe("e2e project", () => {
     describe("generates a project with a working iOS Detox setup", () => {
-      it("development", async () => {
+      // 2023-10-21: There's a bug in Metro documented here: https://github.com/facebook/metro/issues/1015
+      // This is fixed in Metro 0.79.1, but unfortunately this isn't available with current
+      // versions of @react-native-community/cli. This bug is, interestingly, causing metro to
+      // crash before the simulator can load the bundle for development tests. These E2E tests do
+      // run fine if Metro is started separately before running these tests.
+      it.skip("development", async () => {
         await expect(
           workspace.execNx("e2e:ios react-native-app-e2e"),
         ).resolves.not.toThrow();
