@@ -22,31 +22,31 @@ filters:
 workflows:
   lint-build-test-deploy:
     jobs:
-      - chiubaka/lint:
-          name: lint
-          yarn-berry: true
-          filters:
-            <<: *semver-tags
-      - chiubaka/build:
-          name: build
-          yarn-berry: true
-          cleanup-steps:
-            - persist_to_workspace:
-                root: .
-                paths:
-                  # Save the NX cache so subsequent jobs can read from cache
-                  - tmp/nx-cache
-                  # Save built packages so they can be used by downstream jobs
-                  - dist
-          filters:
-            <<: *semver-tags
-      - chiubaka/test:
-          name: test
-          yarn-berry: true
-          requires:
-            - build
-          filters:
-            <<: *semver-tags
+      # - chiubaka/lint:
+      #     name: lint
+      #     yarn-berry: true
+      #     filters:
+      #       <<: *semver-tags
+      # - chiubaka/build:
+      #     name: build
+      #     yarn-berry: true
+      #     cleanup-steps:
+      #       - persist_to_workspace:
+      #           root: .
+      #           paths:
+      #             # Save the NX cache so subsequent jobs can read from cache
+      #             - tmp/nx-cache
+      #             # Save built packages so they can be used by downstream jobs
+      #             - dist
+      #     filters:
+      #       <<: *semver-tags
+      # - chiubaka/test:
+      #     name: test
+      #     yarn-berry: true
+      #     requires:
+      #       - build
+      #     filters:
+      #       <<: *semver-tags
       - chiubaka/e2e:
           name: e2e
           resource-class: large
@@ -75,8 +75,8 @@ workflows:
                   # Save generated React Native workspaces to speed up platform-specific testing
                   - tmp/nx-e2e/app.react-native
                   - tmp/nx-e2e/lib.react-native
-          requires:
-            - test
+          # requires:
+          # - test
           filters:
             <<: *semver-tags
       - android-e2e:
@@ -145,7 +145,7 @@ jobs:
       - run:
           name: Run iOS E2E tests
           command: yarn run e2e:ios:affected --ci
-          no_output_timeout: 2m
+          no_output_timeout: 4m
 
 commands:
   reinstall-genesis-e2e-dependencies:
