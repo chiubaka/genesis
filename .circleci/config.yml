@@ -50,38 +50,20 @@ workflows:
       #       - build
       #     filters:
       #       <<: *semver-tags
-      - chiubaka/e2e:
-          name: e2e
-          resource-class: large
-          configure-git-user: true
-          yarn-berry: true
-          setup-steps:
-            - attach_workspace:
-                at: .
-            - run:
-                name: Install Cypress dependencies
-                command: |
-                  sudo apt-get update
-                  sudo apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
-            - set-npm-prefix
-            - start-verdaccio
-          cleanup-steps:
-            - persist_to_workspace:
-                root: .
-                paths:
-                  # Save the NX cache so subsequent jobs can read from cache
-                  - tmp/nx-cache
-                  # Save locally deployed npm modules
-                  - verdaccio/storage/data/@chiubaka
-                  # Save generated Genesis E2E workspace template to speed up downstream tests
-                  - tmp/nx-e2e/genesis-e2e
-                  # Save generated React Native workspaces to speed up platform-specific testing
-                  - tmp/nx-e2e/app.react-native
-                  - tmp/nx-e2e/lib.react-native
-          # requires:
-          # - test
-          filters:
-            <<: *semver-tags
+      - setup-e2e
+      # - chiubaka/e2e:
+      #     name: e2e
+      #     resource-class: large
+      #     configure-git-user: true
+      #     yarn-berry: true
+      #     setup-steps:
+      #       - setup-e2e
+      #     cleanup-steps:
+      #       - persist-e2e-to-workspace
+      #     # requires:
+      #     # - test
+      #     filters:
+      #       <<: *semver-tags
       # - android-e2e:
       #     requires:
       #       - e2e
@@ -89,7 +71,7 @@ workflows:
           context:
             - ios-deployment
           requires:
-            - e2e
+            - setup-e2e
       - chiubaka/deploy:
           name: deploy
           task-name: Publish to NPM
@@ -101,7 +83,7 @@ workflows:
             - npm-publishing
           requires:
             # - test
-            - e2e
+            # - e2e
             # - android-e2e
             - ios-e2e
           filters:
@@ -109,6 +91,18 @@ workflows:
             <<: *semver-tags
 
 jobs:
+  setup-e2e:
+    executor:
+      name: chiubaka/docker-node
+      resource-class: large
+    steps:
+      - setup:
+          yarn-berry: true
+      - setup-e2e
+      - run:
+          name: Run Genesis E2E setup
+          run: yarn nx setup-e2e genesis-e2e
+      - persist-e2e-to-workspace
   android-e2e:
     executor:
       name: chiubaka/android
@@ -175,3 +169,28 @@ commands:
           name: Start Verdaccio
           command: yarn verdaccio --config ./verdaccio/config/config.local.yaml
           background: true
+  setup-e2e:
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Install Cypress dependencies
+          command: |
+            sudo apt-get update
+            sudo apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+      - set-npm-prefix
+      - start-verdaccio
+  persist-e2e-to-workspace:
+    steps:
+      - persist_to_workspace:
+          root: .
+          paths:
+            # Save the NX cache so subsequent jobs can read from cache
+            - tmp/nx-cache
+            # Save locally deployed npm modules
+            - verdaccio/storage/data/@chiubaka
+            # Save generated Genesis E2E workspace template to speed up downstream tests
+            - tmp/nx-e2e/genesis-e2e
+            # Save generated React Native workspaces to speed up platform-specific testing
+            - tmp/nx-e2e/app.react-native
+            - tmp/nx-e2e/lib.react-native
