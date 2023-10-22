@@ -98,6 +98,9 @@ jobs:
     steps:
       - chiubaka/setup:
           yarn-berry: true
+      - run:
+          name: Configure git user
+          command: git config --global user.name CircleCI && git config --global user.email circleci@chiubaka.com
       - setup-e2e
       - run:
           name: Run Genesis E2E setup
