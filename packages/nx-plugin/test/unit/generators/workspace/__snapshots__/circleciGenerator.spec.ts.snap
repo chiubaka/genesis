@@ -131,6 +131,8 @@ exports[`circleciGenerator .circleci/react-native.template.yml matches snapshot 
 {
   "constants": {
     "android-job-params": {
+      "build-tools-version": "<< pipeline.parameters.android-emulator-build-tools-version >>",
+      "platform-version": "<< pipeline.parameters.android-emulator-platform-version >>",
       "setup-apps-steps": "$SETUP_ANDROID_APPS_STEPS",
     },
     "android-semver-regex": "$ANDROID_SEMVER_REGEX",
@@ -139,6 +141,8 @@ exports[`circleciGenerator .circleci/react-native.template.yml matches snapshot 
         "ios-deployment",
       ],
       "setup-apps-steps": "$SETUP_IOS_APPS_STEPS",
+      "simulator-device": "<< pipeline.parameters.ios-simulator-device >>",
+      "simulator-version": "<< pipeline.parameters.ios-simulator-version >>",
       "xcode-version": "<< pipeline.parameters.xcode-version >>",
     },
     "ios-semver-regex": "$IOS_SEMVER_REGEX",
@@ -180,6 +184,15 @@ exports[`circleciGenerator .circleci/react-native.template.yml matches snapshot 
     "chiubaka": "chiubaka/circleci-orb@dev:alpha",
   },
   "parameters": {
+    "android-emulator-build-tools-version": {
+      "default": "34.0.0",
+      "description": "The build tools version to use for the Android emulator when required",
+      "type": "string",
+    },
+    "android-emulator-platform-version": {
+      "default": "android-34",
+      "description": "The platform version to use for the Android emulator when required",
+    },
     "build-android": {
       "default": false,
       "description": "Whether or not to enable the build-android job",
@@ -199,6 +212,16 @@ exports[`circleciGenerator .circleci/react-native.template.yml matches snapshot 
       "default": false,
       "description": "Whether or not to enable the e2e-ios job",
       "type": "boolean",
+    },
+    "ios-simulator-device": {
+      "default": "iPhone 14",
+      "description": "The iOS device to use for the simulator when required",
+      "type": "string",
+    },
+    "ios-simulator-version": {
+      "default": "16.4",
+      "description": "The OS version to use for the simulator when required",
+      "type": "string",
     },
     "test-android": {
       "default": false,
@@ -283,6 +306,7 @@ exports[`circleciGenerator .circleci/react-native.template.yml matches snapshot 
         },
         {
           "chiubaka/build-android": {
+            "build-tools-version": "<< pipeline.parameters.android-emulator-build-tools-version >>",
             "enabled": "<< pipeline.parameters.build-android >>",
             "filters": {
               "tags": {
@@ -290,6 +314,7 @@ exports[`circleciGenerator .circleci/react-native.template.yml matches snapshot 
               },
             },
             "name": "build-android",
+            "platform-version": "<< pipeline.parameters.android-emulator-platform-version >>",
             "requires": [
               "build",
             ],
@@ -312,11 +337,14 @@ exports[`circleciGenerator .circleci/react-native.template.yml matches snapshot 
               "build",
             ],
             "setup-apps-steps": "$SETUP_IOS_APPS_STEPS",
+            "simulator-device": "<< pipeline.parameters.ios-simulator-device >>",
+            "simulator-version": "<< pipeline.parameters.ios-simulator-version >>",
             "xcode-version": "<< pipeline.parameters.xcode-version >>",
           },
         },
         {
           "chiubaka/test-android": {
+            "build-tools-version": "<< pipeline.parameters.android-emulator-build-tools-version >>",
             "enabled": "<< pipeline.parameters.test-android >>",
             "filters": {
               "tags": {
@@ -324,6 +352,7 @@ exports[`circleciGenerator .circleci/react-native.template.yml matches snapshot 
               },
             },
             "name": "test-android",
+            "platform-version": "<< pipeline.parameters.android-emulator-platform-version >>",
             "requires": [
               "build",
               "build-android",
@@ -352,11 +381,14 @@ exports[`circleciGenerator .circleci/react-native.template.yml matches snapshot 
               "e2e",
             ],
             "setup-apps-steps": "$SETUP_IOS_APPS_STEPS",
+            "simulator-device": "<< pipeline.parameters.ios-simulator-device >>",
+            "simulator-version": "<< pipeline.parameters.ios-simulator-version >>",
             "xcode-version": "<< pipeline.parameters.xcode-version >>",
           },
         },
         {
           "chiubaka/e2e-android": {
+            "build-tools-version": "<< pipeline.parameters.android-emulator-build-tools-version >>",
             "enabled": "<< pipeline.parameters.e2e-android >>",
             "filters": {
               "tags": {
@@ -364,6 +396,7 @@ exports[`circleciGenerator .circleci/react-native.template.yml matches snapshot 
               },
             },
             "name": "e2e-android",
+            "platform-version": "<< pipeline.parameters.android-emulator-platform-version >>",
             "requires": [
               "build-android",
               "test-android",
@@ -388,11 +421,14 @@ exports[`circleciGenerator .circleci/react-native.template.yml matches snapshot 
               "test-ios",
             ],
             "setup-apps-steps": "$SETUP_IOS_APPS_STEPS",
+            "simulator-device": "<< pipeline.parameters.ios-simulator-device >>",
+            "simulator-version": "<< pipeline.parameters.ios-simulator-version >>",
             "xcode-version": "<< pipeline.parameters.xcode-version >>",
           },
         },
         {
           "chiubaka/deploy-android": {
+            "build-tools-version": "<< pipeline.parameters.android-emulator-build-tools-version >>",
             "filters": {
               "branches": {
                 "ignore": "/.*/",
@@ -402,6 +438,7 @@ exports[`circleciGenerator .circleci/react-native.template.yml matches snapshot 
               },
             },
             "name": "deploy-android",
+            "platform-version": "<< pipeline.parameters.android-emulator-platform-version >>",
             "requires": [
               "e2e-android",
             ],
@@ -426,6 +463,8 @@ exports[`circleciGenerator .circleci/react-native.template.yml matches snapshot 
               "e2e-ios",
             ],
             "setup-apps-steps": "$SETUP_IOS_APPS_STEPS",
+            "simulator-device": "<< pipeline.parameters.ios-simulator-device >>",
+            "simulator-version": "<< pipeline.parameters.ios-simulator-version >>",
             "xcode-version": "<< pipeline.parameters.xcode-version >>",
           },
         },

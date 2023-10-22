@@ -36,8 +36,12 @@ constants:
     context:
       - ios-deployment
     xcode-version: << pipeline.parameters.xcode-version >>
+    simulator-device: << pipeline.parameters.ios-simulator-device >>
+    simulator-version: << pipeline.parameters.ios-simulator-version >>
     setup-apps-steps: $SETUP_IOS_APPS_STEPS
   android-job-params: &android-job-params
+    build-tools-version: << pipeline.parameters.android-emulator-build-tools-version >>
+    platform-version: << pipeline.parameters.android-emulator-platform-version >>
     setup-apps-steps: $SETUP_ANDROID_APPS_STEPS
 
 orbs:
@@ -48,6 +52,21 @@ parameters:
     description: The version of Xcode to use with for macOS executors
     type: string
     default: 14.3.1
+  ios-simulator-device:
+    description: The iOS device to use for the simulator when required
+    type: string
+    default: iPhone 14
+  ios-simulator-version:
+    description: The OS version to use for the simulator when required
+    type: string
+    default: "16.4"
+  android-emulator-build-tools-version:
+    description: The build tools version to use for the Android emulator when required
+    type: string
+    default: 34.0.0
+  android-emulator-platform-version:
+    description: The platform version to use for the Android emulator when required
+    default: android-34
   build-ios:
     description: Whether or not to enable the build-ios job
     type: boolean

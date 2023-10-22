@@ -54,7 +54,7 @@ module.exports = {
       type: "ios.simulator",
       device: {
         type: fastlaneEnv.IOS_SIMULATOR_DEFAULT_DEVICE,
-        os: `iOS ${fastlaneEnv.IOS_SIMULATOR_DEFAULT_OS}`,
+        os: `iOS ${fastlaneEnv.IOS_SIMULATOR_DEFAULT_VERSION}`,
       },
     },
     emulator: {
