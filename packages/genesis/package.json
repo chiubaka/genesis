@@ -1,6 +1,6 @@
 {
   "name": "@chiubaka/genesis",
-  "version": "0.3.0",
+  "version": "0.4.0-rc.1",
   "description": "Workspace generation CLI that serves as the start point for scaffolding all Chiubaka Technologies TypeScript projects",
   "bin": "./bin/index.js",
   "repository": {
@@ -11,7 +11,7 @@
   "author": "Daniel Chiu <daniel@chiubaka.com>",
   "license": "UNLICENSED",
   "dependencies": {
-    "@chiubaka/nx-plugin": "0.3.0",
+    "@chiubaka/nx-plugin": "0.4.0-rc.1",
     "@nx/devkit": "16.8.1",
     "commander": "^9.4.0",
     "create-nx-workspace": "16.8.1",

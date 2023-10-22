@@ -45,7 +45,8 @@
         },
         {
           "target": "deploy:remove-yarn-module"
-        }
+        },
+        "^deploy"
       ],
       "options": {
         "packagePath": "dist/packages/nx-plugin"
