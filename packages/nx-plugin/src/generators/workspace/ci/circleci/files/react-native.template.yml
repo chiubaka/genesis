@@ -66,6 +66,7 @@ parameters:
     default: 34.0.0
   android-emulator-platform-version:
     description: The platform version to use for the Android emulator when required
+    type: string
     default: android-34
   build-ios:
     description: Whether or not to enable the build-ios job
