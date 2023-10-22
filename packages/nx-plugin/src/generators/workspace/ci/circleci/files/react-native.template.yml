@@ -47,7 +47,7 @@ constants:
     platform-version: << pipeline.parameters.android-emulator-platform-version >>
 
 orbs:
-  chiubaka: chiubaka/circleci-orb@dev:alpha
+  chiubaka: chiubaka/circleci-orb@0.12.0
 
 parameters:
   xcode-version:

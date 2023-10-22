@@ -5,10 +5,13 @@ version: 2.1
 constants:
   # Semantic versioning RegEx modified from https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
   semver-regex: &semver-regex /^(\w+-)+v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/
+  ios-simulator-params: &ios-simulator-params
+    simulator-device: iPhone 14
+    simulator-version: "16.4"
 
 orbs:
   android: circleci/android@2.3.0
-  chiubaka: chiubaka/circleci-orb@dev:alpha
+  chiubaka: chiubaka/circleci-orb@0.12.0
   node: circleci/node@5.0.2
 
 filters:
@@ -132,6 +135,7 @@ jobs:
       - chiubaka/setup-macos:
           with-simulator: true
           yarn-berry: true
+          <<: *ios-simulator-params
       - attach_workspace:
           at: .
       - run:
