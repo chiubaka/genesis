@@ -96,7 +96,7 @@ jobs:
       name: chiubaka/docker-node
       resource-class: large
     steps:
-      - setup:
+      - chiubaka/setup:
           yarn-berry: true
       - setup-e2e
       - run:
