@@ -36,13 +36,15 @@ constants:
     context:
       - ios-deployment
     xcode-version: << pipeline.parameters.xcode-version >>
+    setup-apps-steps: $SETUP_IOS_APPS_STEPS
+  ios-simulator-params: &ios-simulator-params
     simulator-device: << pipeline.parameters.ios-simulator-device >>
     simulator-version: << pipeline.parameters.ios-simulator-version >>
-    setup-apps-steps: $SETUP_IOS_APPS_STEPS
   android-job-params: &android-job-params
+    setup-apps-steps: $SETUP_ANDROID_APPS_STEPS
+  android-emulator-params: &android-emulator-params
     build-tools-version: << pipeline.parameters.android-emulator-build-tools-version >>
     platform-version: << pipeline.parameters.android-emulator-platform-version >>
-    setup-apps-steps: $SETUP_ANDROID_APPS_STEPS
 
 orbs:
   chiubaka: chiubaka/circleci-orb@dev:alpha
@@ -179,6 +181,7 @@ workflows:
           name: test-ios
           enabled: << pipeline.parameters.test-ios >>
           <<: *ios-job-params
+          <<: *ios-simulator-params
           requires:
             - build
             - build-ios
@@ -191,6 +194,7 @@ workflows:
           name: e2e-android
           enabled: << pipeline.parameters.e2e-android >>
           <<: *android-job-params
+          <<: *android-emulator-params
           requires:
             - build-android
             - test-android
@@ -201,6 +205,7 @@ workflows:
           name: e2e-ios
           enabled: << pipeline.parameters.e2e-ios >>
           <<: *ios-job-params
+          <<: *ios-simulator-params
           requires:
             - build-ios
             - test-ios
