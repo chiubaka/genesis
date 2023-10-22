@@ -1,6 +1,15 @@
 export default {
   displayName: "<%= projectName %>",
+  <% if (locals.reactNative) { -%>
+  preset: "react-native",
+  resolver: "@nx/jest/plugins/resolver",
+  setupFilesAfterEnv: ["<rootDir>/test/setup/setup.ts"],
+  moduleNameMapper: {
+    "\\.svg$": "@nx/react-native/plugins/jest/svg-mock",
+  },
+  <% } else { -%>
   preset: "../../jest.preset.js",
+  <% } -%>
   <% if (!locals.enableReact) { -%>
   globals: {
     "ts-jest": {
@@ -11,6 +20,7 @@ export default {
   <% if (locals.testEnvironment) { -%>
   testEnvironment: "<%= testEnvironment %>",
   <% } -%>
+  <% if (!locals.reactNative) { -%>
   transform: {
     <% if (locals.enableReact) { -%>
     "^(?!.*\\.(js|jsx|ts|tsx|css|json)$)": "@nrwl/react/plugins/jest",
@@ -19,6 +29,7 @@ export default {
     "^.+\\.[tj]s$": "ts-jest",
     <% } -%>
   },
+  <% } -%>
   <% if (locals.enableReact) { -%>
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "html", "json"],
   <% } else { -%>

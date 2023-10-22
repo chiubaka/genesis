@@ -20,6 +20,38 @@
         "{workspaceRoot}/reports/junit/genesis-e2e.xml"
       ]
     },
+    "e2e:ios": {
+      "dependsOn": [
+        {
+          "target": "setup-e2e"
+        }
+      ],
+      "executor": "@nx/jest:jest",
+      "options": {
+        "jestConfig": "e2e/genesis-e2e/jest.ios.config.ts",
+        "passWithNoTests": true
+      },
+      "outputs": [
+        "{workspaceRoot}/reports/coverage/e2e/genesis-e2e-ios",
+        "{workspaceRoot}/reports/junit/genesis-e2e-ios.xml"
+      ]
+    },
+    "e2e:android": {
+      "dependsOn": [
+        {
+          "target": "setup-e2e"
+        }
+      ],
+      "executor": "@nx/jest:jest",
+      "options": {
+        "jestConfig": "e2e/genesis-e2e/jest.android.config.ts",
+        "passWithNoTests": true
+      },
+      "outputs": [
+        "{workspaceRoot}/reports/coverage/e2e/genesis-e2e-android",
+        "{workspaceRoot}/reports/junit/genesis-e2e-android.xml"
+      ]
+    },
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
@@ -41,20 +73,29 @@
         "registry": "http://localhost:4873",
         "disableImmutableInstalls": true
       },
+      "inputs": [
+        "localGenesisPackage",
+        { "env": "CI" },
+        { "env": "SKIP_E2E_SETUP" }
+      ],
       "outputs": ["{workspaceRoot}/tmp/nx-e2e/genesis-e2e"]
     },
     "yarn-cache-clean": {
       "executor": "nx:run-commands",
-      "options": {
-        "command": "yarn cache clean --all"
-      }
-    },
-    "install-local-genesis-cli": {
       "dependsOn": [
         {
           "target": "deploy",
           "dependencies": true
-        },
+        }
+      ],
+      "options": {
+        "command": "yarn cache clean --all"
+      },
+      "inputs": ["localGenesisPackage"],
+      "outputs": []
+    },
+    "install-local-genesis-cli": {
+      "dependsOn": [
         {
           "target": "yarn-cache-clean"
         }
@@ -62,7 +103,9 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "npm uninstall -g @chiubaka/genesis && npm install @chiubaka/genesis --location=global --registry=http://localhost:4873"
-      }
+      },
+      "inputs": ["localGenesisPackage"],
+      "outputs": []
     }
   },
   "tags": [],

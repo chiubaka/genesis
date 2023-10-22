@@ -10,6 +10,10 @@ import { tsconfigTestCases } from "./tsconfigTestCases";
 
 export interface ProjectTestCasesOptions {
   repoName?: string;
+  skipPackageJson?: boolean;
+  skipReadme?: boolean;
+  skipTsConfig?: boolean;
+  skipJest?: boolean;
 }
 
 /**
@@ -86,56 +90,68 @@ export const projectTestCases = (
     expect(tree.exists(project.testPath())).toBe(true);
   });
 
-  it("generates a package.json file", () => {
-    // eslint-disable-next-line security/detect-non-literal-fs-filename
-    expect(tree.exists(project.path("package.json"))).toBe(true);
-  });
-
-  describe("package.json", () => {
-    let packageJson: PackageJson;
-
-    beforeAll(() => {
-      packageJson = readJson(tree, project.path("package.json"));
+  if (!options.skipPackageJson) {
+    it("generates a package.json file", () => {
+      // eslint-disable-next-line security/detect-non-literal-fs-filename
+      expect(tree.exists(project.path("package.json"))).toBe(true);
     });
 
-    it("sets the correct name", () => {
-      expect(packageJson.name).toBe(project.getImportPath());
-    });
+    describe("package.json", () => {
+      let packageJson: PackageJson;
 
-    it("sets the correct version", () => {
-      expect(packageJson.version).toBe("0.0.1");
-    });
+      beforeAll(() => {
+        packageJson = readJson(tree, project.path("package.json"));
+      });
 
-    it("sets the LICENSE", () => {
-      expect(packageJson.license).toBe("UNLICENSED");
-    });
+      it("sets the correct name", () => {
+        expect(packageJson.name).toBe(project.getImportPath());
+      });
 
-    it("sets the repository section", () => {
-      expect(packageJson.repository).toEqual({
-        type: "git",
-        url: `git+ssh://git@github.com/${projectScope}/${repoName}.git`,
-        directory: project.path(),
+      it("sets the correct version", () => {
+        expect(packageJson.version).toBe("0.0.1");
+      });
+
+      it("sets the LICENSE", () => {
+        expect(packageJson.license).toBe("UNLICENSED");
+      });
+
+      it("sets the repository section", () => {
+        expect(packageJson.repository).toEqual({
+          type: "git",
+          url: `git+ssh://git@github.com/${projectScope}/${repoName}.git`,
+          directory: project.path(),
+        });
+      });
+
+      it("sets the bugs section", () => {
+        expect(packageJson.bugs).toEqual({
+          url: `https://github.com/${projectScope}/${repoName}/issues`,
+        });
+      });
+
+      it("sets the homepage", () => {
+        expect(packageJson.homepage).toEqual(
+          `https://github.com/${projectScope}/${repoName}/blob/master/${project.path(
+            "README.md",
+          )}`,
+        );
       });
     });
-
-    it("sets the bugs section", () => {
-      expect(packageJson.bugs).toEqual({
-        url: `https://github.com/${projectScope}/${repoName}/issues`,
-      });
-    });
-
-    it("sets the homepage", () => {
-      expect(packageJson.homepage).toEqual(
-        `https://github.com/${projectScope}/${repoName}/blob/master/${project.path(
-          "README.md",
-        )}`,
-      );
-    });
-  });
+  }
 
   projectJsonTestCases(getProject);
-  jestProjectTestCases(getProject);
-  tsconfigTestCases(getProject);
+
+  if (!options.skipJest) {
+    jestProjectTestCases(getProject);
+  }
+
+  if (!options.skipTsConfig) {
+    tsconfigTestCases(getProject);
+  }
+
   eslintProjectTestCases(getProject);
-  readmeProjectTestCases(getProject, options.repoName);
+
+  if (!options.skipReadme) {
+    readmeProjectTestCases(getProject, options.repoName);
+  }
 };

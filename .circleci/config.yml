@@ -5,9 +5,14 @@ version: 2.1
 constants:
   # Semantic versioning RegEx modified from https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
   semver-regex: &semver-regex /^(\w+-)+v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/
+  ios-simulator-params: &ios-simulator-params
+    simulator-device: iPhone 14
+    simulator-version: "16.4"
 
 orbs:
-  chiubaka: chiubaka/circleci-orb@0.11.4
+  android: circleci/android@2.3.0
+  chiubaka: chiubaka/circleci-orb@0.12.0
+  node: circleci/node@5.0.2
 
 filters:
   semver-tags: &semver-tags
@@ -28,30 +33,170 @@ workflows:
       - chiubaka/build:
           name: build
           yarn-berry: true
+          cleanup-steps:
+            - persist_to_workspace:
+                root: .
+                paths:
+                  # Save the NX cache so subsequent jobs can read from cache
+                  - tmp/nx-cache
+                  # Save built packages so they can be used by downstream jobs
+                  - dist
           filters:
             <<: *semver-tags
       - chiubaka/test:
-          executor: chiubaka/machine
           name: test
-          configure-git-user: true
-          docker-compose: true
-          wait-for-docker-services:
-            - chiubaka/wait-for-docker-service:
-                container-name: genesis_registry
-                url: http://localhost:4873/healthcheck
           yarn-berry: true
+          requires:
+            - build
+          filters:
+            <<: *semver-tags
+      - chiubaka/e2e:
+          name: e2e
+          resource-class: large
+          configure-git-user: true
+          yarn-berry: true
+          setup-steps:
+            - setup-e2e
+            - run:
+                name: Install Cypress dependencies
+                command: |
+                  sudo apt-get update
+                  sudo apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+          cleanup-steps:
+            - persist-e2e-to-workspace
+          requires:
+            - test
+          filters:
+            <<: *semver-tags
+      - android-e2e:
+          requires:
+            - e2e
+          filters:
+            <<: *semver-tags
+      - ios-e2e:
+          context:
+            - ios-deployment
+          requires:
+            - e2e
           filters:
             <<: *semver-tags
       - chiubaka/deploy:
           name: deploy
           task-name: Publish to NPM
           yarn-berry: true
+          setup-steps:
+            - attach_workspace:
+                at: .
           context:
             - npm-publishing
           requires:
-            - lint
-            - build
             - test
+            - e2e
+            - android-e2e
+            - ios-e2e
           filters:
             <<: *ignore-branches
             <<: *semver-tags
+
+jobs:
+  setup-e2e:
+    executor:
+      name: chiubaka/docker-node
+      resource-class: large
+    steps:
+      - chiubaka/setup:
+          yarn-berry: true
+      - run:
+          name: Configure git user
+          command: git config --global user.name CircleCI && git config --global user.email circleci@chiubaka.com
+      - setup-e2e
+      - run:
+          name: Run Genesis E2E setup
+          command: yarn nx setup-e2e genesis-e2e
+      - persist-e2e-to-workspace
+  android-e2e:
+    executor:
+      name: chiubaka/android
+      resource-class: large
+    steps:
+      - chiubaka/setup-android:
+          with-emulator: true
+          yarn-berry: true
+      - attach_workspace:
+          at: .
+      # Android is a machine executor, so setting the NPM prefix isn't necessary
+      - start-verdaccio
+      - run:
+          name: Clear Nx Cache
+          command: rm -rf tmp/nx-cache
+      - chiubaka/setup-android-code-signing:
+          secrets-dir: e2e/genesis-e2e/secrets/android
+      - run:
+          name: Run Android E2E tests
+          command: yarn run e2e:android:affected --ci
+  ios-e2e:
+    executor: chiubaka/macos
+    steps:
+      - chiubaka/setup-macos:
+          with-simulator: true
+          yarn-berry: true
+          <<: *ios-simulator-params
+      - attach_workspace:
+          at: .
+      - run:
+          name: Clear Nx Cache
+          command: rm -rf tmp/nx-cache
+      - set-npm-prefix
+      - start-verdaccio
+      - reinstall-genesis-e2e-dependencies
+      - chiubaka/setup-ios-code-signing:
+          secrets-dir: e2e/genesis-e2e/secrets/ios
+      - run:
+          name: Run iOS E2E tests
+          command: yarn run e2e:ios:affected --ci
+          no_output_timeout: 4m
+
+commands:
+  reinstall-genesis-e2e-dependencies:
+    steps:
+      - run:
+          name: Delete existing Genesis E2E template dependencies
+          command: rm -rf tmp/nx-e2e/genesis-e2e/node_modules
+      - node/install-packages:
+          check-cache: always
+          pkg-manager: yarn-berry
+          with-cache: true
+          app-dir: tmp/nx-e2e/genesis-e2e
+  # This is needed on Docker executors because, otherwise, attempts to globally install
+  # npm modules will fail due to permissions being denied.
+  set-npm-prefix:
+    steps:
+      - run:
+          name: Set NPM Prefix
+          command: echo "export NPM_CONFIG_PREFIX=$HOME/.local" >> $BASH_ENV
+  start-verdaccio:
+    steps:
+      - run:
+          name: Start Verdaccio
+          command: yarn verdaccio --config ./verdaccio/config/config.local.yaml
+          background: true
+  setup-e2e:
+    steps:
+      - attach_workspace:
+          at: .
+      - set-npm-prefix
+      - start-verdaccio
+  persist-e2e-to-workspace:
+    steps:
+      - persist_to_workspace:
+          root: .
+          paths:
+            # Save the NX cache so subsequent jobs can read from cache
+            - tmp/nx-cache
+            # Save locally deployed npm modules
+            - verdaccio/storage/data/@chiubaka
+            # Save generated Genesis E2E workspace template to speed up downstream tests
+            - tmp/nx-e2e/genesis-e2e
+            # Save generated React Native workspaces to speed up platform-specific testing
+            - tmp/nx-e2e/app.react-native
+            - tmp/nx-e2e/lib.react-native

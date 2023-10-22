@@ -1,6 +1,7 @@
 import { Tree } from "@nx/devkit";
 
 import { compatiblePackageVersions, Project } from "../../../src";
+import { fileMatchesSnapshot } from "..";
 
 export const jestProjectTestCases = (getProject: () => Project) => {
   let project: Project;
@@ -34,16 +35,9 @@ export const jestProjectTestCases = (getProject: () => Project) => {
     });
   });
 
-  it("generates a jest config", () => {
-    // eslint-disable-next-line security/detect-non-literal-fs-filename
-    expect(tree.exists(jestConfigPath)).toBe(true);
-  });
-
   describe("jest.config.ts", () => {
-    it("matches snapshot", () => {
-      const contents = tree.read(jestConfigPath)?.toString();
-
-      expect(contents).toMatchSnapshot();
+    fileMatchesSnapshot("jest.config.ts", getProject, () => {
+      return jestConfigPath;
     });
   });
 };

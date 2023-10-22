@@ -5,6 +5,7 @@ export interface JestProjectGeneratorSchema
     ProjectGeneratorBaseSchema {}
 
 export interface JestProjectGeneratorOwnOptions {
+  reactNative?: boolean;
   enableReact?: boolean;
   testEnvironment?: "node" | "jsdom";
 }

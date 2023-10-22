@@ -76,10 +76,7 @@ function installScripts(tree: Tree, options: EsLintGeneratorSchema) {
     json.scripts["lint:all"] = `${pmcRun("lint:root")} && ${pmcRun(
       "lint:packages",
     )}`;
-    json.scripts["lint:ci"] = `${pmcRun("lint:root")} && ${pmcRun(
-      "lint:affected",
-      "--base=$NX_BASE --head=$NX_HEAD",
-    )}`;
+    json.scripts["lint:ci"] = `${pmcRun("lint:root")} && ./scripts/ci.sh lint`;
     json.scripts["lint:fix:all"] = `${pmcRun("lint:fix:root")}; ${pmcRun(
       "lint:fix:packages",
     )}`;

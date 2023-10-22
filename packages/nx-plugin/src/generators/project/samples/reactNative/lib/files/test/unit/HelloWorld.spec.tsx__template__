@@ -1,0 +1,14 @@
+import React from "react";
+import { render, screen } from "@testing-library/react-native";
+
+import { HelloWorld } from "../../src";
+
+describe("HelloWorld", () => {
+  it("displays a familiar phrase", async () => {
+    render(<HelloWorld testID="text" />);
+
+    const textComponent = await screen.findByTestId("text");
+
+    expect(textComponent).toHaveTextContent("Hello, world!");
+  });
+});

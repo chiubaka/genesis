@@ -6,6 +6,7 @@ import {
 } from "@nx/devkit";
 import { getNpmScope } from "@nx/js/src/utils/package-json/get-npm-scope";
 import path from "node:path";
+import { TreeWriteOptions } from "nx/src/generators/tree";
 
 import { ProjectGeneratorSchema } from "../generators/project/project/projectGenerator.schema";
 
@@ -45,6 +46,14 @@ export class Project {
       pascalCase,
       snakeCase: upperSnakeCase.toLowerCase(),
     };
+  }
+
+  public write(
+    path: string,
+    content: string | Buffer,
+    options?: TreeWriteOptions,
+  ) {
+    this.tree.write(this.path(path), content, options);
   }
 
   public path(relativePath = "") {

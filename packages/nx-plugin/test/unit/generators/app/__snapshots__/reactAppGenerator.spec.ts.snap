@@ -217,7 +217,7 @@ exports[`reactAppGenerator E2E project tsconfig.json matches snapshot 1`] = `
 }
 `;
 
-exports[`reactAppGenerator jest.config.ts matches snapshot 1`] = `
+exports[`reactAppGenerator jest.config.ts jest.config.ts matches snapshot 1`] = `
 "export default {
   displayName: 'react-app',
   preset: '../../jest.preset.js',

@@ -1,0 +1,470 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`circleciGenerator .circleci/config.yml matches snapshot 1`] = `
+{
+  "constants": {
+    "semver-regex": "/^(\\w+-)+v(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$/",
+  },
+  "filters": {
+    "semver-tags": {
+      "tags": {
+        "only": "/^(\\w+-)+v(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$/",
+      },
+    },
+  },
+  "orbs": {
+    "chiubaka": "chiubaka/circleci-orb@0.12.0",
+  },
+  "setup": true,
+  "version": 2.1,
+  "workflows": {
+    "dynamic-setup": {
+      "jobs": [
+        {
+          "chiubaka/dynamic-setup": {
+            "filters": {
+              "tags": {
+                "only": "/^(\\w+-)+v(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$/",
+              },
+            },
+          },
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`circleciGenerator .circleci/js.template.yml matches snapshot 1`] = `
+{
+  "constants": {
+    "semver-regex": "/^(\\w+-)+v(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$/",
+  },
+  "filters": {
+    "ignore-branches": {
+      "branches": {
+        "ignore": "/.*/",
+      },
+    },
+    "semver-tags": {
+      "tags": {
+        "only": "/^(\\w+-)+v(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$/",
+      },
+    },
+  },
+  "orbs": {
+    "chiubaka": "chiubaka/circleci-orb@0.12.0",
+  },
+  "version": 2.1,
+  "workflows": {
+    "lint-build-test-e2e-deploy": {
+      "jobs": [
+        {
+          "chiubaka/lint": {
+            "filters": {
+              "tags": {
+                "only": "/^(\\w+-)+v(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$/",
+              },
+            },
+            "name": "lint",
+          },
+        },
+        {
+          "chiubaka/build": {
+            "filters": {
+              "tags": {
+                "only": "/^(\\w+-)+v(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$/",
+              },
+            },
+            "name": "build",
+          },
+        },
+        {
+          "chiubaka/test": {
+            "filters": {
+              "tags": {
+                "only": "/^(\\w+-)+v(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$/",
+              },
+            },
+            "name": "test",
+          },
+        },
+        {
+          "chiubaka/e2e": {
+            "filters": {
+              "tags": {
+                "only": "/^(\\w+-)+v(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$/",
+              },
+            },
+            "name": "e2e",
+          },
+        },
+        {
+          "chiubaka/deploy": {
+            "context": [
+              "npm-publishing",
+            ],
+            "filters": {
+              "branches": {
+                "ignore": "/.*/",
+              },
+              "tags": {
+                "only": "/^(\\w+-)+v(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$/",
+              },
+            },
+            "name": "deploy",
+            "requires": [
+              "lint",
+              "build",
+              "test",
+              "e2e",
+            ],
+          },
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`circleciGenerator .circleci/react-native.template.yml matches snapshot 1`] = `
+{
+  "constants": {
+    "android-emulator-params": {
+      "build-tools-version": "<< pipeline.parameters.android-emulator-build-tools-version >>",
+      "platform-version": "<< pipeline.parameters.android-emulator-platform-version >>",
+    },
+    "android-job-params": {
+      "setup-apps-steps": "$SETUP_ANDROID_APPS_STEPS",
+    },
+    "android-semver-regex": "$ANDROID_SEMVER_REGEX",
+    "ios-job-params": {
+      "context": [
+        "ios-deployment",
+      ],
+      "setup-apps-steps": "$SETUP_IOS_APPS_STEPS",
+      "xcode-version": "<< pipeline.parameters.xcode-version >>",
+    },
+    "ios-semver-regex": "$IOS_SEMVER_REGEX",
+    "ios-simulator-params": {
+      "simulator-device": "<< pipeline.parameters.ios-simulator-device >>",
+      "simulator-version": "<< pipeline.parameters.ios-simulator-version >>",
+    },
+    "semver-regex": "/^(\\w+-)+v(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$/",
+  },
+  "filters": {
+    "android-semver-tags": {
+      "tags": {
+        "only": "$ANDROID_SEMVER_REGEX",
+      },
+    },
+    "ignore-android-semver-tags": {
+      "tags": {
+        "ignore": "$ANDROID_SEMVER_REGEX",
+      },
+    },
+    "ignore-branches": {
+      "branches": {
+        "ignore": "/.*/",
+      },
+    },
+    "ignore-ios-semver-tags": {
+      "tags": {
+        "ignore": "$IOS_SEMVER_REGEX",
+      },
+    },
+    "ios-semver-tags": {
+      "tags": {
+        "only": "$IOS_SEMVER_REGEX",
+      },
+    },
+    "semver-tags": {
+      "tags": {
+        "only": "/^(\\w+-)+v(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$/",
+      },
+    },
+  },
+  "orbs": {
+    "chiubaka": "chiubaka/circleci-orb@0.12.0",
+  },
+  "parameters": {
+    "android-emulator-build-tools-version": {
+      "default": "34.0.0",
+      "description": "The build tools version to use for the Android emulator when required",
+      "type": "string",
+    },
+    "android-emulator-platform-version": {
+      "default": "android-34",
+      "description": "The platform version to use for the Android emulator when required",
+      "type": "string",
+    },
+    "build-android": {
+      "default": false,
+      "description": "Whether or not to enable the build-android job",
+      "type": "boolean",
+    },
+    "build-ios": {
+      "default": false,
+      "description": "Whether or not to enable the build-ios job",
+      "type": "boolean",
+    },
+    "e2e-android": {
+      "default": false,
+      "description": "Whether or not to enable the e2e-android job",
+      "type": "boolean",
+    },
+    "e2e-ios": {
+      "default": false,
+      "description": "Whether or not to enable the e2e-ios job",
+      "type": "boolean",
+    },
+    "ios-simulator-device": {
+      "default": "iPhone 14",
+      "description": "The iOS device to use for the simulator when required",
+      "type": "string",
+    },
+    "ios-simulator-version": {
+      "default": "16.4",
+      "description": "The OS version to use for the simulator when required",
+      "type": "string",
+    },
+    "test-android": {
+      "default": false,
+      "description": "Whether or not to enable the test-android job",
+      "type": "boolean",
+    },
+    "test-ios": {
+      "default": false,
+      "description": "Whether or not to enable the test-ios job",
+      "type": "boolean",
+    },
+    "xcode-version": {
+      "default": "14.3.1",
+      "description": "The version of Xcode to use with for macOS executors",
+      "type": "string",
+    },
+  },
+  "version": 2.1,
+  "workflows": {
+    "lint-build-test-e2e-deploy": {
+      "jobs": [
+        {
+          "chiubaka/lint": {
+            "filters": {
+              "tags": {
+                "only": "/^(\\w+-)+v(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$/",
+              },
+            },
+            "name": "lint",
+          },
+        },
+        {
+          "chiubaka/build": {
+            "filters": {
+              "tags": {
+                "only": "/^(\\w+-)+v(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$/",
+              },
+            },
+            "name": "build",
+          },
+        },
+        {
+          "chiubaka/test": {
+            "filters": {
+              "tags": {
+                "only": "/^(\\w+-)+v(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$/",
+              },
+            },
+            "name": "test",
+          },
+        },
+        {
+          "chiubaka/e2e": {
+            "filters": {
+              "tags": {
+                "only": "/^(\\w+-)+v(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$/",
+              },
+            },
+            "name": "e2e",
+            "requires": [
+              "build",
+            ],
+          },
+        },
+        {
+          "chiubaka/deploy": {
+            "filters": {
+              "branches": {
+                "ignore": "/.*/",
+              },
+              "tags": {
+                "ignore": "$ANDROID_SEMVER_REGEX",
+              },
+            },
+            "name": "deploy",
+            "requires": [
+              "build",
+              "test",
+              "e2e",
+            ],
+          },
+        },
+        {
+          "chiubaka/build-android": {
+            "enabled": "<< pipeline.parameters.build-android >>",
+            "filters": {
+              "tags": {
+                "only": "$ANDROID_SEMVER_REGEX",
+              },
+            },
+            "name": "build-android",
+            "requires": [
+              "build",
+            ],
+            "setup-apps-steps": "$SETUP_ANDROID_APPS_STEPS",
+          },
+        },
+        {
+          "chiubaka/build-ios": {
+            "context": [
+              "ios-deployment",
+            ],
+            "enabled": "<< pipeline.parameters.build-ios >>",
+            "filters": {
+              "tags": {
+                "only": "$ANDROID_SEMVER_REGEX",
+              },
+            },
+            "name": "build-ios",
+            "requires": [
+              "build",
+            ],
+            "setup-apps-steps": "$SETUP_IOS_APPS_STEPS",
+            "xcode-version": "<< pipeline.parameters.xcode-version >>",
+          },
+        },
+        {
+          "chiubaka/test-android": {
+            "enabled": "<< pipeline.parameters.test-android >>",
+            "filters": {
+              "tags": {
+                "only": "$ANDROID_SEMVER_REGEX",
+              },
+            },
+            "name": "test-android",
+            "requires": [
+              "build",
+              "build-android",
+              "test",
+              "e2e",
+            ],
+            "setup-apps-steps": "$SETUP_ANDROID_APPS_STEPS",
+          },
+        },
+        {
+          "chiubaka/test-ios": {
+            "context": [
+              "ios-deployment",
+            ],
+            "enabled": "<< pipeline.parameters.test-ios >>",
+            "filters": {
+              "tags": {
+                "only": "$ANDROID_SEMVER_REGEX",
+              },
+            },
+            "name": "test-ios",
+            "requires": [
+              "build",
+              "build-ios",
+              "test",
+              "e2e",
+            ],
+            "setup-apps-steps": "$SETUP_IOS_APPS_STEPS",
+            "simulator-device": "<< pipeline.parameters.ios-simulator-device >>",
+            "simulator-version": "<< pipeline.parameters.ios-simulator-version >>",
+            "xcode-version": "<< pipeline.parameters.xcode-version >>",
+          },
+        },
+        {
+          "chiubaka/e2e-android": {
+            "build-tools-version": "<< pipeline.parameters.android-emulator-build-tools-version >>",
+            "enabled": "<< pipeline.parameters.e2e-android >>",
+            "filters": {
+              "tags": {
+                "only": "$ANDROID_SEMVER_REGEX",
+              },
+            },
+            "name": "e2e-android",
+            "platform-version": "<< pipeline.parameters.android-emulator-platform-version >>",
+            "requires": [
+              "build-android",
+              "test-android",
+            ],
+            "setup-apps-steps": "$SETUP_ANDROID_APPS_STEPS",
+          },
+        },
+        {
+          "chiubaka/e2e-ios": {
+            "context": [
+              "ios-deployment",
+            ],
+            "enabled": "<< pipeline.parameters.e2e-ios >>",
+            "filters": {
+              "tags": {
+                "only": "$ANDROID_SEMVER_REGEX",
+              },
+            },
+            "name": "e2e-ios",
+            "requires": [
+              "build-ios",
+              "test-ios",
+            ],
+            "setup-apps-steps": "$SETUP_IOS_APPS_STEPS",
+            "simulator-device": "<< pipeline.parameters.ios-simulator-device >>",
+            "simulator-version": "<< pipeline.parameters.ios-simulator-version >>",
+            "xcode-version": "<< pipeline.parameters.xcode-version >>",
+          },
+        },
+        {
+          "chiubaka/deploy-android": {
+            "filters": {
+              "branches": {
+                "ignore": "/.*/",
+              },
+              "tags": {
+                "only": "$ANDROID_SEMVER_REGEX",
+              },
+            },
+            "name": "deploy-android",
+            "requires": [
+              "e2e-android",
+            ],
+            "setup-apps-steps": "$SETUP_ANDROID_APPS_STEPS",
+          },
+        },
+        {
+          "chiubaka/deploy-ios": {
+            "context": [
+              "ios-deployment",
+            ],
+            "filters": {
+              "branches": {
+                "ignore": "/.*/",
+              },
+              "tags": {
+                "only": "$IOS_SEMVER_REGEX",
+              },
+            },
+            "name": "deploy-ios",
+            "requires": [
+              "e2e-ios",
+            ],
+            "setup-apps-steps": "$SETUP_IOS_APPS_STEPS",
+            "xcode-version": "<< pipeline.parameters.xcode-version >>",
+          },
+        },
+      ],
+    },
+  },
+}
+`;

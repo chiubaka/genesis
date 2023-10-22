@@ -15,3 +15,7 @@ To finish setting up this repository, please complete the following:
   - If no Codecov shield appeared in this README file, grab the Codecov shield Markdown snippet from Codecov
   - Append a `&flag=<%= projectName %>` URL param to the URL
   - Paste this markdown into this README below the title
+<% if (additionalSetupSteps) { -%>
+<%= additionalSetupSteps %>
+<% } -%>
+

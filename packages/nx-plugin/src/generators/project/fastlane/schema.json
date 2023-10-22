@@ -1,0 +1,95 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "FastlaneProject",
+  "title": "Setup Fastlane for a project",
+  "description": "Setup Fastlane for a project",
+  "type": "object",
+  "properties": {
+    "projectName": {
+      "type": "string",
+      "description": "The name of the project to generate configuration for"
+    },
+    "projectType": {
+      "type": "string",
+      "description": "The type of project to generate configuration for",
+      "enum": ["application", "library"]
+    },
+    "appId": {
+      "type": "string",
+      "description": "Identifier for the app. E.g. com.chiubaka.Example"
+    },
+    "appleId": {
+      "type": "string",
+      "description": "Apple ID to use for logging in to Apple services"
+    },
+    "appleDeveloperTeamId": {
+      "type": "string",
+      "description": "ID of the Apple developer team to use. https://developer.apple.com/help/account/manage-your-team/locate-your-team-id/"
+    },
+    "appName": {
+      "type": "string",
+      "description": "Application name to be displayed inside the app.",
+      "x-prompt": "What name would you like to use to be displayed inside the application?",
+      "pattern": "^[a-zA-Z].*$",
+      "maxLength": 30
+    },
+    "iosCodeSigningGitRepositoryUrl": {
+      "type": "string",
+      "description": "Git SSH URL for the repository to use for Fastlane Match codesigning. Learn more here: https://docs.fastlane.tools/actions/match/"
+    },
+    "appStoreConnectKeyIssuerId": {
+      "type": "string",
+      "description": "The issuer ID found at the top of the App Store Connect > Users and Access > Keys screen. https://appstoreconnect.apple.com/access/api"
+    },
+    "appStoreConnectKeyId": {
+      "type": "string",
+      "description": "The Key ID for the .p8 key to use. Found at the top of the App Store connect > Users and Access > Keys screen. https://appstoreconnect.apple.com/access/api"
+    },
+    "androidUploadKeystoreAlias": {
+      "type": "string",
+      "description": "The alias of the key to use in the keystore for uploading to Google Play. When not provided and generating a new keystore, this will default to the appId."
+    },
+    "androidUploadKeystorePassword": {
+      "type": "string",
+      "description": "The password for both the key in the keystore and the keystore as a whole. When not provided, a new password will be generated and output to a file that is ignored by source control."
+    },
+    "androidUploadKeystoreCommonName": {
+      "type": "string",
+      "description": "The Common Name (CN) to use for the Distinguished Name (DN) of the keystore. Typically either your first and last name or the name of the person or thing creating the keystore."
+    },
+    "androidUploadKeystoreOrganizationalUnit": {
+      "type": "string",
+      "description": "The Organizational Unit (OU) to use for the Distinguished Name (DN) of the keystore. Typically your department or team within a company.",
+      "default": "Uknown"
+    },
+    "androidUploadKeystoreOrganization": {
+      "type": "string",
+      "description": "The Organization (O) to use for the Distinguished Name (DN) of the keystore. Typically your company name."
+    },
+    "androidUploadKeystoreLocality": {
+      "type": "string",
+      "description": "The Locality (L) to use for the Distinguished Name (DN) of the keystore. Typically the city where you or the Organization are located.",
+      "default": "Uknown"
+    },
+    "androidUploadKeystoreState": {
+      "type": "string",
+      "description": "The State (S) to use for the Distinguished Name (DN) of the keystore. Typically the state or province where you or the Organization are located.",
+      "default": "Uknown"
+    },
+    "androidUploadKeyStoreCountry": {
+      "type": "string",
+      "description": "The Country (C) to use for the Distinguished Name (DN) of the keystore. Typically the country where you or the Organization are located."
+    }
+  },
+  "required": [
+    "projectName",
+    "projectType",
+    "appId",
+    "appleId",
+    "appName",
+    "iosCodeSigningGitRepositoryUrl",
+    "androidUploadKeystoreCommonName",
+    "androidUploadKeystoreOrganization",
+    "androidUploadKeystoreCountry"
+  ]
+}

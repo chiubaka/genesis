@@ -1,0 +1,59 @@
+module Fastlane
+  module Actions
+    class SaveAppleDeveloperTeamIdAction < Action
+      def self.run(params)
+        Spaceship.login
+        team_id = CredentialsManager::AppfileConfig.try_fetch_value(:team_id)
+        if team_id == nil
+          team_id = Spaceship::Portal.client.team_id
+          puts "Saving team_id #{team_id} to Appfile"
+          open("#{__dir__}/../Appfile", "a") do |f|
+            f.puts "team_id(\"#{team_id}\") # Developer Portal Team ID"
+          end
+        else
+          puts "team_id is already present in Appfile"
+        end
+      end
+
+      #####################################################
+      # @!group Documentation
+      #####################################################
+
+      def self.description
+        "Grabs the Apple Developer Portal Team ID from the API and saves it to the Appfile"
+      end
+
+      def self.available_options
+        # Define all options your action supports.
+        []
+      end
+
+      def self.output
+        # Define the shared values you are going to provide
+        []
+      end
+
+      def self.return_value
+        # If your method provides a return value, you can describe here what it does
+      end
+
+      def self.authors
+        # So no one will ever forget your contribution to fastlane :) You are awesome btw!
+        ["@chiubaka"]
+      end
+
+      def self.is_supported?(platform)
+        # you can do things like
+        #
+        #  true
+        #
+        #  platform == :ios
+        #
+        #  [:ios, :mac].include?(platform)
+        #
+
+        platform == :ios
+      end
+    end
+  end
+end

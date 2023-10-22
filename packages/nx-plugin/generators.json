@@ -13,6 +13,11 @@
       "schema": "./src/generators/app/react/schema.json",
       "description": "Generates a simple React application"
     },
+    "app.react-native": {
+      "factory": "./src/generators/app/reactNative",
+      "schema": "./src/generators/app/reactNative/schema.json",
+      "description": "Generates a simple React Native application"
+    },
     "ci": {
       "factory": "./src/generators/workspace/ci",
       "schema": "./src/generators/workspace/ci/schema.json",
@@ -71,17 +76,22 @@
     "lib.node": {
       "factory": "./src/generators/lib/node",
       "schema": "./src/generators/lib/node/schema.json",
-      "description": "Generates a shareable node library"
+      "description": "Generates a publishable node library"
     },
     "lib.node.e2e": {
       "factory": "./src/generators/lib/node/e2e",
       "schema": "./src/generators/lib/node/e2e/schema.json",
       "description": "Generates E2E testing framework for a shareable node library"
     },
+    "lib.react-native": {
+      "factory": "./src/generators/lib/reactNative",
+      "schema": "./src/generators/lib/reactNative/schema.json",
+      "description": "Generates a publishable React Native library"
+    },
     "lib.ts": {
       "factory": "./src/generators/lib/ts",
       "schema": "./src/generators/lib/ts/schema.json",
-      "description": "Generates a shareable TypeScript library"
+      "description": "Generates a publishable TypeScript library"
     },
     "preset": {
       "factory": "./src/generators/workspace/preset",

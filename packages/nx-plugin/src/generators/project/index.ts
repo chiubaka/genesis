@@ -1,4 +1,5 @@
 export * from "./eslint";
+export * from "./fastlane";
 export * from "./jest";
 export * from "./node";
 export * from "./packageJson";
@@ -6,6 +7,7 @@ export * from "./project";
 export * from "./projectGeneratorBase.schema";
 export * from "./projectJson";
 export * from "./react";
+export * from "./reactNative";
 export * from "./readme";
 export * from "./samples";
 export * from "./tsconfig";

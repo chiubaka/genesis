@@ -42,20 +42,20 @@ exports[`nodeAppGenerator .eslintrc.json matches snapshot 1`] = `
 }
 `;
 
-exports[`nodeAppGenerator jest.config.ts matches snapshot 1`] = `
+exports[`nodeAppGenerator jest.config.ts jest.config.ts matches snapshot 1`] = `
 "export default {
   displayName: "node-app",
-  preset: "../../jest.preset.js",
-    globals: {
+    preset: "../../jest.preset.js",
+      globals: {
     "ts-jest": {
       tsconfig: "<rootDir>/tsconfig.spec.json",
     },
   },
       testEnvironment: "node",
-    transform: {
+      transform: {
         "^.+\\\\.[tj]s$": "ts-jest",
       },
-    moduleFileExtensions: ["ts", "js", "html", "json"],
+      moduleFileExtensions: ["ts", "js", "html", "json"],
     coverageDirectory: "../../reports/coverage/packages/node-app",
   reporters: [
     "default",

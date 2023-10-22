@@ -2,7 +2,7 @@ export default {
   displayName: "nx-plugin-e2e",
   preset: "../../jest.preset.js",
   globals: {},
-  testTimeout: 320_000,
+  testTimeout: 640_000,
   transform: {
     "^.+\\.[tj]s$": [
       "ts-jest",

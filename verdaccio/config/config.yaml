@@ -30,9 +30,9 @@ auth:
     # You can set this to -1 to disable registration.
     # max_users: 1000
     # Hash algorithm, possible options are: "bcrypt", "md5", "sha1", "crypt".
-    # algorithm: bcrypt # by default is crypt, but is recommended use bcrypt for new installations
+    algorithm: bcrypt # by default is crypt, but is recommended use bcrypt for new installations
     # Rounds number for "bcrypt", will be ignored for other algorithms.
-    # rounds: 10
+    rounds: 10
 
 # https://verdaccio.org/docs/configuration#uplinks
 # a list of other known repositories we can talk to

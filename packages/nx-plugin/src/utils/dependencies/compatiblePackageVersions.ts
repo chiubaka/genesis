@@ -10,6 +10,8 @@ export const compatiblePackageVersions: Record<string, string> = {
   "@nx/js": NX_VERSION,
   "@nrwl/node": NX_VERSION,
   "@nx/workspace": NX_VERSION,
+  // An incompatibility observed in lint-staged 15.0.x causes initial commit of the workspace to fail
+  "lint-staged": "^14.0.1",
   jest: "^29.4.3",
   "jest-environment-jsdom": "^29.4.3",
   nx: NX_VERSION,

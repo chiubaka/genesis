@@ -53,14 +53,16 @@ describe("presetGenerator", () => {
         scripts = packageJson.scripts;
       });
 
+      it("includes a build:all script", () => {
+        expect(scripts?.["build:all"]).toBe("nx run-many --target=build --all");
+      });
+
       it("includes a build:affected script", () => {
         expect(scripts?.["build:affected"]).toBe("nx affected --target=build");
       });
 
       it("includes a build:ci script", () => {
-        expect(scripts?.["build:ci"]).toBe(
-          "yarn build:affected --base=$NX_BASE --head=$NX_HEAD",
-        );
+        expect(scripts?.["build:ci"]).toBe("./scripts/ci.sh build");
       });
 
       it("includes a test:all script", () => {
@@ -72,18 +74,8 @@ describe("presetGenerator", () => {
       });
 
       it("includes a test:ci script", () => {
-        expect(scripts?.["test:ci"]).toBe("./scripts/test-ci.sh");
-      });
-
-      it("includes a test:ci:affected script", () => {
-        expect(scripts?.["test:ci:affected"]).toBe(
-          "yarn test:affected --ci --coverage --base=$NX_BASE --head=$NX_HEAD && yarn e2e:affected --ci --coverage --base=$NX_BASE --head=$NX_HEAD",
-        );
-      });
-
-      it("includes a test:ci:all script", () => {
-        expect(scripts?.["test:ci:all"]).toBe(
-          "yarn test:all --ci --coverage && yarn e2e:all --ci --coverage",
+        expect(scripts?.["test:ci"]).toBe(
+          "./scripts/ci.sh test --ci --coverage",
         );
       });
 
@@ -99,6 +91,10 @@ describe("presetGenerator", () => {
         expect(scripts?.["e2e:affected"]).toBe("nx affected --target=e2e");
       });
 
+      it("includes an e2e:ci script", () => {
+        expect(scripts?.["e2e:ci"]).toBe("./scripts/ci.sh e2e --ci --coverage");
+      });
+
       it("includes a deploy script", () => {
         expect(scripts?.["deploy"]).toBe(
           "nx deploy $@ --configuration=production",
@@ -109,8 +105,8 @@ describe("presetGenerator", () => {
         expect(scripts?.["deploy:ci"]).toBe("yarn deploy");
       });
 
-      it("creates a test-ci.sh file in the scripts directory", () => {
-        expect(tree.exists("scripts/test-ci.sh")).toBe(true);
+      it("creates a ci.sh file in the scripts directory", () => {
+        expect(tree.exists("scripts/ci.sh")).toBe(true);
       });
     });
   });

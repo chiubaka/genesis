@@ -1,0 +1,219 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+require "dotenv"
+Dotenv.load("#{__dir__}/Fastlane.env")
+
+PROJECT_NAME = "<%= projectName %>"
+ANDROID_ROOT = "android"
+IOS_ROOT = "ios"
+
+IS_CI = ENV["CI"] == "true"
+IS_TEST = ENV["NODE_ENV"] == "test"
+APP_STORE_CONNECT_APP_ID = ENV["APP_STORE_CONNECT_APP_ID"]
+APP_STORE_CONNECT_KEY_ISSUER_ID = ENV["APP_STORE_CONNECT_KEY_ISSUER_ID"]
+APP_STORE_CONNECT_KEY_ID = ENV["APP_STORE_CONNECT_KEY_ID"]
+IOS_SIMULATOR_DEFAULT_DEVICE = ENV["IOS_SIMULATOR_DEFAULT_DEVICE"]
+IOS_SIMULATOR_DEFAULT_VERSION = ENV["IOS_SIMULATOR_DEFAULT_VERSION"]
+
+PACKAGE_JSON = load_json(json_path: "./package.json")
+APP_VERSION = PACKAGE_JSON["version"]
+
+before_all do
+  setup_circle_ci
+end
+
+platform :ios do
+  XCODE_WORKSPACE = "#{IOS_ROOT}/#{PROJECT_NAME}.xcworkspace"
+  XCODE_PROJECT = "#{IOS_ROOT}/#{PROJECT_NAME}.xcodeproj"
+  BUILD_DIR = "#{IOS_ROOT}/build"
+  SCHEME = PROJECT_NAME
+
+  APP_STORE_CONNECT_KEY_PATH = File.join(Dir.pwd, "../#{IOS_ROOT}/secrets/app-store-connect-key.p8")
+
+  before_all do
+    xcodes
+  end
+
+  desc "Clean the iOS project of intermediate build artifacts"
+  lane :clean do
+    xcclean(workspace: XCODE_WORKSPACE, scheme: SCHEME)
+  end
+
+  desc "Update the iOS version and build number metadata based on the project"
+  lane :update_version_and_build_number do
+    increment_version_number(version_number: APP_VERSION, xcodeproj: XCODE_PROJECT)
+    increment_build_number(build_number: latest_testflight_build_number() + 1, xcodeproj: XCODE_PROJECT)
+  end
+
+  desc "Authenticate with App Store Connect"
+  lane :authenticate_with_app_store_connect do
+    if APP_STORE_CONNECT_KEY_ID != nil and APP_STORE_CONNECT_KEY_ISSUER_ID != nil and File.file?(APP_STORE_CONNECT_KEY_PATH)
+      api_key = app_store_connect_api_key(
+        key_id: APP_STORE_CONNECT_KEY_ID,
+        issuer_id: APP_STORE_CONNECT_KEY_ISSUER_ID,
+        key_filepath: APP_STORE_CONNECT_KEY_PATH,
+        duration: 1200, # optional (maximum 1200)
+      )
+    elsif IS_CI || IS_TEST
+      UI.user_error!("APP_STORE_CONNECT_KEY_ID, APP_STORE_CONNECT_KEY_ISSUER_ID, or .p8 key is missing")
+    end
+  end
+
+  desc "Build the iOS project"
+  lane :build do |options|
+    clean
+
+    configuration = (options[:configuration] || "Release").capitalize
+    build_for_simulator = options[:simulator] == true
+    destination = build_for_simulator ? "generic/platform=iOS Simulator" : nil
+    skip_archive = options[:simulator] == true
+    export_method = configuration == "Release" ? "app-store" : "development"
+
+    unless build_for_simulator
+      match_type = configuration == "Release" ? "appstore" : "development"
+      match(type: match_type, readonly: true)
+    end
+
+    build_app(
+      workspace: XCODE_WORKSPACE,
+      scheme: SCHEME,
+      configuration: configuration,
+      destination: destination,
+      derived_data_path: BUILD_DIR,
+      output_directory: BUILD_DIR,
+      export_method: export_method,
+      skip_archive: skip_archive
+    )
+  end
+
+  desc "Run native iOS tests"
+  lane :test do
+    run_tests(
+      workspace: XCODE_WORKSPACE,
+      scheme: SCHEME,
+      device: "#{IOS_SIMULATOR_DEFAULT_DEVICE} (#{IOS_SIMULATOR_DEFAULT_VERSION})",
+      derived_data_path: BUILD_DIR,
+      prelaunch_simulator: true
+    )
+  end
+
+  desc "Push a new beta build to TestFlight"
+  lane :beta do
+    unless IS_CI || IS_TEST
+      ensure_git_status_clean
+    end
+
+    authenticate_with_app_store_connect
+
+    update_version_and_build_number
+    build(configuration: "Release")
+    if IS_CI || IS_TEST
+      upload_to_testflight(skip_waiting_for_build_processing: true)
+    else
+      upload_to_testflight
+      reset_git_repo
+    end
+  end
+
+  desc "Push a new build to the AppStore"
+  lane :deploy do
+    unless IS_CI || IS_TEST
+      ensure_git_status_clean
+    end
+
+    authenticate_with_app_store_connect
+
+    update_version_and_build_number
+    build(configuration: "Release")
+
+    upload_to_app_store
+
+    unless IS_CI || IS_TEST
+      reset_git_repo
+    end
+  end
+end
+
+platform :android do
+  GRADLE_FILE_PATH = "#{ANDROID_ROOT}/app/build.gradle"
+
+  desc "Clean the Android project of intermediate build artifacts"
+  lane :clean do
+    gradle(project_dir: ANDROID_ROOT, task: "clean")
+  end
+
+  desc "Update the Android version and build number metadata based on the project"
+  lane :update_version_and_build_number do
+    increment_version_name(
+      gradle_file_path: GRADLE_FILE_PATH,
+      version_name: APP_VERSION
+    )
+
+    version_code = get_next_google_play_version_code()
+    android_set_version_code(gradle_file: GRADLE_FILE_PATH, version_code: version_code)
+  end
+
+  desc "Build the Android project"
+  lane :build do |options|
+    clean
+
+    assemble_test = options[:test] == true
+    build_type = options[:build_type] || "release"
+    task = options[:task] || "assemble"
+
+    primary_task = build_type == "release" ? "#{task}Release" : "#{task}Debug"
+    tasks = [primary_task]
+
+    flags = nil
+
+    if assemble_test
+      tasks.append("assembleAndroidTest")
+      flags = "-DtestBuildType=#{build_type}"
+    end
+
+    gradle(project_dir: ANDROID_ROOT, tasks: tasks, flags: flags)
+  end
+
+  desc "Run native Android tests"
+  lane :test do
+    gradle(project_dir: ANDROID_ROOT, task: "test")
+  end
+
+  desc "Submit a new internal build to Google Play"
+  lane :beta do
+    unless IS_CI || IS_TEST
+      ensure_git_status_clean
+    end
+
+    update_version_and_build_number
+    build(task: "bundle", build_type: "release")
+
+    unless IS_CI || IS_TEST
+      reset_git_repo
+    end
+
+    upload_to_play_store(
+      track: "internal",
+      release_status: "draft"
+    )
+  end
+
+  desc "Deploy a new production version to Google Play"
+  lane :deploy do
+    build
+    upload_to_play_store
+  end
+end

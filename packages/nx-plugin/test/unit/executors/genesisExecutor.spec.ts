@@ -6,7 +6,7 @@ import { moveSync } from "fs-extra";
 import path from "node:path";
 
 import { genesisExecutor } from "../../../src";
-import { exec } from "../../../src/utils";
+import { spawn } from "../../../src/utils";
 
 const DEFAULT_OPTIONS = {
   workspaceScope: "chiubaka",
@@ -39,9 +39,9 @@ describe("genesisExecutor", () => {
     });
 
     it("executes the correct commnad", () => {
-      expect(exec).toHaveBeenCalledTimes(1);
+      expect(spawn).toHaveBeenCalledTimes(1);
 
-      const calls = (exec as unknown as ExecMock).mock.calls;
+      const calls = (spawn as unknown as ExecMock).mock.calls;
 
       expect(calls[0][0]).toBe(
         'genesis @chiubaka/genesis-executor --description="Testing for the genesis executor" --disable-immutable-installs --skip-github',
@@ -74,9 +74,9 @@ describe("genesisExecutor", () => {
     });
 
     it("executes the correct command", () => {
-      expect(exec).toHaveBeenCalledTimes(1);
+      expect(spawn).toHaveBeenCalledTimes(1);
 
-      const calls = (exec as unknown as ExecMock).mock.calls;
+      const calls = (spawn as unknown as ExecMock).mock.calls;
 
       expect(calls[0][0]).toBe(
         'genesis @chiubaka/genesis-executor --description="Testing for the genesis executor" --skip-github',
@@ -103,9 +103,9 @@ describe("genesisExecutor", () => {
     });
 
     it("executes the correct command", () => {
-      expect(exec).toHaveBeenCalledTimes(1);
+      expect(spawn).toHaveBeenCalledTimes(1);
 
-      const calls = (exec as unknown as ExecMock).mock.calls;
+      const calls = (spawn as unknown as ExecMock).mock.calls;
 
       expect(calls[0][0]).toBe(
         'genesis @chiubaka/genesis-executor --description="Testing for the genesis executor" --disable-immutable-installs',
@@ -132,9 +132,9 @@ describe("genesisExecutor", () => {
     });
 
     it("executes the correct command", () => {
-      expect(exec).toHaveBeenCalledTimes(1);
+      expect(spawn).toHaveBeenCalledTimes(1);
 
-      const calls = (exec as unknown as ExecMock).mock.calls;
+      const calls = (spawn as unknown as ExecMock).mock.calls;
       const env = calls[0][1].env;
 
       expect(calls[0][0]).toBe(

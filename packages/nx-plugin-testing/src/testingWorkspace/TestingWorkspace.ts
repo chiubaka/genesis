@@ -10,6 +10,7 @@ import { rmSync } from "node:fs";
 import path from "node:path";
 import { PackageJson } from "nx/src/utils/package-json";
 
+import { ProgressIndicator } from "../utils";
 import { AbstractTestingWorkspace } from "./AbstractTestingWorkspace";
 
 export class TestingWorkspace extends AbstractTestingWorkspace {
@@ -17,18 +18,22 @@ export class TestingWorkspace extends AbstractTestingWorkspace {
     super(rootPath);
   }
 
-  public exec(command: string, env?: NodeJS.ProcessEnv) {
+  public async exec(command: string, env?: NodeJS.ProcessEnv) {
     return new Promise<{ stdout: string; stderr: string }>(
       (resolve, reject) => {
+        const progressIndicator = new ProgressIndicator(
+          `Running ${command} in ${this.rootPath}`,
+        ).start();
         nodeExec(
           command,
           {
             cwd: this.rootPath,
-            maxBuffer: 1024 * 10_000,
+            maxBuffer: 1024 * 100_000,
             env,
           },
           (error, stdout, stderr) => {
             if (error) {
+              progressIndicator.fail(error.message);
               if (stdout !== "") {
                 // eslint-disable-next-line no-console
                 console.log(stdout);
@@ -39,6 +44,7 @@ export class TestingWorkspace extends AbstractTestingWorkspace {
               return reject(error);
             }
 
+            progressIndicator.succeed(`Ran ${command} in ${this.rootPath}`);
             resolve({
               stdout,
               stderr,

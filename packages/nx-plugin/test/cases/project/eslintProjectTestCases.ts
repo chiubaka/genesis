@@ -28,7 +28,7 @@ export const eslintProjectTestCases = (getProject: () => Project) => {
     });
 
     it("extends from the root monorepo .eslintrc.json file", () => {
-      expect(eslintConfig.extends).toEqual(["../../.eslintrc.json"]);
+      expect(eslintConfig.extends?.includes("../../.eslintrc.json")).toBe(true);
     });
 
     it("only ignores node_modules", () => {
