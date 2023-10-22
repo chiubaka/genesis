@@ -58,6 +58,11 @@ workflows:
       #     yarn-berry: true
       #     setup-steps:
       #       - setup-e2e
+      # - run:
+      #     name: Install Cypress dependencies
+      #     command: |
+      #       sudo apt-get update
+      #       sudo apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
       #     cleanup-steps:
       #       - persist-e2e-to-workspace
       #     # requires:
@@ -176,11 +181,6 @@ commands:
     steps:
       - attach_workspace:
           at: .
-      - run:
-          name: Install Cypress dependencies
-          command: |
-            sudo apt-get update
-            sudo apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
       - set-npm-prefix
       - start-verdaccio
   persist-e2e-to-workspace:

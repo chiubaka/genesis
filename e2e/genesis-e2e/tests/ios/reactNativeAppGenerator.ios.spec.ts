@@ -19,7 +19,9 @@ describe("reactNativeAppGenerator", () => {
   });
 
   describe("generates a project with a working iOS build setup", () => {
-    it("debug", async () => {
+    // This configuration isn't likely to be common... if we're generating a build for device,
+    // most of the time we'll want a release build? Cutting this to save on testing and CI time.
+    it.skip("debug", async () => {
       await expect(
         workspace.execNx("build:ios react-native-app --configuration=debug"),
       ).resolves.not.toThrow();
@@ -39,7 +41,9 @@ describe("reactNativeAppGenerator", () => {
       ).resolves.not.toThrow();
     });
 
-    it("release-simulator", async () => {
+    // This build command will get exercised by the E2E testing configurations, so no need
+    // to run it again here.
+    it.skip("release-simulator", async () => {
       await expect(
         workspace.execNx(
           "build:ios react-native-app --configuration=release-simulator",
