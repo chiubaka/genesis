@@ -101,7 +101,7 @@ jobs:
       - setup-e2e
       - run:
           name: Run Genesis E2E setup
-          run: yarn nx setup-e2e genesis-e2e
+          command: yarn nx setup-e2e genesis-e2e
       - persist-e2e-to-workspace
   android-e2e:
     executor:
