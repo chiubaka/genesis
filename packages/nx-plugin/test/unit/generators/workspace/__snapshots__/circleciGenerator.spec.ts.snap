@@ -13,7 +13,7 @@ exports[`circleciGenerator .circleci/config.yml matches snapshot 1`] = `
     },
   },
   "orbs": {
-    "chiubaka": "chiubaka/circleci-orb@dev:alpha",
+    "chiubaka": "chiubaka/circleci-orb@0.12.0",
   },
   "setup": true,
   "version": 2.1,
@@ -53,7 +53,7 @@ exports[`circleciGenerator .circleci/js.template.yml matches snapshot 1`] = `
     },
   },
   "orbs": {
-    "chiubaka": "chiubaka/circleci-orb@0.11.4",
+    "chiubaka": "chiubaka/circleci-orb@0.12.0",
   },
   "version": 2.1,
   "workflows": {
@@ -130,9 +130,11 @@ exports[`circleciGenerator .circleci/js.template.yml matches snapshot 1`] = `
 exports[`circleciGenerator .circleci/react-native.template.yml matches snapshot 1`] = `
 {
   "constants": {
-    "android-job-params": {
+    "android-emulator-params": {
       "build-tools-version": "<< pipeline.parameters.android-emulator-build-tools-version >>",
       "platform-version": "<< pipeline.parameters.android-emulator-platform-version >>",
+    },
+    "android-job-params": {
       "setup-apps-steps": "$SETUP_ANDROID_APPS_STEPS",
     },
     "android-semver-regex": "$ANDROID_SEMVER_REGEX",
@@ -141,11 +143,13 @@ exports[`circleciGenerator .circleci/react-native.template.yml matches snapshot 
         "ios-deployment",
       ],
       "setup-apps-steps": "$SETUP_IOS_APPS_STEPS",
-      "simulator-device": "<< pipeline.parameters.ios-simulator-device >>",
-      "simulator-version": "<< pipeline.parameters.ios-simulator-version >>",
       "xcode-version": "<< pipeline.parameters.xcode-version >>",
     },
     "ios-semver-regex": "$IOS_SEMVER_REGEX",
+    "ios-simulator-params": {
+      "simulator-device": "<< pipeline.parameters.ios-simulator-device >>",
+      "simulator-version": "<< pipeline.parameters.ios-simulator-version >>",
+    },
     "semver-regex": "/^(\\w+-)+v(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$/",
   },
   "filters": {
@@ -181,7 +185,7 @@ exports[`circleciGenerator .circleci/react-native.template.yml matches snapshot 
     },
   },
   "orbs": {
-    "chiubaka": "chiubaka/circleci-orb@dev:alpha",
+    "chiubaka": "chiubaka/circleci-orb@0.12.0",
   },
   "parameters": {
     "android-emulator-build-tools-version": {
@@ -192,6 +196,7 @@ exports[`circleciGenerator .circleci/react-native.template.yml matches snapshot 
     "android-emulator-platform-version": {
       "default": "android-34",
       "description": "The platform version to use for the Android emulator when required",
+      "type": "string",
     },
     "build-android": {
       "default": false,
@@ -306,7 +311,6 @@ exports[`circleciGenerator .circleci/react-native.template.yml matches snapshot 
         },
         {
           "chiubaka/build-android": {
-            "build-tools-version": "<< pipeline.parameters.android-emulator-build-tools-version >>",
             "enabled": "<< pipeline.parameters.build-android >>",
             "filters": {
               "tags": {
@@ -314,7 +318,6 @@ exports[`circleciGenerator .circleci/react-native.template.yml matches snapshot 
               },
             },
             "name": "build-android",
-            "platform-version": "<< pipeline.parameters.android-emulator-platform-version >>",
             "requires": [
               "build",
             ],
@@ -337,14 +340,11 @@ exports[`circleciGenerator .circleci/react-native.template.yml matches snapshot 
               "build",
             ],
             "setup-apps-steps": "$SETUP_IOS_APPS_STEPS",
-            "simulator-device": "<< pipeline.parameters.ios-simulator-device >>",
-            "simulator-version": "<< pipeline.parameters.ios-simulator-version >>",
             "xcode-version": "<< pipeline.parameters.xcode-version >>",
           },
         },
         {
           "chiubaka/test-android": {
-            "build-tools-version": "<< pipeline.parameters.android-emulator-build-tools-version >>",
             "enabled": "<< pipeline.parameters.test-android >>",
             "filters": {
               "tags": {
@@ -352,7 +352,6 @@ exports[`circleciGenerator .circleci/react-native.template.yml matches snapshot 
               },
             },
             "name": "test-android",
-            "platform-version": "<< pipeline.parameters.android-emulator-platform-version >>",
             "requires": [
               "build",
               "build-android",
@@ -428,7 +427,6 @@ exports[`circleciGenerator .circleci/react-native.template.yml matches snapshot 
         },
         {
           "chiubaka/deploy-android": {
-            "build-tools-version": "<< pipeline.parameters.android-emulator-build-tools-version >>",
             "filters": {
               "branches": {
                 "ignore": "/.*/",
@@ -438,7 +436,6 @@ exports[`circleciGenerator .circleci/react-native.template.yml matches snapshot 
               },
             },
             "name": "deploy-android",
-            "platform-version": "<< pipeline.parameters.android-emulator-platform-version >>",
             "requires": [
               "e2e-android",
             ],
@@ -463,8 +460,6 @@ exports[`circleciGenerator .circleci/react-native.template.yml matches snapshot 
               "e2e-ios",
             ],
             "setup-apps-steps": "$SETUP_IOS_APPS_STEPS",
-            "simulator-device": "<< pipeline.parameters.ios-simulator-device >>",
-            "simulator-version": "<< pipeline.parameters.ios-simulator-version >>",
             "xcode-version": "<< pipeline.parameters.xcode-version >>",
           },
         },

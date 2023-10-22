@@ -468,7 +468,7 @@ describe("reactNativeAppGenerator", () => {
         it("fills in the APP_NAME", () => {
           expect(tree).toHaveFileWithContent(
             project.path("fastlane/Fastlane.env"),
-            "APP_NAME=Genesis React Native App",
+            'APP_NAME="Genesis React Native App"',
           );
         });
       });
