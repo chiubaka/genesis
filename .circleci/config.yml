@@ -25,58 +25,61 @@ filters:
 workflows:
   lint-build-test-deploy:
     jobs:
-      # - chiubaka/lint:
-      #     name: lint
-      #     yarn-berry: true
-      #     filters:
-      #       <<: *semver-tags
-      # - chiubaka/build:
-      #     name: build
-      #     yarn-berry: true
-      #     cleanup-steps:
-      #       - persist_to_workspace:
-      #           root: .
-      #           paths:
-      #             # Save the NX cache so subsequent jobs can read from cache
-      #             - tmp/nx-cache
-      #             # Save built packages so they can be used by downstream jobs
-      #             - dist
-      #     filters:
-      #       <<: *semver-tags
-      # - chiubaka/test:
-      #     name: test
-      #     yarn-berry: true
-      #     requires:
-      #       - build
-      #     filters:
-      #       <<: *semver-tags
-      - setup-e2e
-      # - chiubaka/e2e:
-      #     name: e2e
-      #     resource-class: large
-      #     configure-git-user: true
-      #     yarn-berry: true
-      #     setup-steps:
-      #       - setup-e2e
-      # - run:
-      #     name: Install Cypress dependencies
-      #     command: |
-      #       sudo apt-get update
-      #       sudo apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
-      #     cleanup-steps:
-      #       - persist-e2e-to-workspace
-      #     # requires:
-      #     # - test
-      #     filters:
-      #       <<: *semver-tags
-      # - android-e2e:
-      #     requires:
-      #       - e2e
+      - chiubaka/lint:
+          name: lint
+          yarn-berry: true
+          filters:
+            <<: *semver-tags
+      - chiubaka/build:
+          name: build
+          yarn-berry: true
+          cleanup-steps:
+            - persist_to_workspace:
+                root: .
+                paths:
+                  # Save the NX cache so subsequent jobs can read from cache
+                  - tmp/nx-cache
+                  # Save built packages so they can be used by downstream jobs
+                  - dist
+          filters:
+            <<: *semver-tags
+      - chiubaka/test:
+          name: test
+          yarn-berry: true
+          requires:
+            - build
+          filters:
+            <<: *semver-tags
+      - chiubaka/e2e:
+          name: e2e
+          resource-class: large
+          configure-git-user: true
+          yarn-berry: true
+          setup-steps:
+            - setup-e2e
+            - run:
+                name: Install Cypress dependencies
+                command: |
+                  sudo apt-get update
+                  sudo apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+          cleanup-steps:
+            - persist-e2e-to-workspace
+          requires:
+            - test
+          filters:
+            <<: *semver-tags
+      - android-e2e:
+          requires:
+            - e2e
+          filters:
+            <<: *semver-tags
       - ios-e2e:
           context:
             - ios-deployment
           requires:
-            - setup-e2e
+            - e2e
+          filters:
+            <<: *semver-tags
       - chiubaka/deploy:
           name: deploy
           task-name: Publish to NPM
@@ -87,9 +90,9 @@ workflows:
           context:
             - npm-publishing
           requires:
-            # - test
-            # - e2e
-            # - android-e2e
+            - test
+            - e2e
+            - android-e2e
             - ios-e2e
           filters:
             <<: *ignore-branches
